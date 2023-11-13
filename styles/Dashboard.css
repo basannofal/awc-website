@@ -1,3 +1,4 @@
+
 * {
   margin: 0;
   padding: 0;
@@ -226,7 +227,6 @@ span {
 .admin_header {
   background-color: var(--primary-color);
   padding: 15px 18px;
-  border-radius: 0px 0px 0px 15px;
   margin-bottom: 20px;
 }
 .admin_header div {

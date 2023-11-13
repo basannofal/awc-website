@@ -4,12 +4,15 @@ import Link from "next/link";
 import Header from "@/layouts/Header";
 import DeleteModal from "@/layouts/DeleteModal";
 import { useRouter } from "next/router";
+import Toast, { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
+import Loading from "@/layouts/Loading";
 
 const BlogCategory = () => {
   const router = useRouter();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [getAllBlogCategory, setGetAllBlogCategory] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   //delete modal
   const openDeleteModal = (brandId) => {
@@ -29,39 +32,52 @@ const BlogCategory = () => {
 
   //get blog category
   const getAllBlogCategoryData = async () => {
+    setLoading(true);
     await axios
       .get(`${process.env.NEXT_PUBLIC_API_URL}/blogcategory/router`)
       .then((res) => {
         setGetAllBlogCategory(res.data);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
       });
   };
 
   const handleBlogEdit = (id) => {
+    setLoading(true);
     router.push(`/admin/blog-category/edit-blog-category?id=${id}`);
   };
 
   //edit status
   const catgoryStatusChange = async (cateId, no) => {
     try {
-      const res = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/blogcategory/statuschanges/${cateId}/${no}`);
+      setLoading(true);
+      const res = await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/blogcategory/statuschanges/${cateId}/${no}`
+      );
+      setLoading(false);
       getAllBlogCategoryData();
     } catch (error) {
-      console.error("Error updating blog category status data:", error);
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
     }
   };
 
   //delete blog category
   const deletBlogCategory = async (cateId) => {
+    setLoading(true);
     await axios
       .delete(`${process.env.NEXT_PUBLIC_API_URL}/blogcategory/${cateId}`)
       .then((res) => {
+        setLoading(false);
         getAllBlogCategoryData();
+        SuccessToast("Category Deleted Successfully");
       })
       .catch((err) => {
-        console.log(err);
+        ErrorToast(err?.response?.data?.message);
+        setLoading(false);
       });
   };
 
@@ -69,15 +85,13 @@ const BlogCategory = () => {
     getAllBlogCategoryData();
   }, []);
 
-  const truncateText = (text, maxLength) => {
-    if (text.length > maxLength) {
-      return text.slice(0, maxLength) + "...";
-    }
-    return text;
+  const handleViewBlogCategory = (id) => {
+    router.push(`/admin/blog-category/view-blog-category?id=${id}`);
   };
 
   return (
     <>
+      {loading && <Loading />}
       <section className="home-section">
         <Header />
         <div className="admin_page_top">
@@ -101,12 +115,11 @@ const BlogCategory = () => {
           <table>
             <thead>
               <tr>
-                <th style={{ width: "7%" }}>ID</th>
-                <th style={{ width: "15%" }}>TITLE</th>
-                <th style={{ width: "30%" }}>DESCRIPTION</th>
-                <th style={{ width: "15%" }}>IMAGE</th>
-                <th style={{ width: "15%" }}>ICON</th>
-                <th style={{ width: "18%" }}>OPERATION</th>
+                <th style={{ width: "10%" }}>ID</th>
+                <th style={{ width: "30%" }}>TITLE</th>
+                <th style={{ width: "20%" }}>IMAGE</th>
+                <th style={{ width: "20%" }}>ICON</th>
+                <th style={{ width: "20%" }}>OPERATION</th>
               </tr>
             </thead>
             <tbody>
@@ -115,14 +128,6 @@ const BlogCategory = () => {
                   <tr key={category.blog_cate_id}>
                     <td>{index + 1}</td>
                     <td>{category.category_title}</td>
-                    <td className="blog_desc_col">
-                      <span className="blog_truncate_text">
-                        {truncateText(category.category_description, 100)}
-                      </span>
-                      <div className="blog_fullDesc">
-                        {category.category_description}
-                      </div>
-                    </td>
                     <td>
                       <img
                         src={`/assets/upload/blog/${category.category_image}`}
@@ -140,7 +145,13 @@ const BlogCategory = () => {
                       />
                     </td>
                     <td>
-                      <span>
+                      <span
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
                         <button
                           className="operation_btn"
                           onClick={() => {
@@ -155,26 +166,35 @@ const BlogCategory = () => {
                         >
                           <i className="fa-solid fa-trash"></i>
                         </button>
-
-                        {category.status === 1 ? (
-                          <button
-                            className="opr_active_btn"
-                            onClick={() => {
-                              catgoryStatusChange(category.blog_cate_id, 1);
-                            }}
-                          >
-                            Active
-                          </button>
-                        ) : (
-                          <button
-                            className="opr_deactive_btn opr_active_btn"
-                            onClick={() => {
-                              catgoryStatusChange(category.blog_cate_id, 0);
-                            }}
-                          >
-                            Inactive
-                          </button>
-                        )}
+                        <button
+                          className="operation_btn"
+                          onClick={() => {
+                            handleViewBlogCategory(category.blog_cate_id);
+                          }}
+                        >
+                          <i className="fa-solid fa-eye"></i>
+                        </button>
+                        <div>
+                          {category.status === 1 ? (
+                            <img
+                              src={"/assets/images/activeStatus.png"}
+                              className="opr_active_btn"
+                              onClick={() => {
+                                catgoryStatusChange(category.blog_cate_id, 1);
+                              }}
+                              alt="Active"
+                            />
+                          ) : (
+                            <img
+                              src={"/assets/images/inActiveStatus.png"}
+                              className="opr_active_btn"
+                              onClick={() => {
+                                catgoryStatusChange(category.blog_cate_id, 0);
+                              }}
+                              alt="InActive"
+                            />
+                          )}
+                        </div>
                       </span>
                     </td>
                   </tr>
@@ -189,6 +209,7 @@ const BlogCategory = () => {
             </tbody>
           </table>
         </div>
+        <Toast />
 
         {/* delete modal */}
         <DeleteModal

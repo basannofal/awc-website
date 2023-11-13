@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Header from "@/layouts/Header";
 import Link from "next/link";
+import Toast, { ErrorToast } from "@/layouts/toast/Toast";
+import { Editor } from "@tinymce/tinymce-react";
+import Loading from "@/layouts/Loading";
 
 const EditBlogCategory = () => {
   const router = useRouter();
@@ -18,6 +21,7 @@ const EditBlogCategory = () => {
   });
   const [editMetaTag, setEditMetaTag] = useState([]);
   const [editMetaKeyword, setEditMetaKeyword] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   //get data with id
   const getEditBlogCategory = async (cateId) => {
@@ -29,11 +33,22 @@ const EditBlogCategory = () => {
         setEditMetaKeyword(keyString.split(","));
         const tagString = res.data[0].meta_tag;
         setEditMetaTag(tagString.split(","));
+        setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        ErrorToast(err?.response?.data?.message);
       });
   };
+
+  //editor
+  const editorRef = useRef(null);
+  const handleEditorChange = (content, editor) => {
+    setEditBlogCategoryData((prevData) => ({
+      ...prevData,
+      category_description: content,
+    }));
+  };
+  //end
 
   //edit
   const handleEditCategory = async (event) => {
@@ -51,13 +66,15 @@ const EditBlogCategory = () => {
     }));
   };
   const saveEditCategory = async (cateId) => {
+    setLoading(true);
     try {
       const formdata = new FormData();
       formdata.append("category_title", editBlogCategoryData.category_title);
-      formdata.append(
-        "category_description",
-        editBlogCategoryData.category_description
-      );
+      // formdata.append(
+      //   "category_description",
+      //   editBlogCategoryData.category_description
+      // );
+      formdata.append("category_description", editorRef.current.getContent());
       formdata.append("meta_tag", editMetaTag);
       formdata.append("meta_desc", editBlogCategoryData.meta_desc);
       formdata.append("meta_keyword", editMetaKeyword);
@@ -69,9 +86,12 @@ const EditBlogCategory = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/blogcategory/${cateId}`,
         formdata
       );
+      window.scrollTo({ behavior: "smooth", top: 0 });
+      setLoading(false);
       router.push("/admin/blog-category");
     } catch (error) {
-      console.error("Error updating blog category:", error);
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
     }
   };
   const handleKeyword = (event) => {
@@ -106,6 +126,8 @@ const EditBlogCategory = () => {
   }, [cateId]);
   return (
     <>
+      {loading && <Loading />}
+
       <section className="home-section">
         <Header />
         <div className="admin_page_top">
@@ -132,22 +154,46 @@ const EditBlogCategory = () => {
                 onChange={handleEditCategory}
                 value={editBlogCategoryData.category_title}
                 placeholder="Enter Category Title"
+                required
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="editBlog_description" className="modal_label">
-                Blog Description:-
-              </label>
-              <textarea
-                type="text"
-                rows="5"
-                cols="70"
-                id="editBlog_description"
-                name="category_description"
-                className="modal_input"
-                onChange={handleEditCategory}
-                value={editBlogCategoryData.category_description}
-                placeholder="Enter Category Description"
+              <p className="modal_label">Category Description:-</p>
+              <Editor
+                apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
+                onInit={(evt, editor) => (editorRef.current = editor)}
+                initialValue={editBlogCategoryData.category_description}
+                init={{
+                  height: 500,
+                  menubar: true,
+                  plugins: [
+                    "advlist",
+                    "autolink",
+                    "lists",
+                    "link",
+                    "image",
+                    "charmap",
+                    "preview",
+                    "anchor",
+                    "searchreplace",
+                    "visualblocks",
+                    "code",
+                    "fullscreen",
+                    "insertdatetime",
+                    "media",
+                    "table",
+                    "code",
+                    "help",
+                    "wordcount",
+                  ],
+                  toolbar:
+                    "undo redo | blocks | " +
+                    "bold italic forecolor | alignleft aligncenter " +
+                    "alignright alignjustify | bullist numlist outdent indent | " +
+                    "removeformat | help",
+                }}
+                onChange={handleEditorChange}
+                required
               />
             </div>
             <div className="mb-3">
@@ -250,6 +296,7 @@ const EditBlogCategory = () => {
                 name="category_image"
                 onChange={handleEditFileChange}
                 className="modal_input mb-3"
+                required
               />
               <img
                 src={`/assets/upload/blog/${editBlogCategoryData.category_image}`}
@@ -268,6 +315,7 @@ const EditBlogCategory = () => {
                 name="category_icon"
                 className="modal_input mb-3"
                 onChange={handleEditFileChange}
+                required
               />
               <img
                 src={`/assets/upload/blog/${editBlogCategoryData.category_icon}`}
@@ -294,6 +342,7 @@ const EditBlogCategory = () => {
             </div>
           </form>
         </div>
+        <Toast />
       </section>
     </>
   );

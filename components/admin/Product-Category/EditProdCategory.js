@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Header from "@/layouts/Header";
 import Link from "next/link";
+import Toast, { ErrorToast } from "@/layouts/toast/Toast";
+import { Editor } from "@tinymce/tinymce-react";
+import Loading from "@/layouts/Loading";
 
 const EditProdCategory = () => {
   const router = useRouter();
@@ -20,6 +23,7 @@ const EditProdCategory = () => {
   });
   const [editMetaTag, setEditMetaTag] = useState([]);
   const [editMetaKeyword, setEditMetaKeyword] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   //get active category
   const getActiveCategoryData = async () => {
@@ -28,8 +32,10 @@ const EditProdCategory = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/productcategorychanges/router`
       );
       setGetActiveCateData(response.data);
+      setLoading(false);
     } catch (err) {
-      console.log(err);
+      ErrorToast(err?.response?.data?.message);
+      setLoading(false);
     }
   };
 
@@ -44,12 +50,24 @@ const EditProdCategory = () => {
       setEditMetaKeyword(keyString.split(","));
       const tagString = response.data[0].meta_tag;
       setEditMetaTag(tagString.split(","));
+      setLoading(false);
     } catch (err) {
-      console.log(err);
+      ErrorToast(err?.response?.data?.message);
+      setLoading(false);
     }
   };
 
-  //eit cate
+  //editor
+  const editorRef = useRef(null);
+  const handleEditorChange = (content, editor) => {
+    setEditProductCategoryData((prevData) => ({
+      ...prevData,
+      category_description: content,
+    }));
+  };
+  //end
+
+  //edit cate
   const handleEditChange = (e) => {
     const { name, value } = e.target;
     setEditProductCategoryData((prevProdData) => ({
@@ -68,6 +86,7 @@ const EditProdCategory = () => {
 
   // update category
   const saveEditCategoryData = async (e) => {
+    setLoading(true);
     try {
       const formdata = new FormData();
       formdata.append("category_name", editProductCategoryData.category_name);
@@ -77,10 +96,11 @@ const EditProdCategory = () => {
         editProductCategoryData.meta_description
       );
       formdata.append("canonical_url", editProductCategoryData.canonical_url);
-      formdata.append(
-        "category_description",
-        editProductCategoryData.category_description
-      );
+      // formdata.append(
+      //   "category_description",
+      //   editProductCategoryData.category_description
+      // );
+      formdata.append("category_description", editorRef.current.getContent());
       formdata.append("category_image", editProductCategoryData.category_image);
       formdata.append("sub_category", editProductCategoryData.sub_category);
       formdata.append("meta_tag", editMetaTag);
@@ -95,10 +115,13 @@ const EditProdCategory = () => {
       console.log(cateId);
 
       const url = `${process.env.NEXT_PUBLIC_API_URL}/productcategory/${cateId}`;
-      const res = await axios.patch(url, formdata, config );
+      const res = await axios.patch(url, formdata, config);
+      window.scrollTo({ behavior: "smooth", top: 0 });
+      setLoading(false);
       router.push("/admin/product-category");
     } catch (error) {
-      console.error("Error updating category data:", error);
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
     }
   };
 
@@ -136,6 +159,7 @@ const EditProdCategory = () => {
   }, [cateId]);
   return (
     <>
+      {loading && <Loading />}
       <section className="home-section">
         <Header />
         <div className="admin_page_top">
@@ -162,6 +186,7 @@ const EditProdCategory = () => {
                 placeholder="Enter Category Name"
                 onChange={handleEditChange}
                 value={editProductCategoryData.category_name}
+                required
               />
             </div>
             <div className="mb-3">
@@ -176,6 +201,7 @@ const EditProdCategory = () => {
                 placeholder="Enter Category Title"
                 onChange={handleEditChange}
                 value={editProductCategoryData.category_title}
+                required
               />
             </div>
             <div className="mb-3">
@@ -192,19 +218,21 @@ const EditProdCategory = () => {
               />
             </div>
             <div className="mb-3">
-              {editMetaTag.map((tag, index) => (
-                <div className="meta_tag_section" key={index}>
-                  <div className="meta_tag_text">{tag}</div>
-                  <div className="meta_remove_icon">
-                    <i
-                      className="fa-solid fa-xmark"
-                      onClick={() => {
-                        RemoveTags(index);
-                      }}
-                    ></i>
+            <div className="meta_main_section">
+                {editMetaTag.map((tag, index) => (
+                  <div className="meta_tag_section" key={index}>
+                    <div className="meta_tag_text">{tag}</div>
+                    <div className="meta_remove_icon">
+                      <i
+                        className="fa-solid fa-xmark"
+                        onClick={() => {
+                          RemoveTags(index);
+                        }}
+                      ></i>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
             <div className="mb-3">
               <label htmlFor="meta_description" className="modal_label">
@@ -236,19 +264,21 @@ const EditProdCategory = () => {
               />
             </div>
             <div className="mb-3">
-              {editMetaKeyword.map((keyword, index) => (
-                <div className="meta_tag_section" key={index}>
-                  <div className="meta_tag_text">{keyword}</div>
-                  <div className="meta_remove_icon">
-                    <i
-                      className="fa-solid fa-xmark"
-                      onClick={() => {
-                        RemoveKeyword(index);
-                      }}
-                    ></i>
+            <div className="meta_main_section">
+                {editMetaKeyword.map((keyword, index) => (
+                  <div className="meta_tag_section" key={index}>
+                    <div className="meta_tag_text">{keyword}</div>
+                    <div className="meta_remove_icon">
+                      <i
+                        className="fa-solid fa-xmark"
+                        onClick={() => {
+                          RemoveKeyword(index);
+                        }}
+                      ></i>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
             <div className="mb-3">
               <label htmlFor="canonical_url" className="modal_label">
@@ -265,19 +295,42 @@ const EditProdCategory = () => {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="category_description" className="modal_label">
-                Category Description:-
-              </label>
-              <textarea
-                type="text"
-                rows="5"
-                cols="70"
-                id="category_description"
-                name="category_description"
-                className="modal_input"
-                placeholder="Enter Category Description"
-                onChange={handleEditChange}
-                value={editProductCategoryData.category_description}
+              <p className="modal_label">Category Description:-</p>
+              <Editor
+                apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
+                onInit={(evt, editor) => (editorRef.current = editor)}
+                initialValue={editProductCategoryData.category_description}
+                init={{
+                  height: 500,
+                  menubar: true,
+                  plugins: [
+                    "advlist",
+                    "autolink",
+                    "lists",
+                    "link",
+                    "image",
+                    "charmap",
+                    "preview",
+                    "anchor",
+                    "searchreplace",
+                    "visualblocks",
+                    "code",
+                    "fullscreen",
+                    "insertdatetime",
+                    "media",
+                    "table",
+                    "code",
+                    "help",
+                    "wordcount",
+                  ],
+                  toolbar:
+                    "undo redo | blocks | " +
+                    "bold italic forecolor | alignleft aligncenter " +
+                    "alignright alignjustify | bullist numlist outdent indent | " +
+                    "removeformat | help",
+                }}
+                onChange={handleEditorChange}
+                required
               />
             </div>
             <div className="mb-3">
@@ -296,6 +349,7 @@ const EditProdCategory = () => {
                 name="category_image"
                 className="modal_input"
                 onChange={handleEditFileChange}
+                required
               />
             </div>
             <div className="mb-3">
@@ -336,6 +390,7 @@ const EditProdCategory = () => {
             </div>
           </form>
         </div>
+        <Toast />
       </section>
     </>
   );

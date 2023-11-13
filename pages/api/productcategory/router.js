@@ -43,6 +43,7 @@ export default async function handler(req, res) {
         } else {
 
           try {
+            console.log(fields);
             // db operation
             const {
               category_name,
@@ -70,6 +71,7 @@ export default async function handler(req, res) {
             res.status(200).json(row);
             
           } catch (err) {
+            console.log(err);
             res.status(500).json({message:"Failed to Add Product Category"})
           }
         }

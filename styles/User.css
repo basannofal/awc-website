@@ -110,7 +110,7 @@
   height: auto;
 }
 .modal_data_image {
-  width: 17%;
+  width: 5%;
   height: auto;
 }
 
@@ -248,7 +248,7 @@ form .modal_input:hover {
 form .modal_input:focus {
   border: 1px solid var(--primary-color);
 }
-form .success_btn {
+.success_btn {
   background-color: var(--primary-color);
   padding: 8px 13px;
   border-radius: 5px;
@@ -257,11 +257,11 @@ form .success_btn {
   /* float: inline-end; */
   letter-spacing: 1px;
 }
-form .success_btn:hover {
+.success_btn:hover {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
-form .cancel_btn {
+.cancel_btn {
   background-color: rgb(189, 28, 28);
   margin-left: 10px;
 }
@@ -277,6 +277,10 @@ form .cancel_btn {
   border-radius: 12px;
   margin-bottom: 10px;
 }
+.meta_main_section {
+  display: flex;
+  flex-wrap: wrap;
+}
 .meta_tag_section {
   display: flex;
   width: 200px;
@@ -285,6 +289,8 @@ form .cancel_btn {
   color: var(--fourth-color);
   padding: 6px 10px;
   justify-content: space-between;
+  margin-right: 15px;
+  margin-bottom: 10px;
 }
 .meta_tag_text {
   display: flex;
@@ -299,7 +305,20 @@ form .cancel_btn {
   border-radius: 50%;
   cursor: pointer;
 }
-
+.view_data_sections {
+  margin-bottom: 12px;
+}
+.view_data_sections span {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.view_data_sections p {
+  background-color: var(--third-color);
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin-top: 6px;
+}
 /* log out modal */
 .logOut_modal_section {
   background-color: var(--fourth-color);
@@ -355,15 +374,11 @@ form .cancel_btn {
   background-color: #df1d23;
 }
 .opr_active_btn {
-  background-color: green;
-  color: var(--fourth-color);
-  padding: 6px 10px;
-  letter-spacing: 1.3px;
+  width: 50px;
+  height: 25px;
   cursor: pointer;
-  border-radius: 5px;
-}
-.opr_deactive_btn {
-  background-color: #df1d23;
+  position: relative;
+  top: 7px;
 }
 .delete-modal {
   position: fixed;
@@ -422,37 +437,25 @@ form .cancel_btn {
   background: linear-gradient(to bottom right, #3b82f6, #2563eb);
 }
 
-.blog_desc_col {
-  position: relative;
-}
-.blog_truncate_text {
-  cursor: pointer;
-  display: block;
-  z-index: -1;
-  word-break: break-word;
-}
-.blog_desc_col:hover .blog_fullDesc {
-  display: inline-block;
+.loading::before {
   position: absolute;
-  top: 0%;
-  z-index: 1;
+  content: "";
+  background-color: var(--third-color);
   left: 0;
+  top: 0;
   right: 0;
   width: 100%;
-  height: auto;
-  overflow-y: auto;
+  height: 4px;
+  animation: progressbar 3s linear infinite;
+  animation-delay: 0.3s;
+  z-index: 100;
 }
 
-.blog_fullDesc {
-  word-break: break-word;
-  display: none;
-  position: absolute;
-  background-color: var(--secondary-color);
-  color: var(--fourth-color);
-  top: 0%;
-  width: 90%;
-  max-height: 200px;
-  overflow-y: auto;
-  padding: 10px;
-  border-radius: 5px;
+@keyframes progressbar {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
 }

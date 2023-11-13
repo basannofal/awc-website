@@ -5,13 +5,14 @@ import Header from "@/layouts/Header";
 import DeleteModal from "@/layouts/DeleteModal";
 import { useRouter } from "next/router";
 import Toast, { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
+import Loading from "@/layouts/Loading";
 
 const ProductCategory = () => {
- 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [getCategoryData, setGetCategoryData] = useState([]);
   const [getActiveCateData, setGetActiveCateData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const router = useRouter();
   //delete modal
@@ -37,56 +38,70 @@ const ProductCategory = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/productcategory/router`
       );
       setGetCategoryData(response.data);
+      setLoading(false);
     } catch (err) {
       console.log(err);
+      setLoading(false);
     }
   };
 
   //get active category
   const getActiveCategoryData = async () => {
+    setLoading(true);
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/productcategorychanges/router`);
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/productcategorychanges/router`
+      );
       setGetActiveCateData(response.data);
+      setLoading(false);
     } catch (err) {
       console.log(err);
+      setLoading(false);
     }
   };
 
   //edit product category data section start
   const handleEditProdCate = (cateId) => {
+    setLoading(true);
     router.push(`/admin/product-category/edit-product-category?id=${cateId}`);
   };
 
-
-
   //status edit
   const catgoryStatusChange = async (cateId, no) => {
+    setLoading(true);
     const category = getActiveCateData.find(
       (category) => category.sub_category == cateId
     );
     console.log(category);
     if (category) {
-      alert("Cannot Deactive this data because it connect each other");
+      ErrorToast("Cannot Deactive this data because it connect each other");
       getAllCategoryData();
       getActiveCategoryData();
     } else {
       try {
-        const res = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/productcategorychanges/${cateId}/${no}`);
+        const res = await axios.patch(
+          `${process.env.NEXT_PUBLIC_API_URL}/productcategorychanges/${cateId}/${no}`
+        );
         getAllCategoryData();
         getActiveCategoryData();
+        setLoading(false);
       } catch (error) {
-        console.error("Error updating category status data:", error);
+        setLoading(false);
+        ErrorToast(error?.response?.data?.message);
       }
     }
   };
 
   //delete product category data section start
   const deleteProductCategoryData = async (deleteId) => {
+    setLoading(true);
     const category = getCategoryData.find(
       (category) => category.sub_category === deleteId
     );
     if (category) {
-      alert("Cannot delete this data because it connect each other");
+      getAllCategoryData();
+      getActiveCategoryData();
+      ErrorToast("Cannot delete this data because it connect each other");
     } else {
       try {
         const res = await axios.delete(
@@ -95,11 +110,19 @@ const ProductCategory = () => {
         setIsDeleteModalOpen(false);
         getAllCategoryData();
         getActiveCategoryData();
-        SuccessToast("Category Deleted Successfully")
+        SuccessToast("Category Deleted Successfully");
+        setLoading(false);
       } catch (err) {
-        ErrorToast(err.response.data.message)
+        ErrorToast(err?.response?.data?.message);
+        setLoading(false);
       }
     }
+  };
+
+  //view prod cate
+  const handleViewProdCate = (id) => {
+    setLoading(true);
+    router.push(`/admin/product-category/view-product-category?id=${id}`);
   };
 
   useEffect(() => {
@@ -107,15 +130,10 @@ const ProductCategory = () => {
     getActiveCategoryData();
   }, []);
 
-  const truncateText = (text, maxLength) => {
-    if (text.length > maxLength) {
-      return text.slice(0, maxLength) + "...";
-    }
-    return text;
-  };
-
   return (
     <>
+      {loading && <Loading />}
+
       <section className="home-section">
         <Header />
         <div className="admin_page_top">
@@ -140,12 +158,12 @@ const ProductCategory = () => {
             <thead>
               <tr>
                 <th style={{ width: "7%" }}>ID</th>
-                <th style={{ width: "10%" }}>NAME</th>
-                <th style={{ width: "15%" }}>TITLE</th>
-                <th style={{ width: "25%" }}>DESCRIPTION</th>
-                <th style={{ width: "13%" }}>SUB CATE...</th>
-                <th style={{ width: "15%" }}>IMAGE</th>
-                <th style={{ width: "20%" }}>OPEARATION</th>
+                <th style={{ width: "18%" }}>NAME</th>
+                <th style={{ width: "18%" }}>TITLE</th>
+                <th style={{ width: "17%" }}>SUB CATEGORY</th>
+                <th style={{ width: "20%" }}>IMAGE</th>
+                <th style={{ width: "15%" }}>OPEARATION</th>
+                <th style={{ width: "7%" }}>STATUS</th>
               </tr>
             </thead>
             <tbody>
@@ -155,14 +173,7 @@ const ProductCategory = () => {
                     <td>{index + 1}</td>
                     <td>{category.category_name}</td>
                     <td>{category.category_title}</td>
-                    <td className="blog_desc_col">
-                      <span className="blog_truncate_text">
-                        {truncateText(category.category_description, 100)}
-                      </span>
-                      <div className="blog_fullDesc">
-                        {category.category_description}
-                      </div>
-                    </td>
+
                     <td>
                       {category.sub_category
                         ? getCategoryData.find(
@@ -197,26 +208,36 @@ const ProductCategory = () => {
                         >
                           <i className="fa-solid fa-trash"></i>
                         </button>
-                        {category.status === 1 ? (
-                          <button
-                            className="opr_active_btn"
-                            onClick={() => {
-                              catgoryStatusChange(category.category_id, 1);
-                            }}
-                          >
-                            Active
-                          </button>
-                        ) : (
-                          <button
-                            className="opr_deactive_btn opr_active_btn"
-                            onClick={() => {
-                              catgoryStatusChange(category.category_id, 0);
-                            }}
-                          >
-                            Deactive
-                          </button>
-                        )}
+                        <button
+                          className="operation_btn"
+                          onClick={() => {
+                            handleViewProdCate(category.category_id);
+                          }}
+                        >
+                          <i className="fa-solid fa-eye"></i>
+                        </button>
                       </span>
+                    </td>
+                    <td>
+                      {category.status === 1 ? (
+                        <img
+                          src={"/assets/images/activeStatus.png"}
+                          className="opr_active_btn"
+                          onClick={() => {
+                            catgoryStatusChange(category.category_id, 1);
+                          }}
+                          alt="active"
+                        />
+                      ) : (
+                        <img
+                          src={"/assets/images/inActiveStatus.png"}
+                          className="opr_active_btn"
+                          onClick={() => {
+                            catgoryStatusChange(category.category_id, 0);
+                          }}
+                          alt="active"
+                        />
+                      )}
                     </td>
                   </tr>
                 ))

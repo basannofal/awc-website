@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Header from "@/layouts/Header";
 import Link from "next/link";
 import { useRouter } from "next/router";
- 
+import Toast, { ErrorToast } from "@/layouts/toast/Toast";
+import { Editor } from "@tinymce/tinymce-react";
+import Loading from "@/layouts/Loading";
+
 const AddProdCategory = () => {
   const router = useRouter();
   const [getActiveCateData, setGetActiveCateData] = useState([]);
@@ -18,17 +21,33 @@ const AddProdCategory = () => {
   });
   const [addMetaTag, setAddMetaTag] = useState([]);
   const [addMetaKeyword, setAddMetaKeyword] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   //get active category
   const getActiveCategoryData = async () => {
+    setLoading(true);
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/productcategorychanges/router`);
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/productcategorychanges/router`
+      );
       console.log(response.data[0]);
       setGetActiveCateData(response.data);
+      setLoading(false);
     } catch (err) {
-      console.log(err);
+      ErrorToast(err?.response?.data?.message);
+      setLoading(false);
     }
   };
+
+  //editor
+  const editorRef = useRef(null);
+  const handleEditorChange = (content, editor) => {
+    setAddProductCategoryData((prevData) => ({
+      ...prevData,
+      category_description: content,
+    }));
+  };
+  //end
 
   //add product data section start
   const handleChangeProductCategory = (event) => {
@@ -46,10 +65,11 @@ const AddProdCategory = () => {
     }));
   };
 
-
   //save category
   const addCategoryData = async (e) => {
     e.preventDefault();
+    window.scrollTo({ behavior: "smooth", top: 0 });
+    setLoading(true);
     try {
       const formdata = new FormData();
       formdata.append("category_name", addProductCategoryData.category_name);
@@ -59,28 +79,30 @@ const AddProdCategory = () => {
         addProductCategoryData.meta_description
       );
       formdata.append("canonical_url", addProductCategoryData.canonical_url);
-      formdata.append(
-        "category_description",
-        addProductCategoryData.category_description
-      );
+      // formdata.append(
+      //   "category_description",
+      //   addProductCategoryData.category_description
+      //   );
+      formdata.append("category_description", editorRef.current.getContent());
       formdata.append("category_image", addProductCategoryData.category_image);
       formdata.append("sub_category", addProductCategoryData.sub_category);
       formdata.append("meta_tag", addMetaTag);
       formdata.append("meta_keyword", addMetaKeyword);
-      
+
       const config = {
         headers: {
           "Content-Type": "multipart/form-data", // Important for file uploads
         },
       };
 
-
       const url = `${process.env.NEXT_PUBLIC_API_URL}/productcategory/router`;
       const res = await axios.post(url, formdata, config);
-
+      setLoading(false);
       router.push("/admin/product-category");
     } catch (error) {
-      console.error("Error adding Alumniprofile data in Profile.js:", error);
+      console.log(error);
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
     }
   };
 
@@ -117,6 +139,7 @@ const AddProdCategory = () => {
   }, []);
   return (
     <>
+      {loading && <Loading />}
       <section className="home-section">
         <Header />
         <div className="admin_page_top">
@@ -142,6 +165,7 @@ const AddProdCategory = () => {
                 className="modal_input"
                 placeholder="Enter Category Name"
                 onChange={handleChangeProductCategory}
+                required
               />
             </div>
             <div className="mb-3">
@@ -155,6 +179,7 @@ const AddProdCategory = () => {
                 className="modal_input"
                 placeholder="Enter Category Title"
                 onChange={handleChangeProductCategory}
+                required
               />
             </div>
             <div className="mb-3">
@@ -171,19 +196,21 @@ const AddProdCategory = () => {
               />
             </div>
             <div className="mb-3">
-              {addMetaTag.map((tag, index) => (
-                <div className="meta_tag_section" key={index}>
-                  <div className="meta_tag_text">{tag}</div>
-                  <div className="meta_remove_icon">
-                    <i
-                      className="fa-solid fa-xmark"
-                      onClick={() => {
-                        RemoveTags(index);
-                      }}
-                    ></i>
+              <div className="meta_main_section">
+                {addMetaTag.map((tag, index) => (
+                  <div className="meta_tag_section" key={index}>
+                    <div className="meta_tag_text">{tag}</div>
+                    <div className="meta_remove_icon">
+                      <i
+                        className="fa-solid fa-xmark"
+                        onClick={() => {
+                          RemoveTags(index);
+                        }}
+                      ></i>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
             <div className="mb-3">
               <label htmlFor="meta_description" className="modal_label">
@@ -214,19 +241,21 @@ const AddProdCategory = () => {
               />
             </div>
             <div className="mb-3">
-              {addMetaKeyword.map((keyword, index) => (
-                <div className="meta_tag_section" key={index}>
-                  <div className="meta_tag_text">{keyword}</div>
-                  <div className="meta_remove_icon">
-                    <i
-                      className="fa-solid fa-xmark"
-                      onClick={() => {
-                        RemoveKeyword(index);
-                      }}
-                    ></i>
+              <div className="meta_main_section">
+                {addMetaKeyword.map((keyword, index) => (
+                  <div className="meta_tag_section" key={index}>
+                    <div className="meta_tag_text">{keyword}</div>
+                    <div className="meta_remove_icon">
+                      <i
+                        className="fa-solid fa-xmark"
+                        onClick={() => {
+                          RemoveKeyword(index);
+                        }}
+                      ></i>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
             <div className="mb-3">
               <label htmlFor="canonical_url" className="modal_label">
@@ -242,18 +271,41 @@ const AddProdCategory = () => {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="category_description" className="modal_label">
-                Category Description:-
-              </label>
-              <textarea
-                type="text"
-                rows="5"
-                cols="70"
-                id="category_description"
-                name="category_description"
-                className="modal_input"
-                placeholder="Enter Category Description"
-                onChange={handleChangeProductCategory}
+              <p className="modal_label">Category Description:-</p>
+              <Editor
+                apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
+                onInit={(evt, editor) => (editorRef.current = editor)}
+                init={{
+                  height: 500,
+                  menubar: true,
+                  plugins: [
+                    "advlist",
+                    "autolink",
+                    "lists",
+                    "link",
+                    "image",
+                    "charmap",
+                    "preview",
+                    "anchor",
+                    "searchreplace",
+                    "visualblocks",
+                    "code",
+                    "fullscreen",
+                    "insertdatetime",
+                    "media",
+                    "table",
+                    "code",
+                    "help",
+                    "wordcount",
+                  ],
+                  toolbar:
+                    "undo redo | blocks | " +
+                    "bold italic forecolor | alignleft aligncenter " +
+                    "alignright alignjustify | bullist numlist outdent indent | " +
+                    "removeformat | help",
+                }}
+                onChange={handleEditorChange}
+                required
               />
             </div>
             <div className="mb-3">
@@ -266,6 +318,7 @@ const AddProdCategory = () => {
                 name="category_image"
                 className="modal_input"
                 onChange={handleAddFileChange}
+                required
               />
             </div>
             <div className="mb-3">
@@ -278,6 +331,7 @@ const AddProdCategory = () => {
                 form="sub_category"
                 className="modal_input"
                 onChange={handleChangeProductCategory}
+                required
               >
                 <option value={0}>Choose Sub Category</option>
                 {getActiveCateData.map((cate) => {
@@ -301,6 +355,7 @@ const AddProdCategory = () => {
             </div>
           </form>
         </div>
+        <Toast />
       </section>
     </>
   );
