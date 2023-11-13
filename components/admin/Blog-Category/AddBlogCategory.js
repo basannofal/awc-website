@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import Header from "../layout/Header";
-import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Header from "@/layouts/Header";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import Toast, { ErrorToast } from "@/layouts/toast/Toast";
 const apiUrl = process.env.REACT_APP_MYURL;
 
 const AddBlogCategory = () => {
+  const router = useRouter()
   const [addBlogCategory, setAddBlogCategory] = useState({
     category_title: "",
     category_description: "",
@@ -61,7 +64,9 @@ const AddBlogCategory = () => {
       [event.target.name]: file,
     }));
   };
-  const navigate = useNavigate();
+
+
+
   const saveBlogCategory = async (e) => {
     e.preventDefault();
     try {
@@ -77,12 +82,21 @@ const AddBlogCategory = () => {
       formData.append("canonical_url", addBlogCategory.canonical_url);
       formData.append("category_image", addBlogCategory.category_image);
       formData.append("category_icon", addBlogCategory.category_icon);
+      
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/blogcategory/router`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Set content type to multipart/form-data
+      },
+    });
 
-      await axios.post(`${apiUrl}addBlogCategory`, formData);
-      navigate("/blog-category");
-    } catch (error) {
-      console.error("Error adding Alumniprofile data in Profile.js:", error);
-    }
+    closeModal();
+    getAllBlogCategoryData();
+    router.push("/admin/blog-category")
+
+  } catch (error) {
+    console.error("Error adding Alumniprofile data in Profile.js:", error);
+    ErrorToast(error?.response?.data?.message)
+  }
   };
 
   return (
@@ -92,9 +106,9 @@ const AddBlogCategory = () => {
         <div className="admin_page_top">
           <p className="admin_page_header">Add Blog Category</p>
           <p>
-            <NavLink to="/dashboard">
+            <Link href="/admin/admindashboard">
               <i className="fa-solid fa-house"></i>
-            </NavLink>
+            </Link>
             <i className="fa-solid fa-angles-right"></i>
             <span>Add Blog Category</span>
           </p>
@@ -248,6 +262,7 @@ const AddBlogCategory = () => {
             </div>
           </form>
         </div>
+        <Toast />
       </section>
     </>
   );

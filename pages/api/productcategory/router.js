@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     form.parse(req, (err, fields, files) => {
       // check file exist or not
       if (!files.category_image) {
-        return res.status(400).json({ message: "No files received." });
+        return res.status(400).json({ message: "Please Upload Files." });
       }
 
       // configuration of path and name
@@ -39,7 +39,7 @@ export default async function handler(req, res) {
       fs.copyFile(oldPath, newPath, async (moveErr) => {
         if (moveErr) {
           console.log(moveErr);
-          res.status(500).json({ message: "File move failed." });
+          res.status(500).json({ message: "File Upload failed." });
         } else {
 
           try {

@@ -1,4 +1,4 @@
-import BlogCategory from "@/components/admin/Blog-Category/BlogCategory";
+import EditBlogCategory from "@/components/admin/Blog-Category/EditBlogCategory";
  import Sidebar from "@/layouts/Sidebar";
 import React from "react";
 
@@ -6,7 +6,7 @@ const index = () => {
   return (
     <>
       <Sidebar />
-      <BlogCategory />
+      <EditBlogCategory />
     </>
   );
 };

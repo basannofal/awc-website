@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from "react";
-import Header from "../layout/Header";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-const apiUrl = process.env.REACT_APP_MYURL;
+import { useRouter } from "next/router";
+import Header from "@/layouts/Header";
+import Link from "next/link";
 
 const EditBlogCategory = () => {
-  const location = useLocation();
-  let cateId = location.state.id;
+  const router = useRouter();
+  let cateId = router.query.id;
+
   const [editBlogCategoryData, setEditBlogCategoryData] = useState({
     category_title: "",
     category_description: "",
-    meta_description: "",
+    meta_desc: "",
     canonical_url: "",
     category_image: null,
     category_icon: null,
   });
   const [editMetaTag, setEditMetaTag] = useState([]);
   const [editMetaKeyword, setEditMetaKeyword] = useState([]);
-  const naviagte = useNavigate();
 
   //get data with id
   const getEditBlogCategory = async (cateId) => {
     await axios
-      .get(`${apiUrl}getBlogCategoryWithId/${cateId}`)
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/blogcategory/${cateId}`)
       .then((res) => {
         setEditBlogCategoryData(res.data[0]);
         const keyString = res.data[0].meta_keyword;
@@ -59,17 +59,17 @@ const EditBlogCategory = () => {
         editBlogCategoryData.category_description
       );
       formdata.append("meta_tag", editMetaTag);
-      formdata.append(
-        "meta_description",
-        editBlogCategoryData.meta_description
-      );
+      formdata.append("meta_desc", editBlogCategoryData.meta_desc);
       formdata.append("meta_keyword", editMetaKeyword);
       formdata.append("canonical_url", editBlogCategoryData.canonical_url);
 
       formdata.append("category_image", editBlogCategoryData.category_image);
       formdata.append("category_icon", editBlogCategoryData.category_icon);
-      await axios.put(`${apiUrl}updateBlogCategory/${cateId}`, formdata);
-      naviagte("/blog-category");
+      const result = await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/blogcategory/${cateId}`,
+        formdata
+      );
+      router.push("/admin/blog-category");
     } catch (error) {
       console.error("Error updating blog category:", error);
     }
@@ -111,9 +111,9 @@ const EditBlogCategory = () => {
         <div className="admin_page_top">
           <p className="admin_page_header">Edit Product Category</p>
           <p>
-            <NavLink to="/dashboard">
+            <Link href="/admin/admindashboard">
               <i className="fa-solid fa-house"></i>
-            </NavLink>
+            </Link>
             <i className="fa-solid fa-angles-right"></i>
             <span>Edit Product Category</span>
           </p>
@@ -181,19 +181,19 @@ const EditBlogCategory = () => {
               </div>
             </div>
             <div className="mb-3">
-              <label htmlFor="meta_description" className="modal_label">
+              <label htmlFor="meta_desc" className="modal_label">
                 Meta Description:-
               </label>
               <textarea
                 type="text"
                 rows="5"
                 cols="70"
-                id="meta_description"
-                name="meta_description"
+                id="meta_desc"
+                name="meta_desc"
                 className="modal_input"
                 placeholder="Enter Meta Description"
                 onChange={handleEditCategory}
-                value={editBlogCategoryData.meta_description}
+                value={editBlogCategoryData.meta_desc}
               />
             </div>
             <div className="mb-3">
@@ -252,9 +252,9 @@ const EditBlogCategory = () => {
                 className="modal_input mb-3"
               />
               <img
-                src={`/upload/${editBlogCategoryData.category_image}`}
-                width="100%"
-                className="modal_data_image"
+                src={`/assets/upload/blog/${editBlogCategoryData.category_image}`}
+                width="100px"
+                height="100px"
                 alt="category_image"
               />
             </div>
@@ -270,9 +270,9 @@ const EditBlogCategory = () => {
                 onChange={handleEditFileChange}
               />
               <img
-                src={`/upload/${editBlogCategoryData.category_icon}`}
-                width="100%"
-                className="modal_data_image"
+                src={`/assets/upload/blog/${editBlogCategoryData.category_icon}`}
+                width="100px"
+                height="100px"
                 alt="category_icon"
               />
             </div>
@@ -286,11 +286,11 @@ const EditBlogCategory = () => {
               >
                 SAVE
               </button>
-              <NavLink to="/blog-category">
+              <Link href="/admin/blog-category">
                 <button type="button" className="success_btn cancel_btn">
                   CANCEL
                 </button>
-              </NavLink>
+              </Link>
             </div>
           </form>
         </div>
