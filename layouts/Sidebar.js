@@ -55,6 +55,16 @@ const Sidebar = () => {
           </li>
           <li
             className={
+              router.pathname === "/admin/products" ? "admin_sidebar_active_li" : ""
+            }
+          >
+            <Link href="/admin/products">
+              <i className="fa-brands fa-product-hunt"></i>
+              <span className="links_name">Products</span>
+            </Link>
+          </li>
+          <li
+            className={
               router.pathname === "/admin/blog-category"
                 ? "admin_sidebar_active_li"
                 : ""

@@ -16,8 +16,8 @@ const ProductCategory = () => {
 
   const router = useRouter();
   //delete modal
-  const openDeleteModal = (brandId) => {
-    setSelectedCategoryId(brandId);
+  const openDeleteModal = (cateId) => {
+    setSelectedCategoryId(cateId);
     setIsDeleteModalOpen(true);
   };
   const closeDeleteModal = () => {
@@ -187,7 +187,7 @@ const ProductCategory = () => {
                         src={`/assets/upload/${category.category_image}`}
                         width="150px"
                         height="150px"
-                        alt="profile"
+                        alt="Category"
                         className="tabel_data_image"
                       />
                     </td>
@@ -235,7 +235,7 @@ const ProductCategory = () => {
                           onClick={() => {
                             catgoryStatusChange(category.category_id, 0);
                           }}
-                          alt="active"
+                          alt="Inactive"
                         />
                       )}
                     </td>
