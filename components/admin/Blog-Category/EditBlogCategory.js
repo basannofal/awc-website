@@ -131,13 +131,13 @@ const EditBlogCategory = () => {
       <section className="home-section">
         <Header />
         <div className="admin_page_top">
-          <p className="admin_page_header">Edit Product Category</p>
+          <p className="admin_page_header">Edit Blog Category</p>
           <p>
             <Link href="/admin/admindashboard">
               <i className="fa-solid fa-house"></i>
             </Link>
             <i className="fa-solid fa-angles-right"></i>
-            <span>Edit Product Category</span>
+            <span>Edit Blog Category</span>
           </p>
         </div>
         <div className="add_data_form">
@@ -152,7 +152,7 @@ const EditBlogCategory = () => {
                 name="category_title"
                 className="modal_input"
                 onChange={handleEditCategory}
-                value={editBlogCategoryData.category_title}
+                value={editBlogCategoryData?.category_title}
                 placeholder="Enter Category Title"
                 required
               />
@@ -162,7 +162,7 @@ const EditBlogCategory = () => {
               <Editor
                 apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
                 onInit={(evt, editor) => (editorRef.current = editor)}
-                initialValue={editBlogCategoryData.category_description}
+                initialValue={editBlogCategoryData?.category_description}
                 init={{
                   height: 500,
                   menubar: true,
@@ -196,6 +196,49 @@ const EditBlogCategory = () => {
                 required
               />
             </div>
+
+            <div className="mb-3">
+              <label htmlFor="editBlog_image" className="modal_label">
+                Blog Image:-
+              </label>
+              <input
+                type="file"
+                id="editBlog_image"
+                name="category_image"
+                onChange={handleEditFileChange}
+                className="modal_input mb-3"
+                required
+              />
+              <img
+                src={`/assets/upload/blog/${editBlogCategoryData?.category_image}`}
+                width="100px"
+                height="100px"
+                alt="category_image"
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="editBlog_icon" className="modal_label">
+                Blog Icon:-
+              </label>
+              <input
+                type="file"
+                id="editBlog_icon"
+                name="category_icon"
+                className="modal_input mb-3"
+                onChange={handleEditFileChange}
+                required
+              />
+              <img
+                src={`/assets/upload/blog/${editBlogCategoryData?.category_icon}`}
+                width="100px"
+                height="100px"
+                alt="category_icon"
+              />
+            </div>
+            <hr style={{ marginTop: "50px", marginBottom: "20px" }} />
+            <h3 className="modal_label" style={{ fontSize: 16 }}>
+              SEO :
+            </h3>
             <div className="mb-3">
               <label htmlFor="meta_tag" className="modal_label">
                 Meta Tag:-
@@ -225,22 +268,6 @@ const EditBlogCategory = () => {
                   </div>
                 ))}
               </div>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="meta_desc" className="modal_label">
-                Meta Description:-
-              </label>
-              <textarea
-                type="text"
-                rows="5"
-                cols="70"
-                id="meta_desc"
-                name="meta_desc"
-                className="modal_input"
-                placeholder="Enter Meta Description"
-                onChange={handleEditCategory}
-                value={editBlogCategoryData.meta_desc}
-              />
             </div>
             <div className="mb-3">
               <label htmlFor="meta_keyword" className="modal_label">
@@ -273,6 +300,23 @@ const EditBlogCategory = () => {
               </div>
             </div>
             <div className="mb-3">
+              <label htmlFor="meta_desc" className="modal_label">
+                Meta Description:-
+              </label>
+              <textarea
+                type="text"
+                rows="5"
+                cols="70"
+                id="meta_desc"
+                name="meta_desc"
+                className="modal_input"
+                placeholder="Enter Meta Description"
+                onChange={handleEditCategory}
+                value={editBlogCategoryData?.meta_desc}
+              />
+            </div>
+          
+            <div className="mb-3">
               <label htmlFor="canonical_url" className="modal_label">
                 Conanical URL:-
               </label>
@@ -283,52 +327,14 @@ const EditBlogCategory = () => {
                 className="modal_input"
                 placeholder="Enter Conanical URL"
                 onChange={handleEditCategory}
-                value={editBlogCategoryData.canonical_url}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="editBlog_image" className="modal_label">
-                Blog Image:-
-              </label>
-              <input
-                type="file"
-                id="editBlog_image"
-                name="category_image"
-                onChange={handleEditFileChange}
-                className="modal_input mb-3"
-                required
-              />
-              <img
-                src={`/assets/upload/blog/${editBlogCategoryData.category_image}`}
-                width="100px"
-                height="100px"
-                alt="category_image"
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="editBlog_icon" className="modal_label">
-                Blog Icon:-
-              </label>
-              <input
-                type="file"
-                id="editBlog_icon"
-                name="category_icon"
-                className="modal_input mb-3"
-                onChange={handleEditFileChange}
-                required
-              />
-              <img
-                src={`/assets/upload/blog/${editBlogCategoryData.category_icon}`}
-                width="100px"
-                height="100px"
-                alt="category_icon"
+                value={editBlogCategoryData?.canonical_url}
               />
             </div>
             <div className="mb-3">
               <button
                 type="button"
                 onClick={() =>
-                  saveEditCategory(editBlogCategoryData.blog_cate_id)
+                  saveEditCategory(editBlogCategoryData?.blog_cate_id)
                 }
                 className="success_btn"
               >

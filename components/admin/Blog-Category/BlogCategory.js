@@ -119,7 +119,8 @@ const BlogCategory = () => {
                 <th style={{ width: "30%" }}>TITLE</th>
                 <th style={{ width: "20%" }}>IMAGE</th>
                 <th style={{ width: "20%" }}>ICON</th>
-                <th style={{ width: "20%" }}>OPERATION</th>
+                <th style={{ width: "15%" }}>OPERATION</th>
+                <th style={{ width: "7%" }}>STATUS</th>
               </tr>
             </thead>
             <tbody>
@@ -174,28 +175,30 @@ const BlogCategory = () => {
                         >
                           <i className="fa-solid fa-eye"></i>
                         </button>
-                        <div>
-                          {category.status === 1 ? (
-                            <img
-                              src={"/assets/images/activeStatus.png"}
-                              className="opr_active_btn"
-                              onClick={() => {
-                                catgoryStatusChange(category.blog_cate_id, 1);
-                              }}
-                              alt="Active"
-                            />
-                          ) : (
-                            <img
-                              src={"/assets/images/inActiveStatus.png"}
-                              className="opr_active_btn"
-                              onClick={() => {
-                                catgoryStatusChange(category.blog_cate_id, 0);
-                              }}
-                              alt="InActive"
-                            />
-                          )}
-                        </div>
                       </span>
+                    </td>
+                    <td>
+                      <div>
+                        {category.status === 1 ? (
+                          <img
+                            src={"/assets/images/activeStatus.png"}
+                            className="opr_active_btn"
+                            onClick={() => {
+                              catgoryStatusChange(category.blog_cate_id, 1);
+                            }}
+                            alt="Active"
+                          />
+                        ) : (
+                          <img
+                            src={"/assets/images/inActiveStatus.png"}
+                            className="opr_active_btn"
+                            onClick={() => {
+                              catgoryStatusChange(category.blog_cate_id, 0);
+                            }}
+                            alt="InActive"
+                          />
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))

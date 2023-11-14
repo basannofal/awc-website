@@ -67,10 +67,10 @@ const Sidebar = () => {
           </li>
           <li
             className={
-              router.pathname === "/blogs" ? "admin_sidebar_active_li" : ""
+              router.pathname === "/admin/blog" ? "admin_sidebar_active_li" : ""
             }
           >
-            <Link href="/blogs">
+            <Link href="/admin/blog">
               <i className="fa-brands fa-blogger"></i>
               <span className="links_name">Blogs</span>
             </Link>

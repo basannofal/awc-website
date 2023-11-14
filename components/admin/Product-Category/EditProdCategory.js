@@ -185,7 +185,7 @@ const EditProdCategory = () => {
                 className="modal_input"
                 placeholder="Enter Category Name"
                 onChange={handleEditChange}
-                value={editProductCategoryData.category_name}
+                value={editProductCategoryData?.category_name}
                 required
               />
             </div>
@@ -200,106 +200,17 @@ const EditProdCategory = () => {
                 className="modal_input"
                 placeholder="Enter Category Title"
                 onChange={handleEditChange}
-                value={editProductCategoryData.category_title}
+                value={editProductCategoryData?.category_title}
                 required
               />
             </div>
-            <div className="mb-3">
-              <label htmlFor="meta_tag" className="modal_label">
-                Meta Tag:-
-              </label>
-              <input
-                type="text"
-                id="meta_tag"
-                name="meta_tag"
-                className="modal_input"
-                placeholder="Enter Meta Tag"
-                onKeyDown={handleTags}
-              />
-            </div>
-            <div className="mb-3">
-            <div className="meta_main_section">
-                {editMetaTag.map((tag, index) => (
-                  <div className="meta_tag_section" key={index}>
-                    <div className="meta_tag_text">{tag}</div>
-                    <div className="meta_remove_icon">
-                      <i
-                        className="fa-solid fa-xmark"
-                        onClick={() => {
-                          RemoveTags(index);
-                        }}
-                      ></i>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="meta_description" className="modal_label">
-                Meta Description:-
-              </label>
-              <textarea
-                type="text"
-                rows="5"
-                cols="70"
-                id="meta_description"
-                name="meta_description"
-                className="modal_input"
-                placeholder="Enter Meta Description"
-                onChange={handleEditChange}
-                value={editProductCategoryData.meta_description}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="meta_keyword" className="modal_label">
-                Meta Keayword:-
-              </label>
-              <input
-                type="text"
-                id="meta_keyword"
-                name="meta_keyword"
-                className="modal_input"
-                placeholder="Enter Meta Keyword"
-                onKeyDown={handleKeyword}
-              />
-            </div>
-            <div className="mb-3">
-            <div className="meta_main_section">
-                {editMetaKeyword.map((keyword, index) => (
-                  <div className="meta_tag_section" key={index}>
-                    <div className="meta_tag_text">{keyword}</div>
-                    <div className="meta_remove_icon">
-                      <i
-                        className="fa-solid fa-xmark"
-                        onClick={() => {
-                          RemoveKeyword(index);
-                        }}
-                      ></i>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="canonical_url" className="modal_label">
-                Conanical URL:-
-              </label>
-              <input
-                type="text"
-                id="canonical_url"
-                name="canonical_url"
-                className="modal_input"
-                placeholder="Enter Conanical URL"
-                onChange={handleEditChange}
-                value={editProductCategoryData.canonical_url}
-              />
-            </div>
+
             <div className="mb-3">
               <p className="modal_label">Category Description:-</p>
               <Editor
                 apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
                 onInit={(evt, editor) => (editorRef.current = editor)}
-                initialValue={editProductCategoryData.category_description}
+                initialValue={editProductCategoryData?.category_description}
                 init={{
                   height: 500,
                   menubar: true,
@@ -338,7 +249,7 @@ const EditProdCategory = () => {
                 Category Image:-
               </label>
               <img
-                src={`/assets/upload/${editProductCategoryData.category_image}`}
+                src={`/assets/upload/${editProductCategoryData?.category_image}`}
                 width="100px"
                 height="100px"
                 alt="profile"
@@ -362,7 +273,7 @@ const EditProdCategory = () => {
                 form="sub_category"
                 className="modal_input"
                 onChange={handleEditChange}
-                value={editProductCategoryData.sub_category}
+                value={editProductCategoryData?.sub_category}
               >
                 <option value={0}>Choose Sub Category</option>
                 {getActiveCateData.map((cate) => {
@@ -374,6 +285,101 @@ const EditProdCategory = () => {
                 })}
               </select>
             </div>
+            <hr style={{ marginTop: "50px", marginBottom: "20px" }} />
+            <h3 className="modal_label" style={{ fontSize: 16 }}>
+              SEO :
+            </h3>
+            <div className="mb-3">
+              <label htmlFor="meta_tag" className="modal_label">
+                Meta Tag:-
+              </label>
+              <input
+                type="text"
+                id="meta_tag"
+                name="meta_tag"
+                className="modal_input"
+                placeholder="Enter Meta Tag"
+                onKeyDown={handleTags}
+              />
+            </div>
+            <div className="mb-3">
+              <div className="meta_main_section">
+                {editMetaTag.map((tag, index) => (
+                  <div className="meta_tag_section" key={index}>
+                    <div className="meta_tag_text">{tag}</div>
+                    <div className="meta_remove_icon">
+                      <i
+                        className="fa-solid fa-xmark"
+                        onClick={() => {
+                          RemoveTags(index);
+                        }}
+                      ></i>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="meta_keyword" className="modal_label">
+                Meta Keayword:-
+              </label>
+              <input
+                type="text"
+                id="meta_keyword"
+                name="meta_keyword"
+                className="modal_input"
+                placeholder="Enter Meta Keyword"
+                onKeyDown={handleKeyword}
+              />
+            </div>
+            <div className="mb-3">
+              <div className="meta_main_section">
+                {editMetaKeyword.map((keyword, index) => (
+                  <div className="meta_tag_section" key={index}>
+                    <div className="meta_tag_text">{keyword}</div>
+                    <div className="meta_remove_icon">
+                      <i
+                        className="fa-solid fa-xmark"
+                        onClick={() => {
+                          RemoveKeyword(index);
+                        }}
+                      ></i>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="meta_description" className="modal_label">
+                Meta Description:-
+              </label>
+              <textarea
+                type="text"
+                rows="5"
+                cols="70"
+                id="meta_description"
+                name="meta_description"
+                className="modal_input"
+                placeholder="Enter Meta Description"
+                onChange={handleEditChange}
+                value={editProductCategoryData?.meta_description}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="canonical_url" className="modal_label">
+                Conanical URL:-
+              </label>
+              <input
+                type="text"
+                id="canonical_url"
+                name="canonical_url"
+                className="modal_input"
+                placeholder="Enter Conanical URL"
+                onChange={handleEditChange}
+                value={editProductCategoryData?.canonical_url}
+              />
+            </div>
+
             <div className="mb-3">
               <button
                 type="button"
