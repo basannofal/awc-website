@@ -3,8 +3,17 @@ import LogOut from "./LogOut";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-const Header = () => {
-  const router = useRouter()
+const Header = ({ onFilterChange }) => {
+  const router = useRouter();
+
+  const [searchText, setSearchText] = useState("");
+
+  const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
+    onFilterChange(e.target.value); // Notify parent component about filter change
+    console.log(searchText);
+  };
+
   const [isLogOutModalOpen, setIsLogOutModalOpen] = useState(false);
 
   const openLogOutModal = () => {
@@ -16,8 +25,8 @@ const Header = () => {
   };
 
   const logOutAdmin = async () => {
-      localStorage.removeItem("token");
-      router.push("/admin")
+    localStorage.removeItem("token");
+    router.push("/admin");
   };
 
   return (
@@ -30,6 +39,8 @@ const Header = () => {
               id="search"
               type="text"
               placeholder="Search..."
+              value={searchText}
+              onChange={handleSearchChange}
               autoFocus
               required
             />

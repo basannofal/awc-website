@@ -318,14 +318,14 @@ const EditBlogCategory = () => {
           
             <div className="mb-3">
               <label htmlFor="canonical_url" className="modal_label">
-                Conanical URL:-
+                Canonical URL:-
               </label>
               <input
                 type="text"
                 id="canonical_url"
                 name="canonical_url"
                 className="modal_input"
-                placeholder="Enter Conanical URL"
+                placeholder="Enter Canonical URL"
                 onChange={handleEditCategory}
                 value={editBlogCategoryData?.canonical_url}
               />

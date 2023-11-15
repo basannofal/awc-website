@@ -8,10 +8,27 @@ import Toast, { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
 import Loading from "@/layouts/Loading";
 
 const BlogCategory = () => {
+  //filter Start
+  const [filterValue, setFilterValue] = useState(""); // State to hold the filter value
+  const handleFilterChange = (value) => {
+    setFilterValue(value); // Update the filter value
+  };
+
+  useEffect(() => {
+    setFilterdCategory(
+      getAllBlogCategory.filter((e) => {
+        let data = e.category_title;
+        return data.includes(filterValue);
+      })
+    );
+  }, [filterValue]);
+  // filter End
+
   const router = useRouter();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [getAllBlogCategory, setGetAllBlogCategory] = useState([]);
+  const [filterdCategory, setFilterdCategory] = useState([]);
   const [loading, setLoading] = useState(true);
 
   //delete modal
@@ -37,6 +54,7 @@ const BlogCategory = () => {
       .get(`${process.env.NEXT_PUBLIC_API_URL}/blogcategory/router`)
       .then((res) => {
         setGetAllBlogCategory(res.data);
+        setFilterdCategory(res.data)
         setLoading(false);
       })
       .catch((err) => {
@@ -93,7 +111,7 @@ const BlogCategory = () => {
     <>
       {loading && <Loading />}
       <section className="home-section">
-        <Header />
+        <Header onFilterChange={handleFilterChange} />
         <div className="admin_page_top">
           <p className="admin_page_header">Blog Category</p>
           <p>
@@ -124,8 +142,8 @@ const BlogCategory = () => {
               </tr>
             </thead>
             <tbody>
-              {getAllBlogCategory.length > 0 ? (
-                getAllBlogCategory.map((category, index) => (
+              {filterdCategory.length > 0 ? (
+                filterdCategory.map((category, index) => (
                   <tr key={category.blog_cate_id}>
                     <td>{index + 1}</td>
                     <td>{category.category_title}</td>

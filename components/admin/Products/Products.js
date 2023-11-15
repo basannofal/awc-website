@@ -8,7 +8,24 @@ import Link from "next/link";
 import Toast, { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
 
 const Products = () => {
+  //filter Start
+  const [filterValue, setFilterValue] = useState(""); // State to hold the filter value
+  const handleFilterChange = (value) => {
+    setFilterValue(value); // Update the filter value
+  };
+
+  useEffect(() => {
+    setFilterdProduct(
+      getAllProduct.filter((e) => {
+        let data = e.product_title;
+        return data.includes(filterValue);
+      })
+    );
+  }, [filterValue]);
+  // filter End
+
   const router = useRouter();
+  const [filterdProduct, setFilterdProduct] = useState([]);
   const [getAllProduct, setGetAllProduct] = useState([]);
   const [getCategoryData, setGetCategoryData] = useState([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -33,7 +50,9 @@ const Products = () => {
   const deleteProductData = async (deleteId) => {
     setLoading(true);
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/products/${deleteId}`);
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/${deleteId}`
+      );
       getAllProductData();
       getProductategoryData();
       setLoading(false);
@@ -64,6 +83,7 @@ const Products = () => {
       .get(`${process.env.NEXT_PUBLIC_API_URL}/products/router`)
       .then((res) => {
         setGetAllProduct(res.data);
+        setFilterdProduct(res.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -76,7 +96,9 @@ const Products = () => {
   const productStatusChange = async (prodId, no) => {
     setLoading(true);
     try {
-      await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/products/statuschanges/${prodId}/${no}`);
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/statuschanges/${prodId}/${no}`
+      );
       getAllProductData();
       getProductategoryData();
       setLoading(false);
@@ -107,7 +129,7 @@ const Products = () => {
     <>
       {loading && <Loading />}
       <section className="home-section">
-        <Header />
+        <Header onFilterChange={handleFilterChange} />
         <div className="admin_page_top">
           <p className="admin_page_header">Products</p>
           <p>
@@ -138,8 +160,8 @@ const Products = () => {
               </tr>
             </thead>
             <tbody>
-              {getAllProduct.length > 0 ? (
-                getAllProduct.map((product, index) => (
+              {filterdProduct.length > 0 ? (
+                filterdProduct.map((product, index) => (
                   <tr key={product.product_id}>
                     <td>{index + 1}</td>
                     <td>{product.product_title}</td>

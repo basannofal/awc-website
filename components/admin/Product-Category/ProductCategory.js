@@ -8,6 +8,24 @@ import Toast, { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
 import Loading from "@/layouts/Loading";
 
 const ProductCategory = () => {
+
+    //filter Start
+    const [filterValue, setFilterValue] = useState(""); // State to hold the filter value
+    const handleFilterChange = (value) => {
+      setFilterValue(value); // Update the filter value
+    };
+  
+    useEffect(() => {
+      setFilterdCategory(
+        getCategoryData.filter((e) => {
+          let data = e.category_title;
+          return data.includes(filterValue);
+        })
+      );
+    }, [filterValue]);
+    // filter End
+
+  const [filterdCategory, setFilterdCategory] = useState([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [getCategoryData, setGetCategoryData] = useState([]);
@@ -38,6 +56,7 @@ const ProductCategory = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/productcategory/router`
       );
       setGetCategoryData(response.data);
+      setFilterdCategory(response.data);
       setLoading(false);
     } catch (err) {
       console.log(err);
@@ -135,7 +154,7 @@ const ProductCategory = () => {
       {loading && <Loading />}
 
       <section className="home-section">
-        <Header />
+        <Header  onFilterChange={handleFilterChange}  />
         <div className="admin_page_top">
           <p className="admin_page_header">Product Category</p>
           <p>
@@ -167,8 +186,8 @@ const ProductCategory = () => {
               </tr>
             </thead>
             <tbody>
-              {getCategoryData.length > 0 ? (
-                getCategoryData.map((category, index) => (
+              {filterdCategory.length > 0 ? (
+                filterdCategory.map((category, index) => (
                   <tr key={category.category_id}>
                     <td>{index + 1}</td>
                     <td>{category.category_name}</td>
