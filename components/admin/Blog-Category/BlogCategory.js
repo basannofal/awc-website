@@ -54,7 +54,7 @@ const BlogCategory = () => {
       .get(`${process.env.NEXT_PUBLIC_API_URL}/blogcategory/router`)
       .then((res) => {
         setGetAllBlogCategory(res.data);
-        setFilterdCategory(res.data)
+        setFilterdCategory(res.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -111,23 +111,25 @@ const BlogCategory = () => {
     <>
       {loading && <Loading />}
       <section className="home-section">
-        <Header onFilterChange={handleFilterChange} />
+        <Header />
         <div className="admin_page_top">
-          <p className="admin_page_header">Blog Category</p>
-          <p>
-            <Link href="/admin/admindashboard">
-              <i className="fa-solid fa-house"></i>
+          <div className="page_top_left_section">
+            <p className="admin_page_header">Blog Category</p>
+            <p>
+              <Link href="/admin/admindashboard">
+                <i className="fa-solid fa-house"></i>
+              </Link>
+              <i className="fa-solid fa-angles-right"></i>
+              <span>Blog Category</span>
+            </p>
+          </div>
+          <div className="content_add_btn_section">
+            <Link href="/admin/blog-category/add-blog-category">
+              <button type="button">
+                <i className="fa-solid fa-plus"></i>Add Category
+              </button>
             </Link>
-            <i className="fa-solid fa-angles-right"></i>
-            <span>Blog Category</span>
-          </p>
-        </div>
-        <div className="content_add_btn_section">
-          <Link href="/admin/blog-category/add-blog-category">
-            <button type="button">
-              <i className="fa-solid fa-plus"></i>Add Category
-            </button>
-          </Link>
+          </div>
         </div>
         <div className="admin_category_table">
           <table>
@@ -135,16 +137,18 @@ const BlogCategory = () => {
               <tr>
                 <th style={{ width: "10%" }}>ID</th>
                 <th style={{ width: "30%" }}>TITLE</th>
-                <th style={{ width: "20%" }}>IMAGE</th>
-                <th style={{ width: "20%" }}>ICON</th>
-                <th style={{ width: "15%" }}>OPERATION</th>
-                <th style={{ width: "7%" }}>STATUS</th>
+                <th style={{ width: "25%" }}>IMAGE</th>
+                <th style={{ width: "25%" }}>ICON</th>
+                <th style={{ width: "10%" }}>OPERATION</th>
               </tr>
             </thead>
             <tbody>
-              {filterdCategory.length > 0 ? (
-                filterdCategory.map((category, index) => (
-                  <tr key={category.blog_cate_id}>
+              {getAllBlogCategory.length > 0 ? (
+                getAllBlogCategory.map((category, index) => (
+                  <tr
+                    key={category.blog_cate_id}
+                    style={{ color: category.status === 1 ? "black" : "red" }}
+                  >
                     <td>{index + 1}</td>
                     <td>{category.category_title}</td>
                     <td>
@@ -163,60 +167,63 @@ const BlogCategory = () => {
                         alt="category_icon"
                       />
                     </td>
-                    <td>
-                      <span
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
+                    <td
+                      style={{
+                        paddingTop: "0px",
+                        paddingBottom: "10px",
+                        textAlign: "end",
+                      }}
+                    >
+                      <span>
                         <button
-                          className="operation_btn"
+                          className="editbutton"
                           onClick={() => {
                             handleBlogEdit(category.blog_cate_id);
                           }}
                         >
                           <i className="fa-regular fa-pen-to-square"></i>
                         </button>
-                        <button
-                          className="operation_btn operation_delete_btn"
-                          onClick={() => openDeleteModal(category.blog_cate_id)}
-                        >
-                          <i className="fa-solid fa-trash"></i>
-                        </button>
-                        <button
-                          className="operation_btn"
-                          onClick={() => {
-                            handleViewBlogCategory(category.blog_cate_id);
-                          }}
-                        >
-                          <i className="fa-solid fa-eye"></i>
-                        </button>
                       </span>
-                    </td>
-                    <td>
-                      <div>
-                        {category.status === 1 ? (
-                          <img
-                            src={"/assets/images/activeStatus.png"}
-                            className="opr_active_btn"
+                      <label className="dropdown">
+                        <div className="dd-button"></div>
+                        <input type="checkbox" className="dd-input" id="test" />
+                        <ul className="dd-menu">
+                          <li
+                            onClick={() =>
+                              openDeleteModal(category.blog_cate_id)
+                            }
+                          >
+                            Delete
+                          </li>
+                          <li
                             onClick={() => {
-                              catgoryStatusChange(category.blog_cate_id, 1);
+                              handleViewBlogCategory(category.blog_cate_id);
                             }}
-                            alt="Active"
-                          />
-                        ) : (
-                          <img
-                            src={"/assets/images/inActiveStatus.png"}
-                            className="opr_active_btn"
-                            onClick={() => {
-                              catgoryStatusChange(category.blog_cate_id, 0);
-                            }}
-                            alt="InActive"
-                          />
-                        )}
-                      </div>
+                          >
+                            View
+                          </li>
+                          <li>
+                            {" "}
+                            {category.status === 1 ? (
+                              <button
+                                onClick={() => {
+                                  catgoryStatusChange(category.blog_cate_id, 1);
+                                }}
+                              >
+                                Inactive
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  catgoryStatusChange(category.blog_cate_id, 0);
+                                }}
+                              >
+                                Active
+                              </button>
+                            )}
+                          </li>
+                        </ul>
+                      </label>
                     </td>
                   </tr>
                 ))
@@ -230,7 +237,6 @@ const BlogCategory = () => {
             </tbody>
           </table>
         </div>
-        <Toast />
 
         {/* delete modal */}
         <DeleteModal

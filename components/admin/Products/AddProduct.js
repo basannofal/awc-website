@@ -23,6 +23,14 @@ const AddProduct = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+    // tabs
+    const [activeTab, setActiveTab] = useState("general");
+
+    const showTab = (tabId) => {
+      setActiveTab(tabId);
+    };
+  
+
   //get active category
   const getActiveCategoryData = async () => {
     setLoading(true);
@@ -69,7 +77,7 @@ const AddProduct = () => {
       [event.target.name]: file,
     }));
   };
-  const addCategoryData = async (e) => {
+  const addProductTableData = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
     setLoading(true);
@@ -129,21 +137,47 @@ const AddProduct = () => {
 
   return (
     <>
-      {loading && <Loading />}
-      <section className="home-section">
-        <Header />
-        <div className="admin_page_top">
-          <p className="admin_page_header">Add Product</p>
-          <p>
-            <Link href="/admin/admindashboard">
-              <i className="fa-solid fa-house"></i>
-            </Link>
-            <i className="fa-solid fa-angles-right"></i>
-            <span>Add Product</span>
-          </p>
+    {loading && <Loading />}
+    <section className="home-section">
+      <Header />
+      <div className="admin_page_top">
+        <p className="admin_page_header">Add Product</p>
+        <p>
+          <Link href="/admin/admindashboard">
+            <i className="fa-solid fa-house"></i>
+          </Link>
+          <i className="fa-solid fa-angles-right"></i>
+          <span>Add Product</span>
+        </p>
+      </div>
+      <div className="tabs-container">
+        <div className="tabs">
+          <div
+            className={`tab ${activeTab === "general" ? "active" : ""}`}
+            onClick={() => showTab("general")}
+          >
+            General
+          </div>
+          <div
+            className={`tab ${activeTab === "seo" ? "active" : ""}`}
+            onClick={() => showTab("seo")}
+          >
+            SEO
+          </div>
+          <div
+            className={`tab ${activeTab === "image" ? "active" : ""}`}
+            onClick={() => showTab("image")}
+          >
+            Images
+          </div>
         </div>
-        <div className="add_data_form">
-          <form method="post" onSubmit={addCategoryData}>
+        <div
+          id="general"
+          className={`tab-content add_data_form ${
+            activeTab === "general" ? "active" : ""
+          }`}
+        >
+          <form method="post" onSubmit={addProductTableData}>
             <div className="mb-3">
               <label htmlFor="product_title" className="modal_label">
                 Product Title:-
@@ -238,48 +272,74 @@ const AddProduct = () => {
                 required
               />
             </div>
-            <div className="mb-3">
-              <label htmlFor="product_image" className="modal_label">
-                Product Image:-
-              </label>
-              <input
-                type="file"
-                id="product_image"
-                name="product_image"
-                className="modal_input"
-                onChange={handleAddFileChange}
-                required
-              />
+            <div className="main">
+              <div style={{ width: "48%" }}>
+                <div className="mb-3">
+                  <label htmlFor="product_image" className="modal_label">
+                    Product Thumbnail:-
+                  </label>
+                  <input
+                    type="file"
+                    id="product_image"
+                    name="product_image"
+                    className="modal_input"
+                    onChange={handleAddFileChange}
+                    required
+                  />
+                </div>
+                {addProductData.product_image && (
+                  <div className="mb-3">
+                    <img
+                      src={URL.createObjectURL(addProductData.product_image)}
+                      alt="Selected Thumbnail"
+                      className="tabel_data_image"
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="mb-3" style={{ width: "48%" }}>
+                <label htmlFor="cate_id" className="modal_label">
+                  Choose Category:*
+                </label>
+                <select
+                  name="cate_id"
+                  id="cate_id"
+                  form="cate_id"
+                  className="modal_input"
+                  style={{ padding: "10px 8px" }}
+                  onChange={handleChangeProduct}
+                  required
+                >
+                  <option value={0}>Choose Category</option>
+                  {getActiveCateData.map((cate) => {
+                    return (
+                      <option key={cate.category_id} value={cate.category_id}>
+                        {cate.category_name}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
             </div>
             <div className="mb-3">
-              <label htmlFor="cate_id" className="modal_label">
-                Choose Category:
-              </label>
-              <select
-                name="cate_id"
-                id="cate_id"
-                form="cate_id"
-                className="modal_input"
-                onChange={handleChangeProduct}
-                required
-              >
-                <option value={0}>Choose Category</option>
-                {getActiveCateData.map((cate) => {
-                  return (
-                    <option key={cate.category_id} value={cate.category_id}>
-                      {cate.category_name}
-                    </option>
-                  );
-                })}
-              </select>
+              <button type="submit" className="success_btn">
+                SAVE
+              </button>
+              <Link href="/admin/products">
+                <button type="button" className="success_btn cancel_btn">
+                  CANCEL
+                </button>
+              </Link>
             </div>
-            <hr style={{ marginTop: "40px", marginBottom: "20px" }} />
-            <p
-              className="modal_label"
-              style={{ marginBottom: "20px", fontSize: "16px" }}
-            >
-              SEO :
-            </p>
+          </form>
+        </div>
+        <div
+          id="seo"
+          className={`tab-content add_data_form ${
+            activeTab === "seo" ? "active" : ""
+          }`}
+        >
+          <form method="post" onSubmit={addProductTableData}>
             <div className="mb-3">
               <label htmlFor="meta_tag" className="modal_label">
                 Meta Tag:-
@@ -380,9 +440,17 @@ const AddProduct = () => {
             </div>
           </form>
         </div>
-        <Toast />
-      </section>
-    </>
+        <div
+          id="image"
+          className={`tab-content add_data_form ${
+            activeTab === "image" ? "active" : ""
+          }`}
+        >
+          image fields
+        </div>
+      </div>
+    </section>
+  </>
   );
 };
 

@@ -20,6 +20,13 @@ const AddBlogCategory = () => {
   const [addMetaTag, setAddMetaTag] = useState([]);
   const [addMetaKeyword, setAddMetaKeyword] = useState([]);
   const [loading, setLoading] = useState(false);
+
+    //tab
+    const [activeTab, setActiveTab] = useState("general");
+    const showTab = (tabId) => {
+      setActiveTab(tabId);
+    };
+
   //add blog category
   const handleInputBlogCate = async (event) => {
     const { name, value } = event.target;
@@ -28,6 +35,9 @@ const AddBlogCategory = () => {
       [name]: value,
     }));
   };
+  
+  
+  
   // Function to handle Enter key press
   const handleMetaTag = (event) => {
     if (event.key === "Enter" || event.key === ",") {
@@ -133,189 +143,247 @@ const AddBlogCategory = () => {
             <span>Add Blog Category</span>
           </p>
         </div>
-        <div className="add_data_form">
-          <form method="post" onSubmit={saveBlogCategory}>
-            <div className="mb-3">
-              <label htmlFor="category_title" className="modal_label">
-                Category Title:-
-              </label>
-              <input
-                type="text"
-                id="category_title"
-                name="category_title"
-                className="modal_input"
-                placeholder="Enter Category Name"
-                onChange={handleInputBlogCate}
-              />
-            </div>
+       <div className="tabs-container">
+          <div className="tabs">
+            <div
+              className={`tab ${activeTab === "general" ? "active" : ""}`}
+              onClick={() => showTab("general")}
+            >
+              General
 
-            <div className="mb-3">
-              <p className="modal_label">Category Description:-</p>
-              <Editor
-                apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
-                onInit={(evt, editor) => (editorRef.current = editor)}
-                init={{
-                  height: 500,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "code",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | blocks | " +
-                    "bold italic forecolor | alignleft aligncenter " +
-                    "alignright alignjustify | bullist numlist outdent indent | " +
-                    "removeformat | help",
-                }}
-                onChange={handleEditorChange}
-                required
-              />
             </div>
-            <div className="mb-3">
-              <label htmlFor="category_image" className="modal_label">
-                Category Image:-
-              </label>
-              <input
-                type="file"
-                id="category_image"
-                name="category_image"
-                className="modal_input"
-                onChange={handleFileBlogCate}
-                required
-              />
+            <div
+              className={`tab ${activeTab === "seo" ? "active" : ""}`}
+              onClick={() => showTab("seo")}
+           
+           >
+           SEO
             </div>
-            <div className="mb-3">
-              <label htmlFor="category_icon" className="modal_label">
-                Category Icon:-
-              </label>
-              <input
-                type="file"
-                id="category_icon"
-                name="category_icon"
-                className="modal_input"
-                onChange={handleFileBlogCate}
-                required
-              />
             </div>
-            <hr style={{marginTop:"50px", marginBottom:"20px"}}/>
-            <h3  className="modal_label" style={{fontSize:16}}>SEO :</h3>
-            <div className="mb-3">
-              <label htmlFor="meta_tag" className="modal_label">
-                Meta Tag:-
-              </label>
-              <input
-                type="text"
-                id="meta_tag"
-                name="meta_tag"
-                className="modal_input"
-                placeholder="Enter Meta Tag"
-                onKeyDown={handleMetaTag}
-              />
-            </div>
-            <div className="meta_main_section">
-              {addMetaTag.map((tag, index) => (
-                <div className="mb-3" key={index}>
-                  <div className="meta_tag_section">
-                    <div className="meta_tag_text">{tag}</div>
-                    <div
-                      className="meta_remove_icon"
-                      onClick={() => {
-                        RemoveMetaTag(index);
-                      }}
-                    >
-                      <i className="fa-solid fa-xmark"></i>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-      
+            <div
+            id="general"
+            className={`tab-content add_data_form ${
+              activeTab === "general" ? "active" : ""
+            }`}
+          >
+            <form method="post" onSubmit={saveBlogCategory}>
+              <div className="mb-3">
+                <label htmlFor="category_title" className="modal_label">
+                  Category Title:-
+                </label>
+                <input
+                  type="text"
+                  id="category_title"
+                  name="category_title"
+                  className="modal_input"
+                  placeholder="Enter Category Title"
+                  onChange={handleInputBlogCate}
+                  required
+                />
+              </div>
 
-            <div className="mb-3">
-              <label htmlFor="meta_keyword" className="modal_label">
-                Meta Keayword:-
-              </label>
-              <input
-                type="text"
-                id="meta_keyword"
-                name="meta_keyword"
-                className="modal_input"
-                placeholder="Enter Meta Keyword"
-                onKeyDown={handleKeyword}
-              />
-            </div>
-            <div className="meta_main_section">
-              {addMetaKeyword.map((keyword, index) => (
-                <div className="mb-3" key={index}>
-                  <div className="meta_tag_section">
-                    <div className="meta_tag_text">{keyword}</div>
-                    <div
-                      className="meta_remove_icon"
-                      onClick={() => {
-                        RemoveKeyword(index);
-                      }}
-                    >
-                      <i className="fa-solid fa-xmark"></i>
-                    </div>
-                  </div>
+              <div className="mb-3">
+                <p className="modal_label">Category Description:-</p>
+                <Editor
+                  apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
+                  onInit={(evt, editor) => (editorRef.current = editor)}
+                  init={{
+                    height: 500,
+                    menubar: true,
+                    plugins: [
+                      "advlist",
+                      "autolink",
+                      "lists",
+                      "link",
+                      "image",
+                      "charmap",
+                      "preview",
+                      "anchor",
+                      "searchreplace",
+                      "visualblocks",
+                      "code",
+                      "fullscreen",
+                      "insertdatetime",
+                      "media",
+                      "table",
+                      "code",
+                      "help",
+                      "wordcount",
+                    ],
+                    toolbar:
+                      "undo redo | blocks | " +
+                      "bold italic forecolor | alignleft aligncenter " +
+                      "alignright alignjustify | bullist numlist outdent indent | " +
+                      "removeformat | help",
+                  }}
+                  onChange={handleEditorChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="category_image" className="modal_label">
+                  Category Image:-
+                </label>
+                <input
+                  type="file"
+                  id="category_image"
+                  name="category_image"
+                  className="modal_input"
+                  onChange={handleFileBlogCate}
+                  required
+                />
+              </div>
+              {addBlogCategory.category_image && (
+                <div className="mb-3">
+                  <img
+                    src={URL.createObjectURL(addBlogCategory.category_image)}
+                    alt="Selected Thumbnail"
+                    className="tabel_data_image"
+                  />
                 </div>
-              ))}
-            </div>
-            <div className="mb-3">
-              <label htmlFor="meta_description" className="modal_label">
-                Meta Description:-
-              </label>
-              <textarea
-                type="text"
-                rows="5"
-                cols="70"
-                id="meta_description"
-                name="meta_description"
-                className="modal_input"
-                placeholder="Enter Meta Description"
-                onChange={handleInputBlogCate}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="canonical_url" className="modal_label">
-                Canonical URL:-
-              </label>
-              <input
-                type="text"
-                id="canonical_url"
-                name="canonical_url"
-                className="modal_input"
-                placeholder="Enter Canonical URL"
-                onChange={handleInputBlogCate}
-              />
-            </div>
-            <div className="mb-3">
-              <button type="submit" className="success_btn">
-                SAVE
-              </button>
-              <Link href="/admin/blog-category">
-                <button type="button" className="success_btn cancel_btn">
-                  CANCEL
+              )}
+              <div className="mb-3">
+                <label htmlFor="category_icon" className="modal_label">
+                  Category Icon:-
+                </label>
+                <input
+                  type="file"
+                  id="category_icon"
+                  name="category_icon"
+                  className="modal_input"
+                  onChange={handleFileBlogCate}
+                  required
+                />
+              </div>
+              {addBlogCategory.category_icon && (
+                <div className="mb-3">
+                  <img
+                    src={URL.createObjectURL(addBlogCategory.category_icon)}
+                    alt="Selected Thumbnail"
+                    className="tabel_data_image"
+                  />
+                </div>
+              )}
+              <div className="mb-3">
+                <button type="submit" className="success_btn">
+                  SAVE
                 </button>
-              </Link>
-            </div>
-          </form>
+                <Link href="/admin/blog-category">
+                  <button type="button" className="success_btn cancel_btn">
+                    CANCEL
+                  </button>
+                </Link>
+              </div>
+            </form>
+          </div>
+          <div
+            id="seo"
+            className={`tab-content add_data_form ${
+              activeTab === "seo" ? "active" : ""
+            }`}
+          >
+            <form method="post" onSubmit={saveBlogCategory}>
+              <div className="mb-3">
+                <label htmlFor="meta_tag" className="modal_label">
+                  Meta Tag:-
+                </label>
+                <input
+                  type="text"
+                  id="meta_tag"
+                  name="meta_tag"
+                  className="modal_input"
+                  placeholder="Enter Meta Tag"
+                  onKeyDown={handleMetaTag}
+                />
+              </div>
+              <div className="meta_main_section">
+                {addMetaTag.map((tag, index) => (
+                  <div className="mb-3" key={index}>
+                    <div className="meta_tag_section">
+                      <div className="meta_tag_text">{tag}</div>
+                      <div
+                        className="meta_remove_icon"
+                        onClick={() => {
+                          RemoveMetaTag(index);
+                        }}
+                      >
+                        <i className="fa-solid fa-xmark"></i>
+                      </div>
+
+                    </div>
+                  </div>
+                  ))}
+              </div>
+              <div className="mb-3">
+                <label htmlFor="meta_keyword" className="modal_label">
+                  Meta Keayword:-
+                </label>
+                <input
+                  type="text"
+                  id="meta_keyword"
+                  name="meta_keyword"
+                  className="modal_input"
+                  placeholder="Enter Meta Keyword"
+                  onKeyDown={handleKeyword}
+                />
+              </div>
+              <div className="meta_main_section">
+                {addMetaKeyword.map((keyword, index) => (
+                  <div className="mb-3" key={index}>
+                    <div className="meta_tag_section">
+                      <div className="meta_tag_text">{keyword}</div>
+                      <div
+                        className="meta_remove_icon"
+                        onClick={() => {
+                          RemoveKeyword(index);
+                        }}
+                      >
+                        <i className="fa-solid fa-xmark"></i>
+                      </div>
+                    </div>
+                  </div>
+                  ))}
+              </div>
+              <div className="mb-3">
+                <label htmlFor="meta_description" className="modal_label">
+                  Meta Description:-
+                </label>
+                <textarea
+                  type="text"
+                  rows="5"
+                  cols="70"
+                  id="meta_description"
+                  name="meta_description"
+                  className="modal_input"
+                  placeholder="Enter Meta Description"
+                  onChange={handleInputBlogCate}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="canonical_url" className="modal_label">
+                  Canonical URL:-
+                </label>
+                <input
+                  type="text"
+                  id="canonical_url"
+                  name="canonical_url"
+                  className="modal_input"
+                  placeholder="Enter Canonical URL"
+                  onChange={handleInputBlogCate}
+                />
+              </div>
+              <div className="mb-3">
+                <button type="submit" className="success_btn">
+                  SAVE
+                </button>
+                <Link href="/admin/blog-category">
+                  <button type="button" className="success_btn cancel_btn">
+                    CANCEL
+                  </button>
+                </Link>
+              </div>
+            </form>
+          </div>
         </div>
         <Toast />
       </section>

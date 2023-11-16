@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -139,14 +138,31 @@
   justify-content: space-between;
   padding: 0px 18px;
 }
+.page_top_left_section {
+  display: flex;
+}
+
+.page_top_left_section p {
+  display: flex;
+  align-items: flex-end;
+}
 .admin_page_top p i,
 span {
   font-size: 15px;
-  margin-right: 4px;
+}
+.admin_page_top p i {
+  font-size: 15px;
+  margin-right: 5px;
+}
+.admin_page_top a:active,
+.admin_page_top a {
+  color: black;
 }
 .admin_page_header {
+  font-weight: 300;
   font-size: 30px;
-  font-weight: 500;
+  color: #4c4d5a;
+  margin-right: 20px;
 }
 .dashboard-cards {
   display: flex;

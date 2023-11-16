@@ -12,6 +12,11 @@ const ViewProdCategory = () => {
   const [viewMetaTag, setViewMetaTag] = useState([]);
   const [viewMetaKeyword, setViewtMetaKeyword] = useState([]);
   const [loading, setLoading] = useState(true);
+    //tabs
+    const [activeTab, setActiveTab] = useState("seo");
+    const showTab = (tabId) => {
+      setActiveTab(tabId);
+    };
 
   //get data with id
   const getProductCategoryForView = async (id) => {
@@ -49,49 +54,65 @@ const ViewProdCategory = () => {
             <span>View Product Category</span>
           </p>
         </div>
-        <div className="add_data_form">
-          <div className="view_data_sections">
-            <span>Category Description:-</span>
-            <p
-              dangerouslySetInnerHTML={{
-                __html: viewProductCategoryData.category_description,
-              }}
-            ></p>
-          </div>
-          <div className="view_data_sections">
-            <span>Meta Tag:-</span>
-            <div className="meta_main_section">
-              {viewMetaTag.map((tag, index) => (
-                <div className="meta_tag_section" key={index}>
-                  <div className="meta_tag_text">{tag}</div>
-                </div>
-              ))}
+        <div className="tabs-container">
+          <div className="tabs">
+            <div
+              className={`tab ${activeTab === "seo" ? "active" : ""}`}
+              onClick={() => showTab("seo")}
+            >
+              SEO
             </div>
           </div>
-          <div className="view_data_sections">
-            <span>Meta Description:-</span>
-            <p>{viewProductCategoryData.meta_description}</p>
-          </div>
-          <div className="view_data_sections">
-            <span>Meta Keyword:-</span>
-            <div className="meta_main_section">
-              {viewMetaKeyword.map((keyword, index) => (
-                <div className="meta_tag_section" key={index}>
-                  <div className="meta_tag_text">{keyword}</div>
-                </div>
-              ))}
+          <div
+            id="seo"
+            className={`tab-content add_data_form ${
+              activeTab === "seo" ? "active" : ""
+            }`}
+          >
+            <div className="view_data_sections">
+              <span>Category Description:-</span>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: viewProductCategoryData.category_description,
+                }}
+              ></p>
             </div>
-          </div>
-          <div className="view_data_sections">
-            <span>Canonical URL:-</span>
-            <p>{viewProductCategoryData.canonical_url}</p>
-          </div>
-          <div className="view_data_sections">
-            <Link href="/admin/product-category">
-              <button type="button" className="success_btn">
-                BACK
-              </button>
-            </Link>
+            <div className="view_data_sections">
+              <span>Meta Tag:-</span>
+              <div className="meta_main_section">
+                {viewMetaTag.map((tag, index) => (
+                  <div className="meta_tag_section" key={index}>
+                    <div className="meta_tag_text">{tag}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="view_data_sections">
+              <span>Meta Description:-</span>
+              <p>{viewProductCategoryData.meta_description}</p>
+            </div>
+            <div className="view_data_sections">
+              <span>Meta Keyword:-</span>
+              <div className="meta_main_section">
+                {viewMetaKeyword.map((keyword, index) => (
+                  <div className="meta_tag_section" key={index}>
+                    <div className="meta_tag_text">{keyword}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="view_data_sections">
+              <span>Canonical URL:-</span>
+              <p>{viewProductCategoryData.canonical_url}</p>
+            </div>
+            <div className="view_data_sections">
+              <Link to="/products-category">
+                <button type="button" className="success_btn">
+                  BACK
+                </button>
+              </Link>
+            </div>
+         
           </div>
         </div>
       </section>

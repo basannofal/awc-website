@@ -63,6 +63,7 @@ export default async function handler(req, res) {
           category_image,
           category_icon,
         } = fields;
+        console.log(fields);
 
         let sql = "";
         let params = [];
@@ -70,7 +71,7 @@ export default async function handler(req, res) {
         if (!files.category_icon && !files.category_image) {
           // No new images provided, updating other fields
           sql =
-            "UPDATE `blog_category` SET `category_title`= ?, `category_description`= ?, `meta_tag`= ?, `meta_desc`= ?, `meta_keyword`= ?, `canonical_url`= ?, `category_image`= ?, `category_icon`= ?  WHERE blog_cate_id = ?";
+            "UPDATE `blog_category` SET `category_title`= ?, `category_description`= ?, `meta_tag`= ?, `meta_description`= ?, `meta_keyword`= ?, `canonical_url`= ?, `category_image`= ?, `category_icon`= ?  WHERE blog_cate_id = ?";
 
           params = [
             category_title,
@@ -134,7 +135,7 @@ export default async function handler(req, res) {
 
           // SQL query for updating the database with new images
           sql =
-          "UPDATE `blog_category` SET `category_title`= ?, `category_description`= ?, `meta_tag`= ?, `meta_desc`= ?, `meta_keyword`= ?, `canonical_url`= ?, `category_image`= ?, `category_icon`= ?  WHERE blog_cate_id = ?";
+          "UPDATE `blog_category` SET `category_title`= ?, `category_description`= ?, `meta_tag`= ?, `meta_description`= ?, `meta_keyword`= ?, `canonical_url`= ?, `category_image`= ?, `category_icon`= ?  WHERE blog_cate_id = ?";
 
           params = [
             category_title,

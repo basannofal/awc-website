@@ -12,6 +12,13 @@ const ViewProduct = () => {
   const [viewMetaTag, setViewMetaTag] = useState([]);
   const [viewMetaKeyword, setViewtMetaKeyword] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  // tabs
+  const [activeTab, setActiveTab] = useState("seo");
+
+  const showTab = (tabId) => {
+    setActiveTab(tabId);
+  };
   //get data with id
   const getProductDataForView = async (prodId) => {
     try {
@@ -32,20 +39,40 @@ const ViewProduct = () => {
   }, [prodId]);
   return (
     <>
-      {loading && <Loading />}
-      <section className="home-section">
-        <Header />
-        <div className="admin_page_top">
-          <p className="admin_page_header">View Product</p>
-          <p>
-            <Link href="/admin/admindashboard">
-              <i className="fa-solid fa-house"></i>
-            </Link>
-            <i className="fa-solid fa-angles-right"></i>
-            <span>View Product</span>
-          </p>
+    {loading && <Loading />}
+    <section className="home-section">
+      <Header />
+      <div className="admin_page_top">
+        <p className="admin_page_header">View Product</p>
+        <p>
+          <Link href="/admin/admindashboard">
+            <i className="fa-solid fa-house"></i>
+          </Link>
+          <i className="fa-solid fa-angles-right"></i>
+          <span>View Product</span>
+        </p>
+      </div>
+      <div className="tabs-container">
+        <div className="tabs">
+          <div
+            className={`tab ${activeTab === "seo" ? "active" : ""}`}
+            onClick={() => showTab("seo")}
+          >
+            SEO
+          </div>
+          <div
+            className={`tab ${activeTab === "image" ? "active" : ""}`}
+            onClick={() => showTab("image")}
+          >
+            Images
+          </div>
         </div>
-        <div className="add_data_form">
+        <div
+          id="seo"
+          className={`tab-content add_data_form ${
+            activeTab === "seo" ? "active" : ""
+          }`}
+        >
           <div className="view_data_sections">
             <span>Product Short Description:-</span>
             <p
@@ -98,8 +125,17 @@ const ViewProduct = () => {
             </Link>
           </div>
         </div>
-      </section>
-    </>
+        <div
+          id="image"
+          className={`tab-content add_data_form ${
+            activeTab === "image" ? "active" : ""
+          }`}
+        >
+          image field
+        </div>
+      </div>
+    </section>
+  </>
   );
 };
 

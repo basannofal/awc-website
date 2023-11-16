@@ -129,47 +129,51 @@ const Products = () => {
     <>
       {loading && <Loading />}
       <section className="home-section">
-        <Header onFilterChange={handleFilterChange} />
+        <Header />
         <div className="admin_page_top">
-          <p className="admin_page_header">Products</p>
-          <p>
-            <Link href="/admin/admindashboard">
-              <i className="fa-solid fa-house"></i>
+          <div className="page_top_left_section">
+            <p className="admin_page_header">Products</p>
+            <p>
+              <Link href="/admin/admindashboard">
+                <i className="fa-solid fa-house"></i>
+              </Link>
+              <i className="fa-solid fa-angles-right"></i>
+              <span>Products</span>
+            </p>
+          </div>
+          <div className="content_add_btn_section">
+            <Link href="/admin/products/add-product">
+              <button type="button">
+                <i className="fa-solid fa-plus"></i>Add Product
+              </button>
             </Link>
-            <i className="fa-solid fa-angles-right"></i>
-            <span>Products</span>
-          </p>
+          </div>
         </div>
-        <div className="content_add_btn_section">
-          <Link href="/admin/products/add-product">
-            <button type="button">
-              <i className="fa-solid fa-plus"></i>Add Product
-            </button>
-          </Link>
-        </div>
+
         <div className="admin_category_table">
           <table>
             <thead>
               <tr>
-                <th style={{ width: "10%" }}>ID</th>
+                <th style={{ width: "15%" }}>ID</th>
                 <th style={{ width: "30%" }}>TITLE</th>
-                <th style={{ width: "20%" }}>IMAGE</th>
+                <th style={{ width: "25%" }}>IMAGE</th>
                 <th style={{ width: "20%" }}>CATEGORY</th>
-                <th style={{ width: "15%" }}>OPERATION</th>
-                <th style={{ width: "7%" }}>STATUS</th>
+                <th style={{ width: "10%" }}>OPERATION</th>
               </tr>
             </thead>
             <tbody>
-              {filterdProduct.length > 0 ? (
-                filterdProduct.map((product, index) => (
-                  <tr key={product.product_id}>
+              {getAllProduct.length > 0 ? (
+                getAllProduct.map((product, index) => (
+                  <tr
+                    key={product.product_id}
+                    style={{ color: product.status === 1 ? "black" : "red" }}
+                  >
                     <td>{index + 1}</td>
                     <td>{product.product_title}</td>
                     <td>
                       <img
                         src={`/assets/upload/products/${product.product_image}`}
-                        width="100px"
-                        height="100px"
+                        width="100%"
                         alt="product"
                         className="tabel_data_image"
                       />
@@ -182,52 +186,62 @@ const Products = () => {
                           )?.category_name
                         : "null"}
                     </td>
-                    <td>
+                    <td
+                      style={{
+                        paddingTop: "0px",
+                        paddingBottom: "10px",
+                        textAlign: "end",
+                      }}
+                    >
                       <span>
                         <button
-                          className="operation_btn"
+                          className="editbutton"
                           onClick={() => {
                             handleEditProduct(product.product_id);
                           }}
                         >
                           <i className="fa-regular fa-pen-to-square"></i>
                         </button>
-                        <button
-                          className="operation_btn operation_delete_btn"
-                          onClick={() => openDeleteModal(product.product_id)}
-                        >
-                          <i className="fa-solid fa-trash"></i>
-                        </button>
-                        <button
-                          className="operation_btn"
-                          onClick={() => {
-                            handleViewProduct(product.product_id);
-                          }}
-                        >
-                          <i className="fa-solid fa-eye"></i>
-                        </button>
                       </span>
-                    </td>
-                    <td>
-                      {product.status === 1 ? (
-                        <img
-                          src={"/assets/images/activeStatus.png"}
-                          className="opr_active_btn"
-                          onClick={() => {
-                            productStatusChange(product.product_id, 1);
-                          }}
-                          alt="active"
-                        />
-                      ) : (
-                        <img
-                          src={"/assets/images/inActiveStatus.png"}
-                          className="opr_active_btn"
-                          onClick={() => {
-                            productStatusChange(product.product_id, 0);
-                          }}
-                          alt="inActive"
-                        />
-                      )}
+                      <label className="dropdown">
+                        <div className="dd-button"></div>
+                        <input type="checkbox" className="dd-input" id="test" />
+                        <ul className="dd-menu">
+                          <li
+                            onClick={() => openDeleteModal(product.product_id)}
+                          >
+                            Delete
+                          </li>
+                          <li
+                            onClick={() => {
+                              handleViewProduct(product.product_id);
+                            }}
+                          >
+                            View
+                          </li>
+                          <li>Add Images</li>
+                          <li>
+                            {" "}
+                            {product.status === 1 ? (
+                              <button
+                                onClick={() => {
+                                  productStatusChange(product.product_id, 1);
+                                }}
+                              >
+                                Active
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  productStatusChange(product.product_id, 0);
+                                }}
+                              >
+                                Inactive
+                              </button>
+                            )}
+                          </li>
+                        </ul>
+                      </label>
                     </td>
                   </tr>
                 ))
@@ -247,7 +261,6 @@ const Products = () => {
           onClose={closeDeleteModal}
           onDelete={deleteCategory}
         />
-        <Toast />
       </section>
     </>
   );

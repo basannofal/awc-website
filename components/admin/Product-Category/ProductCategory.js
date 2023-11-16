@@ -156,40 +156,44 @@ const ProductCategory = () => {
       <section className="home-section">
         <Header  onFilterChange={handleFilterChange}  />
         <div className="admin_page_top">
-          <p className="admin_page_header">Product Category</p>
-          <p>
-            <Link href="/admin/admindashboard">
-              <i className="fa-solid fa-house"></i>
+        <div className="page_top_left_section">
+            <p className="admin_page_header">Product Category</p>
+            <p>
+              <Link href="/admin/admindashboard">
+                <i className="fa-solid fa-house"></i>
+              </Link>
+              <i className="fa-solid fa-angles-right"></i>
+              <span>Product Category</span>
+            </p>
+          </div>
+          <div className="content_add_btn_section">
+            <Link href="/admin/product-category/add-product-category">
+              <button type="button">
+                <i className="fa-solid fa-plus"></i>Add Category
+              </button>
             </Link>
-            <i className="fa-solid fa-angles-right"></i>
-            <span>Product Category</span>
-          </p>
-        </div>
-        <div className="content_add_btn_section">
-          <Link href="/admin/product-category/add-product-category">
-            <button type="button">
-              <i className="fa-solid fa-plus"></i>Add Category
-            </button>
-          </Link>
+           </div>
         </div>
         <div className="admin_category_table">
           <table>
             <thead>
               <tr>
-                <th style={{ width: "7%" }}>ID</th>
-                <th style={{ width: "18%" }}>NAME</th>
-                <th style={{ width: "18%" }}>TITLE</th>
+              <th style={{ width: "7%" }}>ID</th>
+                <th style={{ width: "25%" }}>NAME</th>
+                <th style={{ width: "25%" }}>TITLE</th>
                 <th style={{ width: "17%" }}>SUB CATEGORY</th>
                 <th style={{ width: "20%" }}>IMAGE</th>
-                <th style={{ width: "15%" }}>OPEARATION</th>
-                <th style={{ width: "7%" }}>STATUS</th>
+                <th style={{ width: "10%" }}>OPEARATION</th>
               </tr>
             </thead>
             <tbody>
               {filterdCategory.length > 0 ? (
                 filterdCategory.map((category, index) => (
-                  <tr key={category.category_id}>
-                    <td>{index + 1}</td>
+                  <tr
+                    key={category.category_id}
+                    style={{ color: category.status === 1 ? "black" : "red" }}
+                  >
+                                      <td>{index + 1}</td>
                     <td>{category.category_name}</td>
                     <td>{category.category_title}</td>
 
@@ -210,10 +214,16 @@ const ProductCategory = () => {
                         className="tabel_data_image"
                       />
                     </td>
-                    <td>
+                    <td
+                      style={{
+                        paddingTop: "0px",
+                        paddingBottom: "10px",
+                        textAlign: "end",
+                      }}
+                    >
                       <span>
                         <button
-                          className="operation_btn"
+                          className="editbutton"
                           // onClick={() => openEditModal(category.category_id)}
                           onClick={() => {
                             handleEditProdCate(category.category_id);
@@ -221,42 +231,48 @@ const ProductCategory = () => {
                         >
                           <i className="fa-regular fa-pen-to-square"></i>
                         </button>
-                        <button
-                          className="operation_btn operation_delete_btn"
-                          onClick={() => openDeleteModal(category.category_id)}
-                        >
-                          <i className="fa-solid fa-trash"></i>
-                        </button>
-                        <button
-                          className="operation_btn"
+                      
+                        </span>
+                      <label className="dropdown">
+                        <div className="dd-button"></div>
+                        <input type="checkbox" className="dd-input" id="test" />
+                        <ul className="dd-menu">
+                          <li
+                            onClick={() =>
+                              openDeleteModal(category.category_id)
+                            }
+                          >
+                            Delete
+                          </li>
+                          <li
                           onClick={() => {
                             handleViewProdCate(category.category_id);
                           }}
-                        >
-                          <i className="fa-solid fa-eye"></i>
-                        </button>
-                      </span>
-                    </td>
-                    <td>
-                      {category.status === 1 ? (
-                        <img
-                          src={"/assets/images/activeStatus.png"}
-                          className="opr_active_btn"
-                          onClick={() => {
-                            catgoryStatusChange(category.category_id, 1);
-                          }}
-                          alt="active"
-                        />
-                      ) : (
-                        <img
-                          src={"/assets/images/inActiveStatus.png"}
-                          className="opr_active_btn"
-                          onClick={() => {
-                            catgoryStatusChange(category.category_id, 0);
-                          }}
-                          alt="Inactive"
-                        />
-                      )}
+                          >
+                            View
+                          </li>
+                          <li>
+                            {" "}
+                            {category.status === 1 ? (
+                              <button
+                                onClick={() => {
+                                  catgoryStatusChange(category.category_id, 1);
+                                }}
+                              >
+                                Active
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  catgoryStatusChange(category.category_id, 0);
+                                }}
+                              >
+                                Inactive
+                              </button>
+                            )}
+                          </li>
+                        </ul>
+                      </label>
                     </td>
                   </tr>
                 ))
