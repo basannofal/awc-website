@@ -129,7 +129,7 @@ const Products = () => {
     <>
       {loading && <Loading />}
       <section className="home-section">
-        <Header />
+        <Header  onFilterChange={handleFilterChange}   />
         <div className="admin_page_top">
           <div className="page_top_left_section">
             <p className="admin_page_header">Products</p>
@@ -162,8 +162,8 @@ const Products = () => {
               </tr>
             </thead>
             <tbody>
-              {getAllProduct.length > 0 ? (
-                getAllProduct.map((product, index) => (
+              {filterdProduct.length > 0 ? (
+                filterdProduct.map((product, index) => (
                   <tr
                     key={product.product_id}
                     style={{ color: product.status === 1 ? "black" : "red" }}

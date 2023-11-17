@@ -40,7 +40,7 @@ export default async function handler(req, res) {
         "SELECT product_image FROM  product_master WHERE product_id = ?",
         [id]
       );
-      
+
       // Query for delete data
       const q = "DELETE FROM product_master WHERE product_id = ?";
 
@@ -85,8 +85,16 @@ export default async function handler(req, res) {
           canonical_url,
         } = fields;
 
+        // get product data
+        const [product] = await conn.query(
+          "SELECT product_image FROM product_master WHERE product_id = ?",
+          [id]
+        );
+
         let sql = "";
         let params = [];
+        let result = "";
+
         const upadatedDate = new Date()
           .toISOString()
           .slice(0, 19)
@@ -108,6 +116,8 @@ export default async function handler(req, res) {
             upadatedDate,
             id,
           ];
+          result = await conn.query(sql, params);
+
         } else {
           // Configuration for the new image
           const oldPath = files.product_image[0].filepath; // Old path of the uploaded image
@@ -145,9 +155,15 @@ export default async function handler(req, res) {
             upadatedDate,
             id,
           ];
+          result = await conn.query(sql, params);
+          // Delete the old image
+          if (product.length !== 0) {
+            const oldImage = product[0].product_image;
+            const oldImagePath = path.join(projectDirectory, oldImage);
+            await unlink(oldImagePath);
+          }
         }
 
-        const result = await conn.query(sql, params);
         res.status(200).json(result);
       });
     } catch (err) {

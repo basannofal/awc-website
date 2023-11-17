@@ -320,11 +320,11 @@ const EditProduct = () => {
                   className="modal_input"
                   onChange={handleEditChange}
                   required
-                >
+                > 
                   <option value={0}>Choose Category</option>
                   {getActiveCateData.map((cate) => {
                     return (
-                      <option key={cate.category_id} value={cate.category_id}>
+                      <option selected={cate.category_id == editProductData.cate_id} key={cate.category_id} value={cate.category_id}>
                         {cate.category_name}
                       </option>
                     );

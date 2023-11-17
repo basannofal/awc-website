@@ -207,7 +207,7 @@ const ProductCategory = () => {
                     </td>
                     <td>
                       <img
-                        src={`/assets/upload/${category.category_image}`}
+                        src={`/assets/upload/product-category/${category.category_image}`}
                         width="150px"
                         height="150px"
                         alt="Category"

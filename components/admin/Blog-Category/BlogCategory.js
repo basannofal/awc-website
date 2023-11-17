@@ -111,7 +111,7 @@ const BlogCategory = () => {
     <>
       {loading && <Loading />}
       <section className="home-section">
-        <Header />
+        <Header  onFilterChange={handleFilterChange}   />
         <div className="admin_page_top">
           <div className="page_top_left_section">
             <p className="admin_page_header">Blog Category</p>
@@ -143,8 +143,8 @@ const BlogCategory = () => {
               </tr>
             </thead>
             <tbody>
-              {getAllBlogCategory.length > 0 ? (
-                getAllBlogCategory.map((category, index) => (
+              {filterdCategory.length > 0 ? (
+                filterdCategory.map((category, index) => (
                   <tr
                     key={category.blog_cate_id}
                     style={{ color: category.status === 1 ? "black" : "red" }}

@@ -282,7 +282,7 @@ const EditProdCategory = () => {
                 />
               </div>
               <img
-                src={`/assets/upload/${editProductCategoryData?.category_image}`}
+                src={`/assets/upload/product-category/${editProductCategoryData?.category_image}`}
                 width="100%"
                 className="modal_data_image"
                 alt="category_image"
@@ -301,8 +301,9 @@ const EditProdCategory = () => {
                 >
                   <option value={0}>Choose Sub Category</option>
                   {getActiveCateData.map((cate) => {
+                    if(cate.category_id != cateId && cate.sub_category != cateId)
                     return (
-                      <option key={cate.category_id} value={cate.category_id}>
+                      <option selected={cate.category_id == editProductCategoryData.sub_category} key={cate.category_id} value={cate.category_id}>
                         {cate.category_name}
                       </option>
                     );

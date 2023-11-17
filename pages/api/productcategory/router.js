@@ -30,7 +30,7 @@ export default async function handler(req, res) {
       // project dir
       const projectDirectory = path.resolve(
         __dirname,
-        "../../../../../public/assets/upload"
+        "../../../../../public/assets/upload/product-category"
       );
       // combine path and image name
       const newPath = path.join(projectDirectory, newFileName);

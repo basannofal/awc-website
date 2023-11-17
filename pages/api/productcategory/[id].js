@@ -52,7 +52,7 @@ export default async function handler(req, res) {
         categoryImage = category[0].category_image;
         const projectDirectory = path.resolve(
           __dirname,
-          "../../../../../public/assets/upload"
+          "../../../../../public/assets/upload/product-category"
         );
         const newPath = path.join(projectDirectory, categoryImage);
         console.log(newPath);
@@ -88,6 +88,12 @@ export default async function handler(req, res) {
 
         let sql = "";
         let params = [];
+        let result = "";
+        // get category data
+        const [category] = await conn.query(
+          "SELECT category_image FROM product_category WHERE category_id = ?",
+          [id]
+        );
 
         if (!files.category_image) {
           sql =
@@ -105,6 +111,7 @@ export default async function handler(req, res) {
             sub_category,
             id,
           ];
+          result = await conn.query(sql, params);
         } else {
           // Configuration for the new image
           const oldPath = files.category_image[0].filepath; // Old path of the uploaded image
@@ -114,7 +121,7 @@ export default async function handler(req, res) {
           const newFileName = nFileName.replace(/\s/g, "");
           const projectDirectory = path.resolve(
             __dirname,
-            "../../../../../public/assets/upload"
+            "../../../../../public/assets/upload/product-category"
           );
           const newPath = path.join(projectDirectory, newFileName);
 
@@ -141,9 +148,15 @@ export default async function handler(req, res) {
             sub_category,
             id,
           ];
+          result = await conn.query(sql, params);
+          if (category.length !== 0) {
+            const oldImage = category[0].category_image;
+            const oldImagePath = path.join(projectDirectory, oldImage);
+            await unlink(oldImagePath);
+          }
         }
 
-        const result = await conn.query(sql, params);
+        // Delete the old image
         res.status(200).json(result);
       });
     } catch (err) {
