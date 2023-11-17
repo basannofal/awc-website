@@ -14,32 +14,31 @@ export default async function handler(req, res) {
     const form = new IncomingForm();
     form.parse(req, (err, fields, files) => {
       const {
-        cate_id,
-        product_title,
-        product_short_desc,
-        product_long_desc,
-        meta_tag,
+        blog_cate_id,
+        blog_title,
+        blog_description,
         meta_desc,
-        meta_keyword,
         canonical_url,
+        meta_tag,
+        meta_keyword,
       } = fields;
 
       // check file exist or not
-      if (!files.product_image) {
+      if (!files.blog_thumbnail) {
         return res.status(400).json({ message: "Please Upload Files." });
       }
 
       // check Category exist or not
-      if (!cate_id || cate_id == 0) {
+      if (!blog_cate_id || blog_cate_id == 0) {
         return res.status(400).json({ message: "Please Select Category." });
       }
 
       // configuration of path and name
       // old path where file availbale
-      const oldPath = files.product_image[0].filepath; // Access the path of the uploaded image
+      const oldPath = files.blog_thumbnail[0].filepath; // Access the path of the uploaded image
       // new path
       const nFileName = `${Date.now()}.${
-        files.product_image[0].originalFilename
+        files.blog_thumbnail[0].originalFilename
       }`;
       // remove space
       const newFileName = nFileName.replace(/\s/g, "");
@@ -58,21 +57,19 @@ export default async function handler(req, res) {
           res.status(500).json({ message: "File Upload failed." });
         } else {
           try {
-            console.log(fields);
             // db operation
             const [row] = await conn.query(
               "INSERT INTO blog_master SET ? ",
               {
-                cate_id: cate_id,
-                product_title: product_title,
-                product_short_desc: product_short_desc,
-                product_long_desc: product_long_desc,
+                blog_title: blog_title,
+                blog_thumbnail: newFileName,
+                blog_description: blog_description,
                 meta_tag: meta_tag,
                 meta_desc: meta_desc,
                 meta_keyword: meta_keyword,
                 canonical_url: canonical_url,
-                product_image: newFileName,
                 status: 1,
+                blog_cate_id: blog_cate_id,
               }
             );
             res.status(200).json(row);

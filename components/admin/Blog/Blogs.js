@@ -1,26 +1,135 @@
-import DeleteModal from "@/layouts/DeleteModal";
-import Header from "@/layouts/Header";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Loading from "@/layouts/Loading";
-import Link from "next/link";
+import Header from "@/layouts/Header";
+import DeleteModal from "@/layouts/DeleteModal";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import Link from "next/link";
+import Toast, { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
 
 const Blogs = () => {
-  
+  //filter Start
+  const [filterValue, setFilterValue] = useState(""); // State to hold the filter value
+  const handleFilterChange = (value) => {
+    setFilterValue(value); // Update the filter value
+  };
+
+  useEffect(() => {
+    setFilteredBlogs(
+      getAllBlogs.filter((e) => {
+        let data = e.blog_title;
+        return data.includes(filterValue);
+      })
+    );
+  }, [filterValue]);
+
   const router = useRouter();
-  const [filterdBlog, setFilterdBlog] = useState([]);
-  const [getAllBlog, setGetAllBlog] = useState([]);
+  const [filteredBlogs, setFilteredBlogs] = useState([]);
+  const [getAllBlogs, setGetAllBlogs] = useState([]);
   const [getCategoryData, setGetCategoryData] = useState([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [selectedBlogId, setSelectedBlogId] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  
+  // delete modal
+  const openDeleteModal = (blogId) => {
+    setSelectedBlogId(blogId);
+    setIsDeleteModalOpen(true);
+  };
+  const closeDeleteModal = () => {
+    setSelectedBlogId(null);
+    setIsDeleteModalOpen(false);
+  };
+  const deleteBlog = () => {
+    if (selectedBlogId) {
+      deleteBlogData(selectedBlogId);
+      closeDeleteModal();
+    }
+  };
+  const deleteBlogData = async (deleteId) => {
+    setLoading(true);
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/blog/${deleteId}`
+      );
+      getAllBlogData();
+      getBlogCategoryData();
+      setLoading(false);
+      SuccessToast("Blog Deleted Successfully");
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  // get all blog category
+  const getBlogCategoryData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/blogcategory/router`
+      );
+      setGetCategoryData(response.data);
+      setLoading(false);
+    } catch (err) {
+      ErrorToast(err?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  // get all blog data
+  const getAllBlogData = async () => {
+    await axios
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/blog/router`)
+      .then((res) => {
+        setGetAllBlogs(res.data);
+        setFilteredBlogs(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        ErrorToast(err?.response?.data?.message);
+        setLoading(false);
+      });
+  };
+
+
+  //status edit
+  const blogStatusChange = async (blogId, no) => {
+    setLoading(true);
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/blog/statuschanges/${blogId}/${no}`
+      );
+      getAllBlogData();
+      getBlogCategoryData();
+      setLoading(false);
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  // view blog data
+  const handleViewBlog = (id) => {
+    setLoading(true);
+    router.push(`/admin/blog/view-blog?id=${id}`);
+  };
+
+  // edit blog data
+  const handleEditBlog = (id) => {
+    setLoading(true);
+    router.push(`/admin/blog/edit-blog?id=${id}`);
+  };
+
+  useEffect(() => {
+    getAllBlogData();
+    getBlogCategoryData();
+  }, []);
+
   return (
     <>
       {loading && <Loading />}
       <section className="home-section">
-        <Header />
+        <Header onFilterChange={handleFilterChange} />
         <div className="admin_page_top">
           <div className="page_top_left_section">
             <p className="admin_page_header">Blogs</p>
@@ -33,7 +142,7 @@ const Blogs = () => {
             </p>
           </div>
           <div className="content_add_btn_section">
-            <Link href="/admin/Blogs/add-Blog">
+            <Link href="/admin/blog/add-blog">
               <button type="button">
                 <i className="fa-solid fa-plus"></i>Add Blog
               </button>
@@ -47,34 +156,34 @@ const Blogs = () => {
               <tr>
                 <th style={{ width: "15%" }}>ID</th>
                 <th style={{ width: "30%" }}>TITLE</th>
-                <th style={{ width: "25%" }}>IMAGE</th>
+                <th style={{ width: "25%" }}>THUMBNAIL</th>
                 <th style={{ width: "20%" }}>CATEGORY</th>
                 <th style={{ width: "10%" }}>OPERATION</th>
               </tr>
             </thead>
             <tbody>
-              {/* {getAllBlog.length > 0 ? (
-                getAllBlog.map((Blog, index) => (
+              {filteredBlogs.length > 0 ? (
+                filteredBlogs.map((blog, index) => (
                   <tr
-                    key={Blog.Blog_id}
-                    style={{ color: Blog.status === 1 ? "black" : "red" }}
+                    key={blog.blog_id}
+                    style={{ color: blog.status === 1 ? "black" : "red" }}
                   >
                     <td>{index + 1}</td>
-                    <td>{Blog.Blog_title}</td>
+                    <td>{blog.blog_title}</td>
                     <td>
                       <img
-                        src={`/assets/upload/Blogs/${Blog.Blog_image}`}
+                        src={`/assets/upload/blogs/${blog.blog_thumbnail}`}
                         width="100%"
-                        alt="Blog"
+                        alt="blog"
                         className="tabel_data_image"
                       />
                     </td>
                     <td>
-                      {Blog.cate_id
+                      {blog.blog_cate_id
                         ? getCategoryData.find(
                             (category) =>
-                              category.category_id === Blog.cate_id
-                          )?.category_name
+                              category.blog_cate_id === blog.blog_cate_id
+                          )?.category_title
                         : "null"}
                     </td>
                     <td
@@ -88,7 +197,7 @@ const Blogs = () => {
                         <button
                           className="editbutton"
                           onClick={() => {
-                            handleEditBlog(Blog.Blog_id);
+                            handleEditBlog(blog.blog_id);
                           }}
                         >
                           <i className="fa-regular fa-pen-to-square"></i>
@@ -98,25 +207,22 @@ const Blogs = () => {
                         <div className="dd-button"></div>
                         <input type="checkbox" className="dd-input" id="test" />
                         <ul className="dd-menu">
-                          <li
-                            onClick={() => openDeleteModal(Blog.Blog_id)}
-                          >
+                          <li onClick={() => openDeleteModal(blog.blog_id)}>
                             Delete
                           </li>
                           <li
                             onClick={() => {
-                              handleViewBlog(Blog.Blog_id);
+                              handleViewBlog(blog.blog_id);
                             }}
                           >
                             View
                           </li>
-                          <li>Add Images</li>
                           <li>
                             {" "}
-                            {Blog.status === 1 ? (
+                            {blog.status === 1 ? (
                               <button
                                 onClick={() => {
-                                  BlogStatusChange(Blog.Blog_id, 1);
+                                  blogStatusChange(blog.blog_id, 1);
                                 }}
                               >
                                 Active
@@ -124,7 +230,7 @@ const Blogs = () => {
                             ) : (
                               <button
                                 onClick={() => {
-                                  BlogStatusChange(Blog.Blog_id, 0);
+                                  blogStatusChange(blog.blog_id, 0);
                                 }}
                               >
                                 Inactive
@@ -139,19 +245,20 @@ const Blogs = () => {
               ) : (
                 <tr>
                   <td colSpan="5" align="center">
-                    data is not available
+                    Data is not available
                   </td>
                 </tr>
-              )} */}
+              )}
             </tbody>
           </table>
         </div>
         {/* delete modal */}
-        {/* <DeleteModal
+        <DeleteModal
           isOpen={isDeleteModalOpen}
           onClose={closeDeleteModal}
-          onDelete={deleteCategory}
-        /> */}
+          onDelete={deleteBlog}
+        />
+        <Toast />
       </section>
     </>
   );

@@ -300,7 +300,6 @@ const EditProduct = () => {
                   name="product_image"
                   className="modal_input"
                   onChange={handleEditFileChange}
-                  required
                 />
               </div>
               <img

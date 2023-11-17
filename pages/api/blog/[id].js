@@ -4,6 +4,7 @@ import conn from "../dbconfig/conn";
 import path from "path";
 import { IncomingForm } from "formidable";
 import fs from "fs";
+const { unlink } = require("fs").promises;
 
 export const config = {
   api: {
@@ -33,12 +34,28 @@ export default async function handler(req, res) {
   if (req.method == "DELETE") {
     try {
       const { id } = req.query;
-      console.log(id);
+
+      const [blog] = await conn.query(
+        "SELECT blog_thumbnail FROM blog_master WHERE blog_id = ?",
+        [id]
+      );
+
       // Query the database
       const q = "DELETE FROM blog_master WHERE blog_id = ?";
 
       const [rows] = await conn.query(q, [id]);
 
+      let blogThumbnail = "";
+      if (blog.length !== 0) {
+        blogThumbnail = blog[0].blog_thumbnail;
+        const projectDirectory = path.resolve(
+          __dirname,
+          "../../../../../public/assets/upload/blogs"
+        );
+        const newPath = path.join(projectDirectory, blogThumbnail);
+
+        await unlink(newPath);
+      }
       // Process the data and send the response
       res.status(200).json(rows);
     } catch (error) {
@@ -54,46 +71,55 @@ export default async function handler(req, res) {
       const form = new IncomingForm();
       form.parse(req, async (err, fields, files) => {
         // check file exist or not
+        console.log('first', id)
+
+        console.log(fields);
+        console.log(files);
         const {
-          cate_id,
-          product_title,
-          product_short_desc,
-          product_long_desc,
+          blog_cate_id,
+          blog_title,
+          blog_description,
           meta_tag,
           meta_desc,
           meta_keyword,
           canonical_url,
         } = fields;
 
+        const [blog] = await conn.query(
+          "SELECT blog_thumbnail FROM blog_master WHERE blog_id = ?",
+          [id]
+        );
+          
         let sql = "";
         let params = [];
+        let result = "";
+
         const upadatedDate = new Date()
           .toISOString()
           .slice(0, 19)
           .replace("T", " ");
 
-        if (!files.product_image) {
+        if (!files.blog_thumbnail) {
           sql =
-            "UPDATE `blog_master` SET `blog_title`= ?, `blog_description`= ?, `meta_tag`= ?, `meta_desc`= ?, `meta_keyword`= ?, `canonical_url`= ?, `updated_date`= ?, `blog_cate_id`= ?  WHERE blog_id = ?";
+            "UPDATE `blog_master` SET `blog_title`= ?,  `blog_description`= ?, `meta_tag`= ?, `meta_desc`= ?, `meta_keyword`= ?, `canonical_url`= ?, `updated_date`= ?, `blog_cate_id`= ?  WHERE blog_id = ?";
 
           params = [
-            cate_id,
-            product_title,
-            product_short_desc,
-            product_long_desc,
+            blog_title,
+            blog_description,
             meta_tag,
             meta_desc,
             meta_keyword,
             canonical_url,
             upadatedDate,
+            blog_cate_id,
             id,
           ];
-
-        } else {
-          // Configuration for the new image
-          const oldPath = files.product_image[0].filepath; // Old path of the uploaded image
+          result = await conn.query(sql, params);
+        } 
+        else {
+          const oldPath = files.blog_thumbnail[0].filepath; // Old path of the uploaded image
           const nFileName = `${Date.now()}.${
-            files.product_image[0].originalFilename
+            files.blog_thumbnail[0].originalFilename
           }`;
           const newFileName = nFileName.replace(/\s/g, "");
           const projectDirectory = path.resolve(
@@ -111,24 +137,29 @@ export default async function handler(req, res) {
           });
 
           sql =
-          "UPDATE `blog_master` SET `blog_title`= ?, `blog_thumbnail`= ?, `blog_description`= ?, `meta_tag`= ?, `meta_desc`= ?, `meta_keyword`= ?, `canonical_url`= ?, `updated_date`= ?, `blog_cate_id`= ?  WHERE blog_id = ?";
+            "UPDATE `blog_master` SET `blog_title`= ?, `blog_thumbnail`= ?, `blog_description`= ?, `meta_tag`= ?, `meta_desc`= ?, `meta_keyword`= ?, `canonical_url`= ?, `updated_date`= ?, `blog_cate_id`= ?  WHERE blog_id = ?";
 
           params = [
-            cate_id,
-            product_title,
-            product_short_desc,
-            product_long_desc,
+            blog_title,
+            newFileName,
+            blog_description,
             meta_tag,
             meta_desc,
             meta_keyword,
             canonical_url,
-            newFileName,
             upadatedDate,
+            blog_cate_id,
             id,
           ];
+          result = await conn.query(sql, params);
+
+          if (blog.length !== 0) {
+            const oldImage = blog[0].blog_thumbnail;
+            const oldImagePath = path.join(projectDirectory, oldImage);
+            await unlink(oldImagePath);
+          }
         }
 
-        const result = await conn.query(sql, params);
         res.status(200).json(result);
       });
     } catch (err) {

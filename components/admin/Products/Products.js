@@ -261,6 +261,7 @@ const Products = () => {
           onClose={closeDeleteModal}
           onDelete={deleteCategory}
         />
+        <Toast />
       </section>
     </>
   );

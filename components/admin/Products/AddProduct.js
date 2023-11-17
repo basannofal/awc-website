@@ -449,6 +449,7 @@ const AddProduct = () => {
           image fields
         </div>
       </div>
+      <Toast />
     </section>
   </>
   );
