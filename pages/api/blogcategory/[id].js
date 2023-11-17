@@ -4,6 +4,7 @@ import conn from "../dbconfig/conn";
 import path from "path";
 import { IncomingForm } from "formidable";
 import fs from "fs";
+const { unlink } = require("fs").promises;
 
 export const config = {
   api: {
@@ -33,11 +34,39 @@ export default async function handler(req, res) {
   if (req.method == "DELETE") {
     try {
       const { id } = req.query;
-      console.log(id);
-      // Query the database
+
+      // get category data
+      const [category] = await conn.query(
+        "SELECT category_image, category_icon FROM blog_category WHERE blog_cate_id = ?",
+        [id]
+      );
+
+      // Query for delete category
       const q = "DELETE FROM blog_category WHERE blog_cate_id = ?";
 
       const [rows] = await conn.query(q, [id]);
+
+      // check image awailable or not
+      if (category.length !== 0) {
+        const projectDirectory = path.resolve(
+          __dirname,
+          "../../../../../public/assets/upload/blog"
+        );
+
+        // Delete categoryImage
+        const categoryImage = category[0].category_image;
+        if (categoryImage) {
+          const imagePath = path.join(projectDirectory, categoryImage);
+          await unlink(imagePath);
+        }
+
+        // Delete categoryIcon
+        const categoryIcon = category[0].category_icon;
+        if (categoryIcon) {
+          const iconPath = path.join(projectDirectory, categoryIcon);
+          await unlink(iconPath);
+        }
+      }
 
       // Process the data and send the response
       res.status(200).json(rows);
@@ -123,19 +152,15 @@ export default async function handler(req, res) {
               files.category_image,
               1
             );
-          } 
-          
+          }
+
           if (files.category_icon) {
-            updatedicon = updateImages(
-              category_icon,
-              files.category_icon,
-              2
-            );
+            updatedicon = updateImages(category_icon, files.category_icon, 2);
           }
 
           // SQL query for updating the database with new images
           sql =
-          "UPDATE `blog_category` SET `category_title`= ?, `category_description`= ?, `meta_tag`= ?, `meta_description`= ?, `meta_keyword`= ?, `canonical_url`= ?, `category_image`= ?, `category_icon`= ?  WHERE blog_cate_id = ?";
+            "UPDATE `blog_category` SET `category_title`= ?, `category_description`= ?, `meta_tag`= ?, `meta_description`= ?, `meta_keyword`= ?, `canonical_url`= ?, `category_image`= ?, `category_icon`= ?  WHERE blog_cate_id = ?";
 
           params = [
             category_title,

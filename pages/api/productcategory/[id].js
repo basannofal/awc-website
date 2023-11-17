@@ -4,6 +4,7 @@ import conn from "../dbconfig/conn";
 import path from "path";
 import { IncomingForm } from "formidable";
 import fs from "fs";
+const { unlink } = require("fs").promises; // Import the unlink method from fs.promises
 
 export const config = {
   api: {
@@ -33,11 +34,30 @@ export default async function handler(req, res) {
   if (req.method == "DELETE") {
     try {
       const { id } = req.query;
-      console.log(id);
-      // Query the database
+
+      // get category data
+      const [category] = await conn.query(
+        "SELECT category_image FROM product_category WHERE category_id = ?",
+        [id]
+      );
+
+      // delete product category data
       const q = "DELETE FROM product_category WHERE category_id = ?";
 
       const [rows] = await conn.query(q, [id]);
+
+      // check image awailable or not
+      let categoryImage = "";
+      if (category.length != 0) {
+        categoryImage = category[0].category_image;
+        const projectDirectory = path.resolve(
+          __dirname,
+          "../../../../../public/assets/upload"
+        );
+        const newPath = path.join(projectDirectory, categoryImage);
+        console.log(newPath);
+        await unlink(newPath);
+      }
 
       // Process the data and send the response
       res.status(200).json(rows);

@@ -203,7 +203,7 @@ const EditProduct = () => {
                   name="product_title"
                   className="modal_input"
                   placeholder="Enter Product Title"
-                  value={editProductData.product_title}
+                  value={editProductData?.product_title}
                   onChange={handleEditChange}
                   required
                 />
@@ -213,7 +213,7 @@ const EditProduct = () => {
                 <Editor
                   apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
                   onInit={(evt, editor) => (editorShortRef.current = editor)}
-                  initialValue={editProductData.product_short_desc}
+                  initialValue={editProductData?.product_short_desc}
                   init={{
                     height: 500,
                     menubar: true,
@@ -254,7 +254,7 @@ const EditProduct = () => {
                 <Editor
                   apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
                   onInit={(evt, editor) => (editorLongRef.current = editor)}
-                  initialValue={editProductData.product_long_desc}
+                  initialValue={editProductData?.product_long_desc}
                   init={{
                     height: 500,
                     menubar: true,
@@ -304,7 +304,7 @@ const EditProduct = () => {
                 />
               </div>
               <img
-                src={`/assets/upload/products/${editProductData.product_image}`}
+                src={`/assets/upload/products/${editProductData?.product_image}`}
                 width="100%"
                 className="modal_data_image"
                 alt="product_image"
@@ -429,7 +429,7 @@ const EditProduct = () => {
                   className="modal_input"
                   placeholder="Enter Meta Description"
                   onChange={handleEditChange}
-                  value={editProductData.meta_desc}
+                  value={editProductData?.meta_desc}
                 />
               </div>
               <div className="mb-3">
@@ -443,7 +443,7 @@ const EditProduct = () => {
                   className="modal_input"
                   placeholder="Enter Canonical URL"
                   onChange={handleEditChange}
-                  value={editProductData.canonical_url}
+                  value={editProductData?.canonical_url}
                 />
               </div>
               <div className="mb-3">

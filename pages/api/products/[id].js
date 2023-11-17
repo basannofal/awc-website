@@ -4,6 +4,7 @@ import conn from "../dbconfig/conn";
 import path from "path";
 import { IncomingForm } from "formidable";
 import fs from "fs";
+const { unlink } = require("fs").promises;
 
 export const config = {
   api: {
@@ -33,11 +34,30 @@ export default async function handler(req, res) {
   if (req.method == "DELETE") {
     try {
       const { id } = req.query;
-      console.log(id);
-      // Query the database
+
+      // first get product data
+      const [product] = await conn.query(
+        "SELECT product_image FROM  product_master WHERE product_id = ?",
+        [id]
+      );
+      
+      // Query for delete data
       const q = "DELETE FROM product_master WHERE product_id = ?";
 
       const [rows] = await conn.query(q, [id]);
+
+      //check image awailable or not
+      let productImage = "";
+      if (product.length != 0) {
+        productImage = product[0].product_image;
+        const projectDirectory = path.resolve(
+          __dirname,
+          "../../../../../public/assets/upload/products"
+        );
+        const newPath = path.join(projectDirectory, productImage);
+        console.log(newPath);
+        await unlink(newPath);
+      }
 
       // Process the data and send the response
       res.status(200).json(rows);
@@ -88,7 +108,6 @@ export default async function handler(req, res) {
             upadatedDate,
             id,
           ];
-
         } else {
           // Configuration for the new image
           const oldPath = files.product_image[0].filepath; // Old path of the uploaded image

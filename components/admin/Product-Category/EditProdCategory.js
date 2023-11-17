@@ -210,7 +210,7 @@ const EditProdCategory = () => {
                   className="modal_input"
                   placeholder="Enter Category Name"
                   onChange={handleEditChange}
-                  value={editProductCategoryData.category_name}
+                  value={editProductCategoryData?.category_name}
                   required
                 />
               </div>
@@ -225,7 +225,7 @@ const EditProdCategory = () => {
                   className="modal_input"
                   placeholder="Enter Category Title"
                   onChange={handleEditChange}
-                  value={editProductCategoryData.category_title}
+                  value={editProductCategoryData?.category_title}
                   required
                 />
               </div>
@@ -234,7 +234,7 @@ const EditProdCategory = () => {
                 <Editor
                   apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
                   onInit={(evt, editor) => (editorRef.current = editor)}
-                  initialValue={editProductCategoryData.category_description}
+                  initialValue={editProductCategoryData?.category_description}
                   init={{
                     height: 500,
                     menubar: true,
@@ -282,7 +282,7 @@ const EditProdCategory = () => {
                 />
               </div>
               <img
-                src={`/assets/upload/${editProductCategoryData.category_image}`}
+                src={`/assets/upload/${editProductCategoryData?.category_image}`}
                 width="100%"
                 className="modal_data_image"
                 alt="category_image"
@@ -297,7 +297,7 @@ const EditProdCategory = () => {
                   form="sub_category"
                   className="modal_input"
                   onChange={handleEditChange}
-                  value={editProductCategoryData.sub_category}
+                  value={editProductCategoryData?.sub_category}
                 >
                   <option value={0}>Choose Sub Category</option>
                   {getActiveCateData.map((cate) => {
@@ -408,7 +408,7 @@ const EditProdCategory = () => {
                   className="modal_input"
                   placeholder="Enter Meta Description"
                   onChange={handleEditChange}
-                  value={editProductCategoryData.meta_description}
+                  value={editProductCategoryData?.meta_description}
                 />
               </div>
               <div className="mb-3">
@@ -422,7 +422,7 @@ const EditProdCategory = () => {
                   className="modal_input"
                   placeholder="Enter Canonical URL"
                   onChange={handleEditChange}
-                  value={editProductCategoryData.canonical_url}
+                  value={editProductCategoryData?.canonical_url}
                 />
               </div>
               <div className="mb-3">

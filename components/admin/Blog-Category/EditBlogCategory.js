@@ -179,7 +179,7 @@ const EditBlogCategory = () => {
                   name="category_title"
                   className="modal_input"
                   onChange={handleEditCategory}
-                  value={editBlogCategoryData.category_title}
+                  value={editBlogCategoryData?.category_title}
                   placeholder="Enter Category Title"
                   required
                 />
@@ -189,7 +189,7 @@ const EditBlogCategory = () => {
                 <Editor
                   apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
                   onInit={(evt, editor) => (editorRef.current = editor)}
-                  initialValue={editBlogCategoryData.category_description}
+                  initialValue={editBlogCategoryData?.category_description}
                   init={{
                     height: 500,
                     menubar: true,
@@ -236,7 +236,7 @@ const EditBlogCategory = () => {
                   required
                 />
                 <img
-                  src={`/assets/upload/blog/${editBlogCategoryData.category_image}`}
+                  src={`/assets/upload/blog/${editBlogCategoryData?.category_image}`}
                   width="100%"
                   className="modal_data_image"
                   alt="category_image"
@@ -255,7 +255,7 @@ const EditBlogCategory = () => {
                   required
                 />
                 <img
-                  src={`/assets/upload/blog/${editBlogCategoryData.category_icon}`}
+                  src={`/assets/upload/blog/${editBlogCategoryData?.category_icon}`}
                   width="100%"
                   className="modal_data_image"
                   alt="category_icon"
@@ -360,7 +360,7 @@ const EditBlogCategory = () => {
                   className="modal_input"
                   placeholder="Enter Meta Description"
                   onChange={handleEditCategory}
-                  value={editBlogCategoryData.meta_description}
+                  value={editBlogCategoryData?.meta_description}
                 />
               </div>
 
@@ -375,7 +375,7 @@ const EditBlogCategory = () => {
                   className="modal_input"
                   placeholder="Enter Canonical URL"
                   onChange={handleEditCategory}
-                  value={editBlogCategoryData.canonical_url}
+                  value={editBlogCategoryData?.canonical_url}
                 />
               </div>
               <div className="mb-3">
