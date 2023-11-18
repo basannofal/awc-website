@@ -21,6 +21,8 @@ export default async function handler(req, res) {
     } catch (error) {
       console.error("Error fetching users:", error);
       res.status(502).json({ error: "Connection Error" });
+    }finally {
+      conn.releaseConnection();
     }
   }
 

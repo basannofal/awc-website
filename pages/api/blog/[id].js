@@ -28,6 +28,8 @@ export default async function handler(req, res) {
       res
         .status(500)
         .json({ message: "Can not Get category... check connection" });
+    }finally {
+      conn.releaseConnection();
     }
   }
 
@@ -63,6 +65,8 @@ export default async function handler(req, res) {
       res
         .status(500)
         .json({ message: "Cannot Delete Category... Check Connection" });
+    }finally {
+      conn.releaseConnection();
     }
   }
 
@@ -71,7 +75,7 @@ export default async function handler(req, res) {
       const form = new IncomingForm();
       form.parse(req, async (err, fields, files) => {
         // check file exist or not
-        console.log('first', id)
+        console.log("first", id);
 
         console.log(fields);
         console.log(files);
@@ -89,7 +93,7 @@ export default async function handler(req, res) {
           "SELECT blog_thumbnail FROM blog_master WHERE blog_id = ?",
           [id]
         );
-          
+
         let sql = "";
         let params = [];
         let result = "";
@@ -115,8 +119,7 @@ export default async function handler(req, res) {
             id,
           ];
           result = await conn.query(sql, params);
-        } 
-        else {
+        } else {
           const oldPath = files.blog_thumbnail[0].filepath; // Old path of the uploaded image
           const nFileName = `${Date.now()}.${
             files.blog_thumbnail[0].originalFilename
@@ -164,6 +167,8 @@ export default async function handler(req, res) {
       });
     } catch (err) {
       res.status(500).json({ message: "Category Updation Failed" });
+    } finally {
+      conn.releaseConnection();
     }
   }
 }

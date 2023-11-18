@@ -20,6 +20,8 @@ export default async function handler(req, res) {
       res.status(200).send(rows);
     } catch (err) {
       res.status(401).json({ message: "Connection Error" });
+    }finally {
+      conn.releaseConnection();
     }
   }
 }

@@ -79,6 +79,8 @@ export default async function handler(req, res) {
           } catch (err) {
             console.log(err);
             res.status(500).json({ message: "Failed to Add Product Category" });
+          }finally {
+            conn.releaseConnection();
           }
         }
       });
@@ -97,6 +99,8 @@ export default async function handler(req, res) {
       res.status(200).json(rows);
     } catch (err) {
       res.status(401).json({ message: "Connection Error" });
+    }finally {
+      conn.releaseConnection();
     }
   }
 }

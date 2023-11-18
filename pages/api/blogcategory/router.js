@@ -86,6 +86,9 @@ export default async function handler(req, res) {
         .status(500)
         .json({ message: "Category Failed to Add... Check connection" });
     }
+    finally {
+      conn.releaseConnection();
+    }
   }
 
   if (req.method == "GET") {
@@ -100,6 +103,8 @@ export default async function handler(req, res) {
       res.status(200).json(rows);
     } catch (err) {
       res.status(401).json({ message: "Connection Error" });
+    }finally {
+      conn.releaseConnection();
     }
   }
 }

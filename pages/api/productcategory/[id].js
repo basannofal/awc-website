@@ -24,10 +24,11 @@ export default async function handler(req, res) {
 
       res.status(200).json(rows);
     } catch (error) {
-      console.log(error);
       res
         .status(500)
         .json({ message: "Can not Get category... check connection" });
+    }finally {
+      conn.releaseConnection();
     }
   }
 
@@ -66,6 +67,9 @@ export default async function handler(req, res) {
       res
         .status(500)
         .json({ message: "Cannot Delete Category... Check Connection" });
+    }
+    finally {
+      conn.releaseConnection();
     }
   }
 
@@ -161,6 +165,8 @@ export default async function handler(req, res) {
       });
     } catch (err) {
       res.status(500).json({ message: "Category Updation Failed" });
+    }finally {
+      conn.releaseConnection();
     }
   }
 }

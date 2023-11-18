@@ -32,6 +32,8 @@ export default async function handler(req, res) {
       }
     } catch (err) {
       res.status(401).json({ message: "Connection Error" });
+    }finally {
+      conn.releaseConnection();
     }
   }
 }
