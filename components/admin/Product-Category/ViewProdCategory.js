@@ -106,7 +106,7 @@ const ViewProdCategory = () => {
               <p>{viewProductCategoryData.canonical_url}</p>
             </div>
             <div className="view_data_sections">
-              <Link to="/products-category">
+              <Link href="/admin/product-category">
                 <button type="button" className="success_btn">
                   BACK
                 </button>
