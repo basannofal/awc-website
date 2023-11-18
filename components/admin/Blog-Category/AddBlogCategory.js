@@ -21,11 +21,11 @@ const AddBlogCategory = () => {
   const [addMetaKeyword, setAddMetaKeyword] = useState([]);
   const [loading, setLoading] = useState(false);
 
-    //tab
-    const [activeTab, setActiveTab] = useState("general");
-    const showTab = (tabId) => {
-      setActiveTab(tabId);
-    };
+  //tab
+  const [activeTab, setActiveTab] = useState("general");
+  const showTab = (tabId) => {
+    setActiveTab(tabId);
+  };
 
   //add blog category
   const handleInputBlogCate = async (event) => {
@@ -35,9 +35,7 @@ const AddBlogCategory = () => {
       [name]: value,
     }));
   };
-  
-  
-  
+
   // Function to handle Enter key press
   const handleMetaTag = (event) => {
     if (event.key === "Enter" || event.key === ",") {
@@ -143,24 +141,24 @@ const AddBlogCategory = () => {
             <span>Add Blog Category</span>
           </p>
         </div>
-       <div className="tabs-container">
+        <div className="tabs-container">
           <div className="tabs">
-            <div
-              className={`tab ${activeTab === "general" ? "active" : ""}`}
-              onClick={() => showTab("general")}
-            >
-              General
-
+          <div style={{ display: "flex" }}>
+              <div
+                className={`tab ${activeTab === "general" ? "active" : ""}`}
+                onClick={() => showTab("general")}
+              >
+                General
+              </div>
+              <div
+                className={`tab ${activeTab === "seo" ? "active" : ""}`}
+                onClick={() => showTab("seo")}
+              >
+                SEO
+              </div>
             </div>
-            <div
-              className={`tab ${activeTab === "seo" ? "active" : ""}`}
-              onClick={() => showTab("seo")}
-           
-           >
-           SEO
-            </div>
-            </div>
-            <div
+          </div>
+          <div
             id="general"
             className={`tab-content add_data_form ${
               activeTab === "general" ? "active" : ""
@@ -309,10 +307,9 @@ const AddBlogCategory = () => {
                       >
                         <i className="fa-solid fa-xmark"></i>
                       </div>
-
                     </div>
                   </div>
-                  ))}
+                ))}
               </div>
               <div className="mb-3">
                 <label htmlFor="meta_keyword" className="modal_label">
@@ -342,7 +339,7 @@ const AddBlogCategory = () => {
                       </div>
                     </div>
                   </div>
-                  ))}
+                ))}
               </div>
               <div className="mb-3">
                 <label htmlFor="meta_description" className="modal_label">

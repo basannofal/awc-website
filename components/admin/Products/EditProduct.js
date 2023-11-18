@@ -166,23 +166,25 @@ const EditProduct = () => {
         </div>
         <div className="tabs-container">
           <div className="tabs">
-            <div
-              className={`tab ${activeTab === "general" ? "active" : ""}`}
-              onClick={() => showTab("general")}
-            >
-              General
-            </div>
-            <div
-              className={`tab ${activeTab === "seo" ? "active" : ""}`}
-              onClick={() => showTab("seo")}
-            >
-              SEO
-            </div>
-            <div
-              className={`tab ${activeTab === "image" ? "active" : ""}`}
-              onClick={() => showTab("image")}
-            >
-              Images
+          <div style={{ display: "flex" }}>
+              <div
+                className={`tab ${activeTab === "general" ? "active" : ""}`}
+                onClick={() => showTab("general")}
+              >
+                General
+              </div>
+              <div
+                className={`tab ${activeTab === "seo" ? "active" : ""}`}
+                onClick={() => showTab("seo")}
+              >
+                SEO
+              </div>
+              <div
+                className={`tab ${activeTab === "image" ? "active" : ""}`}
+                onClick={() => showTab("image")}
+              >
+                Images
+              </div>
             </div>
           </div>
 

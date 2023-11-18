@@ -8,22 +8,21 @@ import Toast, { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
 import Loading from "@/layouts/Loading";
 
 const ProductCategory = () => {
+  //filter Start
+  const [filterValue, setFilterValue] = useState(""); // State to hold the filter value
+  const handleFilterChange = (value) => {
+    setFilterValue(value); // Update the filter value
+  };
 
-    //filter Start
-    const [filterValue, setFilterValue] = useState(""); // State to hold the filter value
-    const handleFilterChange = (value) => {
-      setFilterValue(value); // Update the filter value
-    };
-  
-    useEffect(() => {
-      setFilterdCategory(
-        getCategoryData.filter((e) => {
-          let data = e.category_title;
-          return data.includes(filterValue);
-        })
-      );
-    }, [filterValue]);
-    // filter End
+  useEffect(() => {
+    setFilterdCategory(
+      getCategoryData.filter((e) => {
+        let data = e.category_title;
+        return data.includes(filterValue);
+      })
+    );
+  }, [filterValue]);
+  // filter End
 
   const [filterdCategory, setFilterdCategory] = useState([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -154,9 +153,9 @@ const ProductCategory = () => {
       {loading && <Loading />}
 
       <section className="home-section">
-        <Header  onFilterChange={handleFilterChange}  />
+        <Header onFilterChange={handleFilterChange} />
         <div className="admin_page_top">
-        <div className="page_top_left_section">
+          <div className="page_top_left_section">
             <p className="admin_page_header">Product Category</p>
             <p>
               <Link href="/admin/admindashboard">
@@ -172,13 +171,13 @@ const ProductCategory = () => {
                 <i className="fa-solid fa-plus"></i>Add Category
               </button>
             </Link>
-           </div>
+          </div>
         </div>
         <div className="admin_category_table">
           <table>
             <thead>
               <tr>
-              <th style={{ width: "7%" }}>ID</th>
+                <th style={{ width: "7%" }}>ID</th>
                 <th style={{ width: "25%" }}>NAME</th>
                 <th style={{ width: "25%" }}>TITLE</th>
                 <th style={{ width: "17%" }}>SUB CATEGORY</th>
@@ -193,7 +192,7 @@ const ProductCategory = () => {
                     key={category.category_id}
                     style={{ color: category.status === 1 ? "black" : "red" }}
                   >
-                                      <td>{index + 1}</td>
+                    <td>{index + 1}</td>
                     <td>{category.category_name}</td>
                     <td>{category.category_title}</td>
 
@@ -231,11 +230,14 @@ const ProductCategory = () => {
                         >
                           <i className="fa-regular fa-pen-to-square"></i>
                         </button>
-                      
-                        </span>
+                      </span>
                       <label className="dropdown">
                         <div className="dd-button"></div>
-                        <input type="checkbox" className="dd-input" id="test" />
+                        <input
+                          type="checkbox"
+                          className="dd-input"
+                          id={`test-${index}`}
+                        />
                         <ul className="dd-menu">
                           <li
                             onClick={() =>
@@ -245,9 +247,9 @@ const ProductCategory = () => {
                             Delete
                           </li>
                           <li
-                          onClick={() => {
-                            handleViewProdCate(category.category_id);
-                          }}
+                            onClick={() => {
+                              handleViewProdCate(category.category_id);
+                            }}
                           >
                             View
                           </li>

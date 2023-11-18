@@ -524,7 +524,7 @@ form .modal_input:focus {
   display: flex;
   background-color: transparent;
   border-radius: 5px 5px 0 0;
-  overflow: hidden;
+  justify-content: space-between;
 }
 
 .tab {
@@ -557,12 +557,60 @@ form .modal_input:focus {
   border-radius: 0 0 5px 5px;
   background-color: #fff;
 }
-
+.product_data_save_btn {
+  background-color: var(--primary-color);
+  height: 40px;
+  width: 40px;
+  border-radius: 5px;
+  color: var(--fourth-color);
+  cursor: pointer;
+  letter-spacing: 1px;
+  font-size: 18px;
+  position: relative;
+  top: -10px;
+}
 .tab-content.active {
   display: block;
 }
 
-.main {
+.two_input_flex {
   display: flex;
   justify-content: space-between;
+}
+
+.multi-images-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.multi-images-table thead {
+  background-color: var(--third-color);
+  text-align: justify;
+}
+.multi-images-table thead th {
+  font-size: 14px;
+  font-weight: 100;
+}
+.multi-images-table th,
+td {
+  padding: 6px 4px;
+  border: 1px solid #ddd;
+}
+.multi-images-table td img {
+  width: 70px;
+  height: auto;
+}
+.multi-images-table td input {
+  width: 85%;
+  padding: 4px;
+}
+.multi-images-table td input:focus-visible {
+  outline: 0;
+}
+.remove_multi_img_btn {
+  background-color: #bd1c1c;
+  color: white;
+  border-radius: 4px;
+  padding: 7px 10px;
+  cursor: pointer;
 }

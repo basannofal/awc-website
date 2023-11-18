@@ -186,7 +186,11 @@ const BlogCategory = () => {
                       </span>
                       <label className="dropdown">
                         <div className="dd-button"></div>
-                        <input type="checkbox" className="dd-input" id="test" />
+                        <input
+                          type="checkbox"
+                          className="dd-input"
+                          id={`test-${index}`}
+                        />
                         <ul className="dd-menu">
                           <li
                             onClick={() =>
