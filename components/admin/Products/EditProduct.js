@@ -6,6 +6,7 @@ import Loading from "@/layouts/Loading";
 import Header from "@/layouts/Header";
 import Link from "next/link";
 import Toast, { ErrorToast } from "@/layouts/toast/Toast";
+import DeleteModal from "@/layouts/DeleteModal";
 
 const EditProduct = () => {
   const router = useRouter();
@@ -23,18 +24,57 @@ const EditProduct = () => {
   const [editMetaTag, setEditMetaTag] = useState([]);
   const [editMetaKeyword, setEditMetaKeyword] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [addMultiImages, setAddMultiImages] = useState({
+    product_images: [],
+  });
+  const [allProductImages, setAllProductImages] = useState([]);
+  // tabs
+  const [activeTab, setActiveTab] = useState("general");
 
-    // tabs
-    const [activeTab, setActiveTab] = useState("general");
+  const showTab = (tabId) => {
+    setActiveTab(tabId);
+  };
 
-    const showTab = (tabId) => {
-      setActiveTab(tabId);
-    };
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [productImgId, setproductImgId] = useState(null);
+
+  //delete modal
+  const openDeleteModal = (prodId) => {
+    setproductImgId(prodId);
+    setIsDeleteModalOpen(true);
+  };
+  const closeDeleteModal = () => {
+    setproductImgId(null);
+    setIsDeleteModalOpen(false);
+  };
+  const deleteCategory = () => {
+    if (productImgId) {
+      deleteProductImg(productImgId);
+      closeDeleteModal();
+    }
+  };
+  const deleteProductImg = async (deleteId) => {
+    setLoading(true);
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productimages/${deleteId}`
+      );
+      getAllProductImages();
+      setLoading(false);
+      SuccessToast("Product Image Deleted Successfully");
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
 
   //get active category
   const getActiveCategoryData = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/productcategorychanges/router`);
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/productcategorychanges/router`
+      );
       setGetActiveCateData(response.data);
       setLoading(false);
     } catch (err) {
@@ -46,7 +86,9 @@ const EditProduct = () => {
   //get product with id
   const getProductCategoryForEdit = async (prodId) => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products/${prodId}`);
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/${prodId}`
+      );
       setEditProductData(response.data[0]);
       const keyString = response.data[0].meta_keyword;
       setEditMetaKeyword(keyString.split(","));
@@ -95,18 +137,23 @@ const EditProduct = () => {
     setLoading(true);
     try {
       const formdata = new FormData();
-      formdata.append("cate_id", editProductData.cate_id);
-      formdata.append("product_title", editProductData.product_title);
-      formdata.append("product_short_desc", editProductData.product_short_desc);
-      formdata.append("product_long_desc", editProductData.product_long_desc);
+      formdata.append("cate_id", editProductData?.cate_id);
+      formdata.append("product_title", editProductData?.product_title);
+      formdata.append(
+        "product_short_desc",
+        editProductData?.product_short_desc
+      );
+      formdata.append("product_long_desc", editProductData?.product_long_desc);
       formdata.append("meta_tag", editMetaTag);
-      formdata.append("meta_desc", editProductData.meta_desc);
+      formdata.append("meta_desc", editProductData?.meta_desc);
       formdata.append("meta_keyword", editMetaKeyword);
-      formdata.append("canonical_url", editProductData.canonical_url);
-      formdata.append("product_image", editProductData.product_image);
+      formdata.append("canonical_url", editProductData?.canonical_url);
+      formdata.append("product_image", editProductData?.product_image);
 
-
-      await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/products/${prodId}`, formdata);
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/${prodId}`,
+        formdata
+      );
       window.scrollTo({ behavior: "smooth", top: 0 });
       setLoading(false);
       router.push("/admin/products");
@@ -147,10 +194,109 @@ const EditProduct = () => {
   useEffect(() => {
     getActiveCategoryData();
     getProductCategoryForEdit(prodId);
+    getAllProductImages();
   }, [prodId]);
 
+  // get all images of product
+  const getAllProductImages = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productimages/${prodId}`
+      );
+      setAllProductImages(response.data);
+      setLoading(false);
+    } catch (err) {
+      ErrorToast(err?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  // edit multiple images
+
+  const saveMultipleImages = async (e) => {
+    e.preventDefault();
+    window.scrollTo({ behavior: "smooth", top: 0 });
+    setLoading(true);
+    console.log(addMultiImages);
+    try {
+      const formdata = new FormData();
+      formdata.append("product_id", prodId);
+      addMultiImages.product_images.forEach((image, index) => {
+        console.log(image);
+        formdata.append(`product_images`, image.file);
+        formdata.append(`image_title_${index}`, image.image_title);
+        formdata.append(`sort_image_${index}`, image.sort_image);
+        formdata.append(`image_width_${index}`, image.image_width);
+        formdata.append(`image_height_${index}`, image.image_height);
+        formdata.append(`alternative_${index}`, image.alternative);
+      });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productimages/router`,
+        formdata
+      );
+      setLoading(false);
+      getAllProductImages();
+      setAddMultiImages({ product_images: [] });
+    } catch (error) {
+      console.log("Error adding prod images" + error);
+      setLoading(false);
+    }
+  };
+
+  //status edit
+  const productImageStatusChange = async (imgId, no) => {
+    setLoading(true);
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productimages/statuschanges/${imgId}/${no}`
+      );
+      getAllProductImages();
+      setLoading(false);
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  //handle images
+  const handleAddMultipleImagesChange = async (event) => {
+    const files = event.target.files;
+    const newImages = Array.from(files).map((file) => ({
+      file,
+      image_title: "",
+      sort_image: "",
+      image_width: "",
+      image_height: "",
+      alternative: "",
+    }));
+    setAddMultiImages((prevMultiImages) => ({
+      ...prevMultiImages,
+      product_images: [...prevMultiImages.product_images, ...newImages],
+    }));
+  };
+
+  const removeMultiImage = async (index) => {
+    const newImages = [...addMultiImages.product_images];
+    newImages.splice(index, 1);
+    setAddMultiImages((prevMultiImages) => ({
+      ...prevMultiImages,
+      product_images: newImages,
+    }));
+  };
+
+  const handleImageDetailsChange = (index, field, value) => {
+    setAddMultiImages((prevMultiImages) => {
+      const updatedImages = [...prevMultiImages.product_images];
+      updatedImages[index][field] = value;
+      return {
+        ...prevMultiImages,
+        product_images: updatedImages,
+      };
+    });
+  };
+
   return (
-     <>
+    <>
       {loading && <Loading />}
       <section className="home-section">
         <Header />
@@ -166,7 +312,7 @@ const EditProduct = () => {
         </div>
         <div className="tabs-container">
           <div className="tabs">
-          <div style={{ display: "flex" }}>
+            <div style={{ display: "flex" }}>
               <div
                 className={`tab ${activeTab === "general" ? "active" : ""}`}
                 onClick={() => showTab("general")}
@@ -321,11 +467,15 @@ const EditProduct = () => {
                   className="modal_input"
                   onChange={handleEditChange}
                   required
-                > 
+                >
                   <option value={0}>Choose Category</option>
                   {getActiveCateData.map((cate) => {
                     return (
-                      <option selected={cate.category_id == editProductData.cate_id} key={cate.category_id} value={cate.category_id}>
+                      <option
+                        selected={cate.category_id == editProductData?.cate_id}
+                        key={cate.category_id}
+                        value={cate.category_id}
+                      >
                         {cate.category_name}
                       </option>
                     );
@@ -336,7 +486,7 @@ const EditProduct = () => {
                 <button
                   type="button"
                   onClick={() => {
-                    saveEditProductData(editProductData.product_id);
+                    saveEditProductData(editProductData?.product_id);
                   }}
                   className="success_btn"
                 >
@@ -451,7 +601,7 @@ const EditProduct = () => {
                 <button
                   type="button"
                   onClick={() => {
-                    saveEditProductData(editProductData.product_id);
+                    saveEditProductData(editProductData?.product_id);
                   }}
                   className="success_btn"
                 >
@@ -471,9 +621,270 @@ const EditProduct = () => {
               activeTab === "image" ? "active" : ""
             }`}
           >
-            image field
+            <form method="post" onSubmit={saveMultipleImages}>
+              <div className="mb-3">
+                <label htmlFor="product_images" className="modal_label">
+                  Product Images:-
+                </label>
+                <input
+                  type="file"
+                  id="product_images"
+                  name="product_images"
+                  className="modal_input"
+                  onChange={handleAddMultipleImagesChange}
+                  multiple
+                />
+              </div>
+              <div
+                className="mb-3"
+                style={{ display: "flex", flexWrap: "wrap" }}
+              >
+                {addMultiImages.product_images &&
+                addMultiImages.product_images.length > 0 ? (
+                  <table className="multi-images-table">
+                    <thead>
+                      <tr>
+                        <th width="25%">Title</th>
+                        <th width="15%">Image</th>
+                        <th width="10%">Width</th>
+                        <th width="10%">Height</th>
+                        <th width="20%">Alternative Text</th>
+                        <th width="10%">Sort</th>
+                        <th width="10%">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {addMultiImages.product_images.map((image, index) => (
+                        <tr key={index}>
+                          <td>
+                            <input
+                              type="text"
+                              id={`image_title-${index}`}
+                              name="image_title"
+                              placeholder="Image Title"
+                              onChange={(e) =>
+                                handleImageDetailsChange(
+                                  index,
+                                  "image_title",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </td>
+                          <td>
+                            <img
+                              src={URL.createObjectURL(image.file)}
+                              alt={`Selected productimg ${index + 1}`}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              id={`image_width-${index}`}
+                              name="image_width"
+                              placeholder="Width"
+                              onChange={(e) =>
+                                handleImageDetailsChange(
+                                  index,
+                                  "image_width",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              id={`image_height-${index}`}
+                              name="image_height"
+                              placeholder="Height"
+                              onChange={(e) =>
+                                handleImageDetailsChange(
+                                  index,
+                                  "image_height",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              id={`alternative-${index}`}
+                              name="alternative"
+                              placeholder="alternative"
+                              onChange={(e) =>
+                                handleImageDetailsChange(
+                                  index,
+                                  "alternative",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              id={`sort_image-${index}`}
+                              name="sort_image"
+                              placeholder="sort"
+                              onChange={(e) =>
+                                handleImageDetailsChange(
+                                  index,
+                                  "sort_image",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </td>
+                          <td>
+                            <button
+                              type="button"
+                              className="remove_multi_img_btn"
+                              onClick={() => removeMultiImage(index)}
+                            >
+                              <i className="fa-solid fa-xmark"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p>No images selected</p>
+                )}
+              </div>
+              <div className="mb-3">
+                <button type="submit" className="success_btn">
+                  SAVE
+                </button>
+                <Link href="/admin/products">
+                  <button type="button" className="success_btn cancel_btn">
+                    CANCEL
+                  </button>
+                </Link>
+              </div>
+            </form>
+            <hr style={{ marginTop: "30px", marginBottom: "20px" }} />
+            <div className="admin_category_table">
+              <table>
+                <thead>
+                  <tr>
+                    <th style={{ width: "15%" }}>ID</th>
+                    <th style={{ width: "25%" }}>TITLE</th>
+                    <th style={{ width: "25%" }}>IMAGE</th>
+                    <th style={{ width: "10%" }}>HEIGHT</th>
+                    <th style={{ width: "10%" }}>WIDTH</th>
+                    <th style={{ width: "20%" }}>Alt TEXT</th>
+                    <th style={{ width: "10%" }}>SORT</th>
+                    <th style={{ width: "10%" }}>OPERATION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allProductImages.length > 0 ? (
+                    allProductImages.map((product, index) => (
+                      <tr
+                        key={product.product_id}
+                        style={{
+                          color: product.status === 1 ? "black" : "red",
+                        }}
+                      >
+                        <td>{index + 1}</td>
+                        <td>{product.image_title}</td>
+                        <td>
+                          <img
+                            src={`/assets/upload/products/productImages/${product.product_image}`}
+                            width="100%"
+                            alt="product"
+                            className="tabel_data_image"
+                          />
+                        </td>
+                        <td>{product.image_height}</td>
+                        <td>{product.image_width}</td>
+                        <td>{product.alternative}</td>
+                        <td>{product.sort_image}</td>
+                        <td
+                          style={{
+                            paddingTop: "0px",
+                            paddingBottom: "10px",
+                            textAlign: "end",
+                          }}
+                        >
+                          <span>
+                            <button
+                              className="editbutton"
+                              onClick={() => {
+                                handleEditProduct(product.product_id);
+                              }}
+                            >
+                              <i className="fa-regular fa-pen-to-square"></i>
+                            </button>
+                          </span>
+                          <label className="dropdown">
+                            <div className="dd-button"></div>
+                            <input
+                              type="checkbox"
+                              className="dd-input"
+                              id="test"
+                            />
+                            <ul className="dd-menu">
+                              <li
+                                onClick={() =>
+                                  openDeleteModal(product.prod_image_id)
+                                }
+                              >
+                                Delete
+                              </li>
+                              <li>
+                                {" "}
+                                {product.status === 1 ? (
+                                  <button
+                                    onClick={() => {
+                                      productImageStatusChange(
+                                        product.prod_image_id,
+                                        1
+                                      );
+                                    }}
+                                  >
+                                    Active
+                                  </button>
+                                ) : (
+                                  <button
+                                    onClick={() => {
+                                      productImageStatusChange(
+                                        product.prod_image_id,
+                                        0
+                                      );
+                                    }}
+                                  >
+                                    Inactive
+                                  </button>
+                                )}
+                              </li>
+                            </ul>
+                          </label>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="8" align="center">
+                        data is not available
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
+
+        <DeleteModal
+          isOpen={isDeleteModalOpen}
+          onClose={closeDeleteModal}
+          onDelete={deleteCategory}
+        />
+        <Toast />
       </section>
     </>
   );
