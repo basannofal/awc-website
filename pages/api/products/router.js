@@ -34,6 +34,18 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: "Please Select Category." });
       }
 
+      //check! is this image ?
+      const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
+      const fileExtension = path
+        .extname(files.product_image[0].originalFilename)
+        .toLowerCase();
+
+      if (!allowedImageExtensions.includes(fileExtension)) {
+        return res
+          .status(400)
+          .json({ message: "Only image files are allowed." });
+      }
+
       // configuration of path and name
       // old path where file availbale
       const oldPath = files.product_image[0].filepath; // Access the path of the uploaded image
@@ -79,7 +91,7 @@ export default async function handler(req, res) {
           } catch (err) {
             console.log(err);
             res.status(500).json({ message: "Failed to Add Product Category" });
-          }finally {
+          } finally {
             conn.releaseConnection();
           }
         }
@@ -99,7 +111,7 @@ export default async function handler(req, res) {
       res.status(200).json(rows);
     } catch (err) {
       res.status(401).json({ message: "Connection Error" });
-    }finally {
+    } finally {
       conn.releaseConnection();
     }
   }

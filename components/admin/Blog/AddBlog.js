@@ -236,6 +236,7 @@ const AddBlog = () => {
                       id="blog_thumbnail"
                       name="blog_thumbnail"
                       className="modal_input"
+                      accept="image/png, image/jpeg, image/jpg"
                       onChange={handleAddFileChange}
                       required
                     />

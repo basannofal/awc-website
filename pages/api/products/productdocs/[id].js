@@ -1,6 +1,6 @@
 // api/category/[id].js
 
-import conn from "../dbconfig/conn";
+import conn from "../../dbconfig/conn";
 import path from "path";
 import { IncomingForm } from "formidable";
 import fs from "fs";
@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      const q = "SELECT * FROM `product_master` WHERE product_id = ?";
+      const q = "SELECT * FROM `product_docs` WHERE product_id = ?";
 
       const data = [id];
       const [rows] = await conn.query(q, data);
@@ -27,77 +27,50 @@ export default async function handler(req, res) {
       res
         .status(500)
         .json({ message: "Can not Get category... check connection" });
-    } finally {
+    }finally {
       conn.releaseConnection();
     }
   }
 
   if (req.method == "DELETE") {
     try {
-      // Begin transaction
-      await conn.query("BEGIN");
-
+      console.log("REAC");
       const { id } = req.query;
 
-      // 1. First, get product data
+      // first get product data
       const [product] = await conn.query(
-        "SELECT product_image FROM  product_master WHERE product_id = ?",
+        "SELECT pdf_link FROM  product_docs WHERE prod_docs_id = ?",
         [id]
       );
 
-      // 2. Check if product has images in product_images table
-      const [images] = await conn.query(
-        "SELECT prod_image_id, product_image FROM product_images WHERE product_id = ?",
-        [id]
-      );
+      console.log(product);
 
-      // 3. Delete images from the file system and product_images table
-      for (const image of images) {
-        const imagePath = path.join(
-          __dirname,
-          "../../../../../public/assets/upload/products/productImages",
-          image.product_image
-        );
-
-        await unlink(imagePath);
-
-        await conn.query("DELETE FROM product_images WHERE prod_image_id = ?", [
-          image.prod_image_id,
-        ]);
-      }
-
-      // 4. Delete the product from the product_master table
-      const q = "DELETE FROM product_master WHERE product_id = ?";
+      // Query for delete data
+      const q = "DELETE FROM product_docs WHERE prod_docs_id = ?";
 
       const [rows] = await conn.query(q, [id]);
 
-      //check image awailable or not
-      let productImage = "";
+      //check docs awailable or not
+      let productDocs = "";
       if (product.length != 0) {
-        productImage = product[0].product_image;
+        productDocs = product[0].pdf_link;
         const projectDirectory = path.resolve(
           __dirname,
-          "../../../../../public/assets/upload/products"
+          "../../../../../../public/assets/upload/products/productDocs"
         );
-        const newPath = path.join(projectDirectory, productImage);
+        const newPath = path.join(projectDirectory, productDocs);
         console.log(newPath);
         await unlink(newPath);
       }
-      // 5. Commit the transaction
-      await conn.query("COMMIT");
 
       // Process the data and send the response
       res.status(200).json(rows);
     } catch (error) {
       console.log(error);
-
-      // If an error occurs, rollback the transaction
-      await conn.query("ROLLBACK");
-
       res
         .status(500)
-        .json({ message: "Cannot Delete Category... Check Connection" });
-    } finally {
+        .json({ message: "Cannot Delete Product Docs... Check Connection" });
+    }finally {
       conn.releaseConnection();
     }
   }
@@ -120,7 +93,7 @@ export default async function handler(req, res) {
 
         // get product data
         const [product] = await conn.query(
-          "SELECT product_image FROM product_master WHERE product_id = ?",
+          "SELECT product_image FROM product_docs WHERE prod_docs_id = ?",
           [id]
         );
 
@@ -135,7 +108,7 @@ export default async function handler(req, res) {
 
         if (!files.product_image) {
           sql =
-            "UPDATE `product_master` SET `cate_id`= ?, `product_title`= ?, `product_short_desc`= ?, `product_long_desc`= ?, `meta_tag`= ?, `meta_desc`= ?, `meta_keyword`= ?, `canonical_url`= ?, `updated_date`= ?  WHERE product_id = ?";
+            "UPDATE `product_docs` SET `cate_id`= ?, `product_title`= ?, `product_short_desc`= ?, `product_long_desc`= ?, `meta_tag`= ?, `meta_desc`= ?, `meta_keyword`= ?, `canonical_url`= ?, `updated_date`= ?  WHERE product_id = ?";
 
           params = [
             cate_id,
@@ -150,19 +123,8 @@ export default async function handler(req, res) {
             id,
           ];
           result = await conn.query(sql, params);
+
         } else {
-          //check! is this image ?
-          const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
-          const fileExtension = path
-            .extname(files.product_image[0].originalFilename)
-            .toLowerCase();
-
-          if (!allowedImageExtensions.includes(fileExtension)) {
-            return res
-              .status(400)
-              .json({ message: "Only image files are allowed." });
-          }
-
           // Configuration for the new image
           const oldPath = files.product_image[0].filepath; // Old path of the uploaded image
           const nFileName = `${Date.now()}.${
@@ -184,7 +146,7 @@ export default async function handler(req, res) {
           });
 
           sql =
-            "UPDATE `product_master` SET `cate_id`= ?, `product_title`= ?, `product_short_desc`= ?, `product_long_desc`= ?, `meta_tag`= ?, `meta_desc`= ?, `meta_keyword`= ?, `canonical_url`= ?, `product_image`= ?, `updated_date`= ?  WHERE product_id = ?";
+            "UPDATE `product_docs` SET `cate_id`= ?, `product_title`= ?, `product_short_desc`= ?, `product_long_desc`= ?, `meta_tag`= ?, `meta_desc`= ?, `meta_keyword`= ?, `canonical_url`= ?, `product_image`= ?, `updated_date`= ?  WHERE product_id = ?";
 
           params = [
             cate_id,
@@ -212,7 +174,7 @@ export default async function handler(req, res) {
       });
     } catch (err) {
       res.status(500).json({ message: "Category Updation Failed" });
-    } finally {
+    }finally {
       conn.releaseConnection();
     }
   }

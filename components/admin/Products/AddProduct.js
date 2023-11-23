@@ -8,6 +8,7 @@ import Link from "next/link";
 import Toast, { ErrorToast, WarningToast } from "@/layouts/toast/Toast";
 
 const AddProduct = () => {
+  // USESTATE VARIABLE
   const [getActiveCateData, setGetActiveCateData] = useState([]);
   const [addProductData, setAddProductData] = useState({
     cate_id: "",
@@ -23,16 +24,42 @@ const AddProduct = () => {
   const [addMultiImages, setAddMultiImages] = useState({
     product_images: [],
   });
+  const [addMultiDocs, setAddMultiDocs] = useState({
+    product_docs: [],
+  });
   const [isDataAdded, setIsDataAdded] = useState(true);
   const [lastAddId, setLastAddId] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  //ROUTER
   const router = useRouter();
 
-  // tabs
+  // product images
+  const [allProductImages, setAllProductImages] = useState([]);
+
+  // TABS VARIABLE
   const [activeTab, setActiveTab] = useState("general");
 
+  // GET ALL PRODUCT IMAGES FOR SHOWING WHEN ADD IN IMAGES TAB
+  const getAllProductImages = async (prodId) => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productimages/${prodId}`
+      );
+      setAllProductImages(response.data);
+      setLoading(false);
+    } catch (err) {
+      ErrorToast(err?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  // HANDLE TABS
   const showTab = (tabId) => {
-    if (tabId === "image" && !isDataAdded) {
+    if (
+      (tabId === "image" || tabId === "docs" || tabId === "video") &&
+      !isDataAdded
+    ) {
       WarningToast("Please add the general data");
     } else {
       setActiveTab(tabId);
@@ -54,7 +81,7 @@ const AddProduct = () => {
     }
   };
 
-  //editor
+  //EDITOR HANDLE
   const editorShortRef = useRef(null);
   const editorLongRef = useRef(null);
   const handleShortEditorChange = (content, editor) => {
@@ -69,8 +96,9 @@ const AddProduct = () => {
       product_long_desc: content,
     }));
   };
-  //end
-  //add product data section start
+  //END
+
+  //ADD PRODUCT DATA AND PRODUCT HANDLER
   const handleChangeProduct = (event) => {
     const { name, value } = event.target;
     setAddProductData((prevContData) => ({
@@ -114,8 +142,9 @@ const AddProduct = () => {
       setLoading(false);
     }
   };
+  //END OF PRODUCT HANDLER AND ADD PRODUCT
 
-  //get laste added prod data
+  //LAST ADDED PRODUCT DATA
   const getLastAddedData = async () => {
     axios
       .get(`${process.env.NEXT_PUBLIC_API_URL}/products/getlastdata/router`)
@@ -126,10 +155,80 @@ const AddProduct = () => {
         console.log(err);
       });
   };
+  //END
 
+  // ADD MULTIPLE DOCS AND MULTIPLE DOCS HANDLER
+  const handleAddMultipleDocsChange = async (event) => {
+    const files = event.target.files;
+    const pdfFiles = Array.from(files).filter(
+      (file) => file.type === "application/pdf"
+    );
 
+    // Check if any non-PDF files were selected
+    const nonPdfFiles = Array.from(files).filter(
+      (file) => file.type !== "application/pdf"
+    );
 
-  // add multiple images
+    if (nonPdfFiles.length > 0) {
+      WarningToast("Only PDF files are taken from given files.");
+    }
+
+    const newdocs = Array.from(pdfFiles).map((file) => ({
+      file,
+      docs_title: "",
+    }));
+    setAddMultiDocs((prevMultiDocs) => ({
+      ...prevMultiDocs,
+      product_docs: [...prevMultiDocs.product_docs, ...newdocs],
+    }));
+  };
+
+  const removeMultiDocs = async (index) => {
+    const newDocs = [...addMultiDocs.product_docs];
+    newDocs.splice(index, 1);
+    setAddMultiDocs((prevMultiDocs) => ({
+      ...prevMultiDocs,
+      product_docs: newDocs,
+    }));
+  };
+
+  const handleDocsDetailsChange = (index, field, value) => {
+    setAddMultiDocs((prevMultiDocs) => {
+      const updatedImages = [...prevMultiDocs.product_docs];
+      updatedImages[index][field] = value;
+      return {
+        ...prevMultiDocs,
+        product_docs: updatedImages,
+      };
+    });
+  };
+
+  const saveMultipleDocs = async (e) => {
+    e.preventDefault();
+    window.scrollTo({ behavior: "smooth", top: 0 });
+    setLoading(true);
+    try {
+      const formdata = new FormData();
+      formdata.append("product_id", lastAddId.product_id);
+      addMultiDocs.product_docs.forEach((docs, index) => {
+        formdata.append(`product_docs`, docs.file);
+        formdata.append(`docs_title_${index}`, docs.docs_title);
+      });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productdocs/router`,
+        formdata
+      );
+      setLoading(false);
+      setAddMultiDocs({ product_docs: [] });
+      setActiveTab("video");
+    } catch (error) {
+      console.log("Error adding prod images" + error);
+      setLoading(false);
+    }
+  };
+  //END DOCS HANDLER AND ADD MULTIPLE DOCS
+
+  // ADD MULTIPLE IMAGES AND MULTIPLE IMAGES HANDLER
   const handleAddMultipleImagesChange = async (event) => {
     const files = event.target.files;
     const newImages = Array.from(files).map((file) => ({
@@ -181,16 +280,22 @@ const AddProduct = () => {
         formdata.append(`image_height_${index}`, image.image_height);
         formdata.append(`alternative_${index}`, image.alternative);
       });
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/products/productimages/router`, formdata);
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productimages/router`,
+        formdata
+      );
       setLoading(false);
-      router.push("/admin/products");
+      setAddMultiImages({ product_images: [] });
+      getAllProductImages(lastAddId.product_id);
+      setActiveTab("video");
     } catch (error) {
       console.log("Error adding prod images" + error);
       setLoading(false);
     }
   };
+  //END IMAGES HANDLER AND ADD MULTIPLE IMAGES
 
-  // add meta keyword
+  //META KEYWORD HANDLER
   const handleKeyword = (event) => {
     const value = event.target.value.trim();
     if (value && (event.key === "Enter" || event.key === ",")) {
@@ -204,8 +309,9 @@ const AddProduct = () => {
     newArray.splice(idx, 1);
     setAddMetaKeyword(newArray);
   };
+  //END
 
-  // add meta tags
+  //META TAG HANDERS
   const handleTags = (event) => {
     const value = event.target.value.trim();
     if (value && (event.key === "Enter" || event.key === ",")) {
@@ -219,13 +325,19 @@ const AddProduct = () => {
     newArray.splice(idx, 1);
     setAddMetaTag(newArray);
   };
+  //END
+
+  // USEEFFECT METHOD
   useEffect(() => {
     getActiveCategoryData();
   }, []);
 
   return (
     <>
+      {/* LOADING SECTION */}
       {loading && <Loading />}
+
+      {/* HOME SECTION */}
       <section className="home-section">
         <Header />
         <div className="admin_page_top">
@@ -238,6 +350,7 @@ const AddProduct = () => {
             <span>Add Product</span>
           </p>
         </div>
+        {/* TABS */}
         <div className="tabs-container">
           <div className="tabs">
             <div style={{ display: "flex" }}>
@@ -259,6 +372,18 @@ const AddProduct = () => {
               >
                 Images
               </div>
+              <div
+                className={`tab ${activeTab === "video" ? "active" : ""}`}
+                onClick={() => showTab("video")}
+              >
+                Videos
+              </div>
+              <div
+                className={`tab ${activeTab === "docs" ? "active" : ""}`}
+                onClick={() => showTab("docs")}
+              >
+                Docs
+              </div>
             </div>
             {activeTab === "general" || activeTab === "seo" ? (
               <button
@@ -271,6 +396,7 @@ const AddProduct = () => {
               ""
             )}
           </div>
+          {/* GENREL TABS */}
           <div
             id="general"
             className={`tab-content add_data_form ${
@@ -383,6 +509,7 @@ const AddProduct = () => {
                       id="product_image"
                       name="product_image"
                       className="modal_input"
+                      accept="image/png, image/jpeg, image/jpg"
                       onChange={handleAddFileChange}
                       required
                     />
@@ -433,6 +560,8 @@ const AddProduct = () => {
               </div>
             </form>
           </div>
+
+          {/* SEO TAB */}
           <div
             id="seo"
             className={`tab-content add_data_form ${
@@ -537,6 +666,8 @@ const AddProduct = () => {
               </div>
             </form>
           </div>
+
+          {/* IMAGES TAB */}
           {isDataAdded && (
             <div
               id="image"
@@ -554,6 +685,7 @@ const AddProduct = () => {
                     id="product_images"
                     name="product_images"
                     className="modal_input"
+                    accept="image/png, image/jpeg, image/jpg"
                     onChange={handleAddMultipleImagesChange}
                     multiple
                   />
@@ -665,6 +797,303 @@ const AddProduct = () => {
                                 type="button"
                                 className="remove_multi_img_btn"
                                 onClick={() => removeMultiImage(index)}
+                              >
+                                <i className="fa-solid fa-xmark"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <p>No images selected</p>
+                  )}
+                </div>
+                <div className="mb-3">
+                  <button type="submit" className="success_btn">
+                    SAVE
+                  </button>
+                  <Link href="/admin/products">
+                    <button type="button" className="success_btn cancel_btn">
+                      CANCEL
+                    </button>
+                  </Link>
+                </div>
+              </form>
+              <hr style={{ marginTop: "30px", marginBottom: "20px" }} />
+              <div className="admin_category_table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th style={{ width: "15%" }}>ID</th>
+                      <th style={{ width: "25%" }}>TITLE</th>
+                      <th style={{ width: "25%" }}>IMAGE</th>
+                      <th style={{ width: "10%" }}>HEIGHT</th>
+                      <th style={{ width: "10%" }}>WIDTH</th>
+                      <th style={{ width: "20%" }}>Alt TEXT</th>
+                      <th style={{ width: "10%" }}>SORT</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allProductImages.length > 0 ? (
+                      allProductImages.map((product, index) => (
+                        <tr
+                          key={product.product_id}
+                          style={{
+                            color: product.status === 1 ? "black" : "red",
+                          }}
+                        >
+                          <td>{index + 1}</td>
+                          <td>{product.image_title}</td>
+                          <td>
+                            <img
+                              src={`/assets/upload/products/productImages/${product.product_image}`}
+                              width="100%"
+                              alt="product"
+                              className="tabel_data_image"
+                            />
+                          </td>
+                          <td>{product.image_height}</td>
+                          <td>{product.image_width}</td>
+                          <td>{product.alternative}</td>
+                          <td>{product.sort_image}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="8" align="center">
+                          data is not available
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* VEDIO TAB */}
+          {isDataAdded && (
+            <div
+              id="video"
+              className={`tab-content add_data_form ${
+                activeTab === "video" ? "active" : ""
+              }`}
+            >
+              <form method="post" onSubmit={saveMultipleImages}>
+                <div className="mb-3">
+                  <label htmlFor="product_images" className="modal_label">
+                    Product Images:-
+                  </label>
+                  <input
+                    type="file"
+                    id="product_images"
+                    name="product_images"
+                    className="modal_input"
+                    accept="image/png, image/jpeg, image/jpg"
+                    onChange={handleAddMultipleImagesChange}
+                    multiple
+                  />
+                </div>
+                <div
+                  className="mb-3"
+                  style={{ display: "flex", flexWrap: "wrap" }}
+                >
+                  {addMultiImages.product_images &&
+                  addMultiImages.product_images.length > 0 ? (
+                    <table className="multi-images-table">
+                      <thead>
+                        <tr>
+                          <th width="25%">Title</th>
+                          <th width="15%">Image</th>
+                          <th width="10%">Width</th>
+                          <th width="10%">Height</th>
+                          <th width="20%">Alternative Text</th>
+                          <th width="10%">Sort</th>
+                          <th width="10%">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {addMultiImages.product_images.map((image, index) => (
+                          <tr key={index}>
+                            <td>
+                              <input
+                                type="text"
+                                id={`image_title-${index}`}
+                                name="image_title"
+                                placeholder="Image Title"
+                                onChange={(e) =>
+                                  handleImageDetailsChange(
+                                    index,
+                                    "image_title",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+                            <td>
+                              <img
+                                src={URL.createObjectURL(image.file)}
+                                alt={`Selected productimg ${index + 1}`}
+                              />
+                            </td>
+                            <td>
+                              <input
+                                type="text"
+                                id={`image_width-${index}`}
+                                name="image_width"
+                                placeholder="Width"
+                                onChange={(e) =>
+                                  handleImageDetailsChange(
+                                    index,
+                                    "image_width",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+                            <td>
+                              <input
+                                type="text"
+                                id={`image_height-${index}`}
+                                name="image_height"
+                                placeholder="Height"
+                                onChange={(e) =>
+                                  handleImageDetailsChange(
+                                    index,
+                                    "image_height",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+                            <td>
+                              <input
+                                type="text"
+                                id={`alternative-${index}`}
+                                name="alternative"
+                                placeholder="alternative"
+                                onChange={(e) =>
+                                  handleImageDetailsChange(
+                                    index,
+                                    "alternative",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+                            <td>
+                              <input
+                                type="number"
+                                id={`sort_image-${index}`}
+                                name="sort_image"
+                                placeholder="sort"
+                                onChange={(e) =>
+                                  handleImageDetailsChange(
+                                    index,
+                                    "sort_image",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+                            <td>
+                              <button
+                                type="button"
+                                className="remove_multi_img_btn"
+                                onClick={() => removeMultiImage(index)}
+                              >
+                                <i className="fa-solid fa-xmark"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <p>No images selected</p>
+                  )}
+                </div>
+                <div className="mb-3">
+                  <button type="submit" className="success_btn">
+                    SAVE
+                  </button>
+                  <Link href="/admin/products">
+                    <button type="button" className="success_btn cancel_btn">
+                      CANCEL
+                    </button>
+                  </Link>
+                </div>
+              </form>
+            </div>
+          )}
+
+          {/* DOCS TAB */}
+          {isDataAdded && (
+            <div
+              id="docs"
+              className={`tab-content add_data_form ${
+                activeTab === "docs" ? "active" : ""
+              }`}
+            >
+              <form method="post" onSubmit={saveMultipleDocs}>
+                <div className="mb-3">
+                  <label htmlFor="product_images" className="modal_label">
+                    Product Docs:-
+                  </label>
+                  <input
+                    type="file"
+                    id="product_images"
+                    name="product_images"
+                    className="modal_input"
+                    accept=".pdf,.png"
+                    onChange={handleAddMultipleDocsChange}
+                    multiple
+                  />
+                </div>
+                <div
+                  className="mb-3"
+                  style={{ display: "flex", flexWrap: "wrap" }}
+                >
+                  {addMultiDocs.product_docs &&
+                  addMultiDocs.product_docs.length > 0 ? (
+                    <table className="multi-images-table">
+                      <thead>
+                        <tr>
+                          <th width="25%">Title</th>
+                          <th width="15%">Image</th>
+                          <th width="10%">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {addMultiDocs.product_docs.map((image, index) => (
+                          <tr key={index}>
+                            <td>
+                              <input
+                                type="text"
+                                id={`docs_title-${index}`}
+                                name="docs_title"
+                                placeholder="docs Title"
+                                onChange={(e) =>
+                                  handleDocsDetailsChange(
+                                    index,
+                                    "docs_title",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+                            <td>
+                              <img
+                                src={"/assets/images/pdf-icon.webp"}
+                                alt={`Selected productimg ${index + 1}`}
+                              />
+                            </td>
+                            <td>
+                              <button
+                                type="button"
+                                className="remove_multi_img_btn"
+                                onClick={() => removeMultiDocs(index)}
                               >
                                 <i className="fa-solid fa-xmark"></i>
                               </button>

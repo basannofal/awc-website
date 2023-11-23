@@ -5,12 +5,14 @@ import { useRouter } from "next/router";
 import Loading from "@/layouts/Loading";
 import Header from "@/layouts/Header";
 import Link from "next/link";
-import Toast, { ErrorToast } from "@/layouts/toast/Toast";
+import Toast, { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
 import DeleteModal from "@/layouts/DeleteModal";
 
 const EditProduct = () => {
   const router = useRouter();
   let prodId = router.query.id;
+
+  // USESTATE VARIABLE
   const [getActiveCateData, setGetActiveCateData] = useState([]);
   const [editProductData, setEditProductData] = useState({
     cate_id: "",
@@ -27,21 +29,26 @@ const EditProduct = () => {
   const [addMultiImages, setAddMultiImages] = useState({
     product_images: [],
   });
+  const [addMultiDocs, setAddMultiDocs] = useState({
+    product_docs: [],
+  });
   const [allProductImages, setAllProductImages] = useState([]);
-  // tabs
+  const [allProductDocs, setAllProductDocs] = useState([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [productImgId, setproductImgId] = useState(null);
+  const [deleteopt, setDeleteopt] = useState("");
+
+  //TABS HANDLER
   const [activeTab, setActiveTab] = useState("general");
 
   const showTab = (tabId) => {
     setActiveTab(tabId);
   };
 
-
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [productImgId, setproductImgId] = useState(null);
-
-  //delete modal
-  const openDeleteModal = (prodId) => {
+  //DELETE MODAL HANDLER
+  const openDeleteModal = (prodId, opt) => {
     setproductImgId(prodId);
+    setDeleteopt(opt);
     setIsDeleteModalOpen(true);
   };
   const closeDeleteModal = () => {
@@ -50,26 +57,17 @@ const EditProduct = () => {
   };
   const deleteCategory = () => {
     if (productImgId) {
-      deleteProductImg(productImgId);
+      if (deleteopt == "image") {
+        deleteProductImg(productImgId);
+      } else if ("docs") {
+        deleteProductdocs(productImgId);
+      }
       closeDeleteModal();
     }
   };
-  const deleteProductImg = async (deleteId) => {
-    setLoading(true);
-    try {
-      await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/products/productimages/${deleteId}`
-      );
-      getAllProductImages();
-      setLoading(false);
-      SuccessToast("Product Image Deleted Successfully");
-    } catch (error) {
-      ErrorToast(error?.response?.data?.message);
-      setLoading(false);
-    }
-  };
+  // END DELETE MODAL HANDLER
 
-  //get active category
+  // GET ACTIVE CATEGORY
   const getActiveCategoryData = async () => {
     try {
       const response = await axios.get(
@@ -83,7 +81,7 @@ const EditProduct = () => {
     }
   };
 
-  //get product with id
+  //GET PRODUCT DATA WHICH IS SELECT FOR EDIT
   const getProductCategoryForEdit = async (prodId) => {
     try {
       const response = await axios.get(
@@ -101,7 +99,7 @@ const EditProduct = () => {
     }
   };
 
-  //editor
+  //EDITOR
   const editorShortRef = useRef(null);
   const editorLongRef = useRef(null);
   const handleShortEditorChange = (content, editor) => {
@@ -117,6 +115,7 @@ const EditProduct = () => {
     }));
   };
   //end
+
   //edit cate
   const handleEditChange = (e) => {
     const { name, value } = e.target;
@@ -191,11 +190,139 @@ const EditProduct = () => {
     setEditMetaTag(newArray);
   };
 
+  // USEEFFECT METHOD
   useEffect(() => {
     getActiveCategoryData();
     getProductCategoryForEdit(prodId);
     getAllProductImages();
+    getAllProductDocs();
   }, [prodId]);
+
+  ///  **************** ALL DOCS ******************
+
+  // get all Docs of product
+  const getAllProductDocs = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productdocs/${prodId}`
+      );
+      setAllProductDocs(response.data);
+      setLoading(false);
+    } catch (err) {
+      ErrorToast(err?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  // ADD MULTIPLE DOCS AND MULTIPLE DOCS HANDLER
+  const handleAddMultipleDocsChange = async (event) => {
+    const files = event.target.files;
+    const pdfFiles = Array.from(files).filter(
+      (file) => file.type === "application/pdf"
+    );
+
+    // Check if any non-PDF files were selected
+    const nonPdfFiles = Array.from(files).filter(
+      (file) => file.type !== "application/pdf"
+    );
+
+    if (nonPdfFiles.length > 0) {
+      WarningToast("Only PDF files are taken from given files.");
+    }
+
+    const newdocs = Array.from(pdfFiles).map((file) => ({
+      file,
+      docs_title: "",
+    }));
+    setAddMultiDocs((prevMultiDocs) => ({
+      ...prevMultiDocs,
+      product_docs: [...prevMultiDocs.product_docs, ...newdocs],
+    }));
+  };
+
+  const removeMultiDocs = async (index) => {
+    const newDocs = [...addMultiDocs.product_docs];
+    newDocs.splice(index, 1);
+    setAddMultiDocs((prevMultiDocs) => ({
+      ...prevMultiDocs,
+      product_docs: newDocs,
+    }));
+  };
+
+  const handleDocsDetailsChange = (index, field, value) => {
+    console.log(addMultiDocs);
+    setAddMultiDocs((prevMultiDocs) => {
+      const updatedImages = [...prevMultiDocs.product_docs];
+      updatedImages[index][field] = value;
+      return {
+        ...prevMultiDocs,
+        product_docs: updatedImages,
+      };
+    });
+  };
+
+  const saveMultipleDocs = async (e) => {
+    e.preventDefault();
+    console.log(allProductDocs);
+    window.scrollTo({ behavior: "smooth", top: 0 });
+    setLoading(true);
+    try {
+      const formdata = new FormData();
+      formdata.append("product_id", prodId);
+      addMultiDocs.product_docs.forEach((docs, index) => {
+        formdata.append(`product_docs`, docs.file);
+        formdata.append(`docs_title_${index}`, docs.docs_title);
+      });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productdocs/router`,
+        formdata
+      );
+      setLoading(false);
+      setAddMultiDocs({ product_docs: [] });
+      getAllProductDocs();
+      SuccessToast("Docs Added Successfully");
+    } catch (error) {
+      console.log("Error adding prod images" + error);
+      setLoading(false);
+    }
+  };
+
+  // DELETE DOCS
+  const deleteProductdocs = async (deleteId) => {
+    setLoading(true);
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productdocs/${deleteId}`
+      );
+      getAllProductDocs();
+      setLoading(false);
+      SuccessToast("Product Docs Deleted Successfully");
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  // PRODUCT STATUS CHANGE
+  const productDocsStatusChange = async (docId, no) => {
+    setLoading(true);
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productdocs/statuschanges/${docId}/${no}`
+      );
+      getAllProductDocs();
+      setLoading(false);
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  //END DOCS HANDLER AND ADD MULTIPLE DOCS
+
+  ///  **************** END DOCS ******************
+
+  ///  **************** ALL IMAGES SECTION ******************
 
   // get all images of product
   const getAllProductImages = async () => {
@@ -295,6 +422,24 @@ const EditProduct = () => {
     });
   };
 
+  // DELETE IMAGE
+  const deleteProductImg = async (deleteId) => {
+    setLoading(true);
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productimages/${deleteId}`
+      );
+      getAllProductImages();
+      setLoading(false);
+      SuccessToast("Product Image Deleted Successfully");
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  ///  **************** END IMAGES SECTION ******************
+
   return (
     <>
       {loading && <Loading />}
@@ -330,6 +475,18 @@ const EditProduct = () => {
                 onClick={() => showTab("image")}
               >
                 Images
+              </div>
+              <div
+                className={`tab ${activeTab === "video" ? "active" : ""}`}
+                onClick={() => showTab("video")}
+              >
+                Videos
+              </div>
+              <div
+                className={`tab ${activeTab === "docs" ? "active" : ""}`}
+                onClick={() => showTab("docs")}
+              >
+                Docs
               </div>
             </div>
           </div>
@@ -447,6 +604,7 @@ const EditProduct = () => {
                   id="product_image"
                   name="product_image"
                   className="modal_input"
+                  accept="image/png, image/jpeg, image/jpg"
                   onChange={handleEditFileChange}
                 />
               </div>
@@ -631,6 +789,7 @@ const EditProduct = () => {
                   id="product_images"
                   name="product_images"
                   className="modal_input"
+                  accept="image/png, image/jpeg, image/jpg"
                   onChange={handleAddMultipleImagesChange}
                   multiple
                 />
@@ -830,7 +989,10 @@ const EditProduct = () => {
                             <ul className="dd-menu">
                               <li
                                 onClick={() =>
-                                  openDeleteModal(product.prod_image_id)
+                                  openDeleteModal(
+                                    product.prod_image_id,
+                                    "image"
+                                  )
                                 }
                               >
                                 Delete
@@ -853,6 +1015,201 @@ const EditProduct = () => {
                                     onClick={() => {
                                       productImageStatusChange(
                                         product.prod_image_id,
+                                        0
+                                      );
+                                    }}
+                                  >
+                                    Inactive
+                                  </button>
+                                )}
+                              </li>
+                            </ul>
+                          </label>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="8" align="center">
+                        data is not available
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Vedio Tabs */}
+
+          {/* Docs Tabs */}
+          <div
+            id="docs"
+            className={`tab-content add_data_form ${
+              activeTab === "docs" ? "active" : ""
+            }`}
+          >
+            <form method="post" onSubmit={saveMultipleDocs}>
+              <div className="mb-3">
+                <label htmlFor="product_images" className="modal_label">
+                  Product Docs:-
+                </label>
+                <input
+                  type="file"
+                  id="product_images"
+                  name="product_images"
+                  className="modal_input"
+                  accept=".pdf,.png"
+                  onChange={handleAddMultipleDocsChange}
+                  multiple
+                />
+              </div>
+              <div
+                className="mb-3"
+                style={{ display: "flex", flexWrap: "wrap" }}
+              >
+                {addMultiDocs.product_docs &&
+                addMultiDocs.product_docs.length > 0 ? (
+                  <table className="multi-images-table">
+                    <thead>
+                      <tr>
+                        <th width="25%">Title</th>
+                        <th width="15%">Image</th>
+                        <th width="10%">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {addMultiDocs.product_docs.map((image, index) => (
+                        <tr key={index}>
+                          <td>
+                            <input
+                              type="text"
+                              id={`docs_title-${index}`}
+                              name="docs_title"
+                              placeholder="docs Title"
+                              onChange={(e) =>
+                                handleDocsDetailsChange(
+                                  index,
+                                  "docs_title",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </td>
+                          <td>
+                            <img
+                              src={"/assets/images/pdf-icon.webp"}
+                              alt={`Selected productimg ${index + 1}`}
+                            />
+                          </td>
+                          <td>
+                            <button
+                              type="button"
+                              className="remove_multi_img_btn"
+                              onClick={() => removeMultiDocs(index)}
+                            >
+                              <i className="fa-solid fa-xmark"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p>No images selected</p>
+                )}
+              </div>
+              <div className="mb-3">
+                <button type="submit" className="success_btn">
+                  SAVE
+                </button>
+                <Link href="/admin/products">
+                  <button type="button" className="success_btn cancel_btn">
+                    CANCEL
+                  </button>
+                </Link>
+              </div>
+            </form>
+            <hr style={{ marginTop: "30px", marginBottom: "20px" }} />
+            <div className="admin_category_table">
+              <table>
+                <thead>
+                  <tr>
+                    <th style={{ width: "15%" }}>ID</th>
+                    <th style={{ width: "25%" }}>TITLE</th>
+                    <th style={{ width: "25%" }}>IMAGE</th>
+                    <th style={{ width: "10%" }}>OPERATION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allProductDocs.length > 0 ? (
+                    allProductDocs.map((product, index) => (
+                      <tr
+                        key={product.product_id}
+                        style={{
+                          color: product.status === 1 ? "black" : "red",
+                        }}
+                      >
+                        <td>{index + 1}</td>
+                        <td>{product.pdf_title}</td>
+                        <td>
+                          <img
+                            src={`/assets/images/pdf-icon.webp`}
+                            width="100%"
+                            alt="product"
+                            className="tabel_data_image"
+                          />
+                        </td>
+                        <td
+                          style={{
+                            paddingTop: "0px",
+                            paddingBottom: "10px",
+                            textAlign: "end",
+                          }}
+                        >
+                          <span>
+                            <button
+                              className="editbutton"
+                              onClick={() => {
+                                handleEditProduct(product.product_id);
+                              }}
+                            >
+                              <i className="fa-regular fa-pen-to-square"></i>
+                            </button>
+                          </span>
+                          <label className="dropdown">
+                            <div className="dd-button"></div>
+                            <input
+                              type="checkbox"
+                              className="dd-input"
+                              id="test"
+                            />
+                            <ul className="dd-menu">
+                              <li
+                                onClick={() =>
+                                  openDeleteModal(product.prod_docs_id, "docs")
+                                }
+                              >
+                                Delete
+                              </li>
+                              <li>
+                                {" "}
+                                {product.status === 1 ? (
+                                  <button
+                                    onClick={() => {
+                                      productDocsStatusChange(
+                                        product.prod_docs_id,
+                                        1
+                                      );
+                                    }}
+                                  >
+                                    Active
+                                  </button>
+                                ) : (
+                                  <button
+                                    onClick={() => {
+                                      productDocsStatusChange(
+                                        product.prod_docs_id,
                                         0
                                       );
                                     }}

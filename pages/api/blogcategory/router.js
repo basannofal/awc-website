@@ -19,6 +19,24 @@ export default async function handler(req, res) {
           return res.status(400).json({ message: "Please Upload Files." });
         }
 
+        //check! is this image ?
+        const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
+        const CategoryImgExtension = path
+          .extname(files.category_image[0].originalFilename)
+          .toLowerCase();
+        const CategoryIconExtension = path
+          .extname(files.category_icon[0].originalFilename)
+          .toLowerCase();
+
+        if (
+          !allowedImageExtensions.includes(CategoryImgExtension) ||
+          !allowedImageExtensions.includes(CategoryIconExtension)
+        ) {
+          return res
+            .status(400)
+            .json({ message: "Only image files are allowed." });
+        }
+
         // configuration of path and name
         // old path where file availbale
         const oldPathimage = files.category_image[0].filepath; // Access the path of the uploaded image
@@ -74,7 +92,7 @@ export default async function handler(req, res) {
                   newFileNameicon,
                   1,
                 ];
-                const [result] = await conn.query(sql, values)
+                const [result] = await conn.query(sql, values);
                 res.status(200).json(result);
               }
             });
@@ -85,8 +103,7 @@ export default async function handler(req, res) {
       res
         .status(500)
         .json({ message: "Category Failed to Add... Check connection" });
-    }
-    finally {
+    } finally {
       conn.releaseConnection();
     }
   }
@@ -103,7 +120,7 @@ export default async function handler(req, res) {
       res.status(200).json(rows);
     } catch (err) {
       res.status(401).json({ message: "Connection Error" });
-    }finally {
+    } finally {
       conn.releaseConnection();
     }
   }

@@ -28,7 +28,7 @@ export default async function handler(req, res) {
       res
         .status(500)
         .json({ message: "Can not Get category... check connection" });
-    }finally {
+    } finally {
       conn.releaseConnection();
     }
   }
@@ -65,7 +65,7 @@ export default async function handler(req, res) {
       res
         .status(500)
         .json({ message: "Cannot Delete Category... Check Connection" });
-    }finally {
+    } finally {
       conn.releaseConnection();
     }
   }
@@ -75,10 +75,6 @@ export default async function handler(req, res) {
       const form = new IncomingForm();
       form.parse(req, async (err, fields, files) => {
         // check file exist or not
-        console.log("first", id);
-
-        console.log(fields);
-        console.log(files);
         const {
           blog_cate_id,
           blog_title,
@@ -88,6 +84,18 @@ export default async function handler(req, res) {
           meta_keyword,
           canonical_url,
         } = fields;
+
+        //check! is this image ?
+        const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
+        const fileExtension = path
+          .extname(files.blog_thumbnail[0].originalFilename)
+          .toLowerCase();
+
+        if (!allowedImageExtensions.includes(fileExtension)) {
+          return res
+            .status(400)
+            .json({ message: "Only image files are allowed." });
+        }
 
         const [blog] = await conn.query(
           "SELECT blog_thumbnail FROM blog_master WHERE blog_id = ?",

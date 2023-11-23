@@ -17,6 +17,18 @@ export default async function handler(req, res) {
       if (!files.category_image) {
         return res.status(400).json({ message: "Please Upload Files." });
       }
+      
+      //check! is this image ?
+      const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
+      const fileExtension = path
+        .extname(files.category_image[0].originalFilename)
+        .toLowerCase();
+
+      if (!allowedImageExtensions.includes(fileExtension)) {
+        return res
+          .status(400)
+          .json({ message: "Only image files are allowed." });
+      }
 
       // configuration of path and name
       // old path where file availbale
@@ -41,7 +53,6 @@ export default async function handler(req, res) {
           console.log(moveErr);
           res.status(500).json({ message: "File Upload failed." });
         } else {
-
           try {
             console.log(fields);
             // db operation
@@ -55,25 +66,27 @@ export default async function handler(req, res) {
               meta_description,
               canonical_url,
             } = fields;
-  
-            const [row] = await conn.query("INSERT INTO product_category SET ? ", {
-              category_name: category_name,
-              category_title: category_title,
-              category_description: category_description,
-              category_image: newFileName,
-              sub_category: sub_category,
-              meta_tag: meta_tag,
-              meta_keyword: meta_keyword,
-              meta_description: meta_description,
-              canonical_url: canonical_url,
-              status: 1,
-            });
+
+            const [row] = await conn.query(
+              "INSERT INTO product_category SET ? ",
+              {
+                category_name: category_name,
+                category_title: category_title,
+                category_description: category_description,
+                category_image: newFileName,
+                sub_category: sub_category,
+                meta_tag: meta_tag,
+                meta_keyword: meta_keyword,
+                meta_description: meta_description,
+                canonical_url: canonical_url,
+                status: 1,
+              }
+            );
             res.status(200).json(row);
-            
           } catch (err) {
             console.log(err);
-            res.status(500).json({message:"Failed to Add Product Category"})
-          }finally {
+            res.status(500).json({ message: "Failed to Add Product Category" });
+          } finally {
             conn.releaseConnection();
           }
         }
@@ -93,7 +106,7 @@ export default async function handler(req, res) {
       res.status(200).json(rows);
     } catch (err) {
       res.status(401).json({ message: "Connection Error" });
-    }finally {
+    } finally {
       conn.releaseConnection();
     }
   }

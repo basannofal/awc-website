@@ -259,6 +259,7 @@ const AddProdCategory = () => {
                   id="category_image"
                   name="category_image"
                   className="modal_input"
+                  accept="image/png, image/jpeg, image/jpg"
                   onChange={handleAddFileChange}
                   required
                 />

@@ -227,6 +227,7 @@ const AddBlogCategory = () => {
                   id="category_image"
                   name="category_image"
                   className="modal_input"
+                  accept="image/png, image/jpeg, image/jpg"
                   onChange={handleFileBlogCate}
                   required
                 />
@@ -249,6 +250,7 @@ const AddBlogCategory = () => {
                   id="category_icon"
                   name="category_icon"
                   className="modal_input"
+                  accept="image/png, image/jpeg, image/jpg"
                   onChange={handleFileBlogCate}
                   required
                 />

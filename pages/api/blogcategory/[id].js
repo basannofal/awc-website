@@ -28,7 +28,7 @@ export default async function handler(req, res) {
       res
         .status(500)
         .json({ message: "Can not Get category... check connection" });
-    }finally {
+    } finally {
       conn.releaseConnection();
     }
   }
@@ -77,7 +77,7 @@ export default async function handler(req, res) {
       res
         .status(500)
         .json({ message: "Cannot Delete Category... Check Connection" });
-    }finally {
+    } finally {
       conn.releaseConnection();
     }
   }
@@ -125,7 +125,12 @@ export default async function handler(req, res) {
           ];
         } else {
           // Check and update each image if provided
-          const updateImages = async (imageField, imageFile, index, fieldName) => {
+          const updateImages = async (
+            imageField,
+            imageFile,
+            index,
+            fieldName
+          ) => {
             if (imageFile) {
               const oldImage = category[0][fieldName];
               if (oldImage) {
@@ -167,7 +172,18 @@ export default async function handler(req, res) {
           let updatedimage = category_image;
           let updatedicon = category_icon;
 
+          //check! is this image ?
+          const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
+
           if (files.category_image) {
+            const CategoryImgExtension = path
+              .extname(files.category_image[0].originalFilename)
+              .toLowerCase();
+            if (!allowedImageExtensions.includes(CategoryImgExtension)) {
+              return res
+                .status(400)
+                .json({ message: "Only image files are allowed." });
+            }
             updatedimage = await updateImages(
               category_image,
               files.category_image,
@@ -177,7 +193,22 @@ export default async function handler(req, res) {
           }
 
           if (files.category_icon) {
-            updatedicon = await updateImages(category_icon, files.category_icon, 2, "category_icon");
+            const CategoryIconExtension = path
+              .extname(files.category_icon[0].originalFilename)
+              .toLowerCase();
+
+            if (!allowedImageExtensions.includes(CategoryIconExtension)
+            ) {
+              return res
+                .status(400)
+                .json({ message: "Only image files are allowed." });
+            }
+            updatedicon = await updateImages(
+              category_icon,
+              files.category_icon,
+              2,
+              "category_icon"
+            );
           }
 
           // SQL query for updating the database with new images
@@ -202,9 +233,9 @@ export default async function handler(req, res) {
       });
     } catch (err) {
       res
-      .status(500)
-      .json({ message: "Cannot update Category... Check Connection" });
-    }finally {
+        .status(500)
+        .json({ message: "Cannot update Category... Check Connection" });
+    } finally {
       conn.releaseConnection();
     }
   }

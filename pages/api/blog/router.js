@@ -33,6 +33,15 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: "Please Select Category." });
       }
 
+      //check! is this image ? 
+      const allowedImageExtensions = ['.jpg', '.jpeg', '.png'];
+      const fileExtension = path.extname(files.blog_thumbnail[0].originalFilename).toLowerCase();
+  
+      if (!allowedImageExtensions.includes(fileExtension)) {
+        return res.status(400).json({ message: 'Only image files are allowed.' });
+      }
+  
+
       // configuration of path and name
       // old path where file availbale
       const oldPath = files.blog_thumbnail[0].filepath; // Access the path of the uploaded image
