@@ -27,15 +27,23 @@ const AddProduct = () => {
   const [addMultiDocs, setAddMultiDocs] = useState({
     product_docs: [],
   });
+  const [allProductDocs, setAllProductDocs] = useState([]);
   const [isDataAdded, setIsDataAdded] = useState(true);
   const [lastAddId, setLastAddId] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [addProductVedio, setAddProductVedio] = useState({
+    vedio_title: "",
+    vedio_description: "",
+    vedio_link: "",
+    vedio_thumbnail: "",
+  });
 
   //ROUTER
   const router = useRouter();
 
   // product images
   const [allProductImages, setAllProductImages] = useState([]);
+  const [allProductVedios, setAllProductVedios] = useState([]);
 
   // TABS VARIABLE
   const [activeTab, setActiveTab] = useState("general");
@@ -158,6 +166,21 @@ const AddProduct = () => {
   //END
 
   // ADD MULTIPLE DOCS AND MULTIPLE DOCS HANDLER
+
+  // get all Docs of product
+  const getAllProductDocs = async (prodId) => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productdocs/${prodId}`
+      );
+      setAllProductDocs(response.data);
+      setLoading(false);
+    } catch (err) {
+      ErrorToast(err?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
   const handleAddMultipleDocsChange = async (event) => {
     const files = event.target.files;
     const pdfFiles = Array.from(files).filter(
@@ -219,10 +242,42 @@ const AddProduct = () => {
         formdata
       );
       setLoading(false);
+      getAllProductDocs(lastAddId.product_id);
       setAddMultiDocs({ product_docs: [] });
       setActiveTab("video");
     } catch (error) {
       console.log("Error adding prod images" + error);
+      setLoading(false);
+    }
+  };
+
+  // DELETE DOCS
+  const deleteProductdocs = async (deleteId) => {
+    setLoading(true);
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productdocs/${deleteId}`
+      );
+      getAllProductDocs(lastAddId.product_id);
+      setLoading(false);
+      SuccessToast("Product Docs Deleted Successfully");
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  // PRODUCT STATUS CHANGE
+  const productDocsStatusChange = async (docId, no) => {
+    setLoading(true);
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productdocs/statuschanges/${docId}/${no}`
+      );
+      getAllProductDocs(lastAddId.product_id);
+      setLoading(false);
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
       setLoading(false);
     }
   };
@@ -231,7 +286,22 @@ const AddProduct = () => {
   // ADD MULTIPLE IMAGES AND MULTIPLE IMAGES HANDLER
   const handleAddMultipleImagesChange = async (event) => {
     const files = event.target.files;
-    const newImages = Array.from(files).map((file) => ({
+
+    // Filter out non-image files
+    const imageFiles = Array.from(files).filter((file) =>
+      file.type.startsWith("image/")
+    );
+
+    // Check if any non-image files were selected
+    const nonImageFiles = Array.from(files).filter(
+      (file) => !file.type.startsWith("image/")
+    );
+
+    if (nonImageFiles.length > 0) {
+      WarningToast("Only image files are taken from given files.");
+    }
+
+    const newImages = Array.from(imageFiles).map((file) => ({
       file,
       image_title: "",
       sort_image: "",
@@ -294,6 +364,82 @@ const AddProduct = () => {
     }
   };
   //END IMAGES HANDLER AND ADD MULTIPLE IMAGES
+
+  // HANDLE VEDIO DATA
+  //EDITOR
+  const VedioeditorRef = useRef(null);
+  const handleVedioEditorChange = (content, editor) => {
+    setAddProductVedio((prevData) => ({
+      ...prevData,
+      vedio_description: content,
+    }));
+  };
+  //end
+  //HANDLE VEDIO CONTENT SAVE
+  const handleVedioContentChange = (event) => {
+    const { name, value } = event.target;
+    setAddProductVedio((prevContData) => ({
+      ...prevContData,
+      [name]: value,
+    }));
+  };
+  const handleVedioFileChange = (event) => {
+    const file = event.target.files[0];
+    setAddProductVedio((prevProfileData) => ({
+      ...prevProfileData,
+      [event.target.name]: file,
+    }));
+  };
+
+  // GET ALL PRODUCT IMAGES FOR SHOWING WHEN ADD IN IMAGES TAB
+  const getAllProductVedios = async (prodId) => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productvedios/${prodId}`
+      );
+      setAllProductVedios(response.data);
+      setLoading(false);
+    } catch (err) {
+      ErrorToast(err?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  //SAVE VEDIO DATA
+
+  const saveVedios = async (e) => {
+    e.preventDefault();
+    window.scrollTo({ behavior: "smooth", top: 0 });
+    setLoading(true);
+    console.log(addProductVedio);
+    try {
+      const formdata = new FormData();
+      formdata.append("product_id", lastAddId.product_id);
+      formdata.append("vedio_title", addProductVedio.vedio_title);
+      formdata.append("vedio_link", addProductVedio.vedio_link);
+      formdata.append("vedio_description", addProductVedio.vedio_description);
+      formdata.append("vedio_thumbnail", addProductVedio.vedio_thumbnail);
+
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productvedios/router`,
+        formdata
+      );
+      setLoading(false);
+      setAddProductVedio({
+        vedio_title: "",
+        vedio_link: "",
+        vedio_description: "",
+        vedio_thumbnail: null,
+      });
+      getAllProductVedios(lastAddId.product_id);
+      setActiveTab("docs");
+    } catch (error) {
+      console.log("Error adding prod images" + error);
+      setLoading(false);
+    }
+  };
+
+  //END PRODUCT VEDIO SECTION
 
   //META KEYWORD HANDLER
   const handleKeyword = (event) => {
@@ -424,7 +570,7 @@ const AddProduct = () => {
                   apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
                   onInit={(evt, editor) => (editorShortRef.current = editor)}
                   init={{
-                    height: 500,
+                    height: 300,
                     menubar: true,
                     plugins: [
                       "advlist",
@@ -880,151 +1026,168 @@ const AddProduct = () => {
                 activeTab === "video" ? "active" : ""
               }`}
             >
-              <form method="post" onSubmit={saveMultipleImages}>
-                <div className="mb-3">
-                  <label htmlFor="product_images" className="modal_label">
-                    Product Images:-
-                  </label>
-                  <input
-                    type="file"
-                    id="product_images"
-                    name="product_images"
-                    className="modal_input"
-                    accept="image/png, image/jpeg, image/jpg"
-                    onChange={handleAddMultipleImagesChange}
-                    multiple
-                  />
-                </div>
-                <div
-                  className="mb-3"
-                  style={{ display: "flex", flexWrap: "wrap" }}
-                >
-                  {addMultiImages.product_images &&
-                  addMultiImages.product_images.length > 0 ? (
-                    <table className="multi-images-table">
-                      <thead>
-                        <tr>
-                          <th width="25%">Title</th>
-                          <th width="15%">Image</th>
-                          <th width="10%">Width</th>
-                          <th width="10%">Height</th>
-                          <th width="20%">Alternative Text</th>
-                          <th width="10%">Sort</th>
-                          <th width="10%">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {addMultiImages.product_images.map((image, index) => (
-                          <tr key={index}>
-                            <td>
-                              <input
-                                type="text"
-                                id={`image_title-${index}`}
-                                name="image_title"
-                                placeholder="Image Title"
-                                onChange={(e) =>
-                                  handleImageDetailsChange(
-                                    index,
-                                    "image_title",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </td>
-                            <td>
-                              <img
-                                src={URL.createObjectURL(image.file)}
-                                alt={`Selected productimg ${index + 1}`}
-                              />
-                            </td>
-                            <td>
-                              <input
-                                type="text"
-                                id={`image_width-${index}`}
-                                name="image_width"
-                                placeholder="Width"
-                                onChange={(e) =>
-                                  handleImageDetailsChange(
-                                    index,
-                                    "image_width",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </td>
-                            <td>
-                              <input
-                                type="text"
-                                id={`image_height-${index}`}
-                                name="image_height"
-                                placeholder="Height"
-                                onChange={(e) =>
-                                  handleImageDetailsChange(
-                                    index,
-                                    "image_height",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </td>
-                            <td>
-                              <input
-                                type="text"
-                                id={`alternative-${index}`}
-                                name="alternative"
-                                placeholder="alternative"
-                                onChange={(e) =>
-                                  handleImageDetailsChange(
-                                    index,
-                                    "alternative",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </td>
-                            <td>
-                              <input
-                                type="number"
-                                id={`sort_image-${index}`}
-                                name="sort_image"
-                                placeholder="sort"
-                                onChange={(e) =>
-                                  handleImageDetailsChange(
-                                    index,
-                                    "sort_image",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </td>
-                            <td>
-                              <button
-                                type="button"
-                                className="remove_multi_img_btn"
-                                onClick={() => removeMultiImage(index)}
-                              >
-                                <i className="fa-solid fa-xmark"></i>
-                              </button>
-                            </td>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div style={{ width: "70%", margin: "20px" }}>
+                  {allProductVedios && (
+                    <div className="admin_category_table">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th style={{ width: "15%" }}>ID</th>
+                            <th style={{ width: "15%" }}>TITLE</th>
+                            <th style={{ width: "30%" }}>DESCRIPTION</th>
+                            <th style={{ width: "15%" }}>THUMBNAIL</th>
+                            <th style={{ width: "10%" }}>LINK</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  ) : (
-                    <p>No images selected</p>
+                        </thead>
+                        <tbody>
+                          {allProductVedios.length > 0 ? (
+                            allProductVedios.map((product, index) => (
+                              <tr
+                                key={product.product_id}
+                                style={{
+                                  color: product.status === 1 ? "black" : "red",
+                                }}
+                              >
+                                <td>{index + 1}</td>
+                                <td>{product.video_title}</td>
+                                <td>{product.video_description}</td>
+                                <td>
+                                  <img
+                                    src={`/assets/upload/products/productVedios/${product.video_thumbnail}`}
+                                    width="100%"
+                                    alt="Video Thumbnail"
+                                    className="tabel_data_image"
+                                  />
+                                </td>
+                                <td>{product.product_video}</td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td colSpan="5" align="center">
+                                data is not available
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
                 </div>
-                <div className="mb-3">
-                  <button type="submit" className="success_btn">
-                    SAVE
-                  </button>
-                  <Link href="/admin/products">
-                    <button type="button" className="success_btn cancel_btn">
-                      CANCEL
-                    </button>
-                  </Link>
+                <div style={{ width: "30%" }}>
+                  <form method="post" onSubmit={saveVedios}>
+                    <div className="mb-3">
+                      <label htmlFor="vedio_title" className="modal_label">
+                        Vedio Title:-
+                      </label>
+                      <input
+                        type="text"
+                        id="vedio_title"
+                        name="vedio_title"
+                        className="modal_input"
+                        placeholder="Enter Vedio Title"
+                        onChange={handleVedioContentChange}
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <p className="modal_label">Vedio Description:-</p>
+                      <Editor
+                        apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
+                        onInit={(evt, editor) =>
+                          (VedioeditorRef.current = editor)
+                        }
+                        init={{
+                          height: 300,
+                          menubar: true,
+                          plugins: [
+                            "advlist",
+                            "autolink",
+                            "lists",
+                            "link",
+                            "image",
+                            "charmap",
+                            "preview",
+                            "anchor",
+                            "searchreplace",
+                            "visualblocks",
+                            "code",
+                            "fullscreen",
+                            "insertdatetime",
+                            "media",
+                            "table",
+                            "code",
+                            "help",
+                            "wordcount",
+                          ],
+                          toolbar:
+                            "undo redo | blocks | " +
+                            "bold italic forecolor | alignleft aligncenter " +
+                            "alignright alignjustify | bullist numlist outdent indent | " +
+                            "removeformat | help",
+                        }}
+                        onChange={() =>
+                          handleVedioEditorChange(
+                            VedioeditorRef.current.getContent()
+                          )
+                        }
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="vedio_link" className="modal_label">
+                        Vedio Link:-
+                      </label>
+                      <input
+                        type="text"
+                        id="vedio_link"
+                        name="vedio_link"
+                        className="modal_input"
+                        placeholder="Enter Vedio Link"
+                        onChange={handleVedioContentChange}
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="vedio_thumbnail" className="modal_label">
+                        vedio Image:-
+                      </label>
+                      <input
+                        type="file"
+                        id="vedio_thumbnail"
+                        name="vedio_thumbnail"
+                        className="modal_input"
+                        accept="image/png, image/jpeg, image/jpg"
+                        onChange={handleVedioFileChange}
+                        required
+                      />
+                    </div>
+                    <div
+                      className="mb-3"
+                      style={{ display: "flex", flexWrap: "wrap" }}
+                    ></div>
+                    <div className="mb-3">
+                      <button type="submit" className="success_btn">
+                        SAVE
+                      </button>
+                      <Link href="/admin/products">
+                        <button
+                          type="button"
+                          className="success_btn cancel_btn"
+                        >
+                          CANCEL
+                        </button>
+                      </Link>
+                    </div>
+                  </form>
                 </div>
-              </form>
+              </div>
             </div>
           )}
 
@@ -1117,6 +1280,112 @@ const AddProduct = () => {
                   </Link>
                 </div>
               </form>
+              <hr style={{ marginTop: "30px", marginBottom: "20px" }} />
+              <div className="admin_category_table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th style={{ width: "15%" }}>ID</th>
+                      <th style={{ width: "25%" }}>TITLE</th>
+                      <th style={{ width: "25%" }}>IMAGE</th>
+                      <th style={{ width: "10%" }}>OPERATION</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allProductDocs.length > 0 ? (
+                      allProductDocs.map((product, index) => (
+                        <tr
+                          key={product.product_id}
+                          style={{
+                            color: product.status === 1 ? "black" : "red",
+                          }}
+                        >
+                          <td>{index + 1}</td>
+                          <td>{product.pdf_title}</td>
+                          <td>
+                            <img
+                              src={`/assets/images/pdf-icon.webp`}
+                              width="100%"
+                              alt="product"
+                              className="tabel_data_image"
+                            />
+                          </td>
+                          <td
+                            style={{
+                              paddingTop: "0px",
+                              paddingBottom: "10px",
+                              textAlign: "end",
+                            }}
+                          >
+                            <span>
+                              <button
+                                className="editbutton"
+                                onClick={() => {
+                                  handleEditProduct(product.product_id);
+                                }}
+                              >
+                                <i className="fa-regular fa-pen-to-square"></i>
+                              </button>
+                            </span>
+                            <label className="dropdown">
+                              <div className="dd-button"></div>
+                              <input
+                                type="checkbox"
+                                className="dd-input"
+                                id="test"
+                              />
+                              <ul className="dd-menu">
+                                <li
+                                  onClick={() =>
+                                    openDeleteModal(
+                                      product.prod_docs_id,
+                                      "docs"
+                                    )
+                                  }
+                                >
+                                  Delete
+                                </li>
+                                <li>
+                                  {" "}
+                                  {product.status === 1 ? (
+                                    <button
+                                      onClick={() => {
+                                        productDocsStatusChange(
+                                          product.prod_docs_id,
+                                          1
+                                        );
+                                      }}
+                                    >
+                                      Active
+                                    </button>
+                                  ) : (
+                                    <button
+                                      onClick={() => {
+                                        productDocsStatusChange(
+                                          product.prod_docs_id,
+                                          0
+                                        );
+                                      }}
+                                    >
+                                      Inactive
+                                    </button>
+                                  )}
+                                </li>
+                              </ul>
+                            </label>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="4" align="center">
+                          data is not available
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
         </div>

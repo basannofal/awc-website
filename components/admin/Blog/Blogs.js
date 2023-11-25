@@ -155,8 +155,8 @@ const Blogs = () => {
             <thead>
               <tr>
                 <th style={{ width: "15%" }}>ID</th>
-                <th style={{ width: "30%" }}>TITLE</th>
                 <th style={{ width: "25%" }}>THUMBNAIL</th>
+                <th style={{ width: "30%" }}>TITLE</th>
                 <th style={{ width: "20%" }}>CATEGORY</th>
                 <th style={{ width: "10%" }}>OPERATION</th>
               </tr>
@@ -169,7 +169,6 @@ const Blogs = () => {
                     style={{ color: blog.status === 1 ? "black" : "red" }}
                   >
                     <td>{index + 1}</td>
-                    <td>{blog.blog_title}</td>
                     <td>
                       <img
                         src={`/assets/upload/blogs/${blog.blog_thumbnail}`}
@@ -178,6 +177,7 @@ const Blogs = () => {
                         className="tabel_data_image"
                       />
                     </td>
+                    <td>{blog.blog_title}</td>
                     <td>
                       {blog.blog_cate_id
                         ? getCategoryData.find(

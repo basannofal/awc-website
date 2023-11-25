@@ -136,9 +136,9 @@ const BlogCategory = () => {
             <thead>
               <tr>
                 <th style={{ width: "10%" }}>ID</th>
-                <th style={{ width: "30%" }}>TITLE</th>
-                <th style={{ width: "25%" }}>IMAGE</th>
                 <th style={{ width: "25%" }}>ICON</th>
+                <th style={{ width: "25%" }}>IMAGE</th>
+                <th style={{ width: "30%" }}>TITLE</th>
                 <th style={{ width: "10%" }}>OPERATION</th>
               </tr>
             </thead>
@@ -150,15 +150,6 @@ const BlogCategory = () => {
                     style={{ color: category.status === 1 ? "black" : "red" }}
                   >
                     <td>{index + 1}</td>
-                    <td>{category.category_title}</td>
-                    <td>
-                      <img
-                        src={`/assets/upload/blog/${category.category_image}`}
-                        width="100%"
-                        className="tabel_data_image"
-                        alt="category_image"
-                      />
-                    </td>
                     <td>
                       <img
                         src={`/assets/upload/blog/${category.category_icon}`}
@@ -167,6 +158,15 @@ const BlogCategory = () => {
                         alt="category_icon"
                       />
                     </td>
+                    <td>
+                      <img
+                        src={`/assets/upload/blog/${category.category_image}`}
+                        width="100%"
+                        className="tabel_data_image"
+                        alt="category_image"
+                      />
+                    </td>
+                    <td>{category.category_title}</td>
                     <td
                       style={{
                         paddingTop: "0px",

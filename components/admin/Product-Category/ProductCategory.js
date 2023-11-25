@@ -178,10 +178,10 @@ const ProductCategory = () => {
             <thead>
               <tr>
                 <th style={{ width: "7%" }}>ID</th>
+                <th style={{ width: "20%" }}>IMAGE</th>
                 <th style={{ width: "25%" }}>NAME</th>
                 <th style={{ width: "25%" }}>TITLE</th>
                 <th style={{ width: "17%" }}>SUB CATEGORY</th>
-                <th style={{ width: "20%" }}>IMAGE</th>
                 <th style={{ width: "10%" }}>OPEARATION</th>
               </tr>
             </thead>
@@ -193,6 +193,15 @@ const ProductCategory = () => {
                     style={{ color: category.status === 1 ? "black" : "red" }}
                   >
                     <td>{index + 1}</td>
+                    <td>
+                      <img
+                        src={`/assets/upload/product-category/${category.category_image}`}
+                        width="150px"
+                        height="150px"
+                        alt="Category"
+                        className="tabel_data_image"
+                      />
+                    </td>
                     <td>{category.category_name}</td>
                     <td>{category.category_title}</td>
 
@@ -203,15 +212,6 @@ const ProductCategory = () => {
                               subCategory.category_id === category.sub_category
                           )?.category_name
                         : "null"}
-                    </td>
-                    <td>
-                      <img
-                        src={`/assets/upload/product-category/${category.category_image}`}
-                        width="150px"
-                        height="150px"
-                        alt="Category"
-                        className="tabel_data_image"
-                      />
                     </td>
                     <td
                       style={{

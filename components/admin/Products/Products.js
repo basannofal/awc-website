@@ -155,8 +155,8 @@ const Products = () => {
             <thead>
               <tr>
                 <th style={{ width: "15%" }}>ID</th>
-                <th style={{ width: "30%" }}>TITLE</th>
                 <th style={{ width: "25%" }}>IMAGE</th>
+                <th style={{ width: "30%" }}>TITLE</th>
                 <th style={{ width: "20%" }}>CATEGORY</th>
                 <th style={{ width: "10%" }}>OPERATION</th>
               </tr>
@@ -169,7 +169,6 @@ const Products = () => {
                     style={{ color: product.status === 1 ? "black" : "red" }}
                   >
                     <td>{index + 1}</td>
-                    <td>{product.product_title}</td>
                     <td>
                       <img
                         src={`/assets/upload/products/${product.product_image}`}
@@ -178,6 +177,7 @@ const Products = () => {
                         className="tabel_data_image"
                       />
                     </td>
+                    <td>{product.product_title}</td>
                     <td>
                       {product.cate_id
                         ? getCategoryData.find(

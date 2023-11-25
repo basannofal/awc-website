@@ -5,7 +5,11 @@ import { useRouter } from "next/router";
 import Loading from "@/layouts/Loading";
 import Header from "@/layouts/Header";
 import Link from "next/link";
-import Toast, { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
+import Toast, {
+  ErrorToast,
+  SuccessToast,
+  WarningToast,
+} from "@/layouts/toast/Toast";
 import DeleteModal from "@/layouts/DeleteModal";
 
 const EditProduct = () => {
@@ -37,6 +41,14 @@ const EditProduct = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [productImgId, setproductImgId] = useState(null);
   const [deleteopt, setDeleteopt] = useState("");
+  
+  const [addProductVedio, setAddProductVedio] = useState({
+    vedio_title: "",
+    vedio_description: "",
+    vedio_link: "",
+    vedio_thumbnail: "",
+  });
+  const [allProductVedios, setAllProductVedios] = useState([]);
 
   //TABS HANDLER
   const [activeTab, setActiveTab] = useState("general");
@@ -196,6 +208,7 @@ const EditProduct = () => {
     getProductCategoryForEdit(prodId);
     getAllProductImages();
     getAllProductDocs();
+    getAllProductVedios();
   }, [prodId]);
 
   ///  **************** ALL DOCS ******************
@@ -388,7 +401,21 @@ const EditProduct = () => {
   //handle images
   const handleAddMultipleImagesChange = async (event) => {
     const files = event.target.files;
-    const newImages = Array.from(files).map((file) => ({
+
+    // Filter out non-image files
+    const imageFiles = Array.from(files).filter((file) =>
+      file.type.startsWith("image/")
+    );
+
+    // Check if any non-image files were selected
+    const nonImageFiles = Array.from(files).filter(
+      (file) => !file.type.startsWith("image/")
+    );
+
+    if (nonImageFiles.length > 0) {
+      WarningToast("Only image files are taken from given files.");
+    }
+    const newImages = Array.from(imageFiles).map((file) => ({
       file,
       image_title: "",
       sort_image: "",
@@ -439,6 +466,84 @@ const EditProduct = () => {
   };
 
   ///  **************** END IMAGES SECTION ******************
+
+
+    // HANDLE VEDIO DATA
+  //EDITOR
+  const VedioeditorRef = useRef(null);
+  const handleVedioEditorChange = (content, editor) => {
+    setAddProductVedio((prevData) => ({
+      ...prevData,
+      vedio_description: content,
+    }));
+  };
+  //end
+  //HANDLE VEDIO CONTENT SAVE
+  const handleVedioContentChange = (event) => {
+    const { name, value } = event.target;
+    setAddProductVedio((prevContData) => ({
+      ...prevContData,
+      [name]: value,
+    }));
+  };
+  const handleVedioFileChange = (event) => {
+    const file = event.target.files[0];
+    setAddProductVedio((prevProfileData) => ({
+      ...prevProfileData,
+      [event.target.name]: file,
+    }));
+  };
+
+  // GET ALL PRODUCT IMAGES FOR SHOWING WHEN ADD IN IMAGES TAB
+  const getAllProductVedios = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productvedios/${prodId}`
+      );
+      setAllProductVedios(response.data);
+      setLoading(false);
+    } catch (err) {
+      ErrorToast(err?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  //SAVE VEDIO DATA
+
+  const saveVedios = async (e) => {
+    e.preventDefault();
+    window.scrollTo({ behavior: "smooth", top: 0 });
+    setLoading(true);
+    console.log(addProductVedio);
+    try {
+      const formdata = new FormData();
+      formdata.append("product_id", prodId);
+      formdata.append("vedio_title", addProductVedio.vedio_title);
+      formdata.append("vedio_link", addProductVedio.vedio_link);
+      formdata.append("vedio_description", addProductVedio.vedio_description);
+      formdata.append("vedio_thumbnail", addProductVedio.vedio_thumbnail);
+
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productvedios/router`,
+        formdata
+      );
+      setLoading(false);
+      setAddProductVedio({
+        vedio_title: "",
+        vedio_link: "",
+        vedio_description: "",
+        vedio_thumbnail: null,
+      });
+      getAllProductVedios();
+      setActiveTab("docs");
+    } catch (error) {
+      console.log("Error adding prod images" + error);
+      setLoading(false);
+    }
+  };
+
+  //END PRODUCT VEDIO SECTION
+
 
   return (
     <>
@@ -1041,7 +1146,172 @@ const EditProduct = () => {
           </div>
 
           {/* Vedio Tabs */}
-
+          <div
+            id="video"
+            className={`tab-content add_data_form ${
+              activeTab === "video" ? "active" : ""
+            }`}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <div style={{ width: "70%", margin: "20px" }}>
+                {allProductVedios && (
+                  <div className="admin_category_table">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th style={{ width: "15%" }}>ID</th>
+                          <th style={{ width: "15%" }}>TITLE</th>
+                          <th style={{ width: "30%" }}>DESCRIPTION</th>
+                          <th style={{ width: "15%" }}>THUMBNAIL</th>
+                          <th style={{ width: "10%" }}>LINK</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {allProductVedios.length > 0 ? (
+                          allProductVedios.map((product, index) => (
+                            <tr
+                              key={product.product_id}
+                              style={{
+                                color: product.status === 1 ? "black" : "red",
+                              }}
+                            >
+                              <td>{index + 1}</td>
+                              <td>{product.video_title}</td>
+                              <td>{product.video_description}</td>
+                              <td>
+                                <img
+                                  src={`/assets/upload/products/productVedios/${product.video_thumbnail}`}
+                                  width="100%"
+                                  alt="Video Thumbnail"
+                                  className="tabel_data_image"
+                                />
+                              </td>
+                              <td>{product.product_video}</td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="5" align="center">
+                              data is not available
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+              <div style={{ width: "30%" }}>
+                <form method="post" onSubmit={saveVedios}>
+                  <div className="mb-3">
+                    <label htmlFor="vedio_title" className="modal_label">
+                      Vedio Title:-
+                    </label>
+                    <input
+                      type="text"
+                      id="vedio_title"
+                      name="vedio_title"
+                      className="modal_input"
+                      placeholder="Enter Vedio Title"
+                      onChange={handleVedioContentChange}
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <p className="modal_label">Vedio Description:-</p>
+                    <Editor
+                      apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
+                      onInit={(evt, editor) =>
+                        (VedioeditorRef.current = editor)
+                      }
+                      init={{
+                        height: 300,
+                        menubar: true,
+                        plugins: [
+                          "advlist",
+                          "autolink",
+                          "lists",
+                          "link",
+                          "image",
+                          "charmap",
+                          "preview",
+                          "anchor",
+                          "searchreplace",
+                          "visualblocks",
+                          "code",
+                          "fullscreen",
+                          "insertdatetime",
+                          "media",
+                          "table",
+                          "code",
+                          "help",
+                          "wordcount",
+                        ],
+                        toolbar:
+                          "undo redo | blocks | " +
+                          "bold italic forecolor | alignleft aligncenter " +
+                          "alignright alignjustify | bullist numlist outdent indent | " +
+                          "removeformat | help",
+                      }}
+                      onChange={() =>
+                        handleVedioEditorChange(
+                          VedioeditorRef.current.getContent()
+                        )
+                      }
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="vedio_link" className="modal_label">
+                      Vedio Link:-
+                    </label>
+                    <input
+                      type="text"
+                      id="vedio_link"
+                      name="vedio_link"
+                      className="modal_input"
+                      placeholder="Enter Vedio Link"
+                      onChange={handleVedioContentChange}
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="vedio_thumbnail" className="modal_label">
+                      vedio Image:-
+                    </label>
+                    <input
+                      type="file"
+                      id="vedio_thumbnail"
+                      name="vedio_thumbnail"
+                      className="modal_input"
+                      accept="image/png, image/jpeg, image/jpg"
+                      onChange={handleVedioFileChange}
+                      required
+                    />
+                  </div>
+                  <div
+                    className="mb-3"
+                    style={{ display: "flex", flexWrap: "wrap" }}
+                  ></div>
+                  <div className="mb-3">
+                    <button type="submit" className="success_btn">
+                      SAVE
+                    </button>
+                    <Link href="/admin/products">
+                      <button type="button" className="success_btn cancel_btn">
+                        CANCEL
+                      </button>
+                    </Link>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
           {/* Docs Tabs */}
           <div
             id="docs"
@@ -1225,7 +1495,7 @@ const EditProduct = () => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="8" align="center">
+                      <td colSpan="4" align="center">
                         data is not available
                       </td>
                     </tr>
