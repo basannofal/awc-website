@@ -41,7 +41,7 @@ const EditProduct = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [productImgId, setproductImgId] = useState(null);
   const [deleteopt, setDeleteopt] = useState("");
-  
+
   const [addProductVedio, setAddProductVedio] = useState({
     vedio_title: "",
     vedio_description: "",
@@ -49,12 +49,55 @@ const EditProduct = () => {
     vedio_thumbnail: "",
   });
   const [allProductVedios, setAllProductVedios] = useState([]);
+  // per image edit data var
+  const [editingId, setEditingId] = useState(null);
+  const [editingDocId, setEditingDocId] = useState(null);
+  const [editingVedioId, setEditingVedioId] = useState(null);
+
+  const [editperimg, setEditperimg] = useState({
+    product_image: null,
+    alternative: "",
+    image_height: "",
+    image_title: "",
+    image_width: "",
+    sort_image: "",
+  });
+
+  const [editDoc, setEditDoc] = useState({
+    pdf_title: "",
+    pdf_link: null,
+  });
 
   //TABS HANDLER
   const [activeTab, setActiveTab] = useState("general");
 
   const showTab = (tabId) => {
     setActiveTab(tabId);
+  };
+
+  // ... Other state variables and functions ...
+
+  // Function to handle edit click
+  const handleEditVedioClick = (vedioId, vedio) => {
+    setEditingVedioId(vedioId);
+    setAddProductVedio({
+      vedio_title: vedio.video_title,
+      vedio_description: vedio.video_description,
+      vedio_link: vedio.product_video,
+      vedio_thumbnail: vedio.video_thumbnail, // You may need to handle the thumbnail separately
+    });
+  };
+
+  // Function to handle cancel click
+  const handleCancelEditClick = (e) => {
+    e.preventDefault();
+    setEditingVedioId(null);
+    setAddProductVedio({
+      vedio_title: "",
+      vedio_description: "",
+      vedio_link: "",
+      vedio_thumbnail: null,
+    });
   };
 
   //DELETE MODAL HANDLER
@@ -71,8 +114,10 @@ const EditProduct = () => {
     if (productImgId) {
       if (deleteopt == "image") {
         deleteProductImg(productImgId);
-      } else if ("docs") {
+      } else if (deleteopt == "docs") {
         deleteProductdocs(productImgId);
+      } else if (deleteopt == "video") {
+        deleteProductVideos(productImgId);
       }
       closeDeleteModal();
     }
@@ -331,6 +376,52 @@ const EditProduct = () => {
     }
   };
 
+  // PER DOC EDIT HANDLE.
+  const handlePerDocData = (event) => {
+    const { name, value } = event.target;
+    setEditDoc((prevDocData) => ({
+      ...prevDocData,
+      [name]: value,
+    }));
+  };
+
+  const handleEditDocClick = (docId, data) => {
+    setEditingDocId(docId);
+    setEditDoc({
+      pdf_title: data.pdf_title,
+      pdf_link: data.pdf_link,
+    });
+  };
+
+  const handlePerDocFileData = (event) => {
+    const file = event.target.files[0];
+    setEditDoc((prevProfileData) => ({
+      ...prevProfileData,
+      [event.target.name]: file,
+    }));
+  };
+
+  const handleUpdateDocClick = async (prodDocsId) => {
+    try {
+      const formdata = new FormData();
+      formdata.append("pdf_link", editDoc?.pdf_link);
+      formdata.append("pdf_title", editDoc?.pdf_title);
+
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productdocs/perdocdata/${prodDocsId}`,
+        formdata
+      );
+      window.scrollTo({ behavior: "smooth", top: 0 });
+      setLoading(false);
+      getAllProductDocs();
+      setEditingDocId(null);
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+  // END DOC EDIT HANDLE
+
   //END DOCS HANDLER AND ADD MULTIPLE DOCS
 
   ///  **************** END DOCS ******************
@@ -465,10 +556,63 @@ const EditProduct = () => {
     }
   };
 
+  // PER IMG EDIT HANDLE
+  const handlePerImgData = (event) => {
+    const { name, value } = event.target;
+    setEditperimg((prevContData) => ({
+      ...prevContData,
+      [name]: value,
+    }));
+  };
+
+  const handlePerImgFileData = (event) => {
+    const file = event.target.files[0];
+    setEditperimg((prevProfileData) => ({
+      ...prevProfileData,
+      [event.target.name]: file,
+    }));
+  };
+
+  const handleEditClick = (productId, data) => {
+    setEditingId(productId);
+    setEditperimg({
+      product_image: data.product_image,
+      alternative: data.alternative,
+      image_height: data.image_height,
+      image_title: data.image_title,
+      image_width: data.image_width,
+      sort_image: data.sort_image,
+    });
+  };
+
+  const handleUpdateClick = async (proImgId) => {
+    try {
+      const formdata = new FormData();
+      formdata.append("product_image", editperimg?.product_image);
+      formdata.append("image_title", editperimg?.image_title);
+      formdata.append("alternative", editperimg?.alternative);
+      formdata.append("image_height", editperimg?.image_height);
+      formdata.append("image_width", editperimg?.image_width);
+      formdata.append("sort_image", editperimg?.sort_image);
+
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productimages/perimgdata/${proImgId}`,
+        formdata
+      );
+      window.scrollTo({ behavior: "smooth", top: 0 });
+      setLoading(false);
+      getAllProductImages();
+      setEditingId(null);
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+  // END IMG EDIT HANDLE
+
   ///  **************** END IMAGES SECTION ******************
 
-
-    // HANDLE VEDIO DATA
+  // HANDLE VEDIO DATA
   //EDITOR
   const VedioeditorRef = useRef(null);
   const handleVedioEditorChange = (content, editor) => {
@@ -480,6 +624,7 @@ const EditProduct = () => {
   //end
   //HANDLE VEDIO CONTENT SAVE
   const handleVedioContentChange = (event) => {
+    console.log(event);
     const { name, value } = event.target;
     setAddProductVedio((prevContData) => ({
       ...prevContData,
@@ -494,7 +639,22 @@ const EditProduct = () => {
     }));
   };
 
-  // GET ALL PRODUCT IMAGES FOR SHOWING WHEN ADD IN IMAGES TAB
+  //status edit
+  const productVideosStatusChange = async (imgId, no) => {
+    setLoading(true);
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productvedios/statuschanges/${imgId}/${no}`
+      );
+      getAllProductVedios();
+      setLoading(false);
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  // GET ALL PRODUCT VIDEOS FOR SHOWING WHEN ADD IN VIDEOS TAB
   const getAllProductVedios = async () => {
     try {
       const response = await axios.get(
@@ -504,6 +664,22 @@ const EditProduct = () => {
       setLoading(false);
     } catch (err) {
       ErrorToast(err?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  // DELETE DOCS
+  const deleteProductVideos = async (deleteId) => {
+    setLoading(true);
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productvedios/${deleteId}`
+      );
+      getAllProductVedios();
+      setLoading(false);
+      SuccessToast("Product Video Deleted Successfully");
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
       setLoading(false);
     }
   };
@@ -523,11 +699,18 @@ const EditProduct = () => {
       formdata.append("vedio_description", addProductVedio.vedio_description);
       formdata.append("vedio_thumbnail", addProductVedio.vedio_thumbnail);
 
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/products/productvedios/router`,
-        formdata
-      );
+      const url = editingVedioId
+        ? `${process.env.NEXT_PUBLIC_API_URL}/products/productvedios/pervideodata/${editingVedioId}`
+        : `${process.env.NEXT_PUBLIC_API_URL}/products/productvedios/router`;
+
+      const method = editingVedioId ? "patch" : "post";
+
+      await axios[method](url, formdata);
+
       setLoading(false);
+      if (editingVedioId) {
+        setEditingVedioId(null);
+      }
       setAddProductVedio({
         vedio_title: "",
         vedio_link: "",
@@ -543,7 +726,6 @@ const EditProduct = () => {
   };
 
   //END PRODUCT VEDIO SECTION
-
 
   return (
     <>
@@ -625,7 +807,7 @@ const EditProduct = () => {
                   onInit={(evt, editor) => (editorShortRef.current = editor)}
                   initialValue={editProductData?.product_short_desc}
                   init={{
-                    height: 500,
+                    height: 300,
                     menubar: true,
                     plugins: [
                       "advlist",
@@ -908,8 +1090,8 @@ const EditProduct = () => {
                   <table className="multi-images-table">
                     <thead>
                       <tr>
+                        <th width="10%">Image</th>
                         <th width="25%">Title</th>
-                        <th width="15%">Image</th>
                         <th width="10%">Width</th>
                         <th width="10%">Height</th>
                         <th width="20%">Alternative Text</th>
@@ -920,6 +1102,12 @@ const EditProduct = () => {
                     <tbody>
                       {addMultiImages.product_images.map((image, index) => (
                         <tr key={index}>
+                          <td>
+                            <img
+                              src={URL.createObjectURL(image.file)}
+                              alt={`Selected productimg ${index + 1}`}
+                            />
+                          </td>
                           <td>
                             <input
                               type="text"
@@ -933,12 +1121,6 @@ const EditProduct = () => {
                                   e.target.value
                                 )
                               }
-                            />
-                          </td>
-                          <td>
-                            <img
-                              src={URL.createObjectURL(image.file)}
-                              alt={`Selected productimg ${index + 1}`}
                             />
                           </td>
                           <td>
@@ -1035,13 +1217,13 @@ const EditProduct = () => {
                 <thead>
                   <tr>
                     <th style={{ width: "15%" }}>ID</th>
+                    <th style={{ width: "10%" }}>IMAGE</th>
                     <th style={{ width: "25%" }}>TITLE</th>
-                    <th style={{ width: "25%" }}>IMAGE</th>
                     <th style={{ width: "10%" }}>HEIGHT</th>
                     <th style={{ width: "10%" }}>WIDTH</th>
                     <th style={{ width: "20%" }}>Alt TEXT</th>
                     <th style={{ width: "10%" }}>SORT</th>
-                    <th style={{ width: "10%" }}>OPERATION</th>
+                    <th style={{ width: "15%" }}>OPERATION</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1054,83 +1236,173 @@ const EditProduct = () => {
                         }}
                       >
                         <td>{index + 1}</td>
-                        <td>{product.image_title}</td>
-                        <td>
-                          <img
-                            src={`/assets/upload/products/productImages/${product.product_image}`}
-                            width="100%"
-                            alt="product"
-                            className="tabel_data_image"
-                          />
-                        </td>
-                        <td>{product.image_height}</td>
-                        <td>{product.image_width}</td>
-                        <td>{product.alternative}</td>
-                        <td>{product.sort_image}</td>
-                        <td
-                          style={{
-                            paddingTop: "0px",
-                            paddingBottom: "10px",
-                            textAlign: "end",
-                          }}
-                        >
-                          <span>
-                            <button
-                              className="editbutton"
-                              onClick={() => {
-                                handleEditProduct(product.product_id);
-                              }}
-                            >
-                              <i className="fa-regular fa-pen-to-square"></i>
-                            </button>
-                          </span>
-                          <label className="dropdown">
-                            <div className="dd-button"></div>
+                        {editingId === product.prod_image_id ? (
+                          <td className="edit-row">
                             <input
-                              type="checkbox"
-                              className="dd-input"
-                              id="test"
+                              type="file"
+                              name="product_image"
+                              onChange={handlePerImgFileData}
                             />
-                            <ul className="dd-menu">
-                              <li
+                            <img
+                              src={`/assets/upload/products/productImages/${product.product_image}`}
+                              width="100%"
+                              alt="product"
+                              className="tabel_data_image"
+                            />
+                          </td>
+                        ) : (
+                          <td>
+                            <img
+                              src={`/assets/upload/products/productImages/${product.product_image}`}
+                              width="100%"
+                              alt="product"
+                              className="tabel_data_image"
+                            />
+                          </td>
+                        )}
+                        {editingId === product.prod_image_id ? (
+                          <td className="edit-row">
+                            <input
+                              type="text"
+                              name="image_title"
+                              onChange={handlePerImgData}
+                              value={editperimg.image_title}
+                            />
+                          </td>
+                        ) : (
+                          <td>{product.image_title}</td>
+                        )}
+                        {editingId === product.prod_image_id ? (
+                          <td className="edit-row">
+                            <input
+                              type="text"
+                              name="image_height"
+                              onChange={handlePerImgData}
+                              value={editperimg.image_height}
+                            />
+                          </td>
+                        ) : (
+                          <td>{product.image_height}</td>
+                        )}
+                        {editingId === product.prod_image_id ? (
+                          <td className="edit-row">
+                            <input
+                              type="text"
+                              name="image_width"
+                              onChange={handlePerImgData}
+                              value={editperimg.image_width}
+                            />
+                          </td>
+                        ) : (
+                          <td>{product.image_width}</td>
+                        )}
+                        {editingId === product.prod_image_id ? (
+                          <td className="edit-row">
+                            <input
+                              type="text"
+                              name="alternative"
+                              onChange={handlePerImgData}
+                              value={editperimg.alternative}
+                            />
+                          </td>
+                        ) : (
+                          <td>{product.alternative}</td>
+                        )}
+                        {editingId === product.prod_image_id ? (
+                          <td className="edit-row">
+                            <input
+                              type="text"
+                              name="sort_image"
+                              onChange={handlePerImgData}
+                              value={editperimg.sort_image}
+                            />
+                          </td>
+                        ) : (
+                          <td>{product.sort_image}</td>
+                        )}
+                        {editingId === product.prod_image_id ? (
+                          <td className="edit-row">
+                            <div>
+                              <button
                                 onClick={() =>
-                                  openDeleteModal(
-                                    product.prod_image_id,
-                                    "image"
-                                  )
+                                  handleUpdateClick(product.prod_image_id)
                                 }
                               >
-                                Delete
-                              </li>
-                              <li>
-                                {" "}
-                                {product.status === 1 ? (
-                                  <button
-                                    onClick={() => {
-                                      productImageStatusChange(
+                                Update
+                              </button>
+                              <button
+                                className="cancel"
+                                onClick={() => setEditingId(null)}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </td>
+                        ) : (
+                          <td>
+                            <div>
+                              <span>
+                                <button
+                                  className="editbutton"
+                                  onClick={() =>
+                                    handleEditClick(
+                                      product.prod_image_id,
+                                      product
+                                    )
+                                  }
+                                >
+                                  <i className="fa-regular fa-pen-to-square"></i>
+                                </button>
+                              </span>
+                              <label className="dropdown">
+                                <div className="dd-button"></div>
+                                <input
+                                  type="checkbox"
+                                  className="dd-input"
+                                  id="test"
+                                />
+                                <ul className="dd-menu">
+                                  <li
+                                    onClick={() =>
+                                      openDeleteModal(
                                         product.prod_image_id,
-                                        1
-                                      );
-                                    }}
+                                        "image"
+                                      )
+                                    }
                                   >
-                                    Active
-                                  </button>
-                                ) : (
-                                  <button
-                                    onClick={() => {
-                                      productImageStatusChange(
-                                        product.prod_image_id,
-                                        0
-                                      );
-                                    }}
-                                  >
-                                    Inactive
-                                  </button>
-                                )}
-                              </li>
-                            </ul>
-                          </label>
-                        </td>
+                                    Delete
+                                  </li>
+                                  <li>
+                                    {" "}
+                                    {product.status === 1 ? (
+                                      <button
+                                        onClick={() => {
+                                          productImageStatusChange(
+                                            product.prod_image_id,
+                                            1
+                                          );
+                                        }}
+                                      >
+                                        Active
+                                      </button>
+                                    ) : (
+                                      <button
+                                        onClick={() => {
+                                          productImageStatusChange(
+                                            product.prod_image_id,
+                                            0
+                                          );
+                                        }}
+                                      >
+                                        Inactive
+                                      </button>
+                                    )}
+                                  </li>
+                                </ul>
+                              </label>
+                            </div>
+                          </td>
+                        )}
                       </tr>
                     ))
                   ) : (
@@ -1164,11 +1436,12 @@ const EditProduct = () => {
                     <table>
                       <thead>
                         <tr>
-                          <th style={{ width: "15%" }}>ID</th>
+                          <th style={{ width: "5%" }}>ID</th>
+                          <th style={{ width: "10%" }}>IMAGE</th>
                           <th style={{ width: "15%" }}>TITLE</th>
                           <th style={{ width: "30%" }}>DESCRIPTION</th>
-                          <th style={{ width: "15%" }}>THUMBNAIL</th>
                           <th style={{ width: "10%" }}>LINK</th>
+                          <th style={{ width: "15%" }}>OPERATION</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1181,8 +1454,6 @@ const EditProduct = () => {
                               }}
                             >
                               <td>{index + 1}</td>
-                              <td>{product.video_title}</td>
-                              <td>{product.video_description}</td>
                               <td>
                                 <img
                                   src={`/assets/upload/products/productVedios/${product.video_thumbnail}`}
@@ -1191,12 +1462,99 @@ const EditProduct = () => {
                                   className="tabel_data_image"
                                 />
                               </td>
+                              <td>{product.video_title}</td>
+                              <td>{product.video_description}</td>
                               <td>{product.product_video}</td>
+                              <td
+                                style={{
+                                  paddingTop: "0px",
+                                  paddingBottom: "10px",
+                                  textAlign: "end",
+                                }}
+                              >
+                                {editingVedioId !== product.prod_video_id ? (
+                                  <>
+                                    <span>
+                                      <button
+                                        className="editbutton"
+                                        onClick={() => {
+                                          handleEditVedioClick(
+                                            product.prod_video_id,
+                                            product
+                                          );
+                                        }}
+                                      >
+                                        <i className="fa-regular fa-pen-to-square"></i>
+                                      </button>
+                                    </span>
+                                    <label className="dropdown">
+                                      <div className="dd-button"></div>
+                                      <input
+                                        type="checkbox"
+                                        className="dd-input"
+                                        id="test"
+                                      />
+                                      <ul className="dd-menu">
+                                        <li
+                                          onClick={() =>
+                                            openDeleteModal(
+                                              product.prod_video_id,
+                                              "video"
+                                            )
+                                          }
+                                        >
+                                          Delete
+                                        </li>
+                                        <li>
+                                          {" "}
+                                          {product.status === 1 ? (
+                                            <button
+                                              onClick={() => {
+                                                productVideosStatusChange(
+                                                  product.prod_video_id,
+                                                  1
+                                                );
+                                              }}
+                                            >
+                                              Active
+                                            </button>
+                                          ) : (
+                                            <button
+                                              onClick={() => {
+                                                productVideosStatusChange(
+                                                  product.prod_video_id,
+                                                  0
+                                                );
+                                              }}
+                                            >
+                                              Inactive
+                                            </button>
+                                          )}
+                                        </li>
+                                      </ul>
+                                    </label>
+                                  </>
+                                ) : (
+                                  <span>
+                                    <button
+                                      className="editbutton"
+                                      style={{
+                                        borderRadius: "3px",
+                                        backgroundColor: "#bc1c1c",
+                                        color: "#fff",
+                                      }}
+                                      onClick={handleCancelEditClick}
+                                    >
+                                      <i class="fa-solid fa-xmark"></i>
+                                    </button>
+                                  </span>
+                                )}
+                              </td>
                             </tr>
                           ))
                         ) : (
                           <tr>
-                            <td colSpan="5" align="center">
+                            <td colSpan="6" align="center">
                               data is not available
                             </td>
                           </tr>
@@ -1210,22 +1568,24 @@ const EditProduct = () => {
                 <form method="post" onSubmit={saveVedios}>
                   <div className="mb-3">
                     <label htmlFor="vedio_title" className="modal_label">
-                      Vedio Title:-
+                      Video Title:-
                     </label>
                     <input
                       type="text"
                       id="vedio_title"
                       name="vedio_title"
                       className="modal_input"
-                      placeholder="Enter Vedio Title"
+                      placeholder="Enter Video Title"
                       onChange={handleVedioContentChange}
+                      value={addProductVedio.vedio_title}
                       required
                     />
                   </div>
                   <div className="mb-3">
-                    <p className="modal_label">Vedio Description:-</p>
+                    <p className="modal_label">Video Description:-</p>
                     <Editor
                       apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
+                      initialValue={addProductVedio.vedio_description}
                       onInit={(evt, editor) =>
                         (VedioeditorRef.current = editor)
                       }
@@ -1268,21 +1628,22 @@ const EditProduct = () => {
                   </div>
                   <div className="mb-3">
                     <label htmlFor="vedio_link" className="modal_label">
-                      Vedio Link:-
+                      Video Link:-
                     </label>
                     <input
                       type="text"
                       id="vedio_link"
                       name="vedio_link"
                       className="modal_input"
-                      placeholder="Enter Vedio Link"
+                      placeholder="Enter Video Link"
                       onChange={handleVedioContentChange}
+                      value={addProductVedio.vedio_link}
                       required
                     />
                   </div>
                   <div className="mb-3">
                     <label htmlFor="vedio_thumbnail" className="modal_label">
-                      vedio Image:-
+                      Video Image:-
                     </label>
                     <input
                       type="file"
@@ -1291,8 +1652,18 @@ const EditProduct = () => {
                       className="modal_input"
                       accept="image/png, image/jpeg, image/jpg"
                       onChange={handleVedioFileChange}
-                      required
+                      require={editingVedioId !== null}
                     />
+                    {editingVedioId ? (
+                      <img
+                        src={`/assets/upload/products/productVedios/${addProductVedio.vedio_thumbnail}`}
+                        width="100%"
+                        alt="product"
+                        className="tabel_data_image"
+                      />
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div
                     className="mb-3"
@@ -1300,13 +1671,13 @@ const EditProduct = () => {
                   ></div>
                   <div className="mb-3">
                     <button type="submit" className="success_btn">
-                      SAVE
+                      {editingVedioId ? "UPDATE" : "SAVE"}
                     </button>
-                    <Link href="/admin/products">
+                    <button onClick={handleCancelEditClick}>
                       <button type="button" className="success_btn cancel_btn">
                         CANCEL
                       </button>
-                    </Link>
+                    </button>
                   </div>
                 </form>
               </div>
@@ -1343,14 +1714,20 @@ const EditProduct = () => {
                   <table className="multi-images-table">
                     <thead>
                       <tr>
+                        <th width="5%">Image</th>
                         <th width="25%">Title</th>
-                        <th width="15%">Image</th>
-                        <th width="10%">Action</th>
+                        <th width="5%">Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {addMultiDocs.product_docs.map((image, index) => (
                         <tr key={index}>
+                          <td>
+                            <img
+                              src={"/assets/images/pdf-icon.webp"}
+                              alt={`Selected productimg ${index + 1}`}
+                            />
+                          </td>
                           <td>
                             <input
                               type="text"
@@ -1364,12 +1741,6 @@ const EditProduct = () => {
                                   e.target.value
                                 )
                               }
-                            />
-                          </td>
-                          <td>
-                            <img
-                              src={"/assets/images/pdf-icon.webp"}
-                              alt={`Selected productimg ${index + 1}`}
                             />
                           </td>
                           <td>
@@ -1405,9 +1776,9 @@ const EditProduct = () => {
               <table>
                 <thead>
                   <tr>
-                    <th style={{ width: "15%" }}>ID</th>
+                    <th style={{ width: "5%" }}>ID</th>
+                    <th style={{ width: "10%" }}>IMAGE</th>
                     <th style={{ width: "25%" }}>TITLE</th>
-                    <th style={{ width: "25%" }}>IMAGE</th>
                     <th style={{ width: "10%" }}>OPERATION</th>
                   </tr>
                 </thead>
@@ -1421,76 +1792,128 @@ const EditProduct = () => {
                         }}
                       >
                         <td>{index + 1}</td>
-                        <td>{product.pdf_title}</td>
-                        <td>
-                          <img
-                            src={`/assets/images/pdf-icon.webp`}
-                            width="100%"
-                            alt="product"
-                            className="tabel_data_image"
-                          />
-                        </td>
-                        <td
-                          style={{
-                            paddingTop: "0px",
-                            paddingBottom: "10px",
-                            textAlign: "end",
-                          }}
-                        >
-                          <span>
-                            <button
-                              className="editbutton"
-                              onClick={() => {
-                                handleEditProduct(product.product_id);
-                              }}
-                            >
-                              <i className="fa-regular fa-pen-to-square"></i>
-                            </button>
-                          </span>
-                          <label className="dropdown">
-                            <div className="dd-button"></div>
+                        {editingDocId === product.prod_docs_id ? (
+                          <td className="edit-row">
                             <input
-                              type="checkbox"
-                              className="dd-input"
-                              id="test"
+                              type="file"
+                              name="pdf_link"
+                              onChange={handlePerDocFileData}
                             />
-                            <ul className="dd-menu">
-                              <li
+                            <td>
+                              <img
+                                src={`/assets/images/pdf-icon.webp`}
+                                width="100%"
+                                alt="product"
+                                className="tabel_data_image"
+                              />
+                            </td>
+                          </td>
+                        ) : (
+                          <td>
+                            <td>
+                              <img
+                                src={`/assets/images/pdf-icon.webp`}
+                                width="100%"
+                                alt="product"
+                                className="tabel_data_image"
+                              />
+                            </td>
+                          </td>
+                        )}
+                        {editingDocId === product.prod_docs_id ? (
+                          <td className="edit-row">
+                            <input
+                              type="text"
+                              name="pdf_title"
+                              onChange={handlePerDocData}
+                              value={editDoc.pdf_title}
+                            />
+                          </td>
+                        ) : (
+                          <td>{product.pdf_title}</td>
+                        )}
+                        {editingDocId === product.prod_docs_id ? (
+                          <td className="edit-row">
+                            <div>
+                              <button
                                 onClick={() =>
-                                  openDeleteModal(product.prod_docs_id, "docs")
+                                  handleUpdateDocClick(product.prod_docs_id)
                                 }
                               >
-                                Delete
-                              </li>
-                              <li>
-                                {" "}
-                                {product.status === 1 ? (
-                                  <button
-                                    onClick={() => {
-                                      productDocsStatusChange(
+                                Update
+                              </button>
+                              <button
+                                className="cancel"
+                                onClick={() => setEditingDocId(null)}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </td>
+                        ) : (
+                          <td>
+                            <div>
+                              <span>
+                                <button
+                                  className="editbutton"
+                                  onClick={() =>
+                                    handleEditDocClick(
+                                      product.prod_docs_id,
+                                      product
+                                    )
+                                  }
+                                >
+                                  <i className="fa-regular fa-pen-to-square"></i>
+                                </button>
+                              </span>
+                              <label className="dropdown">
+                                <div className="dd-button"></div>
+                                <input
+                                  type="checkbox"
+                                  className="dd-input"
+                                  id="test"
+                                />
+                                <ul className="dd-menu">
+                                  <li
+                                    onClick={() =>
+                                      openDeleteModal(
                                         product.prod_docs_id,
-                                        1
-                                      );
-                                    }}
+                                        "docs"
+                                      )
+                                    }
                                   >
-                                    Active
-                                  </button>
-                                ) : (
-                                  <button
-                                    onClick={() => {
-                                      productDocsStatusChange(
-                                        product.prod_docs_id,
-                                        0
-                                      );
-                                    }}
-                                  >
-                                    Inactive
-                                  </button>
-                                )}
-                              </li>
-                            </ul>
-                          </label>
-                        </td>
+                                    Delete
+                                  </li>
+                                  <li>
+                                    {product.status === 1 ? (
+                                      <button
+                                        onClick={() =>
+                                          productDocsStatusChange(
+                                            product.prod_docs_id,
+                                            1
+                                          )
+                                        }
+                                      >
+                                        Active
+                                      </button>
+                                    ) : (
+                                      <button
+                                        onClick={() =>
+                                          productDocsStatusChange(
+                                            product.prod_docs_id,
+                                            0
+                                          )
+                                        }
+                                      >
+                                        Inactive
+                                      </button>
+                                    )}
+                                  </li>
+                                </ul>
+                              </label>
+                            </div>
+                          </td>
+                        )}
                       </tr>
                     ))
                   ) : (

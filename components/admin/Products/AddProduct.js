@@ -244,43 +244,13 @@ const AddProduct = () => {
       setLoading(false);
       getAllProductDocs(lastAddId.product_id);
       setAddMultiDocs({ product_docs: [] });
-      setActiveTab("video");
+      setActiveTab("docs");
     } catch (error) {
       console.log("Error adding prod images" + error);
       setLoading(false);
     }
   };
 
-  // DELETE DOCS
-  const deleteProductdocs = async (deleteId) => {
-    setLoading(true);
-    try {
-      await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/products/productdocs/${deleteId}`
-      );
-      getAllProductDocs(lastAddId.product_id);
-      setLoading(false);
-      SuccessToast("Product Docs Deleted Successfully");
-    } catch (error) {
-      ErrorToast(error?.response?.data?.message);
-      setLoading(false);
-    }
-  };
-
-  // PRODUCT STATUS CHANGE
-  const productDocsStatusChange = async (docId, no) => {
-    setLoading(true);
-    try {
-      await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/products/productdocs/statuschanges/${docId}/${no}`
-      );
-      getAllProductDocs(lastAddId.product_id);
-      setLoading(false);
-    } catch (error) {
-      ErrorToast(error?.response?.data?.message);
-      setLoading(false);
-    }
-  };
   //END DOCS HANDLER AND ADD MULTIPLE DOCS
 
   // ADD MULTIPLE IMAGES AND MULTIPLE IMAGES HANDLER
@@ -1084,20 +1054,20 @@ const AddProduct = () => {
                   <form method="post" onSubmit={saveVedios}>
                     <div className="mb-3">
                       <label htmlFor="vedio_title" className="modal_label">
-                        Vedio Title:-
+                        Video Title:-
                       </label>
                       <input
                         type="text"
                         id="vedio_title"
                         name="vedio_title"
                         className="modal_input"
-                        placeholder="Enter Vedio Title"
+                        placeholder="Enter Video Title"
                         onChange={handleVedioContentChange}
                         required
                       />
                     </div>
                     <div className="mb-3">
-                      <p className="modal_label">Vedio Description:-</p>
+                      <p className="modal_label">Video Description:-</p>
                       <Editor
                         apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
                         onInit={(evt, editor) =>
@@ -1142,21 +1112,21 @@ const AddProduct = () => {
                     </div>
                     <div className="mb-3">
                       <label htmlFor="vedio_link" className="modal_label">
-                        Vedio Link:-
+                        Video Link:-
                       </label>
                       <input
                         type="text"
                         id="vedio_link"
                         name="vedio_link"
                         className="modal_input"
-                        placeholder="Enter Vedio Link"
+                        placeholder="Enter Video Link"
                         onChange={handleVedioContentChange}
                         required
                       />
                     </div>
                     <div className="mb-3">
                       <label htmlFor="vedio_thumbnail" className="modal_label">
-                        vedio Image:-
+                        Video Image:-
                       </label>
                       <input
                         type="file"
@@ -1288,7 +1258,6 @@ const AddProduct = () => {
                       <th style={{ width: "15%" }}>ID</th>
                       <th style={{ width: "25%" }}>TITLE</th>
                       <th style={{ width: "25%" }}>IMAGE</th>
-                      <th style={{ width: "10%" }}>OPERATION</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1310,75 +1279,11 @@ const AddProduct = () => {
                               className="tabel_data_image"
                             />
                           </td>
-                          <td
-                            style={{
-                              paddingTop: "0px",
-                              paddingBottom: "10px",
-                              textAlign: "end",
-                            }}
-                          >
-                            <span>
-                              <button
-                                className="editbutton"
-                                onClick={() => {
-                                  handleEditProduct(product.product_id);
-                                }}
-                              >
-                                <i className="fa-regular fa-pen-to-square"></i>
-                              </button>
-                            </span>
-                            <label className="dropdown">
-                              <div className="dd-button"></div>
-                              <input
-                                type="checkbox"
-                                className="dd-input"
-                                id="test"
-                              />
-                              <ul className="dd-menu">
-                                <li
-                                  onClick={() =>
-                                    openDeleteModal(
-                                      product.prod_docs_id,
-                                      "docs"
-                                    )
-                                  }
-                                >
-                                  Delete
-                                </li>
-                                <li>
-                                  {" "}
-                                  {product.status === 1 ? (
-                                    <button
-                                      onClick={() => {
-                                        productDocsStatusChange(
-                                          product.prod_docs_id,
-                                          1
-                                        );
-                                      }}
-                                    >
-                                      Active
-                                    </button>
-                                  ) : (
-                                    <button
-                                      onClick={() => {
-                                        productDocsStatusChange(
-                                          product.prod_docs_id,
-                                          0
-                                        );
-                                      }}
-                                    >
-                                      Inactive
-                                    </button>
-                                  )}
-                                </li>
-                              </ul>
-                            </label>
-                          </td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="4" align="center">
+                        <td colSpan="3" align="center">
                           data is not available
                         </td>
                       </tr>

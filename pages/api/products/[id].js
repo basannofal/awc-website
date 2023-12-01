@@ -66,7 +66,49 @@ export default async function handler(req, res) {
         ]);
       }
 
-      // 4. Delete the product from the product_master table
+      // 4. Check if product has images in product_images table
+      const [videos] = await conn.query(
+        "SELECT prod_video_id, video_thumbnail FROM product_video WHERE product_id = ?",
+        [id]
+      );
+
+      // 5. Delete images from the file system and product_images table
+      for (const video of videos) {
+        const videoPath = path.join(
+          __dirname,
+          "../../../../../public/assets/upload/products/productVedios",
+          video.video_thumbnail
+        );
+
+        await unlink(videoPath);
+
+        await conn.query("DELETE FROM product_video WHERE prod_video_id = ?", [
+          video.prod_video_id,
+        ]);
+      }
+
+      // 6. Check if product has images in product_images table
+      const [docs] = await conn.query(
+        "SELECT prod_docs_id, pdf_link FROM product_docs WHERE product_id = ?",
+        [id]
+      );
+
+      // 7. Delete images from the file system and product_images table
+      for (const doc of docs) {
+        const docPath = path.join(
+          __dirname,
+          "../../../../../public/assets/upload/products/productDocs",
+          doc.pdf_link
+        );
+
+        await unlink(docPath);
+
+        await conn.query("DELETE FROM product_docs WHERE prod_docs_id = ?", [
+          doc.prod_docs_id,
+        ]);
+      }
+
+      // 8. Delete the product from the product_master table
       const q = "DELETE FROM product_master WHERE product_id = ?";
 
       const [rows] = await conn.query(q, [id]);
@@ -83,7 +125,7 @@ export default async function handler(req, res) {
         console.log(newPath);
         await unlink(newPath);
       }
-      // 5. Commit the transaction
+      // 9. Commit the transaction
       await conn.query("COMMIT");
 
       // Process the data and send the response
