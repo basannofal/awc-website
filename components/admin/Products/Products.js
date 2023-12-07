@@ -158,7 +158,8 @@ const Products = () => {
                 <th style={{ width: "25%" }}>IMAGE</th>
                 <th style={{ width: "30%" }}>TITLE</th>
                 <th style={{ width: "20%" }}>CATEGORY</th>
-                <th style={{ width: "10%" }}>OPERATION</th>
+                <th style={{ width: "15%" }}>OPERATION</th>
+                <th style={{ width: "10%" }}>STATUS</th>
               </tr>
             </thead>
             <tbody>
@@ -186,62 +187,45 @@ const Products = () => {
                           )?.category_name
                         : "null"}
                     </td>
-                    <td
-                      style={{
-                        paddingTop: "0px",
-                        paddingBottom: "10px",
-                        textAlign: "end",
-                      }}
-                    >
-                      <span>
-                        <button
-                          className="editbutton"
+                    <td>
+                      <button
+                        className="editbutton"
+                        onClick={() => {
+                          handleEditProduct(
+                            product.product_id,
+                            product.product_title
+                          );
+                        }}
+                      >
+                        <i className="fa-regular fa-pen-to-square"></i>
+                      </button>
+                      <button
+                        className="data_delete_btn"
+                        onClick={() => openDeleteModal(product.product_id)}
+                      >
+                        <i className="fa-solid fa-trash"></i>
+                      </button>
+                    </td>
+                    <td>
+                      {product.status === 1 ? (
+                        <img
+                          src='/assets/images/activeStatus.png'
+                          alt="active"
+                          className="status_btn"
                           onClick={() => {
-                            handleEditProduct(product.product_id);
+                            productStatusChange(product.product_id, 1);
                           }}
-                        >
-                          <i className="fa-regular fa-pen-to-square"></i>
-                        </button>
-                      </span>
-                      <label className="dropdown">
-                        <div className="dd-button"></div>
-                        <input type="checkbox" className="dd-input" id="test" />
-                        <ul className="dd-menu">
-                          <li
-                            onClick={() => openDeleteModal(product.product_id)}
-                          >
-                            Delete
-                          </li>
-                          <li
-                            onClick={() => {
-                              handleViewProduct(product.product_id);
-                            }}
-                          >
-                            View
-                          </li>
-                          <li>Add Images</li>
-                          <li>
-                            {" "}
-                            {product.status === 1 ? (
-                              <button
-                                onClick={() => {
-                                  productStatusChange(product.product_id, 1);
-                                }}
-                              >
-                                Active
-                              </button>
-                            ) : (
-                              <button
-                                onClick={() => {
-                                  productStatusChange(product.product_id, 0);
-                                }}
-                              >
-                                Inactive
-                              </button>
-                            )}
-                          </li>
-                        </ul>
-                      </label>
+                        />
+                      ) : (
+                        <img
+                          src='/assets/images/inActiveStatus.png'
+                          alt="inActive"
+                          className="status_btn"
+                          onClick={() => {
+                            productStatusChange(product.product_id, 0);
+                          }}
+                        />
+                      )}
                     </td>
                   </tr>
                 ))

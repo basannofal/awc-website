@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Toast, { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
 import Loading from "@/layouts/Loading";
 
+
 const ProductCategory = () => {
   //filter Start
   const [filterValue, setFilterValue] = useState(""); // State to hold the filter value
@@ -182,7 +183,8 @@ const ProductCategory = () => {
                 <th style={{ width: "25%" }}>NAME</th>
                 <th style={{ width: "25%" }}>TITLE</th>
                 <th style={{ width: "17%" }}>SUB CATEGORY</th>
-                <th style={{ width: "10%" }}>OPEARATION</th>
+                <th style={{ width: "15%" }}>OPEARATION</th>
+                <th style={{ width: "10%" }}>STATUS</th>
               </tr>
             </thead>
             <tbody>
@@ -208,12 +210,59 @@ const ProductCategory = () => {
                     <td>
                       {category.sub_category
                         ? getCategoryData.find(
-                            (subCategory) =>
-                              subCategory.category_id === category.sub_category
-                          )?.category_name
+                          (subCategory) =>
+                            subCategory.category_id === category.sub_category
+                        )?.category_name
                         : "null"}
                     </td>
-                    <td
+
+
+
+
+                    <td>
+                      <button
+                        className="editbutton"
+                        onClick={() => {
+                          handleEditProdCate(category.category_id);
+                        }}
+                      >
+                        <i className="fa-regular fa-pen-to-square"></i>
+                      </button>
+                      <button
+                        className="data_delete_btn"
+                        onClick={() =>
+                          openDeleteModal(category.category_id)
+                        }
+                      >
+                        <i className="fa-solid fa-trash"></i>
+                      </button>
+                    </td>
+                    <td>
+                      {category.status === 1 ? (
+                        <img
+                          src="/assets/images/activeStatus.png"
+                          alt="active"
+                          className="status_btn"
+                          onClick={() => {
+                            catgoryStatusChange(category.category_id, 1);
+                          }}
+                        />
+                      ) : (
+                        <img
+                          src="/assets/images/inActiveStatus.png"
+                          alt="inActive"
+                          className="status_btn"
+                          onClick={() => {
+                            catgoryStatusChange(category.category_id, 0);
+                          }}
+                        />
+                      )}
+                    </td>
+
+
+
+
+                    {/* <td
                       style={{
                         paddingTop: "0px",
                         paddingBottom: "10px",
@@ -275,7 +324,7 @@ const ProductCategory = () => {
                           </li>
                         </ul>
                       </label>
-                    </td>
+                    </td> */}
                   </tr>
                 ))
               ) : (

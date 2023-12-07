@@ -146,6 +146,7 @@ const AddProduct = () => {
       setActiveTab("image");
       getLastAddedData();
     } catch (error) {
+      console.log("object")
       ErrorToast(error?.response?.data?.message);
       setLoading(false);
     }
