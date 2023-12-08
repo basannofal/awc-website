@@ -33,7 +33,9 @@ const Sidebar = () => {
         <ul className="nav-list">
           <li
             className={
-              router.pathname === "/admin/admindashboard" ? "admin_sidebar_active_li" : ""
+              router.pathname === "/admin/admindashboard"
+                ? "admin_sidebar_active_li"
+                : ""
             }
           >
             <Link href="/admin/admindashboard">
@@ -55,7 +57,9 @@ const Sidebar = () => {
           </li>
           <li
             className={
-              router.pathname === "/admin/products" ? "admin_sidebar_active_li" : ""
+              router.pathname === "/admin/products"
+                ? "admin_sidebar_active_li"
+                : ""
             }
           >
             <Link href="/admin/products">
@@ -83,6 +87,30 @@ const Sidebar = () => {
             <Link href="/admin/blog">
               <i className="fa-brands fa-blogger"></i>
               <span className="links_name">Blogs</span>
+            </Link>
+          </li>
+          <li
+            className={
+              router.pathname === "/admin/testimonial"
+                ? "admin_sidebar_active_li"
+                : ""
+            }
+          >
+            <Link href="/admin/testimonial">
+              <i className="fa fa-quote-left"></i>
+              <span className="links_name">Testimonial</span>
+            </Link>
+          </li>
+          <li
+            className={
+              router.pathname === "/admin/gallery"
+                ? "admin_sidebar_active_li"
+                : ""
+            }
+          >
+            <Link href="/admin/gallery">
+              <i class="fa-regular fa-image"></i>
+              <span className="links_name">Gallery</span>
             </Link>
           </li>
         </ul>

@@ -1527,7 +1527,7 @@ const EditProduct = () => {
                           ))
                         ) : (
                           <tr>
-                            <td colSpan="6" align="center">
+                            <td colSpan="7" align="center">
                               data is not available
                             </td>
                           </tr>

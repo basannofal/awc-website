@@ -93,18 +93,6 @@ export default async function handler(req, res) {
         let params = [];
         let result = "";
 
-        //check! is this image ?
-        const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
-        const fileExtension = path
-          .extname(files.category_image[0].originalFilename)
-          .toLowerCase();
-
-        if (!allowedImageExtensions.includes(fileExtension)) {
-          return res
-            .status(400)
-            .json({ message: "Only image files are allowed." });
-        }
-
         // get category data
         const [category] = await conn.query(
           "SELECT category_image FROM product_category WHERE category_id = ?",
@@ -129,6 +117,18 @@ export default async function handler(req, res) {
           ];
           result = await conn.query(sql, params);
         } else {
+          //check! is this image ?
+          const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
+          const fileExtension = path
+            .extname(files.category_image[0].originalFilename)
+            .toLowerCase();
+
+          if (!allowedImageExtensions.includes(fileExtension)) {
+            return res
+              .status(400)
+              .json({ message: "Only image files are allowed." });
+          }
+
           // Configuration for the new image
           const oldPath = files.category_image[0].filepath; // Old path of the uploaded image
           const nFileName = `${Date.now()}.${
