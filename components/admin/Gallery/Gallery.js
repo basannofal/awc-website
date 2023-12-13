@@ -295,13 +295,13 @@ const Gallery = () => {
                     onClick={() => handleEdit(data.id)}
                     className="edit-button"
                   >
-                    <i class="fa-solid fa-pencil"></i>
+                    <i className="fa-solid fa-pencil"></i>
                   </button>
                   <button
                     onClick={() => openDeleteModal(data.id)}
                     className="delete-button"
                   >
-                    <i class="fa-solid fa-trash-can"></i>
+                    <i className="fa-solid fa-trash-can"></i>
                   </button>
                 </div>
               </div>

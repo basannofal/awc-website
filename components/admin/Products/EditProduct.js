@@ -1491,7 +1491,7 @@ const EditProduct = () => {
                                       }}
                                       onClick={handleCancelEditClick}
                                     >
-                                      <i class="fa-solid fa-xmark"></i>
+                                      <i className="fa-solid fa-xmark"></i>
                                     </button>
                                   </span>
                                 )}

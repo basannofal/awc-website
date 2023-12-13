@@ -109,8 +109,21 @@ const Sidebar = () => {
             }
           >
             <Link href="/admin/gallery">
-              <i class="fa-regular fa-image"></i>
+              <i className="fa-regular fa-image"></i>
               <span className="links_name">Gallery</span>
+            </Link>
+          </li>
+
+          <li
+            className={
+              router.pathname === "/admin/settings"
+                ? "admin_sidebar_active_li"
+                : ""
+            }
+          >
+            <Link href="/admin/settings">
+              <i className="fa-solid fa-gear"></i>
+              <span className="links_name">Settings</span>
             </Link>
           </li>
         </ul>
