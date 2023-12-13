@@ -23,6 +23,15 @@ const EditSetting = () => {
     logo: null,
   });
 
+  //SOCIAL TAB VARIABLES
+  const [socialData, setSocialData] = useState({
+    whatsapp: "",
+    facebook: "",
+    instagram: "",
+    twiter: "",
+    linkedin: "",
+  });
+
   const [activeTab, setActiveTab] = useState("general");
 
   //Soceal Media Tab
@@ -161,7 +170,7 @@ const EditSetting = () => {
         formdata
       );
       setLoading(false);
-      router.push("/admin/settings")
+      router.push("/admin/settings");
     } catch (error) {
       console.log("object");
       ErrorToast(error?.response?.data?.message);
@@ -174,7 +183,7 @@ const EditSetting = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/settings/router`
+        `${process.env.NEXT_PUBLIC_API_URL}/settings/${1}`
       );
       console.log(response.data);
       setGeneralData({
@@ -192,8 +201,67 @@ const EditSetting = () => {
     }
   };
 
+  //SOCIAL HANDLE
+  const handleChangeSocial = (event) => {
+    const { name, value } = event.target;
+    setSocialData((prevContData) => ({
+      ...prevContData,
+      [name]: value,
+    }));
+  };
+
+  // ADD SOCIAL DATA
+  const addSocialData = async (e) => {
+    e.preventDefault();
+    console.log(socialData);
+    window.scrollTo({ behavior: "smooth", top: 0 });
+    setLoading(true);
+    try {
+      const formdata = new FormData();
+      formdata.append("whatsapp", socialData.whatsapp);
+      formdata.append("facebook", socialData.facebook);
+      formdata.append("twiter", socialData.twiter);
+      formdata.append("instagram", socialData.instagram);
+      formdata.append("linkedin", socialData.linkedin);
+
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/settings/social/${1}`,
+        formdata
+      );
+      setLoading(false);
+      router.push("/admin/settings");
+    } catch (error) {
+      console.log("object");
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  //get active category
+  const getSocialData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/settings/social/${1}`
+      );
+      console.log(response.data);
+      setSocialData({
+        whatsapp: response.data[0].whatsapp_link,
+        facebook: response.data[0].facebook_link,
+        instagram: response.data[0].instagram_link,
+        twiter: response.data[0].twiter_link,
+        linkedin: response.data[0].linkedin_link,
+      });
+      setLoading(false);
+    } catch (err) {
+      ErrorToast(err?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     getGeneralData();
+    getSocialData();
   }, []);
 
   return (
@@ -452,96 +520,86 @@ const EditSetting = () => {
               activeTab === "social-media" ? "active" : ""
             }`}
           >
-            <form method="post" onSubmit={addProductTableData}>
+            <form method="post" onSubmit={addSocialData}>
               <div className="mb-3">
-                <label htmlFor="meta_tag" className="modal_label">
-                  Meta Tag:-
+                <label htmlFor="whatsapp" className="modal_label">
+                  Whatsapp:-
                 </label>
                 <input
                   type="text"
-                  id="meta_tag"
-                  name="meta_tag"
+                  id="whatsapp"
+                  name="whatsapp"
                   className="modal_input"
-                  placeholder="Enter Meta Tag"
-                  onKeyDown={handleTags}
+                  placeholder="Enter Whatsapp"
+                  onChange={handleChangeSocial}
+                  value={socialData.whatsapp}
                 />
               </div>
+
               <div className="mb-3">
-                <div className="meta_main_section">
-                  {addMetaTag.map((tag, index) => (
-                    <div className="meta_tag_section" key={index}>
-                      <div className="meta_tag_text">{tag}</div>
-                      <div className="meta_remove_icon">
-                        <i
-                          className="fa-solid fa-xmark"
-                          onClick={() => {
-                            RemoveTags(index);
-                          }}
-                        ></i>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="mb-3">
-                <label htmlFor="meta_keyword" className="modal_label">
-                  Meta Keayword:-
+                <label htmlFor="facebook" className="modal_label">
+                  Facebook:-
                 </label>
                 <input
                   type="text"
-                  id="meta_keyword"
-                  name="meta_keyword"
+                  id="facebook"
+                  name="facebook"
                   className="modal_input"
-                  placeholder="Enter Meta Keyword"
-                  onKeyDown={handleKeyword}
+                  placeholder="Enter Facebook"
+                  onChange={handleChangeSocial}
+                  value={socialData.facebook}
                 />
               </div>
+
               <div className="mb-3">
-                <div className="meta_main_section">
-                  {addMetaKeyword.map((keyword, index) => (
-                    <div className="meta_tag_section" key={index}>
-                      <div className="meta_tag_text">{keyword}</div>
-                      <div className="meta_remove_icon">
-                        <i
-                          className="fa-solid fa-xmark"
-                          onClick={() => {
-                            RemoveKeyword(index);
-                          }}
-                        ></i>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="mb-3">
-                <label htmlFor="meta_desc" className="modal_label">
-                  Meta Description:-
-                </label>
-                <textarea
-                  type="text"
-                  rows="5"
-                  cols="70"
-                  id="meta_desc"
-                  name="meta_desc"
-                  className="modal_input"
-                  placeholder="Enter Meta Description"
-                  onChange={handleChangeProduct}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="canonical_url" className="modal_label">
-                  Canonical URL:-
+                <label htmlFor="twiter" className="modal_label">
+                  Twiter:-
                 </label>
                 <input
                   type="text"
-                  id="canonical_url"
-                  name="canonical_url"
+                  id="twiter"
+                  name="twiter"
                   className="modal_input"
-                  placeholder="Enter Canonical URL"
-                  onChange={handleChangeProduct}
+                  placeholder="Enter Twiter"
+                  onChange={handleChangeSocial}
+                  value={socialData.twiter}
                 />
               </div>
+
               <div className="mb-3">
+                <label htmlFor="instagram" className="modal_label">
+                  Instagram:-
+                </label>
+                <input
+                  type="text"
+                  id="instagram"
+                  name="instagram"
+                  className="modal_input"
+                  placeholder="Enter Instagram"
+                  onChange={handleChangeSocial}
+                  value={socialData.instagram}
+                />
+              </div>
+
+              <div className="mb-3">
+                <label htmlFor="linkedin" className="modal_label">
+                  Linkedin:-
+                </label>
+                <input
+                  type="text"
+                  id="linkedin"
+                  name="linkedin"
+                  className="modal_input"
+                  placeholder="Enter Linkedin"
+                  onChange={handleChangeSocial}
+                  value={socialData.linkedin}
+                />
+              </div>
+
+              <div className="mb-3">
+                <button type="submit" className="success_btn">
+                  SAVE
+                </button>
                 <Link href="/admin/products">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL

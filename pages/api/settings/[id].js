@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      const q = "SELECT * FROM `blog_category` WHERE blog_cate_id = ?";
+      const q = "SELECT * FROM `user` WHERE id = ?";
 
       const data = [id];
       const [rows] = await conn.query(q, data);
@@ -33,54 +33,6 @@ export default async function handler(req, res) {
     }
   }
 
-  if (req.method == "DELETE") {
-    try {
-      const { id } = req.query;
-
-      // get category data
-      const [category] = await conn.query(
-        "SELECT category_image, category_icon FROM blog_category WHERE blog_cate_id = ?",
-        [id]
-      );
-
-      // Query for delete category
-      const q = "DELETE FROM blog_category WHERE blog_cate_id = ?";
-
-      const [rows] = await conn.query(q, [id]);
-
-      // check image awailable or not
-      if (category.length !== 0) {
-        const projectDirectory = path.resolve(
-          __dirname,
-          "../../../../../public/assets/upload/blog"
-        );
-
-        // Delete categoryImage
-        const categoryImage = category[0].category_image;
-        if (categoryImage) {
-          const imagePath = path.join(projectDirectory, categoryImage);
-          await unlink(imagePath);
-        }
-
-        // Delete categoryIcon
-        const categoryIcon = category[0].category_icon;
-        if (categoryIcon) {
-          const iconPath = path.join(projectDirectory, categoryIcon);
-          await unlink(iconPath);
-        }
-      }
-
-      // Process the data and send the response
-      res.status(200).json(rows);
-    } catch (error) {
-      console.log(error);
-      res
-        .status(500)
-        .json({ message: "Cannot Delete Category... Check Connection" });
-    } finally {
-      conn.releaseConnection();
-    }
-  }
 
   if (req.method == "PATCH") {
     try {
