@@ -635,6 +635,10 @@ form .modal_input:focus {
   margin-top: 15px;
 }
 
+.sub-tabs-container {
+  width: 100%;
+}
+
 .tabs {
   display: flex;
   background-color: transparent;
