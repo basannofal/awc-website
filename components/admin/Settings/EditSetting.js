@@ -381,54 +381,24 @@ const EditSetting = () => {
   const addGlobalData = async (e) => {
     e.preventDefault();
     console.log(globalData);
-    // window.scrollTo({ behavior: "smooth", top: 0 });
-    // setLoading(true);
-    // try {
-    //   const formdata = new FormData();
-    //   formdata.append("home_title", seoData.home_title);
-    //   formdata.append("home_keyword", seoData.home_keyword);
-    //   formdata.append("home_desc", seoData.home_desc);
-    //   formdata.append("home_canonical", seoData.home_canonical);
-    //   formdata.append("about_title", seoData.about_title);
-    //   formdata.append("about_keyword", seoData.about_keyword);
-    //   formdata.append("about_desc", seoData.about_desc);
-    //   formdata.append("about_canonical", seoData.about_canonical);
-    //   formdata.append("product_title", seoData.product_title);
-    //   formdata.append("product_keyword", seoData.product_keyword);
-    //   formdata.append("product_desc", seoData.product_desc);
-    //   formdata.append("product_canonical", seoData.product_canonical);
-    //   formdata.append("gallery_title", seoData.gallery_title);
-    //   formdata.append("gallery_keyword", seoData.gallery_keyword);
-    //   formdata.append("gallery_desc", seoData.gallery_desc);
-    //   formdata.append("gallery_canonical", seoData.gallery_canonical);
-    //   formdata.append("carrer_title", seoData.carrer_title);
-    //   formdata.append("carrer_keyword", seoData.carrer_keyword);
-    //   formdata.append("carrer_desc", seoData.carrer_desc);
-    //   formdata.append("carrer_canonical", seoData.carrer_canonical);
-    //   formdata.append("blog_title", seoData.blog_title);
-    //   formdata.append("blog_keyword", seoData.blog_keyword);
-    //   formdata.append("blog_desc", seoData.blog_desc);
-    //   formdata.append("blog_canonical", seoData.blog_canonical);
-    //   formdata.append("testimonial_title", seoData.testimonial_title);
-    //   formdata.append("testimonial_keyword", seoData.testimonial_keyword);
-    //   formdata.append("testimonial_desc", seoData.testimonial_desc);
-    //   formdata.append("testimonial_canonical", seoData.testimonial_canonical);
-    //   formdata.append("privacy_title", seoData.privacy_title);
-    //   formdata.append("privacy_keyword", seoData.privacy_keyword);
-    //   formdata.append("privacy_desc", seoData.privacy_desc);
-    //   formdata.append("privacy_canonical", seoData.privacy_canonical);
-
-    //   await axios.patch(
-    //     `${process.env.NEXT_PUBLIC_API_URL}/settings/seo/${1}`,
-    //     formdata
-    //   );
-    //   setLoading(false);
-    //   router.push("/admin/settings");
-    // } catch (error) {
-    //   console.log("object");
-    //   ErrorToast(error?.response?.data?.message);
-    //   setLoading(false);
-    // }
+    window.scrollTo({ behavior: "smooth", top: 0 });
+    setLoading(true);
+    try {
+      const formdata = new FormData();
+      formdata.append("header", globalData.header);
+      formdata.append("footer", globalData.footer);
+     
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/settings/global/${1}`,
+        formdata
+      );
+      setLoading(false);
+      router.push("/admin/settings");
+    } catch (error) {
+      console.log("object");
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
   };
 
     //get social data
@@ -664,7 +634,7 @@ const EditSetting = () => {
                 <button type="submit" className="success_btn">
                   SAVE
                 </button>
-                <Link href="/admin/products">
+                <Link href="/admin/settings">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
                   </button>
@@ -760,7 +730,7 @@ const EditSetting = () => {
                 <button type="submit" className="success_btn">
                   SAVE
                 </button>
-                <Link href="/admin/products">
+                <Link href="/admin/settings">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
                   </button>
@@ -815,7 +785,7 @@ const EditSetting = () => {
                 <button type="submit" className="success_btn">
                   SAVE
                 </button>
-                <Link href="/admin/products">
+                <Link href="/admin/settings">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
                   </button>
@@ -1598,7 +1568,7 @@ const EditSetting = () => {
                   <button type="submit" className="success_btn">
                     SAVE
                   </button>
-                  <Link href="/admin/products">
+                  <Link href="/admin/settings">
                     <button type="button" className="success_btn cancel_btn">
                       CANCEL
                     </button>
