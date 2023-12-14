@@ -25,11 +25,11 @@ const EditProdCategory = () => {
   const [editMetaKeyword, setEditMetaKeyword] = useState([]);
   const [loading, setLoading] = useState(true);
 
-    //tabs
-    const [activeTab, setActiveTab] = useState("general");
-    const showTab = (tabId) => {
-      setActiveTab(tabId);
-    };
+  //tabs
+  const [activeTab, setActiveTab] = useState("general");
+  const showTab = (tabId) => {
+    setActiveTab(tabId);
+  };
 
   //get active category
   const getActiveCategoryData = async () => {
@@ -90,9 +90,32 @@ const EditProdCategory = () => {
     event.target.value = null;
   };
 
+  //for validation 
+  const validateForm = () => {
+    const requiredFields = [
+      "category_name",
+      "category_image",
+    ];
+    for (const field of requiredFields) {
+      if (!editProductCategoryData[field]) {
+        if (field == "category_name") {
+          ErrorToast(`Category Name is Required`);
+          return false;
+        } else if (field == "category_image") {
+          ErrorToast(`Category Image is Required`);
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
   // update category
   const saveEditCategoryData = async (e) => {
     setLoading(true);
+    if (!validateForm()) {
+      return;
+    }
     try {
       const formdata = new FormData();
       formdata.append("category_name", editProductCategoryData.category_name);
@@ -180,7 +203,7 @@ const EditProdCategory = () => {
         </div>
         <div className="tabs-container">
           <div className="tabs">
-             <div style={{ display: "flex" }}>
+            <div style={{ display: "flex" }}>
               <div
                 className={`tab ${activeTab === "general" ? "active" : ""}`}
                 onClick={() => showTab("general")}
@@ -192,14 +215,13 @@ const EditProdCategory = () => {
                 onClick={() => showTab("seo")}
               >
                 SEO
-              </div> 
+              </div>
             </div>
-            </div>
+          </div>
           <div
             id="general"
-            className={`tab-content add_data_form ${
-              activeTab === "general" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
+              }`}
           >
             <form>
               <div className="mb-3">
@@ -305,12 +327,12 @@ const EditProdCategory = () => {
                 >
                   <option value={0}>Choose Sub Category</option>
                   {getActiveCateData.map((cate) => {
-                    if(cate.category_id != cateId && cate.sub_category != cateId)
-                    return (
-                      <option selected={cate.category_id == editProductCategoryData.sub_category} key={cate.category_id} value={cate.category_id}>
-                        {cate.category_name}
-                      </option>
-                    );
+                    if (cate.category_id != cateId && cate.sub_category != cateId)
+                      return (
+                        <option selected={cate.category_id == editProductCategoryData.sub_category} key={cate.category_id} value={cate.category_id}>
+                          {cate.category_name}
+                        </option>
+                      );
                   })}
                 </select>
               </div>
@@ -334,9 +356,8 @@ const EditProdCategory = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${
-              activeTab === "seo" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
+              }`}
           >
             <form>
               <div className="mb-3">
@@ -366,10 +387,10 @@ const EditProdCategory = () => {
                         ></i>
                       </div>
                     </div>
-                ))}
-                  </div>
+                  ))}
+                </div>
               </div>
-            
+
               <div className="mb-3">
                 <label htmlFor="meta_keyword" className="modal_label">
                   Meta Keayword:-
@@ -397,8 +418,8 @@ const EditProdCategory = () => {
                         ></i>
                       </div>
                     </div>
-                ))}
-                  </div>
+                  ))}
+                </div>
               </div>
               <div className="mb-3">
                 <label htmlFor="meta_description" className="modal_label">

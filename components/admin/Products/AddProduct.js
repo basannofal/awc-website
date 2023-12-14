@@ -28,7 +28,11 @@ const AddProduct = () => {
     product_docs: [],
   });
   const [allProductDocs, setAllProductDocs] = useState([]);
-  const [isDataAdded, setIsDataAdded] = useState(true);
+  const [addMultiCertificate, setAddMultiCertificate] = useState({
+    product_certificate: [],
+  });
+  const [allProductCertificate, setAllProductCertificate] = useState([]);
+  const [isDataAdded, setIsDataAdded] = useState(false);
   const [lastAddId, setLastAddId] = useState([]);
   const [loading, setLoading] = useState(false);
   const [addProductVedio, setAddProductVedio] = useState({
@@ -146,7 +150,6 @@ const AddProduct = () => {
       setActiveTab("image");
       getLastAddedData();
     } catch (error) {
-      console.log("object")
       ErrorToast(error?.response?.data?.message);
       setLoading(false);
     }
@@ -231,6 +234,10 @@ const AddProduct = () => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
     setLoading(true);
+    if (allProductDocs.length == 0) {
+      WarningToast('please atleast one doc select');
+      setLoading(false);
+    }
     try {
       const formdata = new FormData();
       formdata.append("product_id", lastAddId.product_id);
@@ -310,6 +317,10 @@ const AddProduct = () => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
     setLoading(true);
+    if (addMultiImages.product_images.length == 0) {
+      WarningToast('please atleast one image select')
+      setLoading(false)
+    }
     try {
       const formdata = new FormData();
       formdata.append("product_id", lastAddId.product_id);
@@ -382,7 +393,10 @@ const AddProduct = () => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
     setLoading(true);
-    console.log(addProductVedio);
+    if (allProductVedios.length == 0) {
+      WarningToast('please atleast one video select')
+      setLoading(false);
+    }
     try {
       const formdata = new FormData();
       formdata.append("product_id", lastAddId.product_id);
@@ -443,6 +457,95 @@ const AddProduct = () => {
     setAddMetaTag(newArray);
   };
   //END
+  // get all Certifiacte of product
+  const getAllProductCertificate = async (prodId) => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productcertificate/${prodId}`
+      );
+      setAllProductCertificate(response.data);
+      setLoading(false);
+    } catch (err) {
+      ErrorToast(err?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+  //PRODUCT CERTIFICATE
+  const handleAddMultipleCertificateChange = async (event) => {
+    const files = event.target.files;
+    const pdfFiles = Array.from(files).filter(
+      (file) => file.type === "application/pdf"
+    );
+
+    // Check if any non-PDF files were selected
+    const nonPdfFiles = Array.from(files).filter(
+      (file) => file.type !== "application/pdf"
+    );
+
+    if (nonPdfFiles.length > 0) {
+      WarningToast("Only PDF files are taken from given files.");
+    }
+
+    const newcertificate = Array.from(pdfFiles).map((file) => ({
+      file,
+      certificate_title: "",
+    }));
+    setAddMultiCertificate((prevMultiCertificate) => ({
+      ...prevMultiCertificate,
+      product_certificate: [...prevMultiCertificate.product_certificate, ...newcertificate],
+    }));
+  };
+
+  const removeMultiCertificate = async (index) => {
+    const newcertificate = [...addMultiCertificate.product_certificate];
+    newcertificate.splice(index, 1);
+    setAddMultiCertificate((prevMultiCertificate) => ({
+      ...prevMultiCertificate,
+      product_certificate: newcertificate,
+    }));
+  };
+
+  const handleCertificateDetailsChange = (index, field, value) => {
+    setAddMultiCertificate((prevMultiCertificate) => {
+      const updatedImages = [...prevMultiCertificate.product_certificate];
+      updatedImages[index][field] = value;
+      return {
+        ...prevMultiCertificate,
+        product_certificate: updatedImages,
+      };
+    });
+  };
+
+  const saveMultipleCertificate = async (e) => {
+    e.preventDefault();
+    window.scrollTo({ behavior: "smooth", top: 0 });
+    setLoading(true);
+    if (allProductCertificate.length == 0) {
+      WarningToast('please atleast one Certificate select');
+      setLoading(false);
+    }
+    try {
+      const formdata = new FormData();
+      formdata.append("product_id", lastAddId.product_id);
+      addMultiCertificate.product_certificate.forEach((docs, index) => {
+        formdata.append(`product_certificate`, docs.file);
+        formdata.append(`certificate_title_${index}`, docs.certificate_title);
+      });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productcertificate/router`,
+        formdata
+        );
+        setLoading(false);
+        getAllProductCertificate(lastAddId.product_id);
+        setAddMultiCertificate({ product_certificate: [] });
+        setActiveTab("certificate");
+        console.log("hiii")
+    } catch (error) {
+      console.log("Error adding prod images" + error);
+      setLoading(false);
+    }
+  };
+  //END
 
   // USEEFFECT METHOD
   useEffect(() => {
@@ -501,6 +604,12 @@ const AddProduct = () => {
               >
                 Docs
               </div>
+              <div
+                className={`tab ${activeTab === "certificate" ? "active" : ""}`}
+                onClick={() => showTab("certificate")}
+              >
+                Certificate
+              </div>
             </div>
             {activeTab === "general" || activeTab === "seo" ? (
               <button
@@ -516,9 +625,8 @@ const AddProduct = () => {
           {/* GENREL TABS */}
           <div
             id="general"
-            className={`tab-content add_data_form ${
-              activeTab === "general" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
+              }`}
           >
             <form method="post">
               <div className="mb-3">
@@ -681,9 +789,8 @@ const AddProduct = () => {
           {/* SEO TAB */}
           <div
             id="seo"
-            className={`tab-content add_data_form ${
-              activeTab === "seo" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={addProductTableData}>
               <div className="mb-3">
@@ -788,9 +895,8 @@ const AddProduct = () => {
           {isDataAdded && (
             <div
               id="image"
-              className={`tab-content add_data_form ${
-                activeTab === "image" ? "active" : ""
-              }`}
+              className={`tab-content add_data_form ${activeTab === "image" ? "active" : ""
+                }`}
             >
               <form method="post" onSubmit={saveMultipleImages}>
                 <div className="mb-3">
@@ -812,7 +918,7 @@ const AddProduct = () => {
                   style={{ display: "flex", flexWrap: "wrap" }}
                 >
                   {addMultiImages.product_images &&
-                  addMultiImages.product_images.length > 0 ? (
+                    addMultiImages.product_images.length > 0 ? (
                     <table className="multi-images-table">
                       <thead>
                         <tr>
@@ -993,9 +1099,8 @@ const AddProduct = () => {
           {isDataAdded && (
             <div
               id="video"
-              className={`tab-content add_data_form ${
-                activeTab === "video" ? "active" : ""
-              }`}
+              className={`tab-content add_data_form ${activeTab === "video" ? "active" : ""
+                }`}
             >
               <div
                 style={{
@@ -1166,9 +1271,8 @@ const AddProduct = () => {
           {isDataAdded && (
             <div
               id="docs"
-              className={`tab-content add_data_form ${
-                activeTab === "docs" ? "active" : ""
-              }`}
+              className={`tab-content add_data_form ${activeTab === "docs" ? "active" : ""
+                }`}
             >
               <form method="post" onSubmit={saveMultipleDocs}>
                 <div className="mb-3">
@@ -1190,7 +1294,7 @@ const AddProduct = () => {
                   style={{ display: "flex", flexWrap: "wrap" }}
                 >
                   {addMultiDocs.product_docs &&
-                  addMultiDocs.product_docs.length > 0 ? (
+                    addMultiDocs.product_docs.length > 0 ? (
                     <table className="multi-images-table">
                       <thead>
                         <tr>
@@ -1272,6 +1376,138 @@ const AddProduct = () => {
                         >
                           <td>{index + 1}</td>
                           <td>{product.pdf_title}</td>
+                          <td>
+                            <img
+                              src={`/assets/images/pdf-icon.webp`}
+                              width="100%"
+                              alt="product"
+                              className="tabel_data_image"
+                            />
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="3" align="center">
+                          data is not available
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* certifite tab */}
+          {isDataAdded && (
+            <div
+              id="docs"
+              className={`tab-content add_data_form ${activeTab === "certificate" ? "active" : ""
+                }`}
+            >
+              <form method="post" onSubmit={saveMultipleCertificate}>
+                <div className="mb-3">
+                  <label htmlFor="product_images" className="modal_label">
+                    Product Certificate:-
+                  </label>
+                  <input
+                    type="file"
+                    id="product_images"
+                    name="product_images"
+                    className="modal_input"
+                    accept=".pdf,.png"
+                    onChange={handleAddMultipleCertificateChange}
+                    multiple
+                  />
+                </div>
+                <div
+                  className="mb-3"
+                  style={{ display: "flex", flexWrap: "wrap" }}
+                >
+                  {addMultiCertificate.product_certificate &&
+                    addMultiCertificate.product_certificate.length > 0 ? (
+                    <table className="multi-images-table">
+                      <thead>
+                        <tr>
+                          <th width="25%">Title</th>
+                          <th width="15%">Image</th>
+                          <th width="10%">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {addMultiCertificate.product_certificate.map((image, index) => (
+                          <tr key={index}>
+                            <td>
+                              <input
+                                type="text"
+                                id={`certificate_title-${index}`}
+                                name="certificate_title"
+                                placeholder="certificate_title"
+                                onChange={(e) =>
+                                  handleCertificateDetailsChange(
+                                    index,
+                                    "certificate_title",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+                            <td>
+                              <img
+                                src={"/assets/images/pdf-icon.webp"}
+                                alt={`Selected productimg ${index + 1}`}
+                              />
+                            </td>
+                            <td>
+                              <button
+                                type="button"
+                                className="remove_multi_img_btn"
+                                onClick={() => removeMultiCertificate(index)}
+                              >
+                                <i className="fa-solid fa-xmark"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <p>No images selected</p>
+                  )}
+                </div>
+                <div className="mb-3">
+                  <button type="submit" className="success_btn">
+                    SAVE
+                  </button>
+                  <Link href="/admin/products">
+                    <button type="button" className="success_btn cancel_btn">
+                      CANCEL
+                    </button>
+                  </Link>
+                </div>
+              </form>
+              <hr style={{ marginTop: "30px", marginBottom: "20px" }} />
+              <div className="admin_category_table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th style={{ width: "15%" }}>ID</th>
+                      <th style={{ width: "25%" }}>TITLE</th>
+                      <th style={{ width: "25%" }}>IMAGE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allProductCertificate.length > 0 ? (
+                      allProductCertificate.map((product, index) => (
+                        <tr
+                          key={product.product_id}
+                          style={{
+                            color: product.status === 1 ? "black" : "red",
+                          }}
+                        >
+                          <td>{index + 1}</td>
+                          <td>{product.certificate_title}</td>
                           <td>
                             <img
                               src={`/assets/images/pdf-icon.webp`}

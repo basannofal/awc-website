@@ -41,6 +41,10 @@ const EditProduct = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [productImgId, setproductImgId] = useState(null);
   const [deleteopt, setDeleteopt] = useState("");
+  const [addMultiCertificate, setAddMultiCertificate] = useState({
+    product_certificate: [],
+  });
+  const [allProductCertificate, setAllProductCertificate] = useState([]);
 
   const [addProductVedio, setAddProductVedio] = useState({
     vedio_title: "",
@@ -52,6 +56,7 @@ const EditProduct = () => {
   // per image edit data var
   const [editingId, setEditingId] = useState(null);
   const [editingDocId, setEditingDocId] = useState(null);
+  const [editingCertificateId, setEditingCertificateId] = useState(null);
   const [editingVedioId, setEditingVedioId] = useState(null);
 
   const [editperimg, setEditperimg] = useState({
@@ -66,6 +71,10 @@ const EditProduct = () => {
   const [editDoc, setEditDoc] = useState({
     pdf_title: "",
     pdf_link: null,
+  });
+  const [editCertificate, setEditCertificate] = useState({
+    certificate_title: "",
+    certificate_link: null,
   });
 
   //TABS HANDLER
@@ -116,8 +125,12 @@ const EditProduct = () => {
         deleteProductImg(productImgId);
       } else if (deleteopt == "docs") {
         deleteProductdocs(productImgId);
+
       } else if (deleteopt == "video") {
         deleteProductVideos(productImgId);
+      }
+      else if (deleteopt == "certificate") {
+        deleteProductcertificate(productImgId);
       }
       closeDeleteModal();
     }
@@ -253,6 +266,7 @@ const EditProduct = () => {
     getProductCategoryForEdit(prodId);
     getAllProductImages();
     getAllProductDocs();
+    getAllProductCertificate();
     getAllProductVedios();
   }, [prodId]);
 
@@ -360,6 +374,171 @@ const EditProduct = () => {
       setLoading(false);
     }
   };
+
+  // get all certificate of product
+  const getAllProductCertificate = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productcertificate/${prodId}`
+      );
+      setAllProductCertificate(response.data);
+      setLoading(false);
+    } catch (err) {
+      ErrorToast(err?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  // ADD MULTIPLE CERTIFICATE AND MULTIPLE CERTIFICATE HANDLER
+  const handleAddMultipleCertificateChange = async (event) => {
+    const files = event.target.files;
+    const pdfFiles = Array.from(files).filter(
+      (file) => file.type === "application/pdf"
+    );
+
+    // Check if any non-PDF files were selected
+    const nonPdfFiles = Array.from(files).filter(
+      (file) => file.type !== "application/pdf"
+    );
+
+    if (nonPdfFiles.length > 0) {
+      WarningToast("Only PDF files are taken from given files.");
+    }
+
+    const newdocs = Array.from(pdfFiles).map((file) => ({
+      file,
+      certificate_title: "",
+    }));
+    setAddMultiCertificate((prevMultiCertificate) => ({
+      ...prevMultiCertificate,
+      product_certificate: [...prevMultiCertificate.product_certificate, ...newdocs],
+    }));
+  };
+
+  const removeMultiCertificate = async (index) => {
+    const newDocs = [...addMultiCertificate.product_certificate];
+    newDocs.splice(index, 1);
+    setAddMultiCertificate((prevMultiCertificate) => ({
+      ...prevMultiCertificate,
+      product_certificate: newDocs,
+    }));
+  };
+
+  const handleCertificateDetailsChange = (index, field, value) => {
+    setAddMultiCertificate((prevMultiCertificate) => {
+      const updatedImages = [...prevMultiCertificate.product_certificate];
+      updatedImages[index][field] = value;
+      return {
+        ...prevMultiCertificate,
+        product_certificate: updatedImages,
+      };
+    });
+  };
+
+  const saveMultipleCertificate = async (e) => {
+    e.preventDefault();
+    window.scrollTo({ behavior: "smooth", top: 0 });
+    setLoading(true);
+    try {
+      const formdata = new FormData();
+      formdata.append("product_id", prodId);
+      addMultiCertificate.product_certificate.forEach((docs, index) => {
+        formdata.append(`product_certificate`, docs.file);
+        formdata.append(`certificate_title_${index}`, docs.certificate_title);
+      });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productcertificate/router`,
+        formdata
+      );
+      setLoading(false);
+      setAddMultiCertificate({ product_docs: [] });
+      getAllProductCertificate();
+      SuccessToast("Certificate Added Successfully");
+    } catch (error) {
+      console.log("Error adding prod images" + error);
+      setLoading(false);
+    }
+  };
+
+  // DELETE DOCS
+  const deleteProductcertificate = async (deleteId) => {
+    setLoading(true);
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productcertificate/${deleteId}`
+      );
+      getAllProductCertificate();
+      setLoading(false);
+      SuccessToast("Product Certificate Deleted Successfully");
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  //PRODUCT CERTIFICATE CHANGE
+
+  const handlePerCertificateData = (event) => {
+    const { name, value } = event.target;
+    setEditCertificate((prevCertificateData) => ({
+      ...prevCertificateData,
+      [name]: value,
+    }));
+  };
+
+  const handleEditCertificateClick = (certiId, data) => {
+    setEditingCertificateId(certiId);
+    console.log(certiId)
+    setEditCertificate({
+      certificate_title: data.certificate_title,
+      certificate_link: data.certificate_link,
+    });
+  };
+
+
+
+  const handlePerCertificateFileData = (event) => {
+    const file = event.target.files[0];
+    setEditCertificate((prevProfileData) => ({
+      ...prevProfileData,
+      [event.target.name]: file,
+    }));
+  };
+  const handleUpdateCertiClick = async (prodDocsId) => {
+    try {
+      const formdata = new FormData();
+      formdata.append("certificate_link", editCertificate?.certificate_link);
+      formdata.append("certificate_title", editCertificate?.certificate_title);
+
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productcertificate/perdocdata/${prodDocsId}`,
+        formdata
+      );
+      window.scrollTo({ behavior: "smooth", top: 0 });
+      setLoading(false);
+      getAllProductCertificate();
+      setEditingCertificateId(null)
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  //PRODUCT CERTIFICATE STATUS CHANGE
+  const productCertificateStatusChange = async (certiId, no) => {
+    setLoading(true);
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productcertificate/statuschanges/${certiId}/${no}`
+      );
+      getAllProductCertificate();
+      setLoading(false);
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
 
   // PRODUCT STATUS CHANGE
   const productDocsStatusChange = async (docId, no) => {
@@ -774,6 +953,12 @@ const EditProduct = () => {
                 onClick={() => showTab("docs")}
               >
                 Docs
+              </div>
+              <div
+                className={`tab ${activeTab === "certificate" ? "active" : ""}`}
+                onClick={() => showTab("certificate")}
+              >
+                Certificate
               </div>
             </div>
           </div>
@@ -1870,6 +2055,240 @@ const EditProduct = () => {
                               onClick={() =>
                                 productDocsStatusChange(
                                   product.prod_docs_id,
+                                  0
+                                )
+                              }
+                            />
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="4" align="center">
+                        data is not available
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Certificate Tabs */}
+          <div
+            id="docs"
+            className={`tab-content add_data_form ${activeTab === "certificate" ? "active" : ""
+              }`}
+          >
+            <form method="post" onSubmit={saveMultipleCertificate}>
+              <div className="mb-3">
+                <label htmlFor="product_images" className="modal_label">
+                  Product Certificate:-
+                </label>
+                <input
+                  type="file"
+                  id="product_images"
+                  name="product_images"
+                  className="modal_input"
+                  accept=".pdf,.png"
+                  onChange={handleAddMultipleCertificateChange}
+                  multiple
+                />
+              </div>
+              <div
+                className="mb-3"
+                style={{ display: "flex", flexWrap: "wrap" }}
+              >
+                {addMultiCertificate.product_certificate &&
+                  addMultiCertificate.product_certificate.length > 0 ? (
+                  <table className="multi-images-table">
+                    <thead>
+                      <tr>
+                        <th width="5%">Image</th>
+                        <th width="25%">Title</th>
+                        <th width="5%">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {addMultiCertificate.product_certificate.map((image, index) => (
+                        <tr key={index}>
+                          <td>
+                            <img
+                              src={"/assets/images/pdf-icon.webp"}
+                              alt={`Selected productimg ${index + 1}`}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              id={`certificate_title-${index}`}
+                              name="certificate_title"
+                              placeholder="certificate Title"
+                              onChange={(e) =>
+                                handleCertificateDetailsChange(
+                                  index,
+                                  "certificate_title",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </td>
+                          <td>
+                            <button
+                              type="button"
+                              className="remove_multi_img_btn"
+                              onClick={() => removeMultiCertificate(index)}
+                            >
+                              <i className="fa-solid fa-xmark"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p>No images selected</p>
+                )}
+              </div>
+              <div className="mb-3">
+                <button type="submit" className="success_btn">
+                  SAVE
+                </button>
+                <Link href="/admin/products">
+                  <button type="button" className="success_btn cancel_btn">
+                    CANCEL
+                  </button>
+                </Link>
+              </div>
+            </form>
+            <hr style={{ marginTop: "30px", marginBottom: "20px" }} />
+            <div className="admin_category_table">
+              <table>
+                <thead>
+                  <tr>
+                    <th style={{ width: "5%" }}>ID</th>
+                    <th style={{ width: "10%" }}>IMAGE</th>
+                    <th style={{ width: "25%" }}>TITLE</th>
+                    <th style={{ width: "10%" }}>OPERATION</th>
+                    <th style={{ width: "10%" }}>STATUS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allProductCertificate.length > 0 ? (
+                    allProductCertificate.map((product, index) => (
+                      <tr
+                        key={product.product_id}
+                        style={{
+                          color: product.status === 1 ? "black" : "red",
+                        }}
+                      >
+                        <td>{index + 1}</td>
+                        {editingCertificateId === product.prod_certi_id ? (
+                          <td className="edit-row">
+                            <input
+                              type="file"
+                              name="certificate_link"
+                              onChange={handlePerCertificateFileData}
+                            />
+                            <td>
+                              <img
+                                src={`/assets/images/pdf-icon.webp`}
+                                width="100%"
+                                alt="product"
+                                className="tabel_data_image"
+                              />
+                            </td>
+                          </td>
+                        ) : (
+                          <td>
+                            <td>
+                              <img
+                                src={`/assets/images/pdf-icon.webp`}
+                                width="100%"
+                                alt="product"
+                                className="tabel_data_image"
+                              />
+                            </td>
+                          </td>
+                        )}
+                        {editingCertificateId === product.prod_certi_id ? (
+                          <td className="edit-row">
+                            <input
+                              type="text"
+                              name="certificate_title"
+                              onChange={handlePerCertificateData}
+                              value={editCertificate.certificate_title}
+                            />
+                          </td>
+                        ) : (
+                          <td>{product.certificate_title}</td>
+                        )}
+                        {editingCertificateId === product.prod_certi_id ? (
+                          <td className="edit-row">
+                            <div>
+                              <button
+                                onClick={() =>
+                                  handleUpdateCertiClick(product.prod_certi_id)
+                                }
+                              >
+                                Update
+                              </button>
+                              <button
+                                className="cancel"
+                                onClick={() => setEditingCertificateId(null)}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </td>
+                        ) : (
+                          <td>
+                            <button
+                              className="editbutton"
+                              onClick={() =>
+                                handleEditCertificateClick(
+                                  product.prod_certi_id,
+                                  product
+                                )
+                              }
+                            >
+                              <i className="fa-regular fa-pen-to-square"></i>
+                            </button>
+                            <button
+                              className="data_delete_btn"
+                              onClick={() =>
+                                openDeleteModal(
+                                  product.prod_certi_id,
+                                  "certificate"
+                                )
+                              }
+                            >
+                              <i className="fa-solid fa-trash"></i>
+                            </button>
+                          </td>
+                        )}
+                        <td>
+                          {product.status === 1 ? (
+                            <img
+                              src='/assets/images/activeStatus.png'
+                              alt="active"
+                              className="status_btn"
+                              onClick={() =>
+                                productCertificateStatusChange(
+                                  product.prod_certi_id,
+                                  1
+                                )
+                              }
+                            />
+                          ) : (
+                            <img
+                              src='/assets/images/inActiveStatus.png'
+                              alt="inActive"
+                              className="status_btn"
+                              onClick={() =>
+                                productCertificateStatusChange(
+                                  product.prod_certi_id,
                                   0
                                 )
                               }

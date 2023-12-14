@@ -23,12 +23,12 @@ const AddProdCategory = () => {
   const [addMetaKeyword, setAddMetaKeyword] = useState([]);
   const [loading, setLoading] = useState(false);
 
-    // tabs
-    const [activeTab, setActiveTab] = useState("general");
+  // tabs
+  const [activeTab, setActiveTab] = useState("general");
 
-    const showTab = (tabId) => {
-      setActiveTab(tabId);
-    };
+  const showTab = (tabId) => {
+    setActiveTab(tabId);
+  };
 
 
   //get active category
@@ -73,11 +73,35 @@ const AddProdCategory = () => {
     }));
   };
 
+  //for validation 
+  const validateForm = () => {
+    const requiredFields = [
+      "category_name",
+      "category_image",
+    ];
+    for (const field of requiredFields) {
+      if (!addProductCategoryData[field]) {
+        if (field == "category_name") {
+          ErrorToast(`Category Name is Required`);
+          return false;
+        } else if (field == "category_image") {
+          ErrorToast(`Category Image is Required`);
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
   //save category
   const addCategoryData = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
     window.scrollTo({ behavior: "smooth", top: 0 });
     setLoading(true);
+
     try {
       const formdata = new FormData();
       formdata.append("category_name", addProductCategoryData.category_name);
@@ -162,7 +186,7 @@ const AddProdCategory = () => {
         </div>
         <div className="tabs-container">
           <div className="tabs">
-          <div style={{ display: "flex" }}>
+            <div style={{ display: "flex" }}>
               <div
                 className={`tab ${activeTab === "general" ? "active" : ""}`}
                 onClick={() => showTab("general")}
@@ -176,12 +200,11 @@ const AddProdCategory = () => {
                 SEO
               </div>
             </div>
-            </div>
+          </div>
           <div
             id="general"
-            className={`tab-content add_data_form ${
-              activeTab === "general" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={addCategoryData}>
               <div className="mb-3">
@@ -195,7 +218,6 @@ const AddProdCategory = () => {
                   className="modal_input"
                   placeholder="Enter Category Name"
                   onChange={handleChangeProductCategory}
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -209,7 +231,6 @@ const AddProdCategory = () => {
                   className="modal_input"
                   placeholder="Enter Category Title"
                   onChange={handleChangeProductCategory}
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -247,7 +268,6 @@ const AddProdCategory = () => {
                       "removeformat | help",
                   }}
                   onChange={handleEditorChange}
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -261,7 +281,6 @@ const AddProdCategory = () => {
                   className="modal_input"
                   accept="image/png, image/jpeg, image/jpg"
                   onChange={handleAddFileChange}
-                  required
                 />
               </div>
               {addProductCategoryData.category_image && (
@@ -285,7 +304,6 @@ const AddProdCategory = () => {
                   form="sub_category"
                   className="modal_input"
                   onChange={handleChangeProductCategory}
-                  required
                 >
                   <option value={0}>Choose Sub Category</option>
                   {getActiveCateData.map((cate) => {
@@ -301,7 +319,7 @@ const AddProdCategory = () => {
                 <button type="submit" className="success_btn">
                   SAVE
                 </button>
-                <Link href="/admin/products-category">
+                <Link href="/admin/product-category">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
                   </button>
@@ -311,9 +329,8 @@ const AddProdCategory = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${
-              activeTab === "seo" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={addCategoryData}>
               <div className="mb-3">
@@ -343,11 +360,11 @@ const AddProdCategory = () => {
                         ></i>
                       </div>
                     </div>
-                ))}
-                  </div>
+                  ))}
+                </div>
               </div>
-  
-            
+
+
               <div className="mb-3">
                 <label htmlFor="meta_keyword" className="modal_label">
                   Meta Keayword:-
@@ -375,8 +392,8 @@ const AddProdCategory = () => {
                         ></i>
                       </div>
                     </div>
-                ))}
-                  </div>
+                  ))}
+                </div>
               </div>
               <div className="mb-3">
                 <label htmlFor="meta_description" className="modal_label">

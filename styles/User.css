@@ -681,8 +681,9 @@ form .modal_input:focus {
   cursor: pointer;
   letter-spacing: 1px;
   font-size: 18px;
-  position: relative;
-  top: -10px;
+  position: absolute;
+  right: 20px;
+  top: 130px;
 }
 
 .tab-content.active {
@@ -778,7 +779,8 @@ select {
 
 select:hover,
 select:focus {
-  border-color: #007bff; /* Change this color to your desired hover/focus color */
+  border-color: #007bff;
+  /* Change this color to your desired hover/focus color */
 }
 
 /* Optional: Style the dropdown arrow */
@@ -787,7 +789,8 @@ select::-ms-expand {
 }
 
 select::after {
-  content: "\25BC"; /* Unicode character for down arrow */
+  content: "\25BC";
+  /* Unicode character for down arrow */
   position: absolute;
   top: 50%;
   right: 10px;
@@ -947,12 +950,14 @@ select::after {
 
 .button-container .delete-button:disabled {
   cursor: not-allowed;
-  background-color: #e88a8a; /* Red color for the delete button */
+  background-color: #e88a8a;
+  /* Red color for the delete button */
 }
 
 .button-container .edit-button:disabled {
   cursor: not-allowed;
-  background-color: #9fd9ee; /* Blue color for the edit button */
+  background-color: #9fd9ee;
+  /* Blue color for the edit button */
 }
 
 .delete-button {
