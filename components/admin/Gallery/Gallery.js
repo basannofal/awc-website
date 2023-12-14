@@ -4,7 +4,11 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import EditGallery from "./EditGallery";
-import Toast, { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
+import Toast, {
+  ErrorToast,
+  SuccessToast,
+  WarningToast,
+} from "@/layouts/toast/Toast";
 import DeleteModal from "@/layouts/DeleteModal";
 import { useRouter } from "next/router";
 
@@ -207,11 +211,14 @@ const Gallery = () => {
         <div className="admin_page_top">
           <div className="page_top_left_section">
             <p className="admin_page_header">Gallery</p>
-            <p>
+            <p style={{ paddingBottom: "10px" }} className="sitemap">
               <Link href="/admin/admindashboard">
                 <i className="fa-solid fa-house"></i>
               </Link>
-              <i className="fa-solid fa-angles-right"></i>
+              <i
+                className="fa-solid fa-angles-right angles"
+                style={{ paddingBottom: "3px" }}
+              ></i>
               <span>Gallery</span>
             </p>
           </div>
@@ -230,45 +237,54 @@ const Gallery = () => {
           </div>
         </div>
 
-        <div className="dropdown-container">
-          <label htmlFor="categoryDropdown">Gallery Categories :</label>
-          <select
-            id="categoryDropdown"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-          >
-            <option value="">-- All Category --</option>
-            {getAllGalleryCategory.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.category_title}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="button-container">
-          <div>
+        <div
+          style={{
+            display: "flex",
+            border: "1px solid #ccc",
+            padding: "10px",
+            borderRadius: "5px",
+            margin: "10px 20px 0 20px",
+          }}
+        >
+          <div className="dropdown-container">
+            <label htmlFor="categoryDropdown">Gallery Categories : </label>
+            <select
+              id="categoryDropdown"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              <option value="">-- All Category --</option>
+              {getAllGalleryCategory.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.category_title}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="button-container">
+            <div>
+              <button
+                onClick={handleDeleteAllInCategory}
+                className="delete-button"
+                disabled={filteredGalleryData.length === 0} // Disable if no records found
+              >
+                <span>
+                  <i className="fa-solid fa-trash-can"></i>
+                </span>{" "}
+                Delete All Records
+              </button>
+            </div>
             <button
-              onClick={handleDeleteAllInCategory}
-              className="delete-button"
+              onClick={() => handleEditAllInCategory(selectedCategory)}
+              className="edit-button"
               disabled={filteredGalleryData.length === 0} // Disable if no records found
             >
               <span>
-                <i className="fa-solid fa-trash-can"></i>
+                <i className="fa-solid fa-pencil"></i>
               </span>{" "}
-              Delete All Records
+              Edit All Records
             </button>
           </div>
-          <button
-            onClick={() => handleEditAllInCategory(selectedCategory)}
-            className="edit-button"
-            disabled={filteredGalleryData.length === 0} // Disable if no records found
-          >
-            <span>
-              <i className="fa-solid fa-pencil"></i>
-            </span>{" "}
-            Edit All Records
-          </button>
         </div>
 
         <div className="gallery-container">
@@ -309,8 +325,7 @@ const Gallery = () => {
           ) : (
             <div
               style={{
-                textAlign: "center",
-                paddingLeft: "25rem",
+                margin: "auto",
                 height: "20vh",
               }}
             >
@@ -340,30 +355,3 @@ const Gallery = () => {
 };
 
 export default Gallery;
-
-<style jsx>{`
-  .button-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-
-  .button-container .delete-button:disabled {
-    cursor: not-allowed;
-    background-color: #e88a8a; /* Red color for the delete button */
-  }
-
-  .button-container .edit-button:disabled {
-    cursor: not-allowed;
-    background-color: #a8d8ea; /* Blue color for the edit button */
-  }
-
-  .button-container button {
-    padding: 10px;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-right: 10px;
-  }
-`}</style>;

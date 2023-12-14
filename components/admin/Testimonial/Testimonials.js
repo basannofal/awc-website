@@ -7,6 +7,7 @@ import Toast, { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
 import Loading from "@/layouts/Loading";
 import DeleteModal from "@/layouts/DeleteModal";
 import YouTube from "react-youtube";
+import ViewModal from "../ViewModal";
 
 const Testimonials = () => {
   //filter code Start
@@ -125,18 +126,6 @@ const Testimonials = () => {
   };
   // handle delete testimonial end
 
-  // handle youtube video start
-
-  // Function to extract YouTube video ID from URL
-  const getYouTubeVideoId = (url) => {
-    const videoIdMatch = url.match(
-      /(?:youtu\.be\/|youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|y\/|\/v\/|\/e\/|watch\?.*v=)([^"&?\/\s]{11})/
-    );
-
-    return videoIdMatch ? videoIdMatch[1] : null;
-  };
-  // handle youtube video end
-
   //get or fetch all product data start
   const [getProductData, setGetProductData] = useState([]);
 
@@ -159,6 +148,23 @@ const Testimonials = () => {
   }, []);
   //get or fetch all product data end
 
+  // Testimonial View Reviews start
+  const [selectedTestimonial, setSelectedTestimonial] = useState(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+
+  // Function to open the view modal
+  const openViewModal = (testimonial) => {
+    setSelectedTestimonial(testimonial);
+    setIsViewModalOpen(true);
+  };
+
+  // Function to close the view modal
+  const closeViewModal = () => {
+    setSelectedTestimonial(null);
+    setIsViewModalOpen(false);
+  };
+  // Testimonial View Reviews
+
   return (
     <>
       {loading && <Loading />}
@@ -167,11 +173,14 @@ const Testimonials = () => {
         <div className="admin_page_top">
           <div className="page_top_left_section">
             <p className="admin_page_header">Testimonial</p>
-            <p>
+            <p style={{ paddingBottom: "10px" }} className="sitemap">
               <Link href="/admin/admindashboard">
                 <i className="fa-solid fa-house"></i>
               </Link>
-              <i className="fa-solid fa-angles-right"></i>
+              <i
+                className="fa-solid fa-angles-right angles"
+                style={{ paddingBottom: "3px" }}
+              ></i>
               <span>Testimonial</span>
             </p>
           </div>
@@ -187,17 +196,12 @@ const Testimonials = () => {
           <table>
             <thead>
               <tr>
-                <th style={{ width: "5%", textAlign: "center" }}>ID</th>
-                <th style={{ width: "10%", textAlign: "center" }}>PRODUCT</th>
-                <th style={{ width: "15%", textAlign: "center" }}>TITLE</th>
-                <th style={{ width: "30%", textAlign: "center" }}>
-                  DESCRIPTION
-                </th>
-                <th style={{ width: "10%", textAlign: "center" }}>IMAGE</th>
-                <th style={{ width: "30%", textAlign: "center" }}>VIDEO</th>
-                <th style={{ width: "15%", textAlign: "center" }}>RATING</th>
-                <th style={{ width: "10%", textAlign: "center" }}>OPERATION</th>
-                <th style={{ width: "10%", textAlign: "center" }}>STATUS</th>
+                <th style={{ width: "10%", textAlign: "center" }}>ID</th>
+                <th style={{ width: "20%", textAlign: "center" }}>PROFILE</th>
+                <th style={{ width: "20%", textAlign: "center" }}>PRODUCT</th>
+                <th style={{ width: "20%", textAlign: "center" }}>TITLE</th>
+                <th style={{ width: "15%", textAlign: "center" }}>OPERATION</th>
+                <th style={{ width: "7%", textAlign: "center" }}>STATUS</th>
               </tr>
             </thead>
             <tbody>
@@ -207,7 +211,20 @@ const Testimonials = () => {
                     {/* ID */}
                     <td>{index + 1}</td>
 
-                    {/* Title */}
+                    {/* Image */}
+                    <td>
+                      <img
+                        src={`/assets/upload/testimonial/${testimonial.testimonial_image}`}
+                        alt="testimonial"
+                        className="table_data_image"
+                        style={{
+                          margin: "auto",
+                          borderRadius: "100%",
+                        }}
+                      />
+                    </td>
+
+                    {/* Product Title */}
                     <td>
                       {getProductData.map(
                         (product) =>
@@ -222,73 +239,6 @@ const Testimonials = () => {
                     {/* Title */}
                     <td>{testimonial.testimonial_title}</td>
 
-                    {/* Description */}
-                    <td>
-                      <p
-                        style={{
-                          maxHeight: "100px",
-                          overflowY: "auto",
-                        }}
-                        dangerouslySetInnerHTML={{
-                          __html: testimonial.testimonial_desc,
-                        }}
-                      ></p>
-                    </td>
-
-                    {/* Image */}
-                    <td>
-                      <img
-                        src={`/assets/upload/testimonial/${testimonial.testimonial_image}`}
-                        width="100px"
-                        height="100px"
-                        alt="testimonial"
-                        className="tabel_data_image"
-                        style={{
-                          margin: "auto",
-                        }}
-                      />
-                    </td>
-
-                    {/* YouTube Video */}
-                    <td>
-                      {testimonial.testimonial_video && (
-                        <YouTube
-                          videoId={getYouTubeVideoId(
-                            testimonial.testimonial_video
-                          )}
-                          opts={{
-                            width: "250",
-                            height: "150",
-                            playerVars: {
-                              autoplay: 0,
-                            },
-                          }}
-                        />
-                      )}
-                    </td>
-
-                    {/* Star Rating */}
-                    <td>
-                      <div className="star-rating">
-                        {starArray.map((star) => (
-                          <span
-                            key={star}
-                            style={{
-                              cursor: "pointer",
-                              fontSize: "24px",
-                              color:
-                                star <= (testimonial.rating || 0)
-                                  ? "#f8d64e"
-                                  : "#ddd",
-                              marginRight: "5px",
-                            }}
-                          >
-                            &#9733;
-                          </span>
-                        ))}
-                      </div>
-                    </td>
-
                     {/* Handle Operation that you want to perform */}
                     <td>
                       <span>
@@ -301,10 +251,16 @@ const Testimonials = () => {
                           <i className="fa-regular fa-pen-to-square"></i>
                         </button>
                         <button
-                          className="operation_btn operation_delete_btn"
+                          className="operation_btn"
                           onClick={() => openDeleteModal(testimonial.id)}
                         >
                           <i className="fa-solid fa-trash"></i>
+                        </button>
+                        <button
+                          className="operation_btn"
+                          onClick={() => openViewModal(testimonial)}
+                        >
+                          <i class="fa-solid fa-eye"></i>
                         </button>
                       </span>
                     </td>
@@ -314,7 +270,7 @@ const Testimonials = () => {
                       {testimonial.status === 1 ? (
                         <img
                           src={"/assets/images/activeStatus.png"}
-                          className="opr_active_btn"
+                          className="status_btn"
                           onClick={() => {
                             testimonialStatusChange(testimonial.id, 1);
                           }}
@@ -323,7 +279,7 @@ const Testimonials = () => {
                       ) : (
                         <img
                           src={"/assets/images/inActiveStatus.png"}
-                          className="opr_active_btn"
+                          className="status_btn"
                           onClick={() => {
                             testimonialStatusChange(testimonial.id, 0);
                           }}
@@ -352,6 +308,16 @@ const Testimonials = () => {
         />
         {/* Show the Toast notification */}
         <Toast />
+
+        {/* View the Testimonial Details */}
+        {isViewModalOpen && selectedTestimonial && (
+          <ViewModal
+            isOpen={isViewModalOpen}
+            onClose={closeViewModal}
+            data={selectedTestimonial}
+            getProductData={getProductData}
+          />
+        )}
       </section>
     </>
   );

@@ -29,6 +29,11 @@ const GalleryCategory = () => {
     window.scrollTo({ behavior: "smooth", top: 0 });
     setLoading(true);
 
+    if (addEditGalleryCategoryData.category_title === "") {
+      ErrorToast("Please Enter the Gallery Category");
+      return;
+    }
+
     try {
       const data = {
         category_title: addEditGalleryCategoryData.category_title,
@@ -294,7 +299,6 @@ const GalleryCategory = () => {
                   placeholder="Enter Gallery Category Title"
                   onChange={handleChangeGalleryCategory}
                   value={addEditGalleryCategoryData.category_title}
-                  required
                 />
               </div>
 

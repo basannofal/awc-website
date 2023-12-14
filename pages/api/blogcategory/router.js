@@ -15,10 +15,17 @@ export default async function handler(req, res) {
       const form = new IncomingForm();
       form.parse(req, (err, fields, files) => {
         // check file exist or not
-        if (!files.category_image || !files.category_icon) {
-          return res.status(400).json({ message: "Please Upload Files." });
+        if (!files.category_image) {
+          return res
+            .status(400)
+            .json({ message: "Please Upload Category Image." });
         }
 
+        if (!files.category_icon) {
+          return res
+            .status(400)
+            .json({ message: "Please Upload Category Icon." });
+        }
         //check! is this image ?
         const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
         const CategoryImgExtension = path

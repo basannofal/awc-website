@@ -1,7 +1,11 @@
 import Header from "@/layouts/Header";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Toast, { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
+import Toast, {
+  ErrorToast,
+  SuccessToast,
+  WarningToast,
+} from "@/layouts/toast/Toast";
 import axios from "axios";
 import { useRouter } from "next/router";
 
@@ -84,23 +88,26 @@ const EditAllGallery = () => {
     });
   };
 
-  const handleRemoveImage = (index) => {
-    setFormDataArray((prevData) => {
-      const newData = [...prevData];
-      newData[index].gallery_image = null;
-      return newData;
-    });
-
-    // Remove the selected image from the state
-    setSelectedImages((prevSelectedImages) => {
-      const newSelectedImages = [...prevSelectedImages];
-      newSelectedImages[index] = null;
-      return newSelectedImages;
-    });
-  };
-
   const handleEditAllItems = async (e) => {
     e.preventDefault();
+
+    // Create an array to store error messages
+    const errors = [];
+
+    // Validate each item
+    formDataArray.forEach((item, index) => {
+      if (!item.gallery_title.trim()) {
+        errors.push(`Please enter the gallery title for record ${index + 1}`);
+      }
+    });
+
+    // Display errors if any
+    if (errors.length > 0) {
+      errors.forEach((error) => {
+        WarningToast(error);
+      });
+      return; // Stop further processing if there are errors
+    }
 
     try {
       // Assuming `formDataArray` contains all the necessary data for each item
@@ -198,7 +205,6 @@ const EditAllGallery = () => {
                   <th style={{ width: "25%" }}>TITLE</th>
                   <th style={{ width: "40%" }}>CATEGORY</th>
                   <th style={{ width: "25%" }}>SORTING</th>
-                  <th style={{ width: "5%" }}>OPERATION</th>
                 </tr>
               </thead>
               <tbody>
@@ -296,15 +302,6 @@ const EditAllGallery = () => {
                           )
                         }
                       />
-                    </td>
-                    <td style={{ textAlign: "center" }}>
-                      <button
-                        type="button"
-                        className="remove_multi_img_btn"
-                        onClick={() => handleRemoveImage(index)}
-                      >
-                        <i className="fa-solid fa-xmark"></i>
-                      </button>
                     </td>
                   </tr>
                 ))}
