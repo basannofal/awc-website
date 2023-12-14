@@ -3,7 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Header from "@/layouts/Header";
 import Link from "next/link";
-import Toast, { ErrorToast } from "@/layouts/toast/Toast";
+import Toast, { ErrorToast, WarningToast } from "@/layouts/toast/Toast";
 import { Editor } from "@tinymce/tinymce-react";
 import Loading from "@/layouts/Loading";
 
@@ -81,13 +81,30 @@ const EditProdCategory = () => {
       [name]: value,
     }));
   };
+
+  // handle file change
+
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const handleEditFileChange = (event) => {
     const file = event.target.files[0];
+
+    // Check if the file has a valid extension
+    const validExtensions = ["jpg", "jpeg", "png"];
+    const fileExtension = file.name.split(".").pop().toLowerCase();
+
+    if (!validExtensions.includes(fileExtension)) {
+      // Reset the input value to clear the invalid file
+      event.target.value = "";
+      WarningToast("Please add the JPG, JPEG & PNG format file");
+      return;
+    }
+
     setEditProductCategoryData((prevProfileData) => ({
       ...prevProfileData,
       [event.target.name]: file,
     }));
-    event.target.value = null;
+    setSelectedImage(file);
   };
 
   //for validation 
@@ -156,10 +173,13 @@ const EditProdCategory = () => {
 
   // edit meta keyword
   const handleKeyword = (event) => {
-    if (event.key === "Enter" || event.key == ",") {
+    if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
-      setEditMetaKeyword([...editMetaKeyword, event.target.value]);
-      event.target.value = "";
+      const newKeyword = event.target.value.trim();
+      if (newKeyword) {
+        setEditMetaKeyword([...editMetaKeyword, newKeyword]);
+        event.target.value = "";
+      }
     }
   };
   const RemoveKeyword = (idx) => {
@@ -170,10 +190,13 @@ const EditProdCategory = () => {
 
   // edit meta tags
   const handleTags = (event) => {
-    if (event.key === "Enter" || event.key == ",") {
+    if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
-      setEditMetaTag([...editMetaTag, event.target.value.trim()]);
-      event.target.value = "";
+      const newTag = event.target.value.trim();
+      if (newTag) {
+        setEditMetaTag([...editMetaTag, newTag]);
+        event.target.value = "";
+      }
     }
   };
   const RemoveTags = (idx) => {
@@ -251,7 +274,6 @@ const EditProdCategory = () => {
                   placeholder="Enter Category Title"
                   onChange={handleEditChange}
                   value={editProductCategoryData?.category_title}
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -290,7 +312,6 @@ const EditProdCategory = () => {
                       "removeformat | help",
                   }}
                   onChange={handleEditorChange}
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -304,15 +325,25 @@ const EditProdCategory = () => {
                   className="modal_input"
                   accept="image/png, image/jpeg, image/jpg"
                   onChange={handleEditFileChange}
-                  required
                 />
               </div>
-              <img
-                src={`/assets/upload/product-category/${editProductCategoryData?.category_image}`}
-                width="100%"
-                className="modal_data_image"
-                alt="category_image"
-              />
+              {selectedImage ? (
+                <img
+                  src={URL.createObjectURL(selectedImage)}
+                  width="100px"
+                  height="100px"
+                  alt="category_image"
+                />
+              ) : (
+                <img
+                  src={`/assets/upload/product-category/${editProductCategoryData?.category_image}`}
+                  width="100px"
+                  height="100px"
+                  className="modal_data_image"
+                  alt="category_image"
+                />
+              )}
+
               <div className="mb-3">
                 <label htmlFor="sub_category" className="modal_label">
                   Choose Sub Category:
@@ -327,9 +358,21 @@ const EditProdCategory = () => {
                 >
                   <option value={0}>Choose Sub Category</option>
                   {getActiveCateData.map((cate) => {
-                    if (cate.category_id != cateId && cate.sub_category != cateId)
+
+                    if (
+                      cate.category_id != cateId &&
+                      cate.sub_category != cateId
+                    )
                       return (
-                        <option selected={cate.category_id == editProductCategoryData.sub_category} key={cate.category_id} value={cate.category_id}>
+                        <option
+                          selected={
+                            cate.category_id ==
+                            editProductCategoryData.sub_category
+                          }
+                          key={cate.category_id}
+                          value={cate.category_id}
+                        >
+
                           {cate.category_name}
                         </option>
                       );
@@ -374,26 +417,28 @@ const EditProdCategory = () => {
                 />
               </div>
               <div className="mb-3">
-                <div className="meta_main_section">
-                  {editMetaTag.map((tag, index) => (
-                    <div className="meta_tag_section" key={index}>
-                      <div className="meta_tag_text">{tag}</div>
-                      <div className="meta_remove_icon">
-                        <i
-                          className="fa-solid fa-xmark"
-                          onClick={() => {
-                            RemoveTags(index);
-                          }}
-                        ></i>
+                {editMetaTag.length > 0 && (
+                  <div className="meta_main_section">
+                    {editMetaTag.map((tag, index) => (
+                      <div className="meta_tag_section" key={index}>
+                        <div className="meta_tag_text">{tag}</div>
+                        <div className="meta_remove_icon">
+                          <i
+                            className="fa-solid fa-xmark"
+                            onClick={() => {
+                              RemoveTags(index);
+                            }}
+                          ></i>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="mb-3">
                 <label htmlFor="meta_keyword" className="modal_label">
-                  Meta Keayword:-
+                  Meta Keyword:-
                 </label>
                 <input
                   type="text"
@@ -405,22 +450,25 @@ const EditProdCategory = () => {
                 />
               </div>
               <div className="mb-3">
-                <div className="meta_main_section">
-                  {editMetaKeyword.map((keyword, index) => (
-                    <div className="meta_tag_section" key={index}>
-                      <div className="meta_tag_text">{keyword}</div>
-                      <div className="meta_remove_icon">
-                        <i
-                          className="fa-solid fa-xmark"
-                          onClick={() => {
-                            RemoveKeyword(index);
-                          }}
-                        ></i>
+                {editMetaKeyword.length > 0 && (
+                  <div className="meta_main_section">
+                    {editMetaKeyword.map((keyword, index) => (
+                      <div className="meta_tag_section" key={index}>
+                        <div className="meta_tag_text">{keyword}</div>
+                        <div className="meta_remove_icon">
+                          <i
+                            className="fa-solid fa-xmark"
+                            onClick={() => {
+                              RemoveKeyword(index);
+                            }}
+                          ></i>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
+
               <div className="mb-3">
                 <label htmlFor="meta_description" className="modal_label">
                   Meta Description:-
