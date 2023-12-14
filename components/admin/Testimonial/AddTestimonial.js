@@ -2,7 +2,7 @@ import Header from "@/layouts/Header";
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Editor } from "@tinymce/tinymce-react";
-import { ErrorToast } from "@/layouts/toast/Toast";
+import Toast, { ErrorToast, WarningToast } from "@/layouts/toast/Toast";
 import axios from "axios";
 
 const AddTestimonial = () => {
@@ -44,12 +44,13 @@ const AddTestimonial = () => {
     const file = event.target.files[0];
 
     // Check if the file has a valid extension
-    const validExtensions = ["jpg", "jpeg", "png"];
+    const validExtensions = ["jpg", "jpeg", "png", "webp"];
     const fileExtension = file.name.split(".").pop().toLowerCase();
 
     if (!validExtensions.includes(fileExtension)) {
       // Reset the input value to clear the invalid file
       event.target.value = "";
+      WarningToast("Please add the JPG, JPEG, PNG & WEBP format file");
       return;
     }
 
@@ -77,6 +78,17 @@ const AddTestimonial = () => {
     window.scrollTo({ behavior: "smooth", top: 0 });
     setLoading(true);
 
+    // Check for validation errors and add messages to the array
+    if (addTestimonialData.product_id === "") {
+      ErrorToast("Please Select the Product");
+      setLoading(false);
+      return;
+    } else if (addTestimonialData.testimonial_title === "") {
+      ErrorToast("Please Enter the Testimonial Title");
+      setLoading(false);
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append(
@@ -103,13 +115,13 @@ const AddTestimonial = () => {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data", // Set content type to multipart/form-data
+            "Content-Type": "multipart/form-data",
           },
         }
       );
 
-      setLoading(false);
       router.push("/admin/testimonial");
+      setLoading(false);
     } catch (error) {
       ErrorToast(error?.response?.data?.message);
       setLoading(false);
@@ -165,7 +177,6 @@ const AddTestimonial = () => {
                 name="product_id"
                 className="modal_input"
                 onChange={handleChangeTestimonial}
-                required
               >
                 <option value="">-- Select Product --</option>
                 {getProductData.map((product) => (
@@ -188,7 +199,6 @@ const AddTestimonial = () => {
                 className="modal_input"
                 placeholder="Enter Testimonial Title"
                 onChange={handleChangeTestimonial}
-                required
               />
             </div>
 
@@ -229,7 +239,6 @@ const AddTestimonial = () => {
                     "removeformat | help",
                 }}
                 onChange={handleEditorChange}
-                required
               />
             </div>
 
@@ -238,7 +247,7 @@ const AddTestimonial = () => {
               <label htmlFor="testimonial_image" className="modal_label">
                 Testimonial Image:-{" "}
                 <span style={{ color: "red" }}>
-                  (* Only jpg, png and jpeg file supported)
+                  ( * Only jpg, png, jpeg & webp file supported)
                 </span>
               </label>
               {/* Display the selected image immediately */}
@@ -314,6 +323,7 @@ const AddTestimonial = () => {
             </div>
           </form>
         </div>
+        <Toast />
       </section>
     </>
   );

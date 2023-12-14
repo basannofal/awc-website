@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 import Toast, { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
 import Loading from "@/layouts/Loading";
 
-
 const ProductCategory = () => {
   //filter Start
   const [filterValue, setFilterValue] = useState(""); // State to hold the filter value
@@ -91,7 +90,6 @@ const ProductCategory = () => {
     const category = getActiveCateData.find(
       (category) => category.sub_category == cateId
     );
-    console.log(category);
     if (category) {
       ErrorToast("Cannot Deactive this data because it connect each other");
       getAllCategoryData();
@@ -138,16 +136,20 @@ const ProductCategory = () => {
     }
   };
 
-  //view prod cate
-  const handleViewProdCate = (id) => {
-    setLoading(true);
-    router.push(`/admin/product-category/view-product-category?id=${id}`);
-  };
-
   useEffect(() => {
     getAllCategoryData();
     getActiveCategoryData();
   }, []);
+
+
+  //for truncate text code
+  const truncateString = (str, maxLength) => {
+    if (str.length > maxLength) {
+      return str.substring(0, maxLength) + '...';
+    } else {
+      return str;
+    }
+  };
 
   return (
     <>
@@ -178,13 +180,17 @@ const ProductCategory = () => {
           <table>
             <thead>
               <tr>
-                <th style={{ width: "7%" }}>ID</th>
-                <th style={{ width: "20%" }}>IMAGE</th>
-                <th style={{ width: "25%" }}>NAME</th>
-                <th style={{ width: "25%" }}>TITLE</th>
-                <th style={{ width: "17%" }}>SUB CATEGORY</th>
-                <th style={{ width: "15%" }}>OPEARATION</th>
-                <th style={{ width: "10%" }}>STATUS</th>
+                <th style={{ width: "7%", textAlign: "center" }}>ID</th>
+                <th style={{ width: "20%", textAlign: "center" }}>IMAGE</th>
+                <th style={{ width: "25%", textAlign: "center" }}>NAME</th>
+                <th style={{ width: "25%", textAlign: "center" }}>TITLE</th>
+                <th style={{ width: "17%", textAlign: "center" }}>
+                  SUB CATEGORY
+                </th>
+                <th style={{ width: "15%", textAlign: "center" }}>
+                  OPEARATION
+                </th>
+                <th style={{ width: "10%", textAlign: "center" }}>STATUS</th>
               </tr>
             </thead>
             <tbody>
@@ -192,33 +198,28 @@ const ProductCategory = () => {
                 filterdCategory.map((category, index) => (
                   <tr
                     key={category.category_id}
-                    style={{ color: category.status === 1 ? "black" : "red" }}
+                    style={{ textAlign: "center" }}
                   >
                     <td>{index + 1}</td>
                     <td>
                       <img
                         src={`/assets/upload/product-category/${category.category_image}`}
-                        width="150px"
-                        height="150px"
                         alt="Category"
-                        className="tabel_data_image"
+                        className="table_data_image"
                       />
                     </td>
-                    <td>{category.category_name}</td>
-                    <td>{category.category_title}</td>
-
+                    <td>{truncateString(category.category_name, 40)}</td>
+                    <td>{truncateString(category.category_title, 40)}</td>
                     <td>
                       {category.sub_category
-                        ? getCategoryData.find(
-                          (subCategory) =>
-                            subCategory.category_id === category.sub_category
-                        )?.category_name
+                        ? (
+                          getCategoryData.find(
+                            (subCategory) =>
+                              subCategory.category_id === category.sub_category
+                          )?.category_name || ""
+                        ).substring(0, 40)
                         : "null"}
                     </td>
-
-
-
-
                     <td>
                       <button
                         className="editbutton"
@@ -230,9 +231,7 @@ const ProductCategory = () => {
                       </button>
                       <button
                         className="data_delete_btn"
-                        onClick={() =>
-                          openDeleteModal(category.category_id)
-                        }
+                        onClick={() => openDeleteModal(category.category_id)}
                       >
                         <i className="fa-solid fa-trash"></i>
                       </button>
@@ -258,9 +257,6 @@ const ProductCategory = () => {
                         />
                       )}
                     </td>
-
-
-
 
                     {/* <td
                       style={{

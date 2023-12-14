@@ -2,7 +2,7 @@ import Header from "@/layouts/Header";
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Editor } from "@tinymce/tinymce-react";
-import { ErrorToast } from "@/layouts/toast/Toast";
+import Toast, { ErrorToast, WarningToast } from "@/layouts/toast/Toast";
 import axios from "axios";
 import { useRouter } from "next/router";
 
@@ -75,12 +75,13 @@ const EditTestimonial = () => {
     const file = event.target.files[0];
 
     // Check if the file has a valid extension
-    const validExtensions = ["jpg", "jpeg", "png"];
+    const validExtensions = ["jpg", "jpeg", "png", "webp"];
     const fileExtension = file.name.split(".").pop().toLowerCase();
 
     if (!validExtensions.includes(fileExtension)) {
       // Reset the input value to clear the invalid file
       event.target.value = "";
+      ErrorToast("Please add the JPG, JPEG, PNG & WEBP format file");
       return;
     }
 
@@ -109,6 +110,27 @@ const EditTestimonial = () => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
     setLoading(true);
+
+    // Create an array to store error messages
+    const errors = [];
+
+    // Check for validation errors and add messages to the array
+    if (editTestimonialData.testimonial_title === "") {
+      errors.push("Please Enter the Testimonial Title");
+    }
+    if (editTestimonialData.product_id === "") {
+      errors.push("Please Select the Product");
+    }
+
+    // Display errors if any and prevent form submission
+    if (errors.length > 0) {
+      errors.forEach((errorMsg) => {
+        ErrorToast(errorMsg);
+      });
+      setLoading(false);
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append(
@@ -196,7 +218,6 @@ const EditTestimonial = () => {
                 className="modal_input"
                 value={editTestimonialData?.product_id}
                 onChange={handleChangeTestimonial}
-                required
               >
                 <option value="">-- Select Product --</option>
                 {getProductData.map((product) => (
@@ -220,7 +241,6 @@ const EditTestimonial = () => {
                 placeholder="Enter Testimonial Title"
                 value={editTestimonialData?.testimonial_title}
                 onChange={handleChangeTestimonial}
-                required
               />
             </div>
 
@@ -261,7 +281,6 @@ const EditTestimonial = () => {
                     "removeformat | help",
                 }}
                 onChange={handleEditorChange}
-                required
               />
             </div>
 
@@ -353,6 +372,7 @@ const EditTestimonial = () => {
             </div>
           </form>
         </div>
+        <Toast />
       </section>
     </>
   );
