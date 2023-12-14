@@ -125,11 +125,9 @@ const EditProduct = () => {
         deleteProductImg(productImgId);
       } else if (deleteopt == "docs") {
         deleteProductdocs(productImgId);
-
       } else if (deleteopt == "video") {
         deleteProductVideos(productImgId);
-      }
-      else if (deleteopt == "certificate") {
+      } else if (deleteopt == "certificate") {
         deleteProductcertificate(productImgId);
       }
       closeDeleteModal();
@@ -220,7 +218,13 @@ const EditProduct = () => {
     setSelectedImage(file);
   };
   const saveEditProductData = async (prodId) => {
+    if (editProductData.product_title === "") {
+      ErrorToast("Please Enter the Product Title");
+      return false;
+    }
+
     setLoading(true);
+
     try {
       const formdata = new FormData();
       formdata.append("cate_id", editProductData?.cate_id);
@@ -354,6 +358,10 @@ const EditProduct = () => {
     e.preventDefault();
     console.log(allProductDocs);
     window.scrollTo({ behavior: "smooth", top: 0 });
+    if (addMultiDocs.product_docs.length == 0) {
+      ErrorToast("please atleast one doc select");
+      return false;
+    }
     setLoading(true);
     try {
       const formdata = new FormData();
@@ -428,7 +436,10 @@ const EditProduct = () => {
     }));
     setAddMultiCertificate((prevMultiCertificate) => ({
       ...prevMultiCertificate,
-      product_certificate: [...prevMultiCertificate.product_certificate, ...newdocs],
+      product_certificate: [
+        ...prevMultiCertificate.product_certificate,
+        ...newdocs,
+      ],
     }));
   };
 
@@ -455,6 +466,10 @@ const EditProduct = () => {
   const saveMultipleCertificate = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
+    if (addMultiCertificate.product_certificate.length == 0) {
+      ErrorToast('please atleast one Certificate select');
+      return false
+    }
     setLoading(true);
     try {
       const formdata = new FormData();
@@ -505,14 +520,12 @@ const EditProduct = () => {
 
   const handleEditCertificateClick = (certiId, data) => {
     setEditingCertificateId(certiId);
-    console.log(certiId)
+    console.log(certiId);
     setEditCertificate({
       certificate_title: data.certificate_title,
       certificate_link: data.certificate_link,
     });
   };
-
-
 
   const handlePerCertificateFileData = (event) => {
     const file = event.target.files[0];
@@ -534,7 +547,7 @@ const EditProduct = () => {
       window.scrollTo({ behavior: "smooth", top: 0 });
       setLoading(false);
       getAllProductCertificate();
-      setEditingCertificateId(null)
+      setEditingCertificateId(null);
     } catch (error) {
       ErrorToast(error?.response?.data?.message);
       setLoading(false);
@@ -555,7 +568,6 @@ const EditProduct = () => {
       setLoading(false);
     }
   };
-
 
   // PRODUCT STATUS CHANGE
   const productDocsStatusChange = async (docId, no) => {
@@ -643,6 +655,10 @@ const EditProduct = () => {
   const saveMultipleImages = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
+    if (addMultiImages.product_images.length === 0) {
+      ErrorToast("No files selected. Please select at least one image");
+      return;
+    }
     setLoading(true);
     console.log(addMultiImages);
     try {
@@ -898,6 +914,14 @@ const EditProduct = () => {
   const saveVedios = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
+    if (addProductVedio.vedio_title === "") {
+      ErrorToast("Please Enter the Video Title");
+      return false;
+    }
+    if (addProductVedio.vedio_link === "") {
+      ErrorToast("Please Enter the Video Link");
+      return false;
+    }
     setLoading(true);
     console.log(addProductVedio);
     try {
@@ -1012,7 +1036,6 @@ const EditProduct = () => {
                   placeholder="Enter Product Title"
                   value={editProductData?.product_title}
                   onChange={handleEditChange}
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -1053,7 +1076,6 @@ const EditProduct = () => {
                   onChange={(e) =>
                     handleShortEditorChange(editorShortRef.current.getContent())
                   }
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -1094,7 +1116,6 @@ const EditProduct = () => {
                   onChange={(e) =>
                     handleLongEditorChange(editorLongRef.current.getContent())
                   }
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -1136,7 +1157,6 @@ const EditProduct = () => {
                   form="cate_id"
                   className="modal_input"
                   onChange={handleEditChange}
-                  required
                 >
                   <option value={0}>Choose Category</option>
                   {getActiveCateData.map((cate) => {
@@ -1828,7 +1848,6 @@ const EditProduct = () => {
                       placeholder="Enter Video Title"
                       onChange={handleVedioContentChange}
                       value={addProductVedio.vedio_title}
-                      required
                     />
                   </div>
                   <div className="mb-3">
@@ -1873,7 +1892,6 @@ const EditProduct = () => {
                           VedioeditorRef.current.getContent()
                         )
                       }
-                      required
                     />
                   </div>
                   <div className="mb-3">
@@ -1888,7 +1906,6 @@ const EditProduct = () => {
                       placeholder="Enter Video Link"
                       onChange={handleVedioContentChange}
                       value={addProductVedio.vedio_link}
-                      required
                     />
                   </div>
                   <div className="mb-3">
@@ -2162,8 +2179,9 @@ const EditProduct = () => {
           {/* Certificate Tabs */}
           <div
             id="docs"
-            className={`tab-content add_data_form ${activeTab === "certificate" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "certificate" ? "active" : ""
+            }`}
           >
             <form method="post" onSubmit={saveMultipleCertificate}>
               <div className="mb-3">
@@ -2185,7 +2203,7 @@ const EditProduct = () => {
                 style={{ display: "flex", flexWrap: "wrap" }}
               >
                 {addMultiCertificate.product_certificate &&
-                  addMultiCertificate.product_certificate.length > 0 ? (
+                addMultiCertificate.product_certificate.length > 0 ? (
                   <table className="multi-images-table">
                     <thead>
                       <tr>
@@ -2195,40 +2213,42 @@ const EditProduct = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {addMultiCertificate.product_certificate.map((image, index) => (
-                        <tr key={index}>
-                          <td>
-                            <img
-                              src={"/assets/images/pdf-icon.webp"}
-                              alt={`Selected productimg ${index + 1}`}
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="text"
-                              id={`certificate_title-${index}`}
-                              name="certificate_title"
-                              placeholder="certificate Title"
-                              onChange={(e) =>
-                                handleCertificateDetailsChange(
-                                  index,
-                                  "certificate_title",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </td>
-                          <td>
-                            <button
-                              type="button"
-                              className="remove_multi_img_btn"
-                              onClick={() => removeMultiCertificate(index)}
-                            >
-                              <i className="fa-solid fa-xmark"></i>
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
+                      {addMultiCertificate.product_certificate.map(
+                        (image, index) => (
+                          <tr key={index}>
+                            <td>
+                              <img
+                                src={"/assets/images/pdf-icon.webp"}
+                                alt={`Selected productimg ${index + 1}`}
+                              />
+                            </td>
+                            <td>
+                              <input
+                                type="text"
+                                id={`certificate_title-${index}`}
+                                name="certificate_title"
+                                placeholder="certificate Title"
+                                onChange={(e) =>
+                                  handleCertificateDetailsChange(
+                                    index,
+                                    "certificate_title",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+                            <td>
+                              <button
+                                type="button"
+                                className="remove_multi_img_btn"
+                                onClick={() => removeMultiCertificate(index)}
+                              >
+                                <i className="fa-solid fa-xmark"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        )
+                      )}
                     </tbody>
                   </table>
                 ) : (
@@ -2355,7 +2375,7 @@ const EditProduct = () => {
                         <td>
                           {product.status === 1 ? (
                             <img
-                              src='/assets/images/activeStatus.png'
+                              src="/assets/images/activeStatus.png"
                               alt="active"
                               className="status_btn"
                               onClick={() =>
@@ -2367,7 +2387,7 @@ const EditProduct = () => {
                             />
                           ) : (
                             <img
-                              src='/assets/images/inActiveStatus.png'
+                              src="/assets/images/inActiveStatus.png"
                               alt="inActive"
                               className="status_btn"
                               onClick={() =>

@@ -129,11 +129,12 @@ const AddProduct = () => {
   const addProductTableData = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
-    setLoading(true);
-
+    
     if (addProductData.product_title === "") {
-      WarningToast("Please Enter the Product Title");
+      ErrorToast("Please Enter the Product Title");
+      return false
     }
+    setLoading(true);
 
     try {
       const formdata = new FormData();
@@ -239,11 +240,11 @@ const AddProduct = () => {
   const saveMultipleDocs = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
-    setLoading(true);
-    if (allProductDocs.length == 0) {
-      WarningToast('please atleast one doc select');
-      setLoading(false);
+    if (addMultiDocs.length == 0) {
+      ErrorToast('please atleast one doc select');
+      return false
     }
+    setLoading(true);
     try {
       const formdata = new FormData();
       formdata.append("product_id", lastAddId.product_id);
@@ -258,7 +259,7 @@ const AddProduct = () => {
       setLoading(false);
       getAllProductDocs(lastAddId.product_id);
       setAddMultiDocs({ product_docs: [] });
-      setActiveTab("docs");
+      setActiveTab("certificate");
     } catch (error) {
       console.log("Error adding prod images" + error);
       setLoading(false);
@@ -322,17 +323,13 @@ const AddProduct = () => {
   const saveMultipleImages = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
-    setLoading(true);
-    if (addMultiImages.product_images.length == 0) {
-      WarningToast('please atleast one image select')
-      setLoading(false)
-    }
-
+    
+    
     if (addMultiImages.product_images.length === 0) {
-      WarningToast("No files selected. Please select at least one image");
-      setLoading(false);
+      ErrorToast("No files selected. Please select at least one image");
       return;
     }
+    setLoading(true);
 
     try {
       const formdata = new FormData();
@@ -405,15 +402,16 @@ const AddProduct = () => {
   const saveVedios = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
-    setLoading(true);
-    if (allProductVedios.length == 0) {
-      WarningToast('please atleast one video select')
-      setLoading(false);
-    }
-
+    
     if (addProductVedio.vedio_title === "") {
-      WarningToast("Please Enter the Video Title");
+      ErrorToast("Please Enter the Video Title");
+      return false
     }
+    if (addProductVedio.vedio_link === "") {
+      ErrorToast("Please Enter the Video Link");
+      return false
+    }
+    setLoading(true);
 
     try {
       const formdata = new FormData();
@@ -537,11 +535,11 @@ const AddProduct = () => {
   const saveMultipleCertificate = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
-    setLoading(true);
-    if (allProductCertificate.length == 0) {
-      WarningToast('please atleast one Certificate select');
-      setLoading(false);
+    if (addMultiCertificate.product_certificate.length == 0) {
+      ErrorToast('please atleast one Certificate select');
+      return false
     }
+    setLoading(true);
     try {
       const formdata = new FormData();
       formdata.append("product_id", lastAddId.product_id);

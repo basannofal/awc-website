@@ -250,6 +250,7 @@ const EditProdCategory = () => {
               <div className="mb-3">
                 <label htmlFor="category_name" className="modal_label">
                   Category Name:-
+                  <span style={{ color: "red" }}> *</span>
                 </label>
                 <input
                   type="text"

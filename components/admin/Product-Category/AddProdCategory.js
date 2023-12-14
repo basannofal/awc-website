@@ -224,8 +224,8 @@ const AddProdCategory = () => {
             <form method="post" onSubmit={addCategoryData}>
               <div className="mb-3">
                 <label htmlFor="category_name" className="modal_label">
-                  Category Name:-{" "}
-                  <small style={{ color: "red" }}>* (required)</small>
+                  Category Name:-
+                  <span style={{ color: "red" }}> *</span>
                 </label>
                 <input
                   type="text"
@@ -289,6 +289,7 @@ const AddProdCategory = () => {
               <div className="mb-3">
                 <label htmlFor="category_image" className="modal_label">
                   Category Image:-
+                  <span style={{ color: "red" }}> *</span>
                 </label>
                 <input
                   type="file"
