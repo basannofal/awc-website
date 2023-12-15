@@ -7,7 +7,7 @@ import Loading from "@/layouts/Loading";
 import Link from "next/link";
 import Toast, { ErrorToast, WarningToast } from "@/layouts/toast/Toast";
 
-const AddProduct = () => {
+const AllSetting = () => {
   // USESTATE VARIABLE
   const [getActiveCateData, setGetActiveCateData] = useState([]);
   const [addProductData, setAddProductData] = useState({
@@ -28,13 +28,7 @@ const AddProduct = () => {
     product_docs: [],
   });
   const [allProductDocs, setAllProductDocs] = useState([]);
-
-  const [addMultiCertificate, setAddMultiCertificate] = useState({
-    product_certificate: [],
-  });
-  const [allProductCertificate, setAllProductCertificate] = useState([]);
-
-  const [isDataAdded, setIsDataAdded] = useState(false);
+  const [isDataAdded, setIsDataAdded] = useState(true);
   const [lastAddId, setLastAddId] = useState([]);
   const [loading, setLoading] = useState(false);
   const [addProductVedio, setAddProductVedio] = useState({
@@ -87,6 +81,7 @@ const AddProduct = () => {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/productcategorychanges/router`
       );
+      console.log(response.data);
       setGetActiveCateData(response.data);
       setLoading(false);
     } catch (err) {
@@ -129,39 +124,7 @@ const AddProduct = () => {
   };
   const addProductTableData = async (e) => {
     e.preventDefault();
-    window.scrollTo({ behavior: "smooth", top: 0 });
-    
-    if (addProductData.product_title === "") {
-      ErrorToast("Please Enter the Product Title");
-      return false
-    }
-    setLoading(true);
-
-
-    try {
-      const formdata = new FormData();
-      formdata.append("cate_id", addProductData.cate_id);
-      formdata.append("product_title", addProductData.product_title);
-      formdata.append("product_short_desc", addProductData.product_short_desc);
-      formdata.append("product_long_desc", addProductData.product_long_desc);
-      formdata.append("meta_desc", addProductData.meta_desc);
-      formdata.append("canonical_url", addProductData.canonical_url);
-      formdata.append("product_image", addProductData.product_image);
-      formdata.append("meta_tag", addMetaTag);
-      formdata.append("meta_keyword", addMetaKeyword);
-
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/products/router`,
-        formdata
-      );
-      setLoading(false);
-      setIsDataAdded(true);
-      setActiveTab("image");
-      getLastAddedData();
-    } catch (error) {
-      ErrorToast(error?.response?.data?.message);
-      setLoading(false);
-    }
+    router.push("/admin/settings/edit-setting")
   };
   //END OF PRODUCT HANDLER AND ADD PRODUCT
 
@@ -242,10 +205,6 @@ const AddProduct = () => {
   const saveMultipleDocs = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
-    if (addMultiDocs.length == 0) {
-      ErrorToast('please atleast one doc select');
-      return false
-    }
     setLoading(true);
     try {
       const formdata = new FormData();
@@ -261,7 +220,7 @@ const AddProduct = () => {
       setLoading(false);
       getAllProductDocs(lastAddId.product_id);
       setAddMultiDocs({ product_docs: [] });
-      setActiveTab("certificate");
+      setActiveTab("docs");
     } catch (error) {
       console.log("Error adding prod images" + error);
       setLoading(false);
@@ -325,15 +284,7 @@ const AddProduct = () => {
   const saveMultipleImages = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
-    
-    
-    if (addMultiImages.product_images.length === 0) {
-      ErrorToast("No files selected. Please select at least one image");
-      return;
-    }
     setLoading(true);
-
-
     try {
       const formdata = new FormData();
       formdata.append("product_id", lastAddId.product_id);
@@ -405,18 +356,8 @@ const AddProduct = () => {
   const saveVedios = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
-    
-    if (addProductVedio.vedio_title === "") {
-      ErrorToast("Please Enter the Video Title");
-      return false
-    }
-    if (addProductVedio.vedio_link === "") {
-      ErrorToast("Please Enter the Video Link");
-      return false
-    }
     setLoading(true);
-
-
+    console.log(addProductVedio);
     try {
       const formdata = new FormData();
       formdata.append("product_id", lastAddId.product_id);
@@ -477,95 +418,6 @@ const AddProduct = () => {
     setAddMetaTag(newArray);
   };
   //END
-  // get all Certifiacte of product
-  const getAllProductCertificate = async (prodId) => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/products/productcertificate/${prodId}`
-      );
-      setAllProductCertificate(response.data);
-      setLoading(false);
-    } catch (err) {
-      ErrorToast(err?.response?.data?.message);
-      setLoading(false);
-    }
-  };
-  //PRODUCT CERTIFICATE
-  const handleAddMultipleCertificateChange = async (event) => {
-    const files = event.target.files;
-    const pdfFiles = Array.from(files).filter(
-      (file) => file.type === "application/pdf"
-    );
-
-    // Check if any non-PDF files were selected
-    const nonPdfFiles = Array.from(files).filter(
-      (file) => file.type !== "application/pdf"
-    );
-
-    if (nonPdfFiles.length > 0) {
-      WarningToast("Only PDF files are taken from given files.");
-    }
-
-    const newcertificate = Array.from(pdfFiles).map((file) => ({
-      file,
-      certificate_title: "",
-    }));
-    setAddMultiCertificate((prevMultiCertificate) => ({
-      ...prevMultiCertificate,
-      product_certificate: [...prevMultiCertificate.product_certificate, ...newcertificate],
-    }));
-  };
-
-  const removeMultiCertificate = async (index) => {
-    const newcertificate = [...addMultiCertificate.product_certificate];
-    newcertificate.splice(index, 1);
-    setAddMultiCertificate((prevMultiCertificate) => ({
-      ...prevMultiCertificate,
-      product_certificate: newcertificate,
-    }));
-  };
-
-  const handleCertificateDetailsChange = (index, field, value) => {
-    setAddMultiCertificate((prevMultiCertificate) => {
-      const updatedImages = [...prevMultiCertificate.product_certificate];
-      updatedImages[index][field] = value;
-      return {
-        ...prevMultiCertificate,
-        product_certificate: updatedImages,
-      };
-    });
-  };
-
-  const saveMultipleCertificate = async (e) => {
-    e.preventDefault();
-    window.scrollTo({ behavior: "smooth", top: 0 });
-    if (addMultiCertificate.product_certificate.length == 0) {
-      ErrorToast('please atleast one Certificate select');
-      return false
-    }
-    setLoading(true);
-    try {
-      const formdata = new FormData();
-      formdata.append("product_id", lastAddId.product_id);
-      addMultiCertificate.product_certificate.forEach((docs, index) => {
-        formdata.append(`product_certificate`, docs.file);
-        formdata.append(`certificate_title_${index}`, docs.certificate_title);
-      });
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/products/productcertificate/router`,
-        formdata
-        );
-        setLoading(false);
-        getAllProductCertificate(lastAddId.product_id);
-        setAddMultiCertificate({ product_certificate: [] });
-        setActiveTab("certificate");
-        console.log("hiii")
-    } catch (error) {
-      console.log("Error adding prod images" + error);
-      setLoading(false);
-    }
-  };
-  //END
 
   // USEEFFECT METHOD
   useEffect(() => {
@@ -581,14 +433,7 @@ const AddProduct = () => {
       <section className="home-section">
         <Header />
         <div className="admin_page_top">
-          <p className="admin_page_header">Add Product</p>
-          <p>
-            <Link href="/admin/admindashboard">
-              <i className="fa-solid fa-house"></i>
-            </Link>
-            <i className="fa-solid fa-angles-right"></i>
-            <span>Add Product</span>
-          </p>
+          <p className="admin_page_header">Settings</p>
         </div>
         {/* TABS */}
         <div className="tabs-container">
@@ -604,39 +449,32 @@ const AddProduct = () => {
                 className={`tab ${activeTab === "seo" ? "active" : ""}`}
                 onClick={() => showTab("seo")}
               >
-                SEO
+                Social Media
               </div>
               <div
                 className={`tab ${activeTab === "image" ? "active" : ""}`}
                 onClick={() => showTab("image")}
               >
-                Images
-              </div>
-              <div
-                className={`tab ${activeTab === "video" ? "active" : ""}`}
-                onClick={() => showTab("video")}
-              >
-                Videos
-              </div>
-              <div
-                className={`tab ${activeTab === "docs" ? "active" : ""}`}
-                onClick={() => showTab("docs")}
-              >
-                Docs
-              </div>
-              <div
-                className={`tab ${activeTab === "certificate" ? "active" : ""}`}
-                onClick={() => showTab("certificate")}
-              >
-                Certificate
+                SEO
               </div>
             </div>
+            {activeTab === "general" || activeTab === "seo" ? (
+              <button
+                className="product_data_save_btn"
+                onClick={addProductTableData}
+              >
+                <i className="fa-regular fa-pen-to-square"></i>
+              </button>
+            ) : (
+              ""
+            )}
           </div>
           {/* GENREL TABS */}
           <div
             id="general"
-            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "general" ? "active" : ""
+            }`}
           >
             <form method="post">
               <div className="mb-3">
@@ -754,7 +592,7 @@ const AddProduct = () => {
                       <img
                         src={URL.createObjectURL(addProductData.product_image)}
                         alt="Selected Thumbnail"
-                        className="table_data_image"
+                        className="tabel_data_image"
                       />
                     </div>
                   )}
@@ -784,13 +622,9 @@ const AddProduct = () => {
                 </div>
               </div>
               <div className="mb-3">
-                {activeTab === "general" || activeTab === "seo" ? (
-                  <button className="success_btn" onClick={addProductTableData}>
-                    SAVE
-                  </button>
-                ) : (
-                  ""
-                )}
+                {/* <button type="submit" className="success_btn">
+                  SAVE
+                </button> */}
                 <Link href="/admin/products">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
@@ -803,8 +637,9 @@ const AddProduct = () => {
           {/* SEO TAB */}
           <div
             id="seo"
-            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "seo" ? "active" : ""
+            }`}
           >
             <form method="post" onSubmit={addProductTableData}>
               <div className="mb-3">
@@ -896,13 +731,6 @@ const AddProduct = () => {
                 />
               </div>
               <div className="mb-3">
-                {activeTab === "general" || activeTab === "seo" ? (
-                  <button className="success_btn" onClick={addProductTableData}>
-                    SAVE
-                  </button>
-                ) : (
-                  ""
-                )}
                 <Link href="/admin/products">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
@@ -916,8 +744,9 @@ const AddProduct = () => {
           {isDataAdded && (
             <div
               id="image"
-              className={`tab-content add_data_form ${activeTab === "image" ? "active" : ""
-                }`}
+              className={`tab-content add_data_form ${
+                activeTab === "image" ? "active" : ""
+              }`}
             >
               <form method="post" onSubmit={saveMultipleImages}>
                 <div className="mb-3">
@@ -939,7 +768,7 @@ const AddProduct = () => {
                   style={{ display: "flex", flexWrap: "wrap" }}
                 >
                   {addMultiImages.product_images &&
-                    addMultiImages.product_images.length > 0 ? (
+                  addMultiImages.product_images.length > 0 ? (
                     <table className="multi-images-table">
                       <thead>
                         <tr>
@@ -974,7 +803,6 @@ const AddProduct = () => {
                               <img
                                 src={URL.createObjectURL(image.file)}
                                 alt={`Selected productimg ${index + 1}`}
-                                className="table_data_image"
                               />
                             </td>
                             <td>
@@ -1093,8 +921,9 @@ const AddProduct = () => {
                           <td>
                             <img
                               src={`/assets/upload/products/productImages/${product.product_image}`}
-                              className="table_data_image"
+                              width="100%"
                               alt="product"
+                              className="tabel_data_image"
                             />
                           </td>
                           <td>{product.image_height}</td>
@@ -1120,8 +949,9 @@ const AddProduct = () => {
           {isDataAdded && (
             <div
               id="video"
-              className={`tab-content add_data_form ${activeTab === "video" ? "active" : ""
-                }`}
+              className={`tab-content add_data_form ${
+                activeTab === "video" ? "active" : ""
+              }`}
             >
               <div
                 style={{
@@ -1145,7 +975,12 @@ const AddProduct = () => {
                         <tbody>
                           {allProductVedios.length > 0 ? (
                             allProductVedios.map((product, index) => (
-                              <tr key={product.product_id}>
+                              <tr
+                                key={product.product_id}
+                                style={{
+                                  color: product.status === 1 ? "black" : "red",
+                                }}
+                              >
                                 <td>{index + 1}</td>
                                 <td>{product.video_title}</td>
                                 <td>{product.video_description}</td>
@@ -1185,6 +1020,7 @@ const AddProduct = () => {
                         className="modal_input"
                         placeholder="Enter Video Title"
                         onChange={handleVedioContentChange}
+                        required
                       />
                     </div>
                     <div className="mb-3">
@@ -1228,6 +1064,7 @@ const AddProduct = () => {
                             VedioeditorRef.current.getContent()
                           )
                         }
+                        required
                       />
                     </div>
                     <div className="mb-3">
@@ -1241,6 +1078,7 @@ const AddProduct = () => {
                         className="modal_input"
                         placeholder="Enter Video Link"
                         onChange={handleVedioContentChange}
+                        required
                       />
                     </div>
                     <div className="mb-3">
@@ -1254,6 +1092,7 @@ const AddProduct = () => {
                         className="modal_input"
                         accept="image/png, image/jpeg, image/jpg"
                         onChange={handleVedioFileChange}
+                        required
                       />
                     </div>
                     <div
@@ -1283,8 +1122,9 @@ const AddProduct = () => {
           {isDataAdded && (
             <div
               id="docs"
-              className={`tab-content add_data_form ${activeTab === "docs" ? "active" : ""
-                }`}
+              className={`tab-content add_data_form ${
+                activeTab === "docs" ? "active" : ""
+              }`}
             >
               <form method="post" onSubmit={saveMultipleDocs}>
                 <div className="mb-3">
@@ -1306,7 +1146,7 @@ const AddProduct = () => {
                   style={{ display: "flex", flexWrap: "wrap" }}
                 >
                   {addMultiDocs.product_docs &&
-                    addMultiDocs.product_docs.length > 0 ? (
+                  addMultiDocs.product_docs.length > 0 ? (
                     <table className="multi-images-table">
                       <thead>
                         <tr>
@@ -1357,11 +1197,7 @@ const AddProduct = () => {
                   )}
                 </div>
                 <div className="mb-3">
-                  <button
-                    type="submit"
-                    onClick={saveMultipleDocs}
-                    className="success_btn"
-                  >
+                  <button type="submit" className="success_btn">
                     SAVE
                   </button>
                   <Link href="/admin/products">
@@ -1414,138 +1250,6 @@ const AddProduct = () => {
               </div>
             </div>
           )}
-
-          {/* certifite tab */}
-          {isDataAdded && (
-            <div
-              id="docs"
-              className={`tab-content add_data_form ${activeTab === "certificate" ? "active" : ""
-                }`}
-            >
-              <form method="post" onSubmit={saveMultipleCertificate}>
-                <div className="mb-3">
-                  <label htmlFor="product_images" className="modal_label">
-                    Product Certificate:-
-                  </label>
-                  <input
-                    type="file"
-                    id="product_images"
-                    name="product_images"
-                    className="modal_input"
-                    accept=".pdf,.png"
-                    onChange={handleAddMultipleCertificateChange}
-                    multiple
-                  />
-                </div>
-                <div
-                  className="mb-3"
-                  style={{ display: "flex", flexWrap: "wrap" }}
-                >
-                  {addMultiCertificate.product_certificate &&
-                    addMultiCertificate.product_certificate.length > 0 ? (
-                    <table className="multi-images-table">
-                      <thead>
-                        <tr>
-                          <th width="25%">Title</th>
-                          <th width="15%">Image</th>
-                          <th width="10%">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {addMultiCertificate.product_certificate.map((image, index) => (
-                          <tr key={index}>
-                            <td>
-                              <input
-                                type="text"
-                                id={`certificate_title-${index}`}
-                                name="certificate_title"
-                                placeholder="certificate_title"
-                                onChange={(e) =>
-                                  handleCertificateDetailsChange(
-                                    index,
-                                    "certificate_title",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </td>
-                            <td>
-                              <img
-                                src={"/assets/images/pdf-icon.webp"}
-                                alt={`Selected productimg ${index + 1}`}
-                              />
-                            </td>
-                            <td>
-                              <button
-                                type="button"
-                                className="remove_multi_img_btn"
-                                onClick={() => removeMultiCertificate(index)}
-                              >
-                                <i className="fa-solid fa-xmark"></i>
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  ) : (
-                    <p>No images selected</p>
-                  )}
-                </div>
-                <div className="mb-3">
-                  <button type="submit" className="success_btn">
-                    SAVE
-                  </button>
-                  <Link href="/admin/products">
-                    <button type="button" className="success_btn cancel_btn">
-                      CANCEL
-                    </button>
-                  </Link>
-                </div>
-              </form>
-              <hr style={{ marginTop: "30px", marginBottom: "20px" }} />
-              <div className="admin_category_table">
-                <table>
-                  <thead>
-                    <tr>
-                      <th style={{ width: "15%" }}>ID</th>
-                      <th style={{ width: "25%" }}>TITLE</th>
-                      <th style={{ width: "25%" }}>IMAGE</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {allProductCertificate.length > 0 ? (
-                      allProductCertificate.map((product, index) => (
-                        <tr
-                          key={product.product_id}
-                          style={{
-                            color: product.status === 1 ? "black" : "red",
-                          }}
-                        >
-                          <td>{index + 1}</td>
-                          <td>{product.certificate_title}</td>
-                          <td>
-                            <img
-                              src={`/assets/images/pdf-icon.webp`}
-                              width="100%"
-                              alt="product"
-                              className="tabel_data_image"
-                            />
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan="3" align="center">
-                          data is not available
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
         </div>
         <Toast />
       </section>
@@ -1553,4 +1257,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default AllSetting;

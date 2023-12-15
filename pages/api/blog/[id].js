@@ -85,18 +85,6 @@ export default async function handler(req, res) {
           canonical_url,
         } = fields;
 
-        //check! is this image ?
-        const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
-        const fileExtension = path
-          .extname(files.blog_thumbnail[0].originalFilename)
-          .toLowerCase();
-
-        if (!allowedImageExtensions.includes(fileExtension)) {
-          return res
-            .status(400)
-            .json({ message: "Only image files are allowed." });
-        }
-
         const [blog] = await conn.query(
           "SELECT blog_thumbnail FROM blog_master WHERE blog_id = ?",
           [id]
@@ -128,6 +116,17 @@ export default async function handler(req, res) {
           ];
           result = await conn.query(sql, params);
         } else {
+          //check! is this image ?
+          const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
+          const fileExtension = path
+            .extname(files.blog_thumbnail[0].originalFilename)
+            .toLowerCase();
+
+          if (!allowedImageExtensions.includes(fileExtension)) {
+            return res
+              .status(400)
+              .json({ message: "Only image files are allowed." });
+          }
           const oldPath = files.blog_thumbnail[0].filepath; // Old path of the uploaded image
           const nFileName = `${Date.now()}.${
             files.blog_thumbnail[0].originalFilename

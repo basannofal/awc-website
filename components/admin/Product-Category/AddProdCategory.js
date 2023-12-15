@@ -84,9 +84,32 @@ const AddProdCategory = () => {
     }));
   };
 
+  //for validation 
+  const validateForm = () => {
+    const requiredFields = [
+      "category_name",
+      "category_image",
+    ];
+    for (const field of requiredFields) {
+      if (!addProductCategoryData[field]) {
+        if (field == "category_name") {
+          ErrorToast(`Category Name is Required`);
+          return false;
+        } else if (field == "category_image") {
+          ErrorToast(`Category Image is Required`);
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
   //save category
   const addCategoryData = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
     window.scrollTo({ behavior: "smooth", top: 0 });
     setLoading(true);
 
@@ -195,15 +218,15 @@ const AddProdCategory = () => {
           </div>
           <div
             id="general"
-            className={`tab-content add_data_form ${
-              activeTab === "general" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={addCategoryData}>
               <div className="mb-3">
                 <label htmlFor="category_name" className="modal_label">
                   Category Name:-{" "}
                   <small style={{ color: "red" }}>* (required)</small>
+
                 </label>
                 <input
                   type="text"
@@ -267,6 +290,7 @@ const AddProdCategory = () => {
               <div className="mb-3">
                 <label htmlFor="category_image" className="modal_label">
                   Category Image:-
+                  <span style={{ color: "red" }}> *</span>
                 </label>
                 <input
                   type="file"
@@ -313,7 +337,7 @@ const AddProdCategory = () => {
                 <button type="submit" className="success_btn">
                   SAVE
                 </button>
-                <Link href="/admin/products-category">
+                <Link href="/admin/product-category">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
                   </button>
@@ -323,9 +347,8 @@ const AddProdCategory = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${
-              activeTab === "seo" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={addCategoryData}>
               <div className="mb-3">

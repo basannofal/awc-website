@@ -107,9 +107,32 @@ const EditProdCategory = () => {
     setSelectedImage(file);
   };
 
+  //for validation 
+  const validateForm = () => {
+    const requiredFields = [
+      "category_name",
+      "category_image",
+    ];
+    for (const field of requiredFields) {
+      if (!editProductCategoryData[field]) {
+        if (field == "category_name") {
+          ErrorToast(`Category Name is Required`);
+          return false;
+        } else if (field == "category_image") {
+          ErrorToast(`Category Image is Required`);
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
   // update category
   const saveEditCategoryData = async (e) => {
     setLoading(true);
+    if (!validateForm()) {
+      return;
+    }
     try {
       const formdata = new FormData();
       formdata.append("category_name", editProductCategoryData.category_name);
@@ -220,14 +243,14 @@ const EditProdCategory = () => {
           </div>
           <div
             id="general"
-            className={`tab-content add_data_form ${
-              activeTab === "general" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
+              }`}
           >
             <form>
               <div className="mb-3">
                 <label htmlFor="category_name" className="modal_label">
                   Category Name:-
+                  <span style={{ color: "red" }}> *</span>
                 </label>
                 <input
                   type="text"
@@ -336,6 +359,7 @@ const EditProdCategory = () => {
                 >
                   <option value={0}>Choose Sub Category</option>
                   {getActiveCateData.map((cate) => {
+
                     if (
                       cate.category_id != cateId &&
                       cate.sub_category != cateId
@@ -375,9 +399,8 @@ const EditProdCategory = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${
-              activeTab === "seo" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
+              }`}
           >
             <form>
               <div className="mb-3">

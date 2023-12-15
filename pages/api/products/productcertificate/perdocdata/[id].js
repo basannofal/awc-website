@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      const q = "SELECT * FROM `product_docs` WHERE prod_docs_id = ?";
+      const q = "SELECT * FROM `product_certificate` WHERE prod_certi_id = ?";
 
       const data = [id];
       const [rows] = await conn.query(q, data);
@@ -37,23 +37,23 @@ export default async function handler(req, res) {
       const form = new IncomingForm();
       form.parse(req, async (err, fields, files) => {
         // check file exist or not
-        const { pdf_title, pdf_link } = fields;
+        const { certificate_title, certificate_link } = fields;
 
         let sql = "";
         let params = [];
         let result = "";
 
-        if (!files.pdf_link) {
+        if (!files.certificate_link) {
           sql =
-            "UPDATE `product_docs` SET `pdf_title`= ? WHERE prod_docs_id = ?";
+            "UPDATE `product_certificate` SET `certificate_title`= ? WHERE prod_certi_id = ?";
 
-          params = [pdf_title, id];
+          params = [certificate_title, id];
           result = await conn.query(sql, params);
         } else {
           //check! is this image ?
           const allowedImageExtensions = [".pdf"];
           const fileExtension = path
-            .extname(files.pdf_link[0].originalFilename)
+            .extname(files.certificate_link[0].originalFilename)
             .toLowerCase();
 
           if (!allowedImageExtensions.includes(fileExtension)) {
@@ -63,18 +63,18 @@ export default async function handler(req, res) {
           }
 
           // get Old Image data
-          const [productDocs] = await conn.query(
-            "SELECT pdf_link FROM product_docs WHERE prod_docs_id = ?",
+          const [productCertificate] = await conn.query(
+            "SELECT certificate_link FROM product_certificate WHERE prod_certi_id = ?",
             [id]
           );
           // Configuration for the new image
-          const oldPath = files.pdf_link[0].filepath; // Old path of the uploaded image
-          const nFileName = `${Date.now()}.${files.pdf_link[0].originalFilename
+          const oldPath = files.certificate_link[0].filepath; // Old path of the uploaded image
+          const nFileName = `${Date.now()}.${files.certificate_link[0].originalFilename
             }`;
           const newFileName = nFileName.replace(/\s/g, "");
           const projectDirectory = path.resolve(
             __dirname,
-            "../../../../../../../public/assets/upload/products/productDocs"
+            "../../../../../../../public/assets/upload/products/productCertificate"
           );
           const newPath = path.join(projectDirectory, newFileName);
 
@@ -87,12 +87,12 @@ export default async function handler(req, res) {
           });
 
           sql =
-            "UPDATE `product_docs` SET `pdf_title`= ?, `pdf_link`= ? WHERE prod_docs_id = ?";
+            "UPDATE `product_certificate` SET `certificate_title`= ?, `certificate_link`= ? WHERE prod_certi_id = ?";
 
-          params = [pdf_title, newFileName, id];
+          params = [certificate_title, newFileName, id];
           result = await conn.query(sql, params);
-          if (productDocs.length !== 0) {
-            const oldImage = productDocs[0].pdf_link;
+          if (productCertificate.length !== 0) {
+            const oldImage = productCertificate[0].certificate_link;
             const oldImagePath = path.join(projectDirectory, oldImage);
             await unlink(oldImagePath);
           }

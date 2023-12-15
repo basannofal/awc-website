@@ -126,6 +126,7 @@ const AddTestimonial = () => {
       setLoading(false);
       return;
     }
+
     try {
       const formData = new FormData();
       formData.append(

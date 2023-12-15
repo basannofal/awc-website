@@ -66,7 +66,7 @@ export default async function handler(req, res) {
       // copy img from old path to new path
       fs.copyFile(oldPath, newPath, async (moveErr) => {
         if (moveErr) {
-          console.log(moveErr);
+          console.log('moveErr');
           res.status(500).json({ message: "File Upload failed." });
         } else {
           try {

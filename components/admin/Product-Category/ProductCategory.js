@@ -136,16 +136,20 @@ const ProductCategory = () => {
     }
   };
 
-  //view prod cate
-  const handleViewProdCate = (id) => {
-    setLoading(true);
-    router.push(`/admin/product-category/view-product-category?id=${id}`);
-  };
-
   useEffect(() => {
     getAllCategoryData();
     getActiveCategoryData();
   }, []);
+
+
+  //for truncate text code
+  const truncateString = (str, maxLength) => {
+    if (str.length > maxLength) {
+      return str.substring(0, maxLength) + '...';
+    } else {
+      return str;
+    }
+  };
 
   return (
     <>
@@ -204,18 +208,18 @@ const ProductCategory = () => {
                         className="table_data_image"
                       />
                     </td>
-                    <td>{category.category_name}</td>
-                    <td>{category.category_title}</td>
-
+                    <td>{truncateString(category.category_name, 40)}</td>
+                    <td>{truncateString(category.category_title, 40)}</td>
                     <td>
                       {category.sub_category
-                        ? getCategoryData.find(
+                        ? (
+                          getCategoryData.find(
                             (subCategory) =>
                               subCategory.category_id === category.sub_category
-                          )?.category_name
+                          )?.category_name || ""
+                        ).substring(0, 40)
                         : "null"}
                     </td>
-
                     <td>
                       <button
                         className="editbutton"

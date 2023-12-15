@@ -41,6 +41,10 @@ const EditProduct = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [productImgId, setproductImgId] = useState(null);
   const [deleteopt, setDeleteopt] = useState("");
+  const [addMultiCertificate, setAddMultiCertificate] = useState({
+    product_certificate: [],
+  });
+  const [allProductCertificate, setAllProductCertificate] = useState([]);
 
   const [addProductVedio, setAddProductVedio] = useState({
     vedio_title: "",
@@ -52,6 +56,7 @@ const EditProduct = () => {
   // per image edit data var
   const [editingId, setEditingId] = useState(null);
   const [editingDocId, setEditingDocId] = useState(null);
+  const [editingCertificateId, setEditingCertificateId] = useState(null);
   const [editingVedioId, setEditingVedioId] = useState(null);
 
   const [editperimg, setEditperimg] = useState({
@@ -69,6 +74,10 @@ const EditProduct = () => {
   const [editDoc, setEditDoc] = useState({
     pdf_title: "",
     pdf_link: null,
+  });
+  const [editCertificate, setEditCertificate] = useState({
+    certificate_title: "",
+    certificate_link: null,
   });
 
   //TABS HANDLER
@@ -121,6 +130,8 @@ const EditProduct = () => {
         deleteProductdocs(productImgId);
       } else if (deleteopt == "video") {
         deleteProductVideos(productImgId);
+      } else if (deleteopt == "certificate") {
+        deleteProductcertificate(productImgId);
       }
       closeDeleteModal();
     }
@@ -210,7 +221,13 @@ const EditProduct = () => {
     setSelectedImage(file);
   };
   const saveEditProductData = async (prodId) => {
+    if (editProductData.product_title === "") {
+      ErrorToast("Please Enter the Product Title");
+      return false;
+    }
+
     setLoading(true);
+
     try {
       const formdata = new FormData();
       formdata.append("cate_id", editProductData?.cate_id);
@@ -273,6 +290,7 @@ const EditProduct = () => {
     getProductCategoryForEdit(prodId);
     getAllProductImages();
     getAllProductDocs();
+    getAllProductCertificate();
     getAllProductVedios();
   }, [prodId]);
 
@@ -343,6 +361,10 @@ const EditProduct = () => {
     e.preventDefault();
     console.log(allProductDocs);
     window.scrollTo({ behavior: "smooth", top: 0 });
+    if (addMultiDocs.product_docs.length == 0) {
+      ErrorToast("please atleast one doc select");
+      return false;
+    }
     setLoading(true);
     try {
       const formdata = new FormData();
@@ -375,6 +397,175 @@ const EditProduct = () => {
       getAllProductDocs();
       setLoading(false);
       SuccessToast("Product Docs Deleted Successfully");
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  // get all certificate of product
+  const getAllProductCertificate = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productcertificate/${prodId}`
+      );
+      setAllProductCertificate(response.data);
+      setLoading(false);
+    } catch (err) {
+      ErrorToast(err?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  // ADD MULTIPLE CERTIFICATE AND MULTIPLE CERTIFICATE HANDLER
+  const handleAddMultipleCertificateChange = async (event) => {
+    const files = event.target.files;
+    const pdfFiles = Array.from(files).filter(
+      (file) => file.type === "application/pdf"
+    );
+
+    // Check if any non-PDF files were selected
+    const nonPdfFiles = Array.from(files).filter(
+      (file) => file.type !== "application/pdf"
+    );
+
+    if (nonPdfFiles.length > 0) {
+      WarningToast("Only PDF files are taken from given files.");
+    }
+
+    const newdocs = Array.from(pdfFiles).map((file) => ({
+      file,
+      certificate_title: "",
+    }));
+    setAddMultiCertificate((prevMultiCertificate) => ({
+      ...prevMultiCertificate,
+      product_certificate: [
+        ...prevMultiCertificate.product_certificate,
+        ...newdocs,
+      ],
+    }));
+  };
+
+  const removeMultiCertificate = async (index) => {
+    const newDocs = [...addMultiCertificate.product_certificate];
+    newDocs.splice(index, 1);
+    setAddMultiCertificate((prevMultiCertificate) => ({
+      ...prevMultiCertificate,
+      product_certificate: newDocs,
+    }));
+  };
+
+  const handleCertificateDetailsChange = (index, field, value) => {
+    setAddMultiCertificate((prevMultiCertificate) => {
+      const updatedImages = [...prevMultiCertificate.product_certificate];
+      updatedImages[index][field] = value;
+      return {
+        ...prevMultiCertificate,
+        product_certificate: updatedImages,
+      };
+    });
+  };
+
+  const saveMultipleCertificate = async (e) => {
+    e.preventDefault();
+    window.scrollTo({ behavior: "smooth", top: 0 });
+    if (addMultiCertificate.product_certificate.length == 0) {
+      ErrorToast('please atleast one Certificate select');
+      return false
+    }
+    setLoading(true);
+    try {
+      const formdata = new FormData();
+      formdata.append("product_id", prodId);
+      addMultiCertificate.product_certificate.forEach((docs, index) => {
+        formdata.append(`product_certificate`, docs.file);
+        formdata.append(`certificate_title_${index}`, docs.certificate_title);
+      });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productcertificate/router`,
+        formdata
+      );
+      setLoading(false);
+      setAddMultiCertificate({ product_docs: [] });
+      getAllProductCertificate();
+      SuccessToast("Certificate Added Successfully");
+    } catch (error) {
+      console.log("Error adding prod images" + error);
+      setLoading(false);
+    }
+  };
+
+  // DELETE DOCS
+  const deleteProductcertificate = async (deleteId) => {
+    setLoading(true);
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productcertificate/${deleteId}`
+      );
+      getAllProductCertificate();
+      setLoading(false);
+      SuccessToast("Product Certificate Deleted Successfully");
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  //PRODUCT CERTIFICATE CHANGE
+
+  const handlePerCertificateData = (event) => {
+    const { name, value } = event.target;
+    setEditCertificate((prevCertificateData) => ({
+      ...prevCertificateData,
+      [name]: value,
+    }));
+  };
+
+  const handleEditCertificateClick = (certiId, data) => {
+    setEditingCertificateId(certiId);
+    console.log(certiId);
+    setEditCertificate({
+      certificate_title: data.certificate_title,
+      certificate_link: data.certificate_link,
+    });
+  };
+
+  const handlePerCertificateFileData = (event) => {
+    const file = event.target.files[0];
+    setEditCertificate((prevProfileData) => ({
+      ...prevProfileData,
+      [event.target.name]: file,
+    }));
+  };
+  const handleUpdateCertiClick = async (prodDocsId) => {
+    try {
+      const formdata = new FormData();
+      formdata.append("certificate_link", editCertificate?.certificate_link);
+      formdata.append("certificate_title", editCertificate?.certificate_title);
+
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productcertificate/perdocdata/${prodDocsId}`,
+        formdata
+      );
+      window.scrollTo({ behavior: "smooth", top: 0 });
+      setLoading(false);
+      getAllProductCertificate();
+      setEditingCertificateId(null);
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  //PRODUCT CERTIFICATE STATUS CHANGE
+  const productCertificateStatusChange = async (certiId, no) => {
+    setLoading(true);
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productcertificate/statuschanges/${certiId}/${no}`
+      );
+      getAllProductCertificate();
+      setLoading(false);
     } catch (error) {
       ErrorToast(error?.response?.data?.message);
       setLoading(false);
@@ -467,6 +658,10 @@ const EditProduct = () => {
   const saveMultipleImages = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
+    if (addMultiImages.product_images.length === 0) {
+      ErrorToast("No files selected. Please select at least one image");
+      return;
+    }
     setLoading(true);
     console.log(addMultiImages);
     try {
@@ -722,6 +917,14 @@ const EditProduct = () => {
   const saveVedios = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
+    if (addProductVedio.vedio_title === "") {
+      ErrorToast("Please Enter the Video Title");
+      return false;
+    }
+    if (addProductVedio.vedio_link === "") {
+      ErrorToast("Please Enter the Video Link");
+      return false;
+    }
     setLoading(true);
     console.log(addProductVedio);
     try {
@@ -808,6 +1011,12 @@ const EditProduct = () => {
               >
                 Docs
               </div>
+              <div
+                className={`tab ${activeTab === "certificate" ? "active" : ""}`}
+                onClick={() => showTab("certificate")}
+              >
+                Certificate
+              </div>
             </div>
           </div>
 
@@ -830,7 +1039,6 @@ const EditProduct = () => {
                   placeholder="Enter Product Title"
                   value={editProductData?.product_title}
                   onChange={handleEditChange}
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -871,7 +1079,6 @@ const EditProduct = () => {
                   onChange={(e) =>
                     handleShortEditorChange(editorShortRef.current.getContent())
                   }
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -912,7 +1119,6 @@ const EditProduct = () => {
                   onChange={(e) =>
                     handleLongEditorChange(editorLongRef.current.getContent())
                   }
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -954,7 +1160,6 @@ const EditProduct = () => {
                   form="cate_id"
                   className="modal_input"
                   onChange={handleEditChange}
-                  required
                 >
                   <option value={0}>Choose Category</option>
                   {getActiveCateData.map((cate) => {
@@ -1424,6 +1629,7 @@ const EditProduct = () => {
                                 }
                               >
                                 {/* <i class="fa-solid fa-floppy-disk"></i> */}U
+                                <i className="fa-solid fa-pencil"></i>
                               </button>
                               <button
                                 style={{
@@ -1586,7 +1792,7 @@ const EditProduct = () => {
                                       }}
                                       onClick={handleCancelEditClick}
                                     >
-                                      <i class="fa-solid fa-xmark"></i>
+                                      <i className="fa-solid fa-xmark"></i>
                                     </button>
                                   </span>
                                 )}
@@ -1646,7 +1852,6 @@ const EditProduct = () => {
                       placeholder="Enter Video Title"
                       onChange={handleVedioContentChange}
                       value={addProductVedio.vedio_title}
-                      required
                     />
                   </div>
                   <div className="mb-3">
@@ -1691,7 +1896,6 @@ const EditProduct = () => {
                           VedioeditorRef.current.getContent()
                         )
                       }
-                      required
                     />
                   </div>
                   <div className="mb-3">
@@ -1706,7 +1910,6 @@ const EditProduct = () => {
                       placeholder="Enter Video Link"
                       onChange={handleVedioContentChange}
                       value={addProductVedio.vedio_link}
-                      required
                     />
                   </div>
                   <div className="mb-3">
@@ -1769,7 +1972,7 @@ const EditProduct = () => {
                   id="product_images"
                   name="product_images"
                   className="modal_input"
-                  accept=".pdf,.png"
+                  accept=".pdf"
                   onChange={handleAddMultipleDocsChange}
                   multiple
                 />
