@@ -92,11 +92,21 @@ const BlogCategory = () => {
         setLoading(false);
         getAllBlogCategoryData();
         SuccessToast("Category Deleted Successfully");
+        console.log("object")
       })
       .catch((err) => {
         ErrorToast(err?.response?.data?.message);
         setLoading(false);
       });
+  };
+
+  //for truncate text code
+  const truncateString = (str, maxLength) => {
+    if (str.length > maxLength) {
+      return str.substring(0, maxLength) + '...';
+    } else {
+      return str;
+    }
   };
 
   useEffect(() => {
@@ -167,7 +177,7 @@ const BlogCategory = () => {
                         alt="category_image"
                       />
                     </td>
-                    <td>{category.category_title}</td>
+                    <td>{truncateString(category.category_title, 40)}</td>
                     <td>
                       <button
                         className="editbutton"

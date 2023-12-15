@@ -86,16 +86,20 @@ export default async function handler(req, res) {
         } = fields;
 
         //check! is this image ?
-        const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
-        const fileExtension = path
-          .extname(files.blog_thumbnail[0].originalFilename)
-          .toLowerCase();
+        if (files.blog_thumbnail && files.blog_thumbnail[0]) {
+          const fileExtension = path
+            .extname(files.blog_thumbnail[0].originalFilename)
+            .toLowerCase();
 
-        if (!allowedImageExtensions.includes(fileExtension)) {
-          return res
-            .status(400)
-            .json({ message: "Only image files are allowed." });
+          const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
+
+          if (!allowedImageExtensions.includes(fileExtension)) {
+            return res
+              .status(400)
+              .json({ message: "Only image files are allowed." });
+          }
         }
+
 
         const [blog] = await conn.query(
           "SELECT blog_thumbnail FROM blog_master WHERE blog_id = ?",
@@ -129,9 +133,8 @@ export default async function handler(req, res) {
           result = await conn.query(sql, params);
         } else {
           const oldPath = files.blog_thumbnail[0].filepath; // Old path of the uploaded image
-          const nFileName = `${Date.now()}.${
-            files.blog_thumbnail[0].originalFilename
-          }`;
+          const nFileName = `${Date.now()}.${files.blog_thumbnail[0].originalFilename
+            }`;
           const newFileName = nFileName.replace(/\s/g, "");
           const projectDirectory = path.resolve(
             __dirname,

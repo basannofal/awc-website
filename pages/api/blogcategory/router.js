@@ -43,12 +43,10 @@ export default async function handler(req, res) {
         const oldPathicon = files.category_icon[0].filepath; // Access the path of the uploaded image
 
         // new path
-        const nFileNameimage = `${Date.now()}.${
-          files.category_image[0].originalFilename
-        }`;
-        const nFileNameicon = `${Date.now()}.${
-          files.category_icon[0].originalFilename
-        }`;
+        const nFileNameimage = `${Date.now()}.${files.category_image[0].originalFilename
+          }`;
+        const nFileNameicon = `${Date.now()}.${files.category_icon[0].originalFilename
+          }`;
         // remove space
         const newFileNameicon = nFileNameicon.replace(/\s/g, "");
         const newFileNameimage = nFileNameimage.replace(/\s/g, "");

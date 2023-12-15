@@ -86,9 +86,29 @@ const EditBlog = () => {
       [event.target.name]: file,
     }));
   };
+  //for validation 
+  const validateForm = () => {
+    const requiredFields = ["blog_title", "blog_thumbnail"];
+    for (const field of requiredFields) {
+      if (!editBlogData[field]) {
+        if (field === "blog_title") {
+          ErrorToast("Blog Title is Required");
+          return false;
+        } else if (field === "blog_thumbnail") {
+          ErrorToast("Blog thumbnail is Required");
+          return false;
+        }
+      }
+    }
+    return true;
+  };
 
-  const saveEditBlogData = async (e) => {
+
+  const saveEditBlogData = async (blogId) => {
     setLoading(true);
+    if (!validateForm()) {
+      return;
+    }
     try {
       const formdata = new FormData();
       formdata.append("blog_cate_id", editBlogData.blog_cate_id);
@@ -107,9 +127,11 @@ const EditBlog = () => {
       window.scrollTo({ behavior: "smooth", top: 0 });
       setLoading(false);
       router.push("/admin/blog");
+      console.log("correct")
     } catch (error) {
       ErrorToast(error?.response?.data?.message);
       setLoading(false);
+      console.log("incorrect")
     }
   };
 
@@ -179,9 +201,8 @@ const EditBlog = () => {
 
           <div
             id="general"
-            className={`tab-content add_data_form ${
-              activeTab === "general" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
+              }`}
           >
             <form>
               <div className="mb-3">
@@ -195,8 +216,7 @@ const EditBlog = () => {
                   className="modal_input"
                   placeholder="Enter Blog Title"
                   onChange={handleEditChange}
-                  value={editBlogData?.blog_title}
-                  required
+                  value={editBlogData.blog_title || ""}
                 />
               </div>
 
@@ -240,7 +260,6 @@ const EditBlog = () => {
                   onChange={(e) =>
                     handleDescEditorChange(editorDescRef.current.getContent())
                   }
-                  required
                 />
               </div>
               <div className="main">
@@ -260,11 +279,15 @@ const EditBlog = () => {
                   </div>
                   <div className="mb-3">
                     <img
-                      src={`/assets/upload/blogs/${editBlogData?.blog_thumbnail}`}
-                      width="100%"
-                      alt="product_image"
-                      className="tabel_data_image"
+                      src={
+                        editBlogData?.blog_thumbnail instanceof File
+                          ? URL.createObjectURL(editBlogData.blog_thumbnail)
+                          : `/assets/upload/blogs/${editBlogData?.blog_thumbnail}`
+                      }
+                      alt="category_image"
+                      className="modal_data_image"
                     />
+
                   </div>
                 </div>
                 <div className="mb-3" style={{ width: "48%" }}>
@@ -279,7 +302,6 @@ const EditBlog = () => {
                     style={{ padding: "10px 8px" }}
                     onChange={handleEditChange}
                     value={editBlogData?.blog_cate_id}
-                    required
                   >
                     <option value={0}>Choose Category</option>
                     {getActiveCateData.map((cate) => {
@@ -299,7 +321,7 @@ const EditBlog = () => {
                 <button
                   type="button"
                   onClick={() => {
-                    saveEditBlogData();
+                    saveEditBlogData(editBlogData.blog_id);
                   }}
                   className="success_btn"
                 >
@@ -316,9 +338,8 @@ const EditBlog = () => {
 
           <div
             id="seo"
-            className={`tab-content add_data_form ${
-              activeTab === "seo" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
+              }`}
           >
             <form>
               <div className="mb-3">
