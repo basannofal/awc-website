@@ -155,7 +155,7 @@ const BlogCategory = () => {
                       <img
                         src={`/assets/upload/blog/${category.category_icon}`}
                         width="100%"
-                        className="tabel_data_image"
+                        className="table_data_image"
                         alt="category_icon"
                       />
                     </td>
@@ -190,7 +190,7 @@ const BlogCategory = () => {
                     <td>
                       {category.status === 1 ? (
                         <img
-                          src='/assets/images/activeStatus.png'
+                          src="/assets/images/activeStatus.png"
                           alt="active"
                           className="status_btn"
                           onClick={() => {
@@ -199,7 +199,7 @@ const BlogCategory = () => {
                         />
                       ) : (
                         <img
-                          src='/assets/images/inActiveStatus.png'
+                          src="/assets/images/inActiveStatus.png"
                           alt="inActive"
                           className="status_btn"
                           onClick={() => {

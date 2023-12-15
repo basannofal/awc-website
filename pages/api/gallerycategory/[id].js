@@ -46,7 +46,7 @@ export default async function handler(req, res) {
       if (error?.errno === 1451 || error?.code === "ER_ROW_IS_REFERENCED_2") {
         // Foreign key constraint violation
         return res.status(400).json({
-          message: "This category already exist in another table. ",
+          message: "This category has many images. ",
         });
       }
 

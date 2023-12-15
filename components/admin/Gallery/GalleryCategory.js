@@ -231,7 +231,7 @@ const GalleryCategory = () => {
                       <td>
                         <span>
                           <button
-                            className="operation_btn"
+                            className="operation_btn_edv"
                             onClick={() => {
                               handleEditGalleryCategory(category.id);
                             }}
@@ -239,7 +239,7 @@ const GalleryCategory = () => {
                             <i className="fa-regular fa-pen-to-square"></i>
                           </button>
                           <button
-                            className="operation_btn operation_delete_btn"
+                            className="operation_btn_edv operation_delete_btn"
                             onClick={() => openDeleteModal(category.id)}
                           >
                             <i className="fa-solid fa-trash"></i>

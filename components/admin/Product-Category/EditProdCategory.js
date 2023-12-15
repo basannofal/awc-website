@@ -373,7 +373,6 @@ const EditProdCategory = () => {
                           key={cate.category_id}
                           value={cate.category_id}
                         >
-
                           {cate.category_name}
                         </option>
                       );

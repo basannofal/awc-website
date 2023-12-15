@@ -67,6 +67,9 @@ const EditProduct = () => {
     image_width: "",
     sort_image: "",
   });
+  console.log("====================================");
+  console.log(editperimg);
+  console.log("====================================");
 
   const [editDoc, setEditDoc] = useState({
     pdf_title: "",
@@ -1625,6 +1628,7 @@ const EditProduct = () => {
                                   handleUpdateClick(product.prod_image_id)
                                 }
                               >
+                                {/* <i class="fa-solid fa-floppy-disk"></i> */}U
                                 <i className="fa-solid fa-pencil"></i>
                               </button>
                               <button
@@ -1950,6 +1954,7 @@ const EditProduct = () => {
               </div>
             </div>
           </div>
+
           {/* Docs Tabs */}
           <div
             id="docs"
@@ -2065,15 +2070,26 @@ const EditProduct = () => {
                             <input
                               type="file"
                               name="pdf_link"
+                              id={`pdf_input_${index}`}
+                              style={{ display: "none" }}
                               onChange={handlePerDocFileData}
                             />
                             <td>
-                              <img
-                                src={`/assets/images/pdf-icon.webp`}
-                                width="100%"
-                                alt="product"
-                                className="tabel_data_image"
-                              />
+                              <div className="image-container">
+                                <label
+                                  htmlFor={`pdf_input_${index}`}
+                                  className="overlay"
+                                >
+                                  <i className="fa-solid fa-image"></i>
+                                  {/* <i class="fa-solid fa-file-pdf"></i> */}
+                                </label>
+                                <img
+                                  src={`/assets/images/pdf-icon.webp`}
+                                  width="100%"
+                                  alt="product"
+                                  className="tabel_data_image"
+                                />
+                              </div>
                             </td>
                           </td>
                         ) : (
@@ -2104,17 +2120,27 @@ const EditProduct = () => {
                           <td className="edit-row">
                             <div>
                               <button
+                                style={{
+                                  height: "30px",
+                                  width: "30px",
+                                  padding: "5px",
+                                }}
                                 onClick={() =>
                                   handleUpdateDocClick(product.prod_docs_id)
                                 }
                               >
-                                Update
+                                {/* <i class="fa-solid fa-floppy-disk"></i> */}U
                               </button>
                               <button
                                 className="cancel"
+                                style={{
+                                  height: "30px",
+                                  width: "30px",
+                                  padding: "5px",
+                                }}
                                 onClick={() => setEditingDocId(null)}
                               >
-                                Cancel
+                                <i className="fa-solid fa-xmark"></i>
                               </button>
                             </div>
                           </td>
@@ -2158,243 +2184,6 @@ const EditProduct = () => {
                               className="status_btn"
                               onClick={() =>
                                 productDocsStatusChange(product.prod_docs_id, 0)
-                              }
-                            />
-                          )}
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="4" align="center">
-                        data is not available
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Certificate Tabs */}
-          <div
-            id="docs"
-            className={`tab-content add_data_form ${
-              activeTab === "certificate" ? "active" : ""
-            }`}
-          >
-            <form method="post" onSubmit={saveMultipleCertificate}>
-              <div className="mb-3">
-                <label htmlFor="product_images" className="modal_label">
-                  Product Certificate:-
-                </label>
-                <input
-                  type="file"
-                  id="product_images"
-                  name="product_images"
-                  className="modal_input"
-                  accept=".pdf,.png"
-                  onChange={handleAddMultipleCertificateChange}
-                  multiple
-                />
-              </div>
-              <div
-                className="mb-3"
-                style={{ display: "flex", flexWrap: "wrap" }}
-              >
-                {addMultiCertificate.product_certificate &&
-                addMultiCertificate.product_certificate.length > 0 ? (
-                  <table className="multi-images-table">
-                    <thead>
-                      <tr>
-                        <th width="5%">Image</th>
-                        <th width="25%">Title</th>
-                        <th width="5%">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {addMultiCertificate.product_certificate.map(
-                        (image, index) => (
-                          <tr key={index}>
-                            <td>
-                              <img
-                                src={"/assets/images/pdf-icon.webp"}
-                                alt={`Selected productimg ${index + 1}`}
-                              />
-                            </td>
-                            <td>
-                              <input
-                                type="text"
-                                id={`certificate_title-${index}`}
-                                name="certificate_title"
-                                placeholder="certificate Title"
-                                onChange={(e) =>
-                                  handleCertificateDetailsChange(
-                                    index,
-                                    "certificate_title",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </td>
-                            <td>
-                              <button
-                                type="button"
-                                className="remove_multi_img_btn"
-                                onClick={() => removeMultiCertificate(index)}
-                              >
-                                <i className="fa-solid fa-xmark"></i>
-                              </button>
-                            </td>
-                          </tr>
-                        )
-                      )}
-                    </tbody>
-                  </table>
-                ) : (
-                  <p>No images selected</p>
-                )}
-              </div>
-              <div className="mb-3">
-                <button type="submit" className="success_btn">
-                  SAVE
-                </button>
-                <Link href="/admin/products">
-                  <button type="button" className="success_btn cancel_btn">
-                    CANCEL
-                  </button>
-                </Link>
-              </div>
-            </form>
-            <hr style={{ marginTop: "30px", marginBottom: "20px" }} />
-            <div className="admin_category_table">
-              <table>
-                <thead>
-                  <tr>
-                    <th style={{ width: "5%" }}>ID</th>
-                    <th style={{ width: "10%" }}>IMAGE</th>
-                    <th style={{ width: "25%" }}>TITLE</th>
-                    <th style={{ width: "10%" }}>OPERATION</th>
-                    <th style={{ width: "10%" }}>STATUS</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {allProductCertificate.length > 0 ? (
-                    allProductCertificate.map((product, index) => (
-                      <tr
-                        key={product.product_id}
-                        style={{
-                          color: product.status === 1 ? "black" : "red",
-                        }}
-                      >
-                        <td>{index + 1}</td>
-                        {editingCertificateId === product.prod_certi_id ? (
-                          <td className="edit-row">
-                            <input
-                              type="file"
-                              name="certificate_link"
-                              onChange={handlePerCertificateFileData}
-                            />
-                            <td>
-                              <img
-                                src={`/assets/images/pdf-icon.webp`}
-                                width="100%"
-                                alt="product"
-                                className="tabel_data_image"
-                              />
-                            </td>
-                          </td>
-                        ) : (
-                          <td>
-                            <td>
-                              <img
-                                src={`/assets/images/pdf-icon.webp`}
-                                width="100%"
-                                alt="product"
-                                className="tabel_data_image"
-                              />
-                            </td>
-                          </td>
-                        )}
-                        {editingCertificateId === product.prod_certi_id ? (
-                          <td className="edit-row">
-                            <input
-                              type="text"
-                              name="certificate_title"
-                              onChange={handlePerCertificateData}
-                              value={editCertificate.certificate_title}
-                            />
-                          </td>
-                        ) : (
-                          <td>{product.certificate_title}</td>
-                        )}
-                        {editingCertificateId === product.prod_certi_id ? (
-                          <td className="edit-row">
-                            <div>
-                              <button
-                                onClick={() =>
-                                  handleUpdateCertiClick(product.prod_certi_id)
-                                }
-                              >
-                                Update
-                              </button>
-                              <button
-                                className="cancel"
-                                onClick={() => setEditingCertificateId(null)}
-                              >
-                                Cancel
-                              </button>
-                            </div>
-                          </td>
-                        ) : (
-                          <td>
-                            <button
-                              className="editbutton"
-                              onClick={() =>
-                                handleEditCertificateClick(
-                                  product.prod_certi_id,
-                                  product
-                                )
-                              }
-                            >
-                              <i className="fa-regular fa-pen-to-square"></i>
-                            </button>
-                            <button
-                              className="data_delete_btn"
-                              onClick={() =>
-                                openDeleteModal(
-                                  product.prod_certi_id,
-                                  "certificate"
-                                )
-                              }
-                            >
-                              <i className="fa-solid fa-trash"></i>
-                            </button>
-                          </td>
-                        )}
-                        <td>
-                          {product.status === 1 ? (
-                            <img
-                              src="/assets/images/activeStatus.png"
-                              alt="active"
-                              className="status_btn"
-                              onClick={() =>
-                                productCertificateStatusChange(
-                                  product.prod_certi_id,
-                                  1
-                                )
-                              }
-                            />
-                          ) : (
-                            <img
-                              src="/assets/images/inActiveStatus.png"
-                              alt="inActive"
-                              className="status_btn"
-                              onClick={() =>
-                                productCertificateStatusChange(
-                                  product.prod_certi_id,
-                                  0
-                                )
                               }
                             />
                           )}

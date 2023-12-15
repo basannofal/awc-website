@@ -243,7 +243,7 @@ const Testimonials = () => {
                     <td>
                       <span>
                         <button
-                          className="operation_btn"
+                          className="operation_btn_edv"
                           onClick={() => {
                             handleEditTestimonial(testimonial.id);
                           }}
@@ -251,13 +251,13 @@ const Testimonials = () => {
                           <i className="fa-regular fa-pen-to-square"></i>
                         </button>
                         <button
-                          className="operation_btn"
+                          className="operation_btn_edv"
                           onClick={() => openDeleteModal(testimonial.id)}
                         >
                           <i className="fa-solid fa-trash"></i>
                         </button>
                         <button
-                          className="operation_btn"
+                          className="operation_btn_edv"
                           onClick={() => openViewModal(testimonial)}
                         >
                           <i class="fa-solid fa-eye"></i>
@@ -305,7 +305,10 @@ const Testimonials = () => {
           isOpen={isDeleteModalOpen}
           onClose={closeDeleteModal}
           onDelete={deleteTestimonial}
+          itemType="Testimonial"
+          itemId={deleteId}
         />
+
         {/* Show the Toast notification */}
         <Toast />
 

@@ -118,6 +118,21 @@
   background-color: var(--third-color);
 }
 
+/* .table_data_image {
+  width: 100px;
+  height: 80px;
+}
+
+.status_btn {
+  height: 25px;
+  width: 50px;
+  height: auto;
+}
+
+.tabel_data_image {
+  width: 50px;
+} */
+
 .table_data_image {
   width: 50px;
   height: auto;
@@ -485,8 +500,6 @@ form .modal_input:focus {
 }
 
 .delete_input {
-  border: 2px solid rgb(117, 114, 114);
-  padding: 2px 0px 2px 5px;
   border-radius: 5px;
   margin: 8px 0px 0px 20px;
 }
@@ -507,8 +520,8 @@ form .modal_input:focus {
 
 .delete_modal_content #close-modal {
   position: absolute;
-  right: 15px;
-  top: 8px;
+  right: 30px;
+  top: 15px;
   font-size: 1.5rem;
   color: #999;
   background: transparent;
@@ -516,13 +529,13 @@ form .modal_input:focus {
 
 .delete_modal_content #delete-button {
   position: relative;
-  left: 80%;
+  left: 85%;
   background: linear-gradient(to right, #3b82f6, #2563eb, #2563eb, #3b82f6);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   padding: 8px 13px;
   height: auto;
   margin-top: 10px;
@@ -957,8 +970,91 @@ select::after {
   margin-right: 1rem;
 }
 
-.fa-solid {
-  font-size: 0.7109375rem;
+/* Media query for screens with a width of 600 pixels or less */
+@media (max-width: 600px) {
+  .button-container {
+    flex-direction: column; /* Stack buttons vertically on smaller screens */
+    align-items: center; /* Center buttons horizontally */
+  }
+
+  .delete-button {
+    margin-bottom: 1rem; /* Add margin between buttons on smaller screens */
+  }
+}
+
+/* operation button style */
+.operation_btn_edv {
+  padding: 5px;
+  font-size: 1.2em;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(229, 229, 229, 0.951);
+  transition: opacity 500ms;
+  opacity: 1;
+}
+
+.overlay:target {
+  opacity: 1; /* Set opacity to 1 when the target is present */
+}
+
+.popup {
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  height: 30rem; /* Set the fixed height value as needed */
+  position: absolute;
+  top: auto;
+  left: 60%;
+  transform: translate(-50%, 20%);
+  overflow-y: auto;
+  transition: all 0.5s ease-in-out;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+.popup .close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.popup .close:hover {
+  color: #6255f0;
+}
+
+.popup .content {
+  padding: 1rem;
+}
+
+/* Style the scrollbar */
+.popup::-webkit-scrollbar {
+  width: 2px;
+}
+
+.popup::-webkit-scrollbar-thumb {
+  background-color: #6255f0;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 700px) {
+  .popup {
+    width: 70%;
+  }
 }
 /* Media query for screens with a width of 600 pixels or less */
 @media (max-width: 600px) {

@@ -224,8 +224,9 @@ const AddProdCategory = () => {
             <form method="post" onSubmit={addCategoryData}>
               <div className="mb-3">
                 <label htmlFor="category_name" className="modal_label">
-                  Category Name:-
-                  <span style={{ color: "red" }}> *</span>
+                  Category Name:-{" "}
+                  <small style={{ color: "red" }}>* (required)</small>
+
                 </label>
                 <input
                   type="text"

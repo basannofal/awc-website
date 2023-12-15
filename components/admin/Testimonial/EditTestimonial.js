@@ -16,34 +16,34 @@ const EditTestimonial = () => {
     testimonial_desc: "",
     testimonial_image: null,
     testimonial_video: "",
-    testimonial_rating: 0,
+    testimonial_rating: 1,
     product_id: "",
   });
-
   // get per testimonial data start
   const router = useRouter();
 
   let testimonialId = router.query.id;
 
-  const getPerTestimonialData = async (id) => {
-    try {
-      const url = `${process.env.NEXT_PUBLIC_API_URL}/testimonial/${id}`;
-      const response = await axios.get(url);
-      const fetchedData = response.data[0];
-      setEditTestimonialData({
-        ...fetchedData,
-        testimonial_rating: parseInt(fetchedData.rating), // it's a number
-        product_id: parseInt(fetchedData.product_id), // it's a number
-      });
-      setLoading(false);
-    } catch (err) {
-      ErrorToast(err?.response?.data?.message);
-      setLoading(false);
-    }
-  };
-
   // fetch testimonial data into database
   useEffect(() => {
+    const getPerTestimonialData = async (id) => {
+      try {
+        const url = `${process.env.NEXT_PUBLIC_API_URL}/testimonial/${id}`;
+        const response = await axios.get(url);
+        const fetchedData = response.data[0];
+        setEditTestimonialData({
+          ...fetchedData,
+          testimonial_rating: fetchedData.rating,
+          product_id: parseInt(fetchedData.product_id), // it's a number
+        });
+        setRatingSlider(parseFloat(fetchedData.rating.toFixed(1))); // Set the initial ratingSlider state
+        setLoading(false);
+      } catch (err) {
+        ErrorToast(err?.response?.data?.message);
+        setLoading(false);
+      }
+    };
+
     getPerTestimonialData(testimonialId);
   }, [testimonialId]);
   // get per testimonial data end
@@ -95,14 +95,47 @@ const EditTestimonial = () => {
   // file handle end
 
   // rating code start
-  const starArray = Array.from({ length: 5 }, (_, index) => index + 1);
+  const [ratingSlider, setRatingSlider] = useState(1); // Set a default value
 
   const handleStarClick = (selectedRating) => {
+    const roundedRating = parseFloat(selectedRating.toFixed(1));
     setEditTestimonialData((prevData) => ({
       ...prevData,
-      testimonial_rating: selectedRating,
+      testimonial_rating: roundedRating,
     }));
+    setRatingSlider(roundedRating);
   };
+
+  const generateStars = (selectedRating) => {
+    const stars = [];
+
+    for (let i = 1; i <= 5; i++) {
+      const starStyle = {
+        color: i <= Math.floor(selectedRating) ? "#f8d64e" : "#ddd",
+        display: "inline-block",
+        fontSize: "24px",
+        cursor: "pointer",
+        marginRight: "5px",
+      };
+
+      // If the decimal part is greater than 0.2 and less than 0.8, show a half star
+      if (i === Math.floor(selectedRating) + 1 && selectedRating % 1 >= 0.5) {
+        starStyle.background =
+          "linear-gradient(to right, yellow 50%, black 50%)";
+        starStyle.WebkitBackgroundClip = "text";
+        starStyle.color = "transparent";
+      }
+
+      stars.push(
+        <span key={i} style={starStyle} onClick={() => handleStarClick(i)}>
+          &#9733;
+        </span>
+      );
+    }
+
+    return stars;
+  };
+
   // rating code end
 
   // edit data into testimonial database table
@@ -146,10 +179,8 @@ const EditTestimonial = () => {
         "testimonial_video",
         editTestimonialData.testimonial_video
       );
-      formData.append(
-        "testimonial_rating",
-        editTestimonialData.testimonial_rating
-      );
+      formData.append("testimonial_rating", ratingSlider);
+
       formData.append("product_id", editTestimonialData.product_id);
       const res = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/testimonial/${testimonialId}`,
@@ -332,30 +363,24 @@ const EditTestimonial = () => {
               />
             </div>
 
-            {/* Rating */}
+            {/* Rating Slider */}
             <div className="mb-3">
               <label htmlFor="testimonial_rating" className="modal_label">
                 Testimonial Rating:-
               </label>
               <div style={{ display: "flex", alignItems: "center" }}>
-                {starArray.map((star) => (
-                  <span
-                    key={star}
-                    style={{
-                      cursor: "pointer",
-                      fontSize: "24px",
-                      color:
-                        star <= editTestimonialData.testimonial_rating
-                          ? "#f8d64e"
-                          : "#ddd",
-                      marginRight: "5px",
-                    }}
-                    onClick={() => handleStarClick(star)}
-                  >
-                    &#9733;
-                  </span>
-                ))}
-                <p>{editTestimonialData.testimonial_rating} stars</p>
+                <span>{generateStars(ratingSlider)}</span>
+                <input
+                  type="range"
+                  id="testimonial_rating"
+                  name="testimonial_rating"
+                  min="1"
+                  max="5"
+                  step="0.5"
+                  value={ratingSlider}
+                  onChange={(e) => setRatingSlider(parseFloat(e.target.value))}
+                />
+                <p>{ratingSlider} Rating</p>
               </div>
             </div>
 

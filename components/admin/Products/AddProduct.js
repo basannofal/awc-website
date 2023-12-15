@@ -28,6 +28,7 @@ const AddProduct = () => {
     product_docs: [],
   });
   const [allProductDocs, setAllProductDocs] = useState([]);
+
   const [addMultiCertificate, setAddMultiCertificate] = useState({
     product_certificate: [],
   });
@@ -135,6 +136,7 @@ const AddProduct = () => {
       return false
     }
     setLoading(true);
+
 
     try {
       const formdata = new FormData();
@@ -331,6 +333,7 @@ const AddProduct = () => {
     }
     setLoading(true);
 
+
     try {
       const formdata = new FormData();
       formdata.append("product_id", lastAddId.product_id);
@@ -412,6 +415,7 @@ const AddProduct = () => {
       return false
     }
     setLoading(true);
+
 
     try {
       const formdata = new FormData();
