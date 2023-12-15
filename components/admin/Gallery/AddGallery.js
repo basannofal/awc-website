@@ -72,7 +72,7 @@ const AddGallery = () => {
     );
 
     if (nonImageFiles.length > 0) {
-      WarningToast("Only image files are taken from given files.");
+      ErrorToast("Only image files are taken from given files.");
     }
 
     const newImages = imageFiles.map((file) => ({
@@ -154,7 +154,7 @@ const AddGallery = () => {
 
     // Check for validation errors and add messages to the array
     if (addMultiImages.gallery_images.length === 0) {
-      WarningToast("No files selected. Please select at least one image");
+      ErrorToast("No files selected. Please select at least one image");
     }
 
     // Create an array to store error messages
@@ -178,7 +178,7 @@ const AddGallery = () => {
 
       // Display errors if any for the current image
       if (errors.length > 0) {
-        WarningToast(errors[0]); // Display the first error for the current image
+        ErrorToast(errors[0]); // Display the first error for the current image
         setLoading(false);
         return false;
       }

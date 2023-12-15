@@ -1423,7 +1423,7 @@ const EditProduct = () => {
                                   handleUpdateClick(product.prod_image_id)
                                 }
                               >
-                                <i className="fa-solid fa-pencil"></i>
+                                {/* <i class="fa-solid fa-floppy-disk"></i> */}U
                               </button>
                               <button
                                 style={{
@@ -1751,6 +1751,7 @@ const EditProduct = () => {
               </div>
             </div>
           </div>
+
           {/* Docs Tabs */}
           <div
             id="docs"
@@ -1866,15 +1867,26 @@ const EditProduct = () => {
                             <input
                               type="file"
                               name="pdf_link"
+                              id={`pdf_input_${index}`}
+                              style={{ display: "none" }}
                               onChange={handlePerDocFileData}
                             />
                             <td>
-                              <img
-                                src={`/assets/images/pdf-icon.webp`}
-                                width="100%"
-                                alt="product"
-                                className="tabel_data_image"
-                              />
+                              <div className="image-container">
+                                <label
+                                  htmlFor={`pdf_input_${index}`}
+                                  className="overlay"
+                                >
+                                  <i className="fa-solid fa-image"></i>
+                                  {/* <i class="fa-solid fa-file-pdf"></i> */}
+                                </label>
+                                <img
+                                  src={`/assets/images/pdf-icon.webp`}
+                                  width="100%"
+                                  alt="product"
+                                  className="tabel_data_image"
+                                />
+                              </div>
                             </td>
                           </td>
                         ) : (
@@ -1905,17 +1917,27 @@ const EditProduct = () => {
                           <td className="edit-row">
                             <div>
                               <button
+                                style={{
+                                  height: "30px",
+                                  width: "30px",
+                                  padding: "5px",
+                                }}
                                 onClick={() =>
                                   handleUpdateDocClick(product.prod_docs_id)
                                 }
                               >
-                                Update
+                                {/* <i class="fa-solid fa-floppy-disk"></i> */}U
                               </button>
                               <button
                                 className="cancel"
+                                style={{
+                                  height: "30px",
+                                  width: "30px",
+                                  padding: "5px",
+                                }}
                                 onClick={() => setEditingDocId(null)}
                               >
-                                Cancel
+                                <i className="fa-solid fa-xmark"></i>
                               </button>
                             </div>
                           </td>

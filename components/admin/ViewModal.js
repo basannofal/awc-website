@@ -78,19 +78,33 @@ const ViewModal = ({ isOpen, onClose, data, getProductData }) => {
           <div style={{ paddingTop: "15px" }}>
             <span style={{ fontWeight: "bold" }}>Star Rating :</span>
             <span className="star-rating">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <span
-                  key={star}
-                  style={{
-                    cursor: "pointer",
-                    fontSize: "24px",
-                    color: star <= (data.rating || 0) ? "#f8d64e" : "#ddd",
-                    marginRight: "5px",
-                  }}
-                >
-                  &#9733;
-                </span>
-              ))}
+              {[1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].slice(0, 5).map((star) => {
+                const rating = data.rating || 0;
+                const decimalPart = rating % 1;
+
+                let starColor;
+                if (star < Math.floor(rating)) {
+                  starColor = "#f8d64e"; // Full yellow star
+                } else if (star === Math.floor(rating) && decimalPart > 0.5) {
+                  starColor =
+                    "linear-gradient(to right, yellow 50%, black 50%)"; // Half yellow star
+                } else {
+                  starColor = "#ddd"; // Empty star
+                }
+
+                const starStyle = {
+                  cursor: "pointer",
+                  fontSize: "24px",
+                  color: starColor,
+                  marginRight: "5px",
+                };
+
+                return (
+                  <span key={star} style={starStyle}>
+                    &#9733;
+                  </span>
+                );
+              })}
             </span>
           </div>
         </div>

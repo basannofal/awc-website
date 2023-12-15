@@ -139,7 +139,7 @@ const Gallery = () => {
   // Handle delete operation start
   const handleDelete = async (deleteGalleryImageId) => {
     try {
-      // Perform the PATCH request to update the item
+      // Perform the DELETE request to update the item
       const res = await axios.delete(
         `${process.env.NEXT_PUBLIC_API_URL}/gallery/${deleteGalleryImageId}`,
         {
@@ -148,18 +148,28 @@ const Gallery = () => {
           },
         }
       );
-      console.log(res.status);
+
       // Check the status code of the response
       if (res.status === 200) {
-        SuccessToast("Gallery Image Deleted Successfully");
-        getGalleryData();
+        const updatedGalleryData = galleryData.filter(
+          (item) => item.id !== deleteGalleryImageId
+        );
+        setGalleryData(updatedGalleryData);
+        setFilterdGallery(updatedGalleryData);
+
+        (async () => {
+          await SuccessToast("Gallery Image Deleted Successfully");
+        })();
       } else {
-        ErrorToast("Gallery Image could not be deleted");
+        (async () => {
+          await ErrorToast("Gallery Image could not be deleted");
+        })();
       }
     } catch (error) {
-      console.error("Error updating item:", error);
+      console.error("Error deleting item:", error);
     }
   };
+
   // Handle edit operation end
 
   // handle delete all data category wise start
@@ -338,6 +348,8 @@ const Gallery = () => {
           isOpen={isDeleteModalOpen}
           onClose={closeDeleteModal}
           onDelete={deleteTestimonial}
+          itemType="Gallery"
+          itemId={deleteId}
         />
 
         {/* Render the EditPopup component conditionally */}
