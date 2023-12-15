@@ -17,7 +17,7 @@ export default async function handler(req, res) {
       if (!files.category_image) {
         return res.status(400).json({ message: "Please Upload Files." });
       }
-      
+
       //check! is this image ?
       const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
       const fileExtension = path

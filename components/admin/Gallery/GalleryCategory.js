@@ -29,6 +29,11 @@ const GalleryCategory = () => {
     window.scrollTo({ behavior: "smooth", top: 0 });
     setLoading(true);
 
+    if (addEditGalleryCategoryData.category_title === "") {
+      ErrorToast("Please Enter the Gallery Category");
+      return;
+    }
+
     try {
       const data = {
         category_title: addEditGalleryCategoryData.category_title,
@@ -226,7 +231,7 @@ const GalleryCategory = () => {
                       <td>
                         <span>
                           <button
-                            className="operation_btn"
+                            className="operation_btn_edv"
                             onClick={() => {
                               handleEditGalleryCategory(category.id);
                             }}
@@ -234,7 +239,7 @@ const GalleryCategory = () => {
                             <i className="fa-regular fa-pen-to-square"></i>
                           </button>
                           <button
-                            className="operation_btn operation_delete_btn"
+                            className="operation_btn_edv operation_delete_btn"
                             onClick={() => openDeleteModal(category.id)}
                           >
                             <i className="fa-solid fa-trash"></i>
@@ -294,7 +299,6 @@ const GalleryCategory = () => {
                   placeholder="Enter Gallery Category Title"
                   onChange={handleChangeGalleryCategory}
                   value={addEditGalleryCategoryData.category_title}
-                  required
                 />
               </div>
 

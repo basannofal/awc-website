@@ -28,6 +28,7 @@ const AddProduct = () => {
     product_docs: [],
   });
   const [allProductDocs, setAllProductDocs] = useState([]);
+
   const [addMultiCertificate, setAddMultiCertificate] = useState({
     product_certificate: [],
   });
@@ -128,7 +129,14 @@ const AddProduct = () => {
   const addProductTableData = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
+    
+    if (addProductData.product_title === "") {
+      ErrorToast("Please Enter the Product Title");
+      return false
+    }
     setLoading(true);
+
+
     try {
       const formdata = new FormData();
       formdata.append("cate_id", addProductData.cate_id);
@@ -233,6 +241,10 @@ const AddProduct = () => {
   const saveMultipleDocs = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
+    if (addMultiDocs.length == 0) {
+      ErrorToast('please atleast one doc select');
+      return false
+    }
     setLoading(true);
     if (allProductDocs.length == 0) {
       WarningToast('please atleast one doc select');
@@ -252,7 +264,7 @@ const AddProduct = () => {
       setLoading(false);
       getAllProductDocs(lastAddId.product_id);
       setAddMultiDocs({ product_docs: [] });
-      setActiveTab("docs");
+      setActiveTab("certificate");
     } catch (error) {
       console.log("Error adding prod images" + error);
       setLoading(false);
@@ -316,11 +328,13 @@ const AddProduct = () => {
   const saveMultipleImages = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
-    setLoading(true);
-    if (addMultiImages.product_images.length == 0) {
-      WarningToast('please atleast one image select')
-      setLoading(false)
+    
+    
+    if (addMultiImages.product_images.length === 0) {
+      ErrorToast("No files selected. Please select at least one image");
+      return;
     }
+    setLoading(true);
     try {
       const formdata = new FormData();
       formdata.append("product_id", lastAddId.product_id);
@@ -392,11 +406,17 @@ const AddProduct = () => {
   const saveVedios = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
-    setLoading(true);
-    if (allProductVedios.length == 0) {
-      WarningToast('please atleast one video select')
-      setLoading(false);
+    
+    if (addProductVedio.vedio_title === "") {
+      ErrorToast("Please Enter the Video Title");
+      return false
     }
+    if (addProductVedio.vedio_link === "") {
+      ErrorToast("Please Enter the Video Link");
+      return false
+    }
+    setLoading(true);
+
     try {
       const formdata = new FormData();
       formdata.append("product_id", lastAddId.product_id);
@@ -519,11 +539,11 @@ const AddProduct = () => {
   const saveMultipleCertificate = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
-    setLoading(true);
-    if (allProductCertificate.length == 0) {
-      WarningToast('please atleast one Certificate select');
-      setLoading(false);
+    if (addMultiCertificate.product_certificate.length == 0) {
+      ErrorToast('please atleast one Certificate select');
+      return false
     }
+    setLoading(true);
     try {
       const formdata = new FormData();
       formdata.append("product_id", lastAddId.product_id);
@@ -611,16 +631,6 @@ const AddProduct = () => {
                 Certificate
               </div>
             </div>
-            {activeTab === "general" || activeTab === "seo" ? (
-              <button
-                className="product_data_save_btn"
-                onClick={addProductTableData}
-              >
-                <i className="fa-solid fa-floppy-disk"></i>
-              </button>
-            ) : (
-              ""
-            )}
           </div>
           {/* GENREL TABS */}
           <div
@@ -744,7 +754,7 @@ const AddProduct = () => {
                       <img
                         src={URL.createObjectURL(addProductData.product_image)}
                         alt="Selected Thumbnail"
-                        className="tabel_data_image"
+                        className="table_data_image"
                       />
                     </div>
                   )}
@@ -774,9 +784,13 @@ const AddProduct = () => {
                 </div>
               </div>
               <div className="mb-3">
-                {/* <button type="submit" className="success_btn">
-                  SAVE
-                </button> */}
+                {activeTab === "general" || activeTab === "seo" ? (
+                  <button className="success_btn" onClick={addProductTableData}>
+                    SAVE
+                  </button>
+                ) : (
+                  ""
+                )}
                 <Link href="/admin/products">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
@@ -882,6 +896,13 @@ const AddProduct = () => {
                 />
               </div>
               <div className="mb-3">
+                {activeTab === "general" || activeTab === "seo" ? (
+                  <button className="success_btn" onClick={addProductTableData}>
+                    SAVE
+                  </button>
+                ) : (
+                  ""
+                )}
                 <Link href="/admin/products">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
@@ -953,6 +974,7 @@ const AddProduct = () => {
                               <img
                                 src={URL.createObjectURL(image.file)}
                                 alt={`Selected productimg ${index + 1}`}
+                                className="table_data_image"
                               />
                             </td>
                             <td>
@@ -1071,9 +1093,8 @@ const AddProduct = () => {
                           <td>
                             <img
                               src={`/assets/upload/products/productImages/${product.product_image}`}
-                              width="100%"
+                              className="table_data_image"
                               alt="product"
-                              className="tabel_data_image"
                             />
                           </td>
                           <td>{product.image_height}</td>
@@ -1124,12 +1145,7 @@ const AddProduct = () => {
                         <tbody>
                           {allProductVedios.length > 0 ? (
                             allProductVedios.map((product, index) => (
-                              <tr
-                                key={product.product_id}
-                                style={{
-                                  color: product.status === 1 ? "black" : "red",
-                                }}
-                              >
+                              <tr key={product.product_id}>
                                 <td>{index + 1}</td>
                                 <td>{product.video_title}</td>
                                 <td>{product.video_description}</td>
@@ -1169,7 +1185,6 @@ const AddProduct = () => {
                         className="modal_input"
                         placeholder="Enter Video Title"
                         onChange={handleVedioContentChange}
-                        required
                       />
                     </div>
                     <div className="mb-3">
@@ -1213,7 +1228,6 @@ const AddProduct = () => {
                             VedioeditorRef.current.getContent()
                           )
                         }
-                        required
                       />
                     </div>
                     <div className="mb-3">
@@ -1227,7 +1241,6 @@ const AddProduct = () => {
                         className="modal_input"
                         placeholder="Enter Video Link"
                         onChange={handleVedioContentChange}
-                        required
                       />
                     </div>
                     <div className="mb-3">
@@ -1241,7 +1254,6 @@ const AddProduct = () => {
                         className="modal_input"
                         accept="image/png, image/jpeg, image/jpg"
                         onChange={handleVedioFileChange}
-                        required
                       />
                     </div>
                     <div
@@ -1345,7 +1357,11 @@ const AddProduct = () => {
                   )}
                 </div>
                 <div className="mb-3">
-                  <button type="submit" className="success_btn">
+                  <button
+                    type="submit"
+                    onClick={saveMultipleDocs}
+                    className="success_btn"
+                  >
                     SAVE
                   </button>
                   <Link href="/admin/products">

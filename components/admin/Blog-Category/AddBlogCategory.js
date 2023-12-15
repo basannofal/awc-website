@@ -3,7 +3,7 @@ import axios from "axios";
 import Header from "@/layouts/Header";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import Toast, { ErrorToast } from "@/layouts/toast/Toast";
+import Toast, { ErrorToast, WarningToast } from "@/layouts/toast/Toast";
 import { Editor } from "@tinymce/tinymce-react";
 import Loading from "@/layouts/Loading";
 
@@ -81,6 +81,23 @@ const AddBlogCategory = () => {
   // file handle
   const handleFileBlogCate = async (event) => {
     const file = event.target.files[0];
+
+    // Check if a file is selected
+    if (!file) {
+      return;
+    }
+
+    // Check if the file has a valid extension
+    const validExtensions = ["jpg", "jpeg", "png"];
+    const fileExtension = file.name.split(".").pop().toLowerCase();
+
+    if (!validExtensions.includes(fileExtension)) {
+      // Reset the input value to clear the invalid file
+      event.target.value = "";
+      WarningToast("Please add the JPG, JPEG & PNG format file");
+      return;
+    }
+
     setAddBlogCategory((prevImage) => ({
       ...prevImage,
       [event.target.name]: file,
@@ -119,6 +136,13 @@ const AddBlogCategory = () => {
     window.scrollTo({ behavior: "smooth", top: 0 });
 
     setLoading(true);
+
+    if (addBlogCategory.category_title === "") {
+      WarningToast("Please Enter the Blog Category Title");
+      setLoading(false);
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append("category_title", addBlogCategory.category_title);
@@ -282,7 +306,7 @@ const AddBlogCategory = () => {
                   <img
                     src={URL.createObjectURL(addBlogCategory.category_image)}
                     alt="Selected Thumbnail"
-                    className="tabel_data_image"
+                    className="table_data_image"
                   />
                 </div>
               )}
@@ -304,7 +328,7 @@ const AddBlogCategory = () => {
                   <img
                     src={URL.createObjectURL(addBlogCategory.category_icon)}
                     alt="Selected Thumbnail"
-                    className="tabel_data_image"
+                    className="table_data_image"
                   />
                 </div>
               )}

@@ -129,7 +129,7 @@ const Products = () => {
     <>
       {loading && <Loading />}
       <section className="home-section">
-        <Header  onFilterChange={handleFilterChange}   />
+        <Header onFilterChange={handleFilterChange} />
         <div className="admin_page_top">
           <div className="page_top_left_section">
             <p className="admin_page_header">Products</p>
@@ -165,17 +165,14 @@ const Products = () => {
             <tbody>
               {filterdProduct.length > 0 ? (
                 filterdProduct.map((product, index) => (
-                  <tr
-                    key={product.product_id}
-                    style={{ color: product.status === 1 ? "black" : "red" }}
-                  >
+                  <tr key={product.product_id}>
                     <td>{index + 1}</td>
                     <td>
                       <img
                         src={`/assets/upload/products/${product.product_image}`}
                         width="100%"
                         alt="product"
-                        className="tabel_data_image"
+                        className="table_data_image"
                       />
                     </td>
                     <td>{product.product_title}</td>
@@ -209,7 +206,7 @@ const Products = () => {
                     <td>
                       {product.status === 1 ? (
                         <img
-                          src='/assets/images/activeStatus.png'
+                          src="/assets/images/activeStatus.png"
                           alt="active"
                           className="status_btn"
                           onClick={() => {
@@ -218,7 +215,7 @@ const Products = () => {
                         />
                       ) : (
                         <img
-                          src='/assets/images/inActiveStatus.png'
+                          src="/assets/images/inActiveStatus.png"
                           alt="inActive"
                           className="status_btn"
                           onClick={() => {
