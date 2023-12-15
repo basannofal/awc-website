@@ -126,7 +126,6 @@ const AddTestimonial = () => {
       setLoading(false);
       return;
     }
-    console.log(addTestimonialData.testimonial_rating);
     try {
       const formData = new FormData();
       formData.append(
