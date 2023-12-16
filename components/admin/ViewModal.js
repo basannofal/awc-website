@@ -16,6 +16,42 @@ const ViewModal = ({ isOpen, onClose, data, getProductData }) => {
     return videoIdMatch ? videoIdMatch[1] : null;
   };
 
+  //generate star
+  const generateStars = () => {
+    const rating = data.rating || 0;
+    const stars = [];
+
+    for (let i = 1; i <= 5; i++) {
+      const starStyle = {
+        color: i <= Math.floor(rating) ? "#f8d64e" : "#ddd",
+        display: "inline-block",
+        fontSize: "24px",
+        cursor: "pointer",
+        marginRight: "5px",
+      };
+
+      // If the decimal part is greater than 0.2 and less than 0.8, show a half star
+      if (
+        i === Math.floor(rating) + 1 &&
+        rating % 1 > 0.2 &&
+        rating % 1 < 0.8
+      ) {
+        starStyle.background =
+          "linear-gradient(to right, yellow 50%, black 50%)";
+        starStyle.WebkitBackgroundClip = "text";
+        starStyle.color = "transparent";
+      }
+
+      stars.push(
+        <span key={i} style={starStyle} onClick={() => handleStarClick(i)}>
+          &#9733;
+        </span>
+      );
+    }
+
+    return stars;
+  };
+
   return (
     <div className="overlay">
       <div className="popup">
@@ -77,20 +113,8 @@ const ViewModal = ({ isOpen, onClose, data, getProductData }) => {
 
           <div style={{ paddingTop: "15px" }}>
             <span style={{ fontWeight: "bold" }}>Star Rating :</span>
-            <span className="star-rating">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <span
-                  key={star}
-                  style={{
-                    cursor: "pointer",
-                    fontSize: "24px",
-                    color: star <= (data.rating || 0) ? "#f8d64e" : "#ddd",
-                    marginRight: "5px",
-                  }}
-                >
-                  &#9733;
-                </span>
-              ))}
+            <span>
+              <p style={{ paddingLeft: "10px" }}>{generateStars()}</p>
             </span>
           </div>
         </div>

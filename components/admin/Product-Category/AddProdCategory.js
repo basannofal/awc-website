@@ -26,6 +26,7 @@ const AddProdCategory = () => {
   // tabs
   const [activeTab, setActiveTab] = useState("general");
 
+
   const showTab = (tabId) => {
     setActiveTab(tabId);
   };
@@ -112,6 +113,7 @@ const AddProdCategory = () => {
     }
     window.scrollTo({ behavior: "smooth", top: 0 });
     setLoading(true);
+
 
     if (addProductCategoryData.category_name === "") {
       WarningToast("Please Enter the Category Name");
@@ -224,8 +226,8 @@ const AddProdCategory = () => {
             <form method="post" onSubmit={addCategoryData}>
               <div className="mb-3">
                 <label htmlFor="category_name" className="modal_label">
-                  Category Name:-
-                  <span style={{ color: "red" }}> *</span>
+                  Category Name:-{" "}
+                  <small style={{ color: "red" }}> *</small>
                 </label>
                 <input
                   type="text"

@@ -120,6 +120,15 @@ const Blogs = () => {
     router.push(`/admin/blog/edit-blog?id=${id}`);
   };
 
+  //for truncate text code
+  const truncateString = (str, maxLength) => {
+    if (str && str.length > maxLength) {
+      return str.substring(0, maxLength) + '...';
+    } else {
+      return str;
+    }
+  };
+
   useEffect(() => {
     getAllBlogData();
     getBlogCategoryData();
@@ -178,15 +187,18 @@ const Blogs = () => {
                         className="tabel_data_image"
                       />
                     </td>
-                    <td>{blog.blog_title}</td>
+                    <td>{truncateString(blog.blog_title, 40)}</td>
                     <td>
                       {blog.blog_cate_id
-                        ? getCategoryData.find(
-                          (category) =>
-                            category.blog_cate_id === blog.blog_cate_id
-                        )?.category_title
+                        ? truncateString(
+                          getCategoryData.find(
+                            (category) => category.blog_cate_id === blog.blog_cate_id
+                          )?.category_title,
+                          40
+                        )
                         : "null"}
                     </td>
+
                     <td>
                       <button
                         className="editbutton"

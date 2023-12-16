@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import Header from "@/layouts/Header";
 import { useRouter } from "next/router";
@@ -104,9 +104,37 @@ const AddBlogCategory = () => {
     }));
   };
 
+  const validateForm = () => {
+    const requiredFields = [
+      "category_title",
+      "category_image",
+      "category_icon",
+    ];
+    for (const field of requiredFields) {
+      if (!addBlogCategory[field]) {
+        if (field == "category_title") {
+          ErrorToast(`Category Title is Required`);
+          return false;
+        } else if (field == "category_image") {
+          ErrorToast(`Category Image is Required`);
+          return false;
+        } else if (field == "category_icon") {
+          ErrorToast(`Category Icon is Required`);
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
   const saveBlogCategory = async (e) => {
     e.preventDefault();
+    e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
     window.scrollTo({ behavior: "smooth", top: 0 });
+
     setLoading(true);
 
     if (addBlogCategory.category_title === "") {
@@ -144,11 +172,32 @@ const AddBlogCategory = () => {
       setLoading(false);
       getAllBlogCategoryData();
       router.push("/admin/blog-category");
+      console.log("object")
     } catch (error) {
       ErrorToast(error?.response?.data?.message);
       setLoading(false);
     }
   };
+  //get blog category
+  const [getAllBlogCategory, setGetAllBlogCategory] = useState([]);
+  const getAllBlogCategoryData = async () => {
+    setLoading(true);
+    await axios
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/blogcategory/router`)
+      .then((res) => {
+        setGetAllBlogCategory(res.data);
+        setFilterdCategory(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    getAllBlogCategoryData();
+  }, [])
 
   return (
     <>
@@ -184,14 +233,14 @@ const AddBlogCategory = () => {
           </div>
           <div
             id="general"
-            className={`tab-content add_data_form ${
-              activeTab === "general" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={saveBlogCategory}>
               <div className="mb-3">
                 <label htmlFor="category_title" className="modal_label">
                   Category Title:-
+                  <small style={{ color: "red" }}> *</small>
                 </label>
                 <input
                   type="text"
@@ -243,6 +292,7 @@ const AddBlogCategory = () => {
               <div className="mb-3">
                 <label htmlFor="category_image" className="modal_label">
                   Category Image:-
+                  <small style={{ color: "red" }}> *</small>
                 </label>
                 <input
                   type="file"
@@ -265,6 +315,7 @@ const AddBlogCategory = () => {
               <div className="mb-3">
                 <label htmlFor="category_icon" className="modal_label">
                   Category Icon:-
+                  <small style={{ color: "red" }}> *</small>
                 </label>
                 <input
                   type="file"
@@ -298,9 +349,8 @@ const AddBlogCategory = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${
-              activeTab === "seo" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={saveBlogCategory}>
               <div className="mb-3">

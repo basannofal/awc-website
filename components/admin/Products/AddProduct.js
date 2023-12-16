@@ -28,11 +28,11 @@ const AddProduct = () => {
     product_docs: [],
   });
   const [allProductDocs, setAllProductDocs] = useState([]);
+
   const [addMultiCertificate, setAddMultiCertificate] = useState({
     product_certificate: [],
   });
   const [allProductCertificate, setAllProductCertificate] = useState([]);
-
   const [isDataAdded, setIsDataAdded] = useState(false);
   const [lastAddId, setLastAddId] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -135,6 +135,7 @@ const AddProduct = () => {
       return false
     }
     setLoading(true);
+
 
     try {
       const formdata = new FormData();
@@ -240,7 +241,7 @@ const AddProduct = () => {
   const saveMultipleDocs = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
-    if (addMultiDocs.length == 0) {
+    if (addMultiDocs.product_docs.length == 0) {
       ErrorToast('please atleast one doc select');
       return false
     }
@@ -330,7 +331,6 @@ const AddProduct = () => {
       return;
     }
     setLoading(true);
-
     try {
       const formdata = new FormData();
       formdata.append("product_id", lastAddId.product_id);
@@ -638,6 +638,7 @@ const AddProduct = () => {
               <div className="mb-3">
                 <label htmlFor="product_title" className="modal_label">
                   Product Title:-
+                  <small style={{ color: "red" }}> *</small>
                 </label>
                 <input
                   type="text"
@@ -646,7 +647,6 @@ const AddProduct = () => {
                   className="modal_input"
                   placeholder="Enter Product Title"
                   onChange={handleChangeProduct}
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -686,7 +686,6 @@ const AddProduct = () => {
                   onChange={(e) =>
                     handleShortEditorChange(editorShortRef.current.getContent())
                   }
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -726,7 +725,6 @@ const AddProduct = () => {
                   onChange={(e) =>
                     handleLongEditorChange(editorLongRef.current.getContent())
                   }
-                  required
                 />
               </div>
               <div className="two_input_flex">
@@ -734,6 +732,7 @@ const AddProduct = () => {
                   <div className="mb-3">
                     <label htmlFor="product_image" className="modal_label">
                       Product Thumbnail:-
+                      <small style={{ color: "red" }}> *</small>
                     </label>
                     <input
                       type="file"
@@ -742,7 +741,6 @@ const AddProduct = () => {
                       className="modal_input"
                       accept="image/png, image/jpeg, image/jpg"
                       onChange={handleAddFileChange}
-                      required
                     />
                   </div>
                   {addProductData.product_image && (
@@ -757,7 +755,8 @@ const AddProduct = () => {
                 </div>
                 <div className="mb-3" style={{ width: "48%" }}>
                   <label htmlFor="cate_id" className="modal_label">
-                    Choose Category:*
+                    Choose Category:
+                    <small style={{ color: "red" }}> *</small>
                   </label>
                   <select
                     name="cate_id"
@@ -766,7 +765,6 @@ const AddProduct = () => {
                     className="modal_input"
                     style={{ padding: "10px 8px" }}
                     onChange={handleChangeProduct}
-                    required
                   >
                     <option value={0}>Choose Category</option>
                     {getActiveCateData.map((cate) => {
@@ -1173,6 +1171,7 @@ const AddProduct = () => {
                     <div className="mb-3">
                       <label htmlFor="vedio_title" className="modal_label">
                         Video Title:-
+                        <small style={{ color: "red" }}> *</small>
                       </label>
                       <input
                         type="text"
@@ -1229,6 +1228,7 @@ const AddProduct = () => {
                     <div className="mb-3">
                       <label htmlFor="vedio_link" className="modal_label">
                         Video Link:-
+                        <small style={{ color: "red" }}> *</small>
                       </label>
                       <input
                         type="text"
@@ -1242,6 +1242,7 @@ const AddProduct = () => {
                     <div className="mb-3">
                       <label htmlFor="vedio_thumbnail" className="modal_label">
                         Video Image:-
+                        <small style={{ color: "red" }}> *</small>
                       </label>
                       <input
                         type="file"
@@ -1250,6 +1251,7 @@ const AddProduct = () => {
                         className="modal_input"
                         accept="image/png, image/jpeg, image/jpg"
                         onChange={handleVedioFileChange}
+                        required
                       />
                     </div>
                     <div
@@ -1455,7 +1457,7 @@ const AddProduct = () => {
                                 type="text"
                                 id={`certificate_title-${index}`}
                                 name="certificate_title"
-                                placeholder="certificate_title"
+                                placeholder="Certificate Title"
                                 onChange={(e) =>
                                   handleCertificateDetailsChange(
                                     index,

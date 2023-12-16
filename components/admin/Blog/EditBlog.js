@@ -23,6 +23,8 @@ const EditBlog = () => {
   const [editMetaKeyword, setEditMetaKeyword] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [selectedImage, setSelectedImage] = useState(null);
+
   // tabs
   const [activeTab, setActiveTab] = useState("general");
 
@@ -85,20 +87,43 @@ const EditBlog = () => {
       ...prevBlogData,
       [event.target.name]: file,
     }));
+
+    setSelectedImage(file)
+  };
+  //for validation
+  const validateForm = () => {
+    const requiredFields = ["blog_title", "blog_thumbnail"];
+    for (const field of requiredFields) {
+      if (!editBlogData[field]) {
+        if (field === "blog_title") {
+          ErrorToast("Blog Title is Required");
+          return false;
+        } else if (field === "blog_thumbnail") {
+          ErrorToast("Blog thumbnail is Required");
+          return false;
+        }
+      }
+    }
+    return true;
   };
 
   const saveEditBlogData = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+
     setLoading(true);
     try {
       const formdata = new FormData();
-      formdata.append("blog_cate_id", editBlogData.blog_cate_id);
-      formdata.append("blog_title", editBlogData.blog_title);
-      formdata.append("blog_description", editBlogData.blog_description);
+      formdata.append("blog_cate_id", editBlogData?.blog_cate_id);
+      formdata.append("blog_title", editBlogData?.blog_title);
+      formdata.append("blog_description", editBlogData?.blog_description);
       formdata.append("meta_tag", editMetaTag);
-      formdata.append("meta_desc", editBlogData.meta_desc);
+      formdata.append("meta_desc", editBlogData?.meta_desc);
       formdata.append("meta_keyword", editMetaKeyword);
-      formdata.append("canonical_url", editBlogData.canonical_url);
-      formdata.append("blog_thumbnail", editBlogData.blog_thumbnail);
+      formdata.append("canonical_url", editBlogData?.canonical_url);
+      formdata.append("blog_thumbnail", editBlogData?.blog_thumbnail);
 
       await axios.patch(
         `${process.env.NEXT_PUBLIC_API_URL}/blog/${blogId}`,
@@ -107,9 +132,11 @@ const EditBlog = () => {
       window.scrollTo({ behavior: "smooth", top: 0 });
       setLoading(false);
       router.push("/admin/blog");
+      console.log("correct");
     } catch (error) {
       ErrorToast(error?.response?.data?.message);
       setLoading(false);
+      console.log("incorrect");
     }
   };
 
@@ -183,7 +210,7 @@ const EditBlog = () => {
               activeTab === "general" ? "active" : ""
             }`}
           >
-            <form>
+            <form method="post" onSubmit={saveEditBlogData}>
               <div className="mb-3">
                 <label htmlFor="blog_title" className="modal_label">
                   Blog Title:-
@@ -195,8 +222,7 @@ const EditBlog = () => {
                   className="modal_input"
                   placeholder="Enter Blog Title"
                   onChange={handleEditChange}
-                  value={editBlogData?.blog_title}
-                  required
+                  value={editBlogData?.blog_title || ""}
                 />
               </div>
 
@@ -240,7 +266,6 @@ const EditBlog = () => {
                   onChange={(e) =>
                     handleDescEditorChange(editorDescRef.current.getContent())
                   }
-                  required
                 />
               </div>
               <div className="main">
@@ -259,12 +284,21 @@ const EditBlog = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <img
-                      src={`/assets/upload/blogs/${editBlogData?.blog_thumbnail}`}
-                      width="100%"
-                      alt="product_image"
-                      className="tabel_data_image"
-                    />
+                    {selectedImage ? (
+                      <img
+                        src={URL.createObjectURL(selectedImage)}
+                        width="100px"
+                        height="100px"
+                        alt="category_image"
+                      />
+                    ) : (
+                      <img
+                        src={`/assets/upload/blogs/${editBlogData?.blog_thumbnail}`}
+                        width="100px"
+                        height="100px"
+                        alt="category_image"
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="mb-3" style={{ width: "48%" }}>
@@ -279,7 +313,6 @@ const EditBlog = () => {
                     style={{ padding: "10px 8px" }}
                     onChange={handleEditChange}
                     value={editBlogData?.blog_cate_id}
-                    required
                   >
                     <option value={0}>Choose Category</option>
                     {getActiveCateData.map((cate) => {
@@ -298,9 +331,7 @@ const EditBlog = () => {
               <div className="mb-3">
                 <button
                   type="button"
-                  onClick={() => {
-                    saveEditBlogData();
-                  }}
+                  onClick={saveEditBlogData}
                   className="success_btn"
                 >
                   SAVE
@@ -414,9 +445,7 @@ const EditBlog = () => {
               <div className="mb-3">
                 <button
                   type="button"
-                  onClick={() => {
-                    saveEditBlogData();
-                  }}
+                  onClick={saveEditBlogData}
                   className="success_btn"
                 >
                   SAVE
@@ -430,6 +459,7 @@ const EditBlog = () => {
             </form>
           </div>
         </div>
+        <Toast />
       </section>
     </>
   );

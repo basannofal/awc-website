@@ -4,10 +4,13 @@ import Link from "next/link";
 import { Editor } from "@tinymce/tinymce-react";
 import Toast, { ErrorToast, WarningToast } from "@/layouts/toast/Toast";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const AddTestimonial = () => {
-  const starArray = [1, 2, 3, 4, 5];
+  const starArray = [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
+
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   // handle state for add data
   const [addTestimonialData, setAddTestimonialData] = useState({
@@ -15,7 +18,7 @@ const AddTestimonial = () => {
     testimonial_desc: "",
     testimonial_image: null,
     testimonial_video: "",
-    testimonial_rating: 0,
+    testimonial_rating: 1,
     product_id: "",
   });
   // handled the testimonial input values
@@ -50,7 +53,7 @@ const AddTestimonial = () => {
     if (!validExtensions.includes(fileExtension)) {
       // Reset the input value to clear the invalid file
       event.target.value = "";
-      WarningToast("Please add the JPG, JPEG, PNG & WEBP format file");
+      ErrorToast("Please add the JPG, JPEG, PNG & WEBP format file");
       return;
     }
 
@@ -69,6 +72,41 @@ const AddTestimonial = () => {
       ...prevData,
       testimonial_rating: selectedRating,
     }));
+  };
+
+  const generateStars = () => {
+    const rating = addTestimonialData.testimonial_rating;
+    const stars = [];
+
+    for (let i = 1; i <= 5; i++) {
+      const starStyle = {
+        color: i <= Math.floor(rating) ? "#f8d64e" : "#ddd",
+        display: "inline-block",
+        fontSize: "24px",
+        cursor: "pointer",
+        marginRight: "5px",
+      };
+
+      // If the decimal part is greater than 0.2 and less than 0.8, show a half star
+      if (
+        i === Math.floor(rating) + 1 &&
+        rating % 1 > 0.2 &&
+        rating % 1 < 0.8
+      ) {
+        starStyle.background =
+          "linear-gradient(to right, yellow 50%, black 50%)";
+        starStyle.WebkitBackgroundClip = "text";
+        starStyle.color = "transparent";
+      }
+
+      stars.push(
+        <span key={i} style={starStyle} onClick={() => handleStarClick(i)}>
+          &#9733;
+        </span>
+      );
+    }
+
+    return stars;
   };
   // rating end
 
@@ -204,7 +242,6 @@ const AddTestimonial = () => {
 
             {/* Description */}
             <div className="mb-3">
-              <span style={{ color: "red" }}>*</span>{" "}
               <p className="modal_label">Testimonial Description:-</p>
               <Editor
                 apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
@@ -289,27 +326,26 @@ const AddTestimonial = () => {
                 Testimonial Rating:-
               </label>
               <div style={{ display: "flex", alignItems: "center" }}>
-                {starArray.map((star) => (
-                  <span
-                    key={star}
-                    style={{
-                      cursor: "pointer",
-                      fontSize: "24px",
-                      color:
-                        star <= addTestimonialData.testimonial_rating
-                          ? "#f8d64e"
-                          : "#ddd",
-                      marginRight: "5px",
-                    }}
-                    onClick={() => handleStarClick(star)}
-                  >
-                    &#9733;
-                  </span>
-                ))}
-                <p>{addTestimonialData.testimonial_rating} stars</p>
+                {/* Range input */}
+                <input
+                  type="range"
+                  min={starArray[0]}
+                  max={starArray[starArray.length - 1]}
+                  step={0.5}
+                  value={addTestimonialData.testimonial_rating}
+                  onChange={(e) => handleStarClick(parseFloat(e.target.value))}
+                  onBlur={() =>
+                    handleStarClick(addTestimonialData.testimonial_rating)
+                  }
+                />
+                {/* Display selected rating */}
+                <p style={{ paddingLeft: "10px" }}>
+                  {addTestimonialData.testimonial_rating}
+                </p>
+                {/* Display stars based on range input */}
+                <p style={{ paddingLeft: "10px" }}>{generateStars()}</p>
               </div>
             </div>
-
             {/* Handle Button Save and Cancle */}
             <div className="mb-3">
               <button type="submit" className="success_btn">

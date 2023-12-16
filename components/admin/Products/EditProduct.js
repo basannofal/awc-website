@@ -67,6 +67,9 @@ const EditProduct = () => {
     image_width: "",
     sort_image: "",
   });
+  console.log("====================================");
+  console.log(editperimg);
+  console.log("====================================");
 
   const [editDoc, setEditDoc] = useState({
     pdf_title: "",
@@ -125,9 +128,13 @@ const EditProduct = () => {
         deleteProductImg(productImgId);
       } else if (deleteopt == "docs") {
         deleteProductdocs(productImgId);
+
       } else if (deleteopt == "video") {
         deleteProductVideos(productImgId);
       } else if (deleteopt == "certificate") {
+        deleteProductcertificate(productImgId);
+      }
+      else if (deleteopt == "certificate") {
         deleteProductcertificate(productImgId);
       }
       closeDeleteModal();
@@ -217,9 +224,16 @@ const EditProduct = () => {
     }));
     setSelectedImage(file);
   };
-  const saveEditProductData = async (prodId) => {
+  const saveEditProductData = async (e) => {
+
+    e.preventDefault()
     if (editProductData.product_title === "") {
       ErrorToast("Please Enter the Product Title");
+      return false;
+    }
+
+    if (editProductData.cate_id == 0) {
+      ErrorToast("Please Select Category");
       return false;
     }
 
@@ -436,6 +450,7 @@ const EditProduct = () => {
     }));
     setAddMultiCertificate((prevMultiCertificate) => ({
       ...prevMultiCertificate,
+
       product_certificate: [
         ...prevMultiCertificate.product_certificate,
         ...newdocs,
@@ -466,6 +481,7 @@ const EditProduct = () => {
   const saveMultipleCertificate = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
+
     if (addMultiCertificate.product_certificate.length == 0) {
       ErrorToast('please atleast one Certificate select');
       return false
@@ -520,12 +536,13 @@ const EditProduct = () => {
 
   const handleEditCertificateClick = (certiId, data) => {
     setEditingCertificateId(certiId);
-    console.log(certiId);
+
     setEditCertificate({
       certificate_title: data.certificate_title,
       certificate_link: data.certificate_link,
     });
   };
+
 
   const handlePerCertificateFileData = (event) => {
     const file = event.target.files[0];
@@ -547,6 +564,7 @@ const EditProduct = () => {
       window.scrollTo({ behavior: "smooth", top: 0 });
       setLoading(false);
       getAllProductCertificate();
+
       setEditingCertificateId(null);
     } catch (error) {
       ErrorToast(error?.response?.data?.message);
@@ -1023,10 +1041,11 @@ const EditProduct = () => {
               activeTab === "general" ? "active" : ""
             }`}
           >
-            <form>
+            <form method="post" onSubmit={saveEditProductData}>
               <div className="mb-3">
                 <label htmlFor="product_title" className="modal_label">
                   Product Title:-
+                  <small style={{ color: "red" }}> *</small>
                 </label>
                 <input
                   type="text"
@@ -1175,9 +1194,7 @@ const EditProduct = () => {
               <div className="mb-3">
                 <button
                   type="button"
-                  onClick={() => {
-                    saveEditProductData(editProductData?.product_id);
-                  }}
+                  onClick={saveEditProductData}
                   className="success_btn"
                 >
                   SAVE
@@ -1290,9 +1307,7 @@ const EditProduct = () => {
               <div className="mb-3">
                 <button
                   type="button"
-                  onClick={() => {
-                    saveEditProductData(editProductData?.product_id);
-                  }}
+                  onClick={saveEditProductData}
                   className="success_btn"
                 >
                   SAVE
@@ -1625,6 +1640,7 @@ const EditProduct = () => {
                                   handleUpdateClick(product.prod_image_id)
                                 }
                               >
+                                {/* <i class="fa-solid fa-floppy-disk"></i> */}U
                                 <i className="fa-solid fa-pencil"></i>
                               </button>
                               <button
@@ -1839,6 +1855,7 @@ const EditProduct = () => {
                   <div className="mb-3">
                     <label htmlFor="vedio_title" className="modal_label">
                       Video Title:-
+                      <small style={{ color: "red" }}> *</small>
                     </label>
                     <input
                       type="text"
@@ -1897,6 +1914,7 @@ const EditProduct = () => {
                   <div className="mb-3">
                     <label htmlFor="vedio_link" className="modal_label">
                       Video Link:-
+                      <small style={{ color: "red" }}> *</small>
                     </label>
                     <input
                       type="text"
@@ -1919,7 +1937,7 @@ const EditProduct = () => {
                       className="modal_input"
                       accept="image/png, image/jpeg, image/jpg"
                       onChange={handleVedioFileChange}
-                      require={editingVedioId !== null}
+                      required
                     />
                     {editingVedioId ? (
                       <img
@@ -1950,6 +1968,7 @@ const EditProduct = () => {
               </div>
             </div>
           </div>
+
           {/* Docs Tabs */}
           <div
             id="docs"
@@ -2065,15 +2084,26 @@ const EditProduct = () => {
                             <input
                               type="file"
                               name="pdf_link"
+                              id={`pdf_input_${index}`}
+                              style={{ display: "none" }}
                               onChange={handlePerDocFileData}
                             />
                             <td>
-                              <img
-                                src={`/assets/images/pdf-icon.webp`}
-                                width="100%"
-                                alt="product"
-                                className="tabel_data_image"
-                              />
+                              <div className="image-container">
+                                <label
+                                  htmlFor={`pdf_input_${index}`}
+                                  className="overlay"
+                                >
+                                  <i className="fa-solid fa-image"></i>
+                                  {/* <i class="fa-solid fa-file-pdf"></i> */}
+                                </label>
+                                <img
+                                  src={`/assets/images/pdf-icon.webp`}
+                                  width="100%"
+                                  alt="product"
+                                  className="tabel_data_image"
+                                />
+                              </div>
                             </td>
                           </td>
                         ) : (
@@ -2104,17 +2134,27 @@ const EditProduct = () => {
                           <td className="edit-row">
                             <div>
                               <button
+                                style={{
+                                  height: "30px",
+                                  width: "30px",
+                                  padding: "5px",
+                                }}
                                 onClick={() =>
                                   handleUpdateDocClick(product.prod_docs_id)
                                 }
                               >
-                                Update
+                                {/* <i class="fa-solid fa-floppy-disk"></i> */}U
                               </button>
                               <button
                                 className="cancel"
+                                style={{
+                                  height: "30px",
+                                  width: "30px",
+                                  padding: "5px",
+                                }}
                                 onClick={() => setEditingDocId(null)}
                               >
-                                Cancel
+                                <i className="fa-solid fa-xmark"></i>
                               </button>
                             </div>
                           </td>
@@ -2179,9 +2219,8 @@ const EditProduct = () => {
           {/* Certificate Tabs */}
           <div
             id="docs"
-            className={`tab-content add_data_form ${
-              activeTab === "certificate" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "certificate" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={saveMultipleCertificate}>
               <div className="mb-3">
@@ -2203,7 +2242,7 @@ const EditProduct = () => {
                 style={{ display: "flex", flexWrap: "wrap" }}
               >
                 {addMultiCertificate.product_certificate &&
-                addMultiCertificate.product_certificate.length > 0 ? (
+                  addMultiCertificate.product_certificate.length > 0 ? (
                   <table className="multi-images-table">
                     <thead>
                       <tr>
@@ -2213,42 +2252,40 @@ const EditProduct = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {addMultiCertificate.product_certificate.map(
-                        (image, index) => (
-                          <tr key={index}>
-                            <td>
-                              <img
-                                src={"/assets/images/pdf-icon.webp"}
-                                alt={`Selected productimg ${index + 1}`}
-                              />
-                            </td>
-                            <td>
-                              <input
-                                type="text"
-                                id={`certificate_title-${index}`}
-                                name="certificate_title"
-                                placeholder="certificate Title"
-                                onChange={(e) =>
-                                  handleCertificateDetailsChange(
-                                    index,
-                                    "certificate_title",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </td>
-                            <td>
-                              <button
-                                type="button"
-                                className="remove_multi_img_btn"
-                                onClick={() => removeMultiCertificate(index)}
-                              >
-                                <i className="fa-solid fa-xmark"></i>
-                              </button>
-                            </td>
-                          </tr>
-                        )
-                      )}
+                      {addMultiCertificate.product_certificate.map((image, index) => (
+                        <tr key={index}>
+                          <td>
+                            <img
+                              src={"/assets/images/pdf-icon.webp"}
+                              alt={`Selected productimg ${index + 1}`}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              id={`certificate_title-${index}`}
+                              name="certificate_title"
+                              placeholder="certificate Title"
+                              onChange={(e) =>
+                                handleCertificateDetailsChange(
+                                  index,
+                                  "certificate_title",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </td>
+                          <td>
+                            <button
+                              type="button"
+                              className="remove_multi_img_btn"
+                              onClick={() => removeMultiCertificate(index)}
+                            >
+                              <i className="fa-solid fa-xmark"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 ) : (
@@ -2375,7 +2412,7 @@ const EditProduct = () => {
                         <td>
                           {product.status === 1 ? (
                             <img
-                              src="/assets/images/activeStatus.png"
+                              src='/assets/images/activeStatus.png'
                               alt="active"
                               className="status_btn"
                               onClick={() =>
@@ -2387,7 +2424,7 @@ const EditProduct = () => {
                             />
                           ) : (
                             <img
-                              src="/assets/images/inActiveStatus.png"
+                              src='/assets/images/inActiveStatus.png'
                               alt="inActive"
                               className="status_btn"
                               onClick={() =>

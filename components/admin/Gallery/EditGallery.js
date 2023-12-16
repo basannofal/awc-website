@@ -38,6 +38,17 @@ const EditGallery = ({ editedItem, onClose, onEditComplete }) => {
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
 
+    // Check if the file has a valid extension
+    const validExtensions = ["jpg", "jpeg", "png", "webp"];
+    const fileExtension = file.name.split(".").pop().toLowerCase();
+
+    if (!validExtensions.includes(fileExtension)) {
+      // Reset the input value to clear the invalid file
+      event.target.value = "";
+      ErrorToast("Please add the JPG, JPEG, PNG & WEBP format file");
+      return;
+    }
+
     setFormData((prevImage) => ({
       ...prevImage,
       [event.target.name]: file,
@@ -52,13 +63,15 @@ const EditGallery = ({ editedItem, onClose, onEditComplete }) => {
     window.scrollTo({ behavior: "smooth", top: 0 });
     setLoading(true);
 
-    // if (formData.gallery_title === "") {
-    //   WarningToast("Please enter the gallery title");
-    // }
+    if (formData.gallery_title === "") {
+      ErrorToast("Please enter the gallery title");
+      return;
+    }
 
-    // if (formData.gallery_category === "") {
-    //   WarningToast("Please select gallery category");
-    // }
+    if (formData.gallery_category === "") {
+      ErrorToast("Please select gallery category");
+      return;
+    }
 
     try {
       // Create form data to send with the PUT request

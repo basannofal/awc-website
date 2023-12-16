@@ -29,6 +29,9 @@ const EditBlogCategory = () => {
     setActiveTab(tabId);
   };
 
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedIcon, setSelectedIcon] = useState(null);
+
   //get data with id
   const getEditBlogCategory = async (cateId) => {
     await axios
@@ -70,9 +73,44 @@ const EditBlogCategory = () => {
       ...prevImage,
       [event.target.name]: file,
     }));
+
+    if (event.target.name == "category_icon") {
+      setSelectedIcon(file);
+    }
+    if (event.target.name == "category_image") {
+      setSelectedImage(file);
+    }
   };
-  const saveEditCategory = async (cateId) => {
+
+  //for validation
+  const validateForm = () => {
+    const requiredFields = [
+      "category_title",
+      "category_image",
+      "category_icon",
+    ];
+    for (const field of requiredFields) {
+      if (!editBlogCategoryData[field]) {
+        if (field == "category_title") {
+          ErrorToast(`Category Title is Required`);
+          return false;
+        } else if (field == "category_image") {
+          ErrorToast(`Category Image is Required`);
+          return false;
+        } else if (field == "category_icon") {
+          ErrorToast(`Category Icon is Required`);
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+  const saveEditCategory = async (e) => {
+    e.preventDefault();
     setLoading(true);
+    if (!validateForm()) {
+      return;
+    }
     try {
       const formdata = new FormData();
       formdata.append("category_title", editBlogCategoryData.category_title);
@@ -149,7 +187,7 @@ const EditBlogCategory = () => {
 
         <div className="tabs-container">
           <div className="tabs">
-          <div style={{ display: "flex" }}>
+            <div style={{ display: "flex" }}>
               <div
                 className={`tab ${activeTab === "general" ? "active" : ""}`}
                 onClick={() => showTab("general")}
@@ -170,10 +208,11 @@ const EditBlogCategory = () => {
               activeTab === "general" ? "active" : ""
             }`}
           >
-            <form>
+            <form method="post" onSubmit={saveEditCategory}>
               <div className="mb-3">
                 <label htmlFor="editBlog_title" className="modal_label">
-                  Blog Title:-
+                  Category Title:-
+                  <small style={{ color: "red" }}> *</small>
                 </label>
                 <input
                   type="text"
@@ -183,7 +222,6 @@ const EditBlogCategory = () => {
                   onChange={handleEditCategory}
                   value={editBlogCategoryData?.category_title}
                   placeholder="Enter Category Title"
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -222,7 +260,6 @@ const EditBlogCategory = () => {
                       "removeformat | help",
                   }}
                   onChange={handleEditorChange}
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -236,14 +273,31 @@ const EditBlogCategory = () => {
                   onChange={handleEditFileChange}
                   className="modal_input mb-3"
                   accept="image/png, image/jpeg, image/jpg"
-                  required
                 />
-                <img
-                  src={`/assets/upload/blog/${editBlogCategoryData?.category_image}`}
-                  width="100%"
-                  className="modal_data_image"
+                {selectedImage ? (
+                  <img
+                    src={URL.createObjectURL(selectedImage)}
+                    width="100px"
+                    height="100px"
+                    alt="category_image"
+                  />
+                ) : (
+                  <img
+                    src={`/assets/upload/blog/${editBlogCategoryData?.category_image}`}
+                    width="100px"
+                    height="100px"
+                    alt="category_image"
+                  />
+                )}
+                {/* <img
+                  src={
+                    editBlogCategoryData.category_image instanceof File
+                      ? URL.createObjectURL(editBlogCategoryData.category_image)
+                      : `/assets/upload/blog/${editBlogCategoryData.category_image}`
+                  }
                   alt="category_image"
-                />
+                  className="modal_data_image"
+                /> */}
               </div>
               <div className="mb-3">
                 <label htmlFor="editBlog_icon" className="modal_label">
@@ -256,21 +310,36 @@ const EditBlogCategory = () => {
                   className="modal_input mb-3"
                   onChange={handleEditFileChange}
                   accept="image/png, image/jpeg, image/jpg"
-                  required
                 />
-                <img
-                  src={`/assets/upload/blog/${editBlogCategoryData?.category_icon}`}
-                  width="100%"
+                {selectedIcon ? (
+                  <img
+                    src={URL.createObjectURL(selectedIcon)}
+                    width="100px"
+                    height="100px"
+                    alt="category_image"
+                  />
+                ) : (
+                  <img
+                    src={`/assets/upload/blog/${editBlogCategoryData?.category_icon}`}
+                    width="100px"
+                    height="100px"
+                    alt="category_image"
+                  />
+                )}
+                {/* <img
+                  src={
+                    editBlogCategoryData.category_icon instanceof File
+                      ? URL.createObjectURL(editBlogCategoryData.category_icon)
+                      : `/assets/upload/blog/${editBlogCategoryData.category_icon}`
+                  }
+                  alt="category_image"
                   className="modal_data_image"
-                  alt="category_icon"
-                />
+                /> */}
               </div>
               <div className="mb-3">
                 <button
                   type="button"
-                  onClick={() =>
-                    saveEditCategory(editBlogCategoryData.blog_cate_id)
-                  }
+                  onClick={saveEditCategory}
                   className="success_btn"
                 >
                   SAVE
@@ -385,9 +454,7 @@ const EditBlogCategory = () => {
               <div className="mb-3">
                 <button
                   type="button"
-                  onClick={() =>
-                    saveEditCategory(editBlogCategoryData.blog_cate_id)
-                  }
+                  onClick={saveEditCategory}
                   className="success_btn"
                 >
                   SAVE

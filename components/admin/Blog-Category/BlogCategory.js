@@ -92,11 +92,21 @@ const BlogCategory = () => {
         setLoading(false);
         getAllBlogCategoryData();
         SuccessToast("Category Deleted Successfully");
+        console.log("object")
       })
       .catch((err) => {
         ErrorToast(err?.response?.data?.message);
         setLoading(false);
       });
+  };
+
+  //for truncate text code
+  const truncateString = (str, maxLength) => {
+    if (str.length > maxLength) {
+      return str.substring(0, maxLength) + '...';
+    } else {
+      return str;
+    }
   };
 
   useEffect(() => {
@@ -155,7 +165,7 @@ const BlogCategory = () => {
                       <img
                         src={`/assets/upload/blog/${category.category_icon}`}
                         width="100%"
-                        className="tabel_data_image"
+                        className="table_data_image"
                         alt="category_icon"
                       />
                     </td>
@@ -167,7 +177,7 @@ const BlogCategory = () => {
                         alt="category_image"
                       />
                     </td>
-                    <td>{category.category_title}</td>
+                    <td>{truncateString(category.category_title, 40)}</td>
                     <td>
                       <button
                         className="editbutton"
@@ -190,7 +200,7 @@ const BlogCategory = () => {
                     <td>
                       {category.status === 1 ? (
                         <img
-                          src='/assets/images/activeStatus.png'
+                          src="/assets/images/activeStatus.png"
                           alt="active"
                           className="status_btn"
                           onClick={() => {
@@ -199,7 +209,7 @@ const BlogCategory = () => {
                         />
                       ) : (
                         <img
-                          src='/assets/images/inActiveStatus.png'
+                          src="/assets/images/inActiveStatus.png"
                           alt="inActive"
                           className="status_btn"
                           onClick={() => {

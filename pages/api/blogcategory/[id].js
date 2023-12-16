@@ -45,7 +45,7 @@ export default async function handler(req, res) {
 
       // Query for delete category
       const q = "DELETE FROM blog_category WHERE blog_cate_id = ?";
-
+      console.log(id)
       const [rows] = await conn.query(q, [id]);
 
       // check image awailable or not
@@ -59,15 +59,28 @@ export default async function handler(req, res) {
         const categoryImage = category[0].category_image;
         if (categoryImage) {
           const imagePath = path.join(projectDirectory, categoryImage);
-          await unlink(imagePath);
+
+          // Check if the file exists before unlinking
+          if (fs.existsSync(imagePath)) {
+            await unlink(imagePath);
+          } else {
+            console.log(`File does not exist: ${imagePath}`);
+          }
         }
 
         // Delete categoryIcon
         const categoryIcon = category[0].category_icon;
         if (categoryIcon) {
           const iconPath = path.join(projectDirectory, categoryIcon);
-          await unlink(iconPath);
+
+          // Check if the file exists before unlinking
+          if (fs.existsSync(iconPath)) {
+            await unlink(iconPath);
+          } else {
+            console.log(`File does not exist: ${iconPath}`);
+          }
         }
+
       }
 
       // Process the data and send the response
@@ -144,9 +157,8 @@ export default async function handler(req, res) {
               }
 
               const oldPath = imageFile[0].filepath;
-              const nFileName = `${Date.now()}_${index}.${
-                imageFile[0].originalFilename
-              }`;
+              const nFileName = `${Date.now()}_${index}.${imageFile[0].originalFilename
+                }`;
               const newFileName = nFileName.replace(/\s/g, "");
               const projectDirectory = path.resolve(
                 __dirname,

@@ -107,6 +107,8 @@ const EditProdCategory = () => {
     setSelectedImage(file);
   };
 
+
+
   //for validation 
   const validateForm = () => {
     const requiredFields = [
@@ -373,7 +375,6 @@ const EditProdCategory = () => {
                           key={cate.category_id}
                           value={cate.category_id}
                         >
-
                           {cate.category_name}
                         </option>
                       );

@@ -45,8 +45,8 @@ const EditAllGallery = () => {
   const handleInputChange = (index, key, value) => {
     // Check if the key is 'gallery_category' and update selectedImages accordingly
     if (key === "gallery_category") {
-      // Assuming selectedImages should be set to null when the category is changed
-      setSelectedImages(Array(formDataArray.length).fill(null));
+      // Reset the selected image when the category is changed
+      setSelectedImages(selectedImages);
     }
 
     // Check if the key is 'gallery_image' and the value is not changed
@@ -104,7 +104,7 @@ const EditAllGallery = () => {
     // Display errors if any
     if (errors.length > 0) {
       errors.forEach((error) => {
-        WarningToast(error);
+        ErrorToast(error);
       });
       return; // Stop further processing if there are errors
     }
@@ -231,12 +231,15 @@ const EditAllGallery = () => {
                           src={
                             selectedImages[index]
                               ? URL.createObjectURL(selectedImages[index])
-                              : `/assets/upload/gallery/${item.gallery_image}`
+                              : item.gallery_image
+                              ? `/assets/upload/gallery/${item.gallery_image}`
+                              : URL.createObjectURL(selectedImages[index]) // Provide a placeholder image path if needed
                           }
                           width="100px"
                           height="100px"
                           alt="profile"
                         />
+
                         <input
                           type="file"
                           id={`gallery_image_input_${index}`}
