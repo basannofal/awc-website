@@ -227,8 +227,7 @@ const AddProdCategory = () => {
               <div className="mb-3">
                 <label htmlFor="category_name" className="modal_label">
                   Category Name:-{" "}
-                  <small style={{ color: "red" }}>* (required)</small>
-
+                  <small style={{ color: "red" }}> *</small>
                 </label>
                 <input
                   type="text"

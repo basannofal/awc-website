@@ -107,25 +107,7 @@ const EditProdCategory = () => {
     setSelectedImage(file);
   };
 
-  //for validation 
-  const validateForm = () => {
-    const requiredFields = [
-      "category_name",
-      "category_image",
-    ];
-    for (const field of requiredFields) {
-      if (!editProductCategoryData[field]) {
-        if (field == "category_name") {
-          ErrorToast(`Category Name is Required`);
-          return false;
-        } else if (field == "category_image") {
-          ErrorToast(`Category Image is Required`);
-          return false;
-        }
-      }
-    }
-    return true;
-  };
+
 
   //for validation 
   const validateForm = () => {

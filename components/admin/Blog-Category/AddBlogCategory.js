@@ -240,6 +240,7 @@ const AddBlogCategory = () => {
               <div className="mb-3">
                 <label htmlFor="category_title" className="modal_label">
                   Category Title:-
+                  <small style={{ color: "red" }}> *</small>
                 </label>
                 <input
                   type="text"
@@ -291,6 +292,7 @@ const AddBlogCategory = () => {
               <div className="mb-3">
                 <label htmlFor="category_image" className="modal_label">
                   Category Image:-
+                  <small style={{ color: "red" }}> *</small>
                 </label>
                 <input
                   type="file"
@@ -313,6 +315,7 @@ const AddBlogCategory = () => {
               <div className="mb-3">
                 <label htmlFor="category_icon" className="modal_label">
                   Category Icon:-
+                  <small style={{ color: "red" }}> *</small>
                 </label>
                 <input
                   type="file"

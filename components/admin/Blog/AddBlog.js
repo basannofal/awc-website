@@ -195,6 +195,7 @@ const AddBlog = () => {
               <div className="mb-3">
                 <label htmlFor="blog_title" className="modal_label">
                   Blog Title:-
+                  <small style={{ color: "red" }}> *</small>
                 </label>
                 <input
                   type="text"
@@ -249,6 +250,7 @@ const AddBlog = () => {
                   <div className="mb-3">
                     <label htmlFor="blog_thumbnail" className="modal_label">
                       Blog Thumbnail:-
+                      <small style={{ color: "red" }}> *</small>
                     </label>
                     <input
                       type="file"
@@ -271,7 +273,8 @@ const AddBlog = () => {
                 </div>
                 <div className="mb-3" style={{ width: "48%" }}>
                   <label htmlFor="blog_cate_id" className="modal_label">
-                    Choose Category:*
+                    Choose Category:
+                    <small style={{ color: "red" }}> *</small>
                   </label>
                   <select
                     name="blog_cate_id"

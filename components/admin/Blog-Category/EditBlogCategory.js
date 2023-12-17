@@ -29,6 +29,9 @@ const EditBlogCategory = () => {
     setActiveTab(tabId);
   };
 
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedIcon, setSelectedIcon] = useState(null);
+
   //get data with id
   const getEditBlogCategory = async (cateId) => {
     await axios
@@ -70,9 +73,16 @@ const EditBlogCategory = () => {
       ...prevImage,
       [event.target.name]: file,
     }));
+
+    if (event.target.name == "category_icon") {
+      setSelectedIcon(file);
+    }
+    if (event.target.name == "category_image") {
+      setSelectedImage(file);
+    }
   };
 
-  //for validation 
+  //for validation
   const validateForm = () => {
     const requiredFields = [
       "category_title",
@@ -95,7 +105,8 @@ const EditBlogCategory = () => {
     }
     return true;
   };
-  const saveEditCategory = async (cateId) => {
+  const saveEditCategory = async (e) => {
+    e.preventDefault();
     setLoading(true);
     if (!validateForm()) {
       return;
@@ -193,13 +204,15 @@ const EditBlogCategory = () => {
           </div>
           <div
             id="general"
-            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "general" ? "active" : ""
+            }`}
           >
-            <form>
+            <form method="post" onSubmit={saveEditCategory}>
               <div className="mb-3">
                 <label htmlFor="editBlog_title" className="modal_label">
-                  Blog Title:-
+                  Category Title:-
+                  <small style={{ color: "red" }}> *</small>
                 </label>
                 <input
                   type="text"
@@ -261,7 +274,22 @@ const EditBlogCategory = () => {
                   className="modal_input mb-3"
                   accept="image/png, image/jpeg, image/jpg"
                 />
-                <img
+                {selectedImage ? (
+                  <img
+                    src={URL.createObjectURL(selectedImage)}
+                    width="100px"
+                    height="100px"
+                    alt="category_image"
+                  />
+                ) : (
+                  <img
+                    src={`/assets/upload/blog/${editBlogCategoryData?.category_image}`}
+                    width="100px"
+                    height="100px"
+                    alt="category_image"
+                  />
+                )}
+                {/* <img
                   src={
                     editBlogCategoryData.category_image instanceof File
                       ? URL.createObjectURL(editBlogCategoryData.category_image)
@@ -269,8 +297,7 @@ const EditBlogCategory = () => {
                   }
                   alt="category_image"
                   className="modal_data_image"
-                />
-
+                /> */}
               </div>
               <div className="mb-3">
                 <label htmlFor="editBlog_icon" className="modal_label">
@@ -284,7 +311,22 @@ const EditBlogCategory = () => {
                   onChange={handleEditFileChange}
                   accept="image/png, image/jpeg, image/jpg"
                 />
-                <img
+                {selectedIcon ? (
+                  <img
+                    src={URL.createObjectURL(selectedIcon)}
+                    width="100px"
+                    height="100px"
+                    alt="category_image"
+                  />
+                ) : (
+                  <img
+                    src={`/assets/upload/blog/${editBlogCategoryData?.category_icon}`}
+                    width="100px"
+                    height="100px"
+                    alt="category_image"
+                  />
+                )}
+                {/* <img
                   src={
                     editBlogCategoryData.category_icon instanceof File
                       ? URL.createObjectURL(editBlogCategoryData.category_icon)
@@ -292,14 +334,12 @@ const EditBlogCategory = () => {
                   }
                   alt="category_image"
                   className="modal_data_image"
-                />
+                /> */}
               </div>
               <div className="mb-3">
                 <button
                   type="button"
-                  onClick={() =>
-                    saveEditCategory(editBlogCategoryData.blog_cate_id)
-                  }
+                  onClick={saveEditCategory}
                   className="success_btn"
                 >
                   SAVE
@@ -314,8 +354,9 @@ const EditBlogCategory = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "seo" ? "active" : ""
+            }`}
           >
             <form>
               <div className="mb-3">
@@ -413,9 +454,7 @@ const EditBlogCategory = () => {
               <div className="mb-3">
                 <button
                   type="button"
-                  onClick={() =>
-                    saveEditCategory(editBlogCategoryData.blog_cate_id)
-                  }
+                  onClick={saveEditCategory}
                   className="success_btn"
                 >
                   SAVE

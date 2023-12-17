@@ -224,9 +224,16 @@ const EditProduct = () => {
     }));
     setSelectedImage(file);
   };
-  const saveEditProductData = async (prodId) => {
+  const saveEditProductData = async (e) => {
+
+    e.preventDefault()
     if (editProductData.product_title === "") {
       ErrorToast("Please Enter the Product Title");
+      return false;
+    }
+
+    if (editProductData.cate_id == 0) {
+      ErrorToast("Please Select Category");
       return false;
     }
 
@@ -1034,10 +1041,11 @@ const EditProduct = () => {
               activeTab === "general" ? "active" : ""
             }`}
           >
-            <form>
+            <form method="post" onSubmit={saveEditProductData}>
               <div className="mb-3">
                 <label htmlFor="product_title" className="modal_label">
                   Product Title:-
+                  <small style={{ color: "red" }}> *</small>
                 </label>
                 <input
                   type="text"
@@ -1186,9 +1194,7 @@ const EditProduct = () => {
               <div className="mb-3">
                 <button
                   type="button"
-                  onClick={() => {
-                    saveEditProductData(editProductData?.product_id);
-                  }}
+                  onClick={saveEditProductData}
                   className="success_btn"
                 >
                   SAVE
@@ -1301,9 +1307,7 @@ const EditProduct = () => {
               <div className="mb-3">
                 <button
                   type="button"
-                  onClick={() => {
-                    saveEditProductData(editProductData?.product_id);
-                  }}
+                  onClick={saveEditProductData}
                   className="success_btn"
                 >
                   SAVE
@@ -1851,6 +1855,7 @@ const EditProduct = () => {
                   <div className="mb-3">
                     <label htmlFor="vedio_title" className="modal_label">
                       Video Title:-
+                      <small style={{ color: "red" }}> *</small>
                     </label>
                     <input
                       type="text"
@@ -1909,6 +1914,7 @@ const EditProduct = () => {
                   <div className="mb-3">
                     <label htmlFor="vedio_link" className="modal_label">
                       Video Link:-
+                      <small style={{ color: "red" }}> *</small>
                     </label>
                     <input
                       type="text"
@@ -1931,7 +1937,7 @@ const EditProduct = () => {
                       className="modal_input"
                       accept="image/png, image/jpeg, image/jpg"
                       onChange={handleVedioFileChange}
-                      require={editingVedioId !== null}
+                      required
                     />
                     {editingVedioId ? (
                       <img
