@@ -19,7 +19,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: "Please Upload Files." });
       }
       //check! is this image ?
-      const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
+      const allowedImageExtensions = [".jpg", ".jpeg", ".png", ".webp"];
       const fileExtension = path
         .extname(files.vedio_thumbnail[0].originalFilename)
         .toLowerCase();

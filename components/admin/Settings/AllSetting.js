@@ -582,7 +582,7 @@ const AllSetting = () => {
                       id="product_image"
                       name="product_image"
                       className="modal_input"
-                      accept="image/png, image/jpeg, image/jpg"
+                      accept="image/*"
                       onChange={handleAddFileChange}
                       required
                     />
@@ -758,7 +758,7 @@ const AllSetting = () => {
                     id="product_images"
                     name="product_images"
                     className="modal_input"
-                    accept="image/png, image/jpeg, image/jpg"
+                    accept="image/*"
                     onChange={handleAddMultipleImagesChange}
                     multiple
                   />
@@ -1090,7 +1090,7 @@ const AllSetting = () => {
                         id="vedio_thumbnail"
                         name="vedio_thumbnail"
                         className="modal_input"
-                        accept="image/png, image/jpeg, image/jpg"
+                        accept="image/*"
                         onChange={handleVedioFileChange}
                         required
                       />

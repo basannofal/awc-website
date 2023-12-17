@@ -111,7 +111,7 @@ export default async function handler(req, res) {
           let upadateLogo = logo;
 
           //check! is this image ?
-          const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
+          const allowedImageExtensions = [".jpg", ".jpeg", ".png", ".webp"];
 
           if (files.favicon) {
             const CategoryImgExtension = path

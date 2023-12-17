@@ -528,7 +528,7 @@ const EditSetting = () => {
                       id="favicon"
                       name="favicon"
                       className="modal_input"
-                      accept="image/png, image/jpeg, image/jpg"
+                      accept="image/*"
                       onChange={handleAddFileChange}
                     />
                   </div>
@@ -574,7 +574,7 @@ const EditSetting = () => {
                       id="logo"
                       name="logo"
                       className="modal_input"
-                      accept="image/png, image/jpeg, image/jpg"
+                      accept="image/*"
                       onChange={handleAddFileChange}
                     />
                   </div>
