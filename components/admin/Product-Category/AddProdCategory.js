@@ -3,7 +3,7 @@ import axios from "axios";
 import Header from "@/layouts/Header";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Toast, { ErrorToast } from "@/layouts/toast/Toast";
+import Toast, { ErrorToast, WarningToast } from "@/layouts/toast/Toast";
 import { Editor } from "@tinymce/tinymce-react";
 import Loading from "@/layouts/Loading";
 
@@ -23,13 +23,13 @@ const AddProdCategory = () => {
   const [addMetaKeyword, setAddMetaKeyword] = useState([]);
   const [loading, setLoading] = useState(false);
 
-    // tabs
-    const [activeTab, setActiveTab] = useState("general");
+  // tabs
+  const [activeTab, setActiveTab] = useState("general");
 
-    const showTab = (tabId) => {
-      setActiveTab(tabId);
-    };
 
+  const showTab = (tabId) => {
+    setActiveTab(tabId);
+  };
 
   //get active category
   const getActiveCategoryData = async () => {
@@ -67,17 +67,58 @@ const AddProdCategory = () => {
   };
   const handleAddFileChange = (event) => {
     const file = event.target.files[0];
+
+    // Check if the file has a valid extension
+    const validExtensions = ["jpg", "jpeg", "png"];
+    const fileExtension = file.name.split(".").pop().toLowerCase();
+
+    if (!validExtensions.includes(fileExtension)) {
+      // Reset the input value to clear the invalid file
+      event.target.value = "";
+      WarningToast("Please add the JPG, JPEG & PNG format file");
+      return;
+    }
+
     setAddProductCategoryData((prevProfileData) => ({
       ...prevProfileData,
       [event.target.name]: file,
     }));
   };
 
+  //for validation 
+  const validateForm = () => {
+    const requiredFields = [
+      "category_name",
+      "category_image",
+    ];
+    for (const field of requiredFields) {
+      if (!addProductCategoryData[field]) {
+        if (field == "category_name") {
+          ErrorToast(`Category Name is Required`);
+          return false;
+        } else if (field == "category_image") {
+          ErrorToast(`Category Image is Required`);
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
   //save category
   const addCategoryData = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
     window.scrollTo({ behavior: "smooth", top: 0 });
     setLoading(true);
+
+
+    if (addProductCategoryData.category_name === "") {
+      WarningToast("Please Enter the Category Name");
+    }
+
     try {
       const formdata = new FormData();
       formdata.append("category_name", addProductCategoryData.category_name);
@@ -118,7 +159,7 @@ const AddProdCategory = () => {
   const handleKeyword = (event) => {
     if (event.key === "Enter" || event.key == ",") {
       event.preventDefault();
-      setAddMetaKeyword([...addMetaKeyword, event.target.value]);
+      setAddMetaKeyword([...addMetaKeyword, event.target.value.trim()]);
       event.target.value = "";
     }
   };
@@ -162,7 +203,7 @@ const AddProdCategory = () => {
         </div>
         <div className="tabs-container">
           <div className="tabs">
-          <div style={{ display: "flex" }}>
+            <div style={{ display: "flex" }}>
               <div
                 className={`tab ${activeTab === "general" ? "active" : ""}`}
                 onClick={() => showTab("general")}
@@ -176,17 +217,17 @@ const AddProdCategory = () => {
                 SEO
               </div>
             </div>
-            </div>
+          </div>
           <div
             id="general"
-            className={`tab-content add_data_form ${
-              activeTab === "general" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={addCategoryData}>
               <div className="mb-3">
                 <label htmlFor="category_name" className="modal_label">
-                  Category Name:-
+                  Category Name:-{" "}
+                  <small style={{ color: "red" }}> *</small>
                 </label>
                 <input
                   type="text"
@@ -195,7 +236,6 @@ const AddProdCategory = () => {
                   className="modal_input"
                   placeholder="Enter Category Name"
                   onChange={handleChangeProductCategory}
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -209,7 +249,6 @@ const AddProdCategory = () => {
                   className="modal_input"
                   placeholder="Enter Category Title"
                   onChange={handleChangeProductCategory}
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -247,12 +286,12 @@ const AddProdCategory = () => {
                       "removeformat | help",
                   }}
                   onChange={handleEditorChange}
-                  required
                 />
               </div>
               <div className="mb-3">
                 <label htmlFor="category_image" className="modal_label">
                   Category Image:-
+                  <span style={{ color: "red" }}> *</span>
                 </label>
                 <input
                   type="file"
@@ -261,7 +300,6 @@ const AddProdCategory = () => {
                   className="modal_input"
                   accept="image/png, image/jpeg, image/jpg"
                   onChange={handleAddFileChange}
-                  required
                 />
               </div>
               {addProductCategoryData.category_image && (
@@ -270,8 +308,8 @@ const AddProdCategory = () => {
                     src={URL.createObjectURL(
                       addProductCategoryData.category_image
                     )}
-                    alt="Selected Thumbnail"
-                    className="tabel_data_image"
+                    alt="Product Category Thumbnail"
+                    className="table_data_image"
                   />
                 </div>
               )}
@@ -285,7 +323,6 @@ const AddProdCategory = () => {
                   form="sub_category"
                   className="modal_input"
                   onChange={handleChangeProductCategory}
-                  required
                 >
                   <option value={0}>Choose Sub Category</option>
                   {getActiveCateData.map((cate) => {
@@ -301,7 +338,7 @@ const AddProdCategory = () => {
                 <button type="submit" className="success_btn">
                   SAVE
                 </button>
-                <Link href="/admin/products-category">
+                <Link href="/admin/product-category">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
                   </button>
@@ -311,9 +348,8 @@ const AddProdCategory = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${
-              activeTab === "seo" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={addCategoryData}>
               <div className="mb-3">
@@ -343,11 +379,10 @@ const AddProdCategory = () => {
                         ></i>
                       </div>
                     </div>
-                ))}
-                  </div>
+                  ))}
+                </div>
               </div>
-  
-            
+
               <div className="mb-3">
                 <label htmlFor="meta_keyword" className="modal_label">
                   Meta Keayword:-
@@ -375,8 +410,8 @@ const AddProdCategory = () => {
                         ></i>
                       </div>
                     </div>
-                ))}
-                  </div>
+                  ))}
+                </div>
               </div>
               <div className="mb-3">
                 <label htmlFor="meta_description" className="modal_label">

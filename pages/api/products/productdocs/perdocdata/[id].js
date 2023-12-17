@@ -69,9 +69,8 @@ export default async function handler(req, res) {
           );
           // Configuration for the new image
           const oldPath = files.pdf_link[0].filepath; // Old path of the uploaded image
-          const nFileName = `${Date.now()}.${
-            files.pdf_link[0].originalFilename
-          }`;
+          const nFileName = `${Date.now()}.${files.pdf_link[0].originalFilename
+            }`;
           const newFileName = nFileName.replace(/\s/g, "");
           const projectDirectory = path.resolve(
             __dirname,

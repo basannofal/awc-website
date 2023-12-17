@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Toast, { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
+import Toast, {
+  ErrorToast,
+  SuccessToast,
+  WarningToast,
+} from "@/layouts/toast/Toast";
 
 const EditGallery = ({ editedItem, onClose, onEditComplete }) => {
   const [loading, setLoading] = useState("");
@@ -34,6 +38,17 @@ const EditGallery = ({ editedItem, onClose, onEditComplete }) => {
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
 
+    // Check if the file has a valid extension
+    const validExtensions = ["jpg", "jpeg", "png", "webp"];
+    const fileExtension = file.name.split(".").pop().toLowerCase();
+
+    if (!validExtensions.includes(fileExtension)) {
+      // Reset the input value to clear the invalid file
+      event.target.value = "";
+      ErrorToast("Please add the JPG, JPEG, PNG & WEBP format file");
+      return;
+    }
+
     setFormData((prevImage) => ({
       ...prevImage,
       [event.target.name]: file,
@@ -45,6 +60,19 @@ const EditGallery = ({ editedItem, onClose, onEditComplete }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    window.scrollTo({ behavior: "smooth", top: 0 });
+    setLoading(true);
+
+    if (formData.gallery_title === "") {
+      ErrorToast("Please enter the gallery title");
+      return;
+    }
+
+    if (formData.gallery_category === "") {
+      ErrorToast("Please select gallery category");
+      return;
+    }
+
     try {
       // Create form data to send with the PUT request
       const updatedFormData = new FormData();
@@ -69,6 +97,7 @@ const EditGallery = ({ editedItem, onClose, onEditComplete }) => {
       );
 
       // Handle successful update
+      setLoading(false);
       onEditComplete(res.data);
       SuccessToast("Gallery Image Updated Successfully..");
     } catch (error) {
@@ -99,9 +128,27 @@ const EditGallery = ({ editedItem, onClose, onEditComplete }) => {
   //get or fetch all gallery category data end
 
   return (
-    <div className="popup-container">
+    <div className="overlay">
       <div className="popup">
         <h2>Edit Item : {editedItem.id}</h2>
+        <a
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "30px",
+            transition: "all 200ms",
+            fontSize: 30,
+            fontWeight: "bold",
+            textDecoration: "none",
+            color: "#6255f0",
+            cursor: "pointer",
+          }}
+          href="#"
+          onClick={onClose}
+        >
+          &times;
+        </a>
+
         <form onSubmit={handleFormSubmit}>
           <label htmlFor="gallery_title">Title:</label>
           <input

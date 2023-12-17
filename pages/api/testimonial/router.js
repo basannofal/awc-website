@@ -69,7 +69,9 @@ export default async function handler(req, res) {
 
             // Execute the query
             const [result] = await conn.query(insertQuery, values);
-            res.status(200).json(result);
+            res.status(200).json(result, {
+              message: "Testimonial Add Successfully",
+            });
           }
         });
       });

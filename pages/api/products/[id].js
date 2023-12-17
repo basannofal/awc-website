@@ -108,7 +108,28 @@ export default async function handler(req, res) {
         ]);
       }
 
-      // 8. Delete the product from the product_master table
+      // 8. Check if product has Certificate in product_certificate table
+      const [certificates] = await conn.query(
+        "SELECT prod_certi_id, certificate_link FROM product_certificate WHERE prod_id = ?",
+        [id]
+      );
+
+      // 9. Delete Certificate from the file system and product_certificate table
+      for (const certificate of certificates) {
+        const certificatePath = path.join(
+          __dirname,
+          "../../../../../public/assets/upload/products/productCertificate",
+          certificate.certificate_link
+        );
+
+        await unlink(certificatePath);
+
+        await conn.query("DELETE FROM product_certificate WHERE prod_certi_id = ?", [
+          certificate.prod_certi_id,
+        ]);
+      }
+
+      // 10. Delete the product from the product_master table
       const q = "DELETE FROM product_master WHERE product_id = ?";
 
       const [rows] = await conn.query(q, [id]);
@@ -125,7 +146,7 @@ export default async function handler(req, res) {
         console.log(newPath);
         await unlink(newPath);
       }
-      // 9. Commit the transaction
+      // 11. Commit the transaction
       await conn.query("COMMIT");
 
       // Process the data and send the response

@@ -118,9 +118,36 @@
   background-color: var(--third-color);
 }
 
+/* .table_data_image {
+  width: 100px;
+  height: 80px;
+}
+
+.status_btn {
+  height: 25px;
+  width: 50px;
+  height: auto;
+}
+
+.tabel_data_image {
+  width: 50px;
+} */
+
+.table_data_image {
+  width: 50px;
+  height: auto;
+}
+
 .tabel_data_image {
   width: 50px;
   height: auto;
+}
+
+.status_btn {
+  cursor: pointer;
+  width: 40px;
+  height: 20px;
+  background-color: transparent;
 }
 
 .modal_data_image {
@@ -151,6 +178,14 @@
 
   .admin_page_header {
     font-size: 16px;
+  }
+
+  .admin_page_top .sitemap {
+    padding-top: 10px;
+  }
+
+  .admin_page_top .sitemap .angles {
+    padding-bottom: 3px;
   }
 
   .admin_page_top p i,
@@ -429,7 +464,6 @@ form .modal_input:focus {
   transform: translate(-50%, -50%);
 }
 
-
 .delete_modal_content p {
   color: #414141;
   margin-top: 5px;
@@ -443,7 +477,6 @@ form .modal_input:focus {
   font-weight: 600;
   padding-left: 20px;
 }
-
 
 .editbutton {
   background-color: #b5bbfe;
@@ -467,8 +500,6 @@ form .modal_input:focus {
 }
 
 .delete_input {
-  border: 2px solid rgb(117, 114, 114);
-  padding: 2px 0px 2px 5px;
   border-radius: 5px;
   margin: 8px 0px 0px 20px;
 }
@@ -476,7 +507,6 @@ form .modal_input:focus {
 .delete_input:focus {
   outline: none;
 }
-
 
 .data_delete_btn:hover {
   background-color: rgb(239, 94, 118);
@@ -490,8 +520,8 @@ form .modal_input:focus {
 
 .delete_modal_content #close-modal {
   position: absolute;
-  right: 15px;
-  top: 8px;
+  right: 30px;
+  top: 15px;
   font-size: 1.5rem;
   color: #999;
   background: transparent;
@@ -499,13 +529,13 @@ form .modal_input:focus {
 
 .delete_modal_content #delete-button {
   position: relative;
-  left: 80%;
+  left: 85%;
   background: linear-gradient(to right, #3b82f6, #2563eb, #2563eb, #3b82f6);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   padding: 8px 13px;
   height: auto;
   margin-top: 10px;
@@ -600,11 +630,11 @@ form .modal_input:focus {
   width: 100px;
 }
 
-.dd-input+.dd-menu {
+.dd-input + .dd-menu {
   display: none;
 }
 
-.dd-input:checked+.dd-menu {
+.dd-input:checked + .dd-menu {
   display: block;
 }
 
@@ -685,8 +715,9 @@ form .modal_input:focus {
   cursor: pointer;
   letter-spacing: 1px;
   font-size: 18px;
-  position: relative;
-  top: -10px;
+  position: absolute;
+  right: 20px;
+  top: 130px;
 }
 
 .tab-content.active {
@@ -742,8 +773,6 @@ td {
   cursor: pointer;
 }
 
-
-
 /* Gallery section */
 
 .remove_multi_img_btn {
@@ -760,11 +789,8 @@ td {
 
 /* DropDown Style for Gallery */
 .dropdown-container {
-  display: flex;
-  flex-direction: column;
-  width: 23%;
-  float: right;
-  margin: 20px 20px 0 0;
+  width: 100%;
+  margin: 20px 0 0 20px;
 }
 
 label {
@@ -782,7 +808,8 @@ select {
 
 select:hover,
 select:focus {
-  border-color: #007bff; /* Change this color to your desired hover/focus color */
+  border-color: #007bff;
+  /* Change this color to your desired hover/focus color */
 }
 
 /* Optional: Style the dropdown arrow */
@@ -791,7 +818,8 @@ select::-ms-expand {
 }
 
 select::after {
-  content: "\25BC"; /* Unicode character for down arrow */
+  content: "\25BC";
+  /* Unicode character for down arrow */
   position: absolute;
   top: 50%;
   right: 10px;
@@ -804,8 +832,8 @@ select::after {
 .gallery-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 4rem;
-  margin: 8rem 5rem 3rem 5rem;
+  gap: 2rem;
+  margin: 4rem 5rem 3rem 5rem;
   position: relative;
 }
 
@@ -847,28 +875,6 @@ select::after {
 }
 
 /* Edit Gallery Pop-Up */
-.popup-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.popup {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  width: 100%;
-  scroll-behavior: auto;
-}
-
 .popup h2 {
   font-size: 18px;
   margin-bottom: 20px;
@@ -944,19 +950,20 @@ select::after {
 /* edit and delete all button */
 
 .button-container {
-  margin: 46px 0 0 40rem;
+  margin-top: 1rem;
   display: flex;
-  width: 25%;
+  width: 100%;
 }
-
 .button-container .delete-button:disabled {
   cursor: not-allowed;
-  background-color: #e88a8a; /* Red color for the delete button */
+  background-color: #e88a8a;
+  /* Red color for the delete button */
 }
 
 .button-container .edit-button:disabled {
   cursor: not-allowed;
-  background-color: #9fd9ee; /* Blue color for the edit button */
+  background-color: #9fd9ee;
+  /* Blue color for the edit button */
 }
 
 .delete-button {
@@ -965,4 +972,176 @@ select::after {
 
 .fa-solid {
   font-size: 0.7109375rem;
+}
+/* Media query for screens with a width of 600 pixels or less */
+@media (max-width: 600px) {
+  .button-container {
+    flex-direction: column; /* Stack buttons vertically on smaller screens */
+    align-items: center; /* Center buttons horizontally */
+  }
+
+  .delete-button {
+    margin-bottom: 1rem; /* Add margin between buttons on smaller screens */
+  }
+}
+
+/* operation button style */
+.operation_btn_edv {
+  padding: 5px;
+  font-size: 1.2em;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(229, 229, 229, 0.951);
+  transition: opacity 500ms;
+  opacity: 1;
+}
+
+.overlay:target {
+  opacity: 1; /* Set opacity to 1 when the target is present */
+}
+
+.popup {
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  height: 30rem; /* Set the fixed height value as needed */
+  position: absolute;
+  top: auto;
+  left: 60%;
+  transform: translate(-50%, 20%);
+  overflow-y: auto;
+  transition: all 0.5s ease-in-out;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+.popup .close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.popup .close:hover {
+  color: #6255f0;
+}
+
+.popup .content {
+  padding: 1rem;
+}
+
+/* Style the scrollbar */
+.popup::-webkit-scrollbar {
+  width: 2px;
+}
+
+.popup::-webkit-scrollbar-thumb {
+  background-color: #6255f0;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 700px) {
+  .popup {
+    width: 70%;
+  }
+}
+/* Media query for screens with a width of 600 pixels or less */
+@media (max-width: 600px) {
+  .button-container {
+    flex-direction: column; /* Stack buttons vertically on smaller screens */
+    align-items: center; /* Center buttons horizontally */
+  }
+
+  .delete-button {
+    margin-bottom: 1rem; /* Add margin between buttons on smaller screens */
+  }
+}
+
+/* operation button style */
+.operation_btn {
+  padding: 5px;
+  font-size: 1em;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(229, 229, 229, 0.951);
+  transition: opacity 500ms;
+  opacity: 1;
+}
+
+.overlay:target {
+  opacity: 1; /* Set opacity to 1 when the target is present */
+}
+
+.popup {
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  height: 30rem; /* Set the fixed height value as needed */
+  position: absolute;
+  top: auto;
+  left: 60%;
+  transform: translate(-50%, 20%);
+  overflow-y: auto;
+  transition: all 0.5s ease-in-out;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+.popup .close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.popup .close:hover {
+  color: #6255f0;
+}
+
+.popup .content {
+  padding: 1rem;
+}
+
+/* Style the scrollbar */
+.popup::-webkit-scrollbar {
+  width: 2px;
+}
+
+.popup::-webkit-scrollbar-thumb {
+  background-color: #6255f0;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 700px) {
+  .popup {
+    width: 70%;
+  }
 }

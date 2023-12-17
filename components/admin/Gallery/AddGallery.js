@@ -72,7 +72,7 @@ const AddGallery = () => {
     );
 
     if (nonImageFiles.length > 0) {
-      WarningToast("Only image files are taken from given files.");
+      ErrorToast("Only image files are taken from given files.");
     }
 
     const newImages = imageFiles.map((file) => ({
@@ -151,6 +151,54 @@ const AddGallery = () => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
     setLoading(true);
+
+    // Check for validation errors and add messages to the array
+    if (addMultiImages.gallery_images.length === 0) {
+      ErrorToast("No files selected. Please select at least one image");
+    }
+
+    // Create an array to store error messages
+    const errors = [];
+
+    // Function to validate each image
+    const validateImage = async (image, index) => {
+      if (!image.category) {
+        errors.push(`Please enter the gallery title for image ${index + 1}`);
+      }
+
+      if (!imageCategories[index] || imageCategories[index].length === 0) {
+        errors.push(
+          `Please select at least one category for image ${index + 1}`
+        );
+      }
+
+      if (!image.file) {
+        errors.push(`Please select an image for image ${index + 1}`);
+      }
+
+      // Display errors if any for the current image
+      if (errors.length > 0) {
+        ErrorToast(errors[0]); // Display the first error for the current image
+        setLoading(false);
+        return false;
+      }
+
+      return true;
+    };
+
+    // Iterate through each image and validate
+    for (let index = 0; index < addMultiImages.gallery_images.length; index++) {
+      const isValid = await validateImage(
+        addMultiImages.gallery_images[index],
+        index
+      );
+
+      if (!isValid) {
+        return; // Stop processing further images if the current one has errors
+      }
+
+      // Continue processing for the current image...
+    }
 
     try {
       const formData = new FormData();

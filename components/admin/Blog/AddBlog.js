@@ -70,10 +70,32 @@ const AddBlog = () => {
       [event.target.name]: file,
     }));
   };
+  //for validation 
+  const validateForm = () => {
+    const requiredFields = [
+      "blog_title",
+      "blog_thumbnail",
+    ];
+    for (const field of requiredFields) {
+      if (!addBlogData[field]) {
+        if (field == "blog_title") {
+          ErrorToast(`Blog Title is Required`);
+          return false;
+        } else if (field == "blog_thumbnail") {
+          ErrorToast(`Blog thumbanil is Required`);
+          return false;
+        }
+      }
+    }
+    return true;
+  };
 
   const addBlogTableData = async (e) => {
     e.preventDefault();
     window.scrollTo({ behavior: "smooth", top: 0 });
+    if (!validateForm()) {
+      return;
+    }
     setLoading(true);
     try {
       const formdata = new FormData();
@@ -91,7 +113,7 @@ const AddBlog = () => {
         formdata
       );
       setLoading(false);
-      // router.push("/admin/blogs");
+      router.push("/admin/blog");
     } catch (error) {
       ErrorToast(error?.response?.data?.message);
       setLoading(false);
@@ -166,14 +188,14 @@ const AddBlog = () => {
           </div>
           <div
             id="general"
-            className={`tab-content add_data_form ${
-              activeTab === "general" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={addBlogTableData}>
               <div className="mb-3">
                 <label htmlFor="blog_title" className="modal_label">
                   Blog Title:-
+                  <small style={{ color: "red" }}> *</small>
                 </label>
                 <input
                   type="text"
@@ -182,7 +204,6 @@ const AddBlog = () => {
                   className="modal_input"
                   placeholder="Enter Blog Title"
                   onChange={handleChangeBlog}
-                  required
                 />
               </div>
               <div className="mb-3">
@@ -222,7 +243,6 @@ const AddBlog = () => {
                   onChange={(e) =>
                     handleEditorChange(editorRef.current.getContent())
                   }
-                  required
                 />
               </div>
               <div className="main">
@@ -230,6 +250,7 @@ const AddBlog = () => {
                   <div className="mb-3">
                     <label htmlFor="blog_thumbnail" className="modal_label">
                       Blog Thumbnail:-
+                      <small style={{ color: "red" }}> *</small>
                     </label>
                     <input
                       type="file"
@@ -238,7 +259,6 @@ const AddBlog = () => {
                       className="modal_input"
                       accept="image/png, image/jpeg, image/jpg"
                       onChange={handleAddFileChange}
-                      required
                     />
                   </div>
                   {addBlogData.blog_thumbnail && (
@@ -253,7 +273,8 @@ const AddBlog = () => {
                 </div>
                 <div className="mb-3" style={{ width: "48%" }}>
                   <label htmlFor="blog_cate_id" className="modal_label">
-                    Choose Category:*
+                    Choose Category:
+                    <small style={{ color: "red" }}> *</small>
                   </label>
                   <select
                     name="blog_cate_id"
@@ -262,7 +283,6 @@ const AddBlog = () => {
                     className="modal_input"
                     style={{ padding: "10px 8px" }}
                     onChange={handleChangeBlog}
-                    required
                   >
                     <option value={0}>Choose Category</option>
                     {getActiveCateData.map((cate) => {
@@ -292,9 +312,8 @@ const AddBlog = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${
-              activeTab === "seo" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={addBlogTableData}>
               <div className="mb-3">

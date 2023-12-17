@@ -1,9 +1,12 @@
+import AdminLogin from "@/components/admin/AdminLogin";
+import Sidebar from "@/layouts/Sidebar";
 import React from "react";
+import Index from '@/components/client/Home/index'
 
 const index = () => {
   return (
     <>
-      <h1>Home page</h1>
+      <Index />
     </>
   );
 };
