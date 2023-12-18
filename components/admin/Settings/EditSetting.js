@@ -233,9 +233,13 @@ const EditSetting = () => {
 
   // Keyword Handle for Multiple Fields
   const handleSEOKeyword = (field, event) => {
-    const value = event.target.value.trim();
-    if (value && (event.key === "Enter" || event.key === ",")) {
+    if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
+      const value = event.target.value.trim();
+      if(value === ''){
+        ErrorToast("Please Write Keyword")
+        return
+      }
       setSeoData((prevData) => ({
         ...prevData,
         [field]: [...(prevData[field] || []), value],

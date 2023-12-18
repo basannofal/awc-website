@@ -54,9 +54,9 @@ const EditBlog = () => {
       );
       setEditBlogData(response.data[0]);
       const keyString = response.data[0].meta_keyword;
-      setEditMetaKeyword(keyString.split(","));
+      setEditMetaKeyword(keyString.trim() !== "" ? keyString.split(",") : []);
       const tagString = response.data[0].meta_tag;
-      setEditMetaTag(tagString.split(","));
+      setEditMetaTag(tagString.trim() !== "" ? tagString.split(",") : []);
       setLoading(false);
     } catch (err) {
       ErrorToast(err?.response?.data?.message);
@@ -144,6 +144,10 @@ const EditBlog = () => {
   const handleKeyword = (event) => {
     if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
+      if( event.target.value.trim() === ''){
+        ErrorToast("Please Write Keyword")
+        return
+      }
       setEditMetaKeyword([...editMetaKeyword, event.target.value]);
       event.target.value = "";
     }
@@ -158,6 +162,10 @@ const EditBlog = () => {
   const handleTags = (event) => {
     if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
+      if( event.target.value.trim() === ''){
+        ErrorToast("Please Write Tag")
+        return
+      }
       setEditMetaTag([...editMetaTag, event.target.value.trim()]);
       event.target.value = "";
     }

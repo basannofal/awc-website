@@ -70,12 +70,9 @@ const AddBlog = () => {
       [event.target.name]: file,
     }));
   };
-  //for validation 
+  //for validation
   const validateForm = () => {
-    const requiredFields = [
-      "blog_title",
-      "blog_thumbnail",
-    ];
+    const requiredFields = ["blog_title", "blog_thumbnail"];
     for (const field of requiredFields) {
       if (!addBlogData[field]) {
         if (field == "blog_title") {
@@ -122,9 +119,13 @@ const AddBlog = () => {
 
   // add meta keyword
   const handleKeyword = (event) => {
-    const value = event.target.value.trim();
-    if (value && (event.key === "Enter" || event.key === ",")) {
+    if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
+      const value = event.target.value.trim();
+      if (value == "") {
+        ErrorToast("Please Write Keyword");
+        return;
+      }
       setAddMetaKeyword([...addMetaKeyword, value]);
       event.target.value = "";
     }
@@ -138,9 +139,13 @@ const AddBlog = () => {
 
   // add meta tags
   const handleTags = (event) => {
-    const value = event.target.value.trim();
-    if (value && (event.key === "Enter" || event.key === ",")) {
+    if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
+      const value = event.target.value.trim();
+      if (value == "") {
+        ErrorToast("Please Write Tag");
+        return;
+      }
       setAddMetaTag([...addMetaTag, value]);
       event.target.value = "";
     }
@@ -188,8 +193,9 @@ const AddBlog = () => {
           </div>
           <div
             id="general"
-            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "general" ? "active" : ""
+            }`}
           >
             <form method="post" onSubmit={addBlogTableData}>
               <div className="mb-3">
@@ -312,8 +318,9 @@ const AddBlog = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "seo" ? "active" : ""
+            }`}
           >
             <form method="post" onSubmit={addBlogTableData}>
               <div className="mb-3">
