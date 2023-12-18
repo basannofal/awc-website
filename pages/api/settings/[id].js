@@ -82,9 +82,8 @@ export default async function handler(req, res) {
               }
 
               const oldPath = imageFile[0].filepath;
-              const nFileName = `${Date.now()}_${index}.${
-                imageFile[0].originalFilename
-              }`;
+              const nFileName = `${Date.now()}_${index}.${imageFile[0].originalFilename
+                }`;
               const newFileName = nFileName.replace(/\s/g, "");
               const projectDirectory = path.resolve(
                 __dirname,
@@ -174,4 +173,5 @@ export default async function handler(req, res) {
       conn.releaseConnection();
     }
   }
+
 }
