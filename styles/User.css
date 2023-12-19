@@ -730,11 +730,11 @@ form .modal_input:focus {
   color: var(--fourth-color);
   border-radius: 4px;
   cursor: pointer;
-  letter-spacing: 1px;
-  font-size: 18px;
+  font-size: 14px;
+  height: 35px;
   position: absolute;
+  top: 120px;
   right: 20px;
-  top: 130px;
 }
 
 .product_data_save_btn:hover {
