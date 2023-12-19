@@ -136,6 +136,7 @@ const AddProduct = () => {
     }
     setLoading(true);
 
+
     try {
       const formdata = new FormData();
       formdata.append("cate_id", addProductData.cate_id);
@@ -1482,6 +1483,7 @@ const AddProduct = () => {
                         </tr>
                       </thead>
                       <tbody>
+
                         {addMultiCertificate.product_certificate.map(
                           (image, index) => (
                             <tr key={index}>

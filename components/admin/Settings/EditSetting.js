@@ -391,7 +391,7 @@ const EditSetting = () => {
       const formdata = new FormData();
       formdata.append("header", globalData.header);
       formdata.append("footer", globalData.footer);
-     
+
       await axios.patch(
         `${process.env.NEXT_PUBLIC_API_URL}/settings/global/${1}`,
         formdata
@@ -405,26 +405,26 @@ const EditSetting = () => {
     }
   };
 
-    //get social data
-    const getSocialGlobal = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/settings/global/${1}`
-        );
-        console.log(response.data);
-        setGlobalData({
-          header: response.data[0].header,
-          footer: response.data[0].footer,
-        });
-        setLoading(false);
-      } catch (err) {
-        ErrorToast(err?.response?.data?.message);
-        setLoading(false);
-      }
-    };
-  
-    
+  //get social data
+  const getSocialGlobal = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/settings/global/${1}`
+      );
+      console.log(response.data);
+      setGlobalData({
+        header: response.data[0].header,
+        footer: response.data[0].footer,
+      });
+      setLoading(false);
+    } catch (err) {
+      ErrorToast(err?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+
   useEffect(() => {
     getGeneralData();
     getSocialData();
@@ -454,9 +454,8 @@ const EditSetting = () => {
                 General
               </div>
               <div
-                className={`tab ${
-                  activeTab === "social-media" ? "active" : ""
-                }`}
+                className={`tab ${activeTab === "social-media" ? "active" : ""
+                  }`}
                 onClick={() => showTab("social-media")}
               >
                 Social Media
@@ -478,9 +477,8 @@ const EditSetting = () => {
           {/* GENREL TABS */}
           <div
             id="general"
-            className={`tab-content add_data_form ${
-              activeTab === "general" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={AddGeneralData}>
               <div className="mb-3">
@@ -494,7 +492,7 @@ const EditSetting = () => {
                   className="modal_input"
                   placeholder="Enter Email"
                   onChange={handleChangeProduct}
-                  value={generalData.email}
+                  value={generalData && generalData.email}
                 />
               </div>
               <div className="mb-3">
@@ -508,7 +506,7 @@ const EditSetting = () => {
                   className="modal_input"
                   placeholder="Enter Contact Number"
                   onChange={handleChangeProduct}
-                  value={generalData.number}
+                  value={generalData && generalData.number}
                 />
               </div>
 
@@ -540,14 +538,14 @@ const EditSetting = () => {
                     <div>
                       {settingImg.favicon ? (
                         <img
-                          src={URL.createObjectURL(settingImg.favicon)}
+                          src={URL.createObjectURL(generalData && settingImg.favicon)}
                           width="100px"
                           height="100px"
                           alt="profile"
                         />
                       ) : (
                         <img
-                          src={`/assets/upload/setting/${generalData.favicon}`}
+                          src={`/assets/upload/setting/${generalData && generalData.favicon}`}
                           width="100px"
                           height="100px"
                           alt="Add Favicon"
@@ -586,14 +584,14 @@ const EditSetting = () => {
                     <div>
                       {settingImg.logo ? (
                         <img
-                          src={URL.createObjectURL(settingImg.logo)}
+                          src={URL.createObjectURL(settingImg && settingImg.logo)}
                           width="100px"
                           height="100px"
                           alt="profile"
                         />
                       ) : (
                         <img
-                          src={`/assets/upload/setting/${generalData.logo}`}
+                          src={`/assets/upload/setting/${generalData && generalData.logo}`}
                           width="100px"
                           height="100px"
                           alt="Add Logo"
@@ -614,7 +612,7 @@ const EditSetting = () => {
                   className="modal_input"
                   placeholder="Enter Username"
                   onChange={handleChangeProduct}
-                  value={generalData.username}
+                  value={generalData && generalData.username}
                   required
                 />
               </div>
@@ -629,7 +627,7 @@ const EditSetting = () => {
                   className="modal_input"
                   placeholder="Enter Password"
                   onChange={handleChangeProduct}
-                  value={generalData.password}
+                  value={generalData && generalData.password}
                   required
                 />
               </div>
@@ -650,9 +648,8 @@ const EditSetting = () => {
           {/* social-media TAB */}
           <div
             id="social-media"
-            className={`tab-content add_data_form ${
-              activeTab === "social-media" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "social-media" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={addSocialData}>
               <div className="mb-3">
@@ -681,7 +678,7 @@ const EditSetting = () => {
                   className="modal_input"
                   placeholder="Enter Facebook"
                   onChange={handleChangeSocial}
-                  value={socialData.facebook}
+                  value={socialData && socialData.facebook}
                 />
               </div>
 
@@ -696,7 +693,7 @@ const EditSetting = () => {
                   className="modal_input"
                   placeholder="Enter Twiter"
                   onChange={handleChangeSocial}
-                  value={socialData.twiter}
+                  value={socialData && socialData.twiter}
                 />
               </div>
 
@@ -711,7 +708,7 @@ const EditSetting = () => {
                   className="modal_input"
                   placeholder="Enter Instagram"
                   onChange={handleChangeSocial}
-                  value={socialData.instagram}
+                  value={socialData && socialData.instagram}
                 />
               </div>
 
@@ -726,7 +723,7 @@ const EditSetting = () => {
                   className="modal_input"
                   placeholder="Enter Linkedin"
                   onChange={handleChangeSocial}
-                  value={socialData.linkedin}
+                  value={socialData && socialData.linkedin}
                 />
               </div>
 
@@ -746,9 +743,8 @@ const EditSetting = () => {
           {/* GLOBAL TAB */}
           <div
             id="global"
-            className={`tab-content add_data_form ${
-              activeTab === "global" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "global" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={addGlobalData}>
               <div className="mb-3">
@@ -764,7 +760,7 @@ const EditSetting = () => {
                   className="modal_input"
                   placeholder="Enter Global Header"
                   onChange={handleChangeGlobal}
-                  value={globalData.header}
+                  value={globalData && globalData.header}
                 />
               </div>
 
@@ -781,7 +777,7 @@ const EditSetting = () => {
                   className="modal_input"
                   placeholder="Enter Global Footer"
                   onChange={handleChangeGlobal}
-                  value={globalData.footer}
+                  value={globalData && globalData.footer}
                 />
               </div>
 
@@ -801,9 +797,8 @@ const EditSetting = () => {
           {/* SEO TAB */}
           <div
             id="seo"
-            className={`tab-content add_data_form ${
-              activeTab === "seo" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
+              }`}
           >
             <div className="sub-tabs-container">
               <div className="tabs">
@@ -815,34 +810,30 @@ const EditSetting = () => {
                     Home
                   </div>
                   <div
-                    className={`tab ${
-                      activeSubTab === "about" ? "active" : ""
-                    }`}
+                    className={`tab ${activeSubTab === "about" ? "active" : ""
+                      }`}
                     onClick={() => showSubTab("about")}
                   >
                     About
                   </div>
                   <div
-                    className={`tab ${
-                      activeSubTab === "product" ? "active" : ""
-                    }`}
+                    className={`tab ${activeSubTab === "product" ? "active" : ""
+                      }`}
                     onClick={() => showSubTab("product")}
                   >
                     Product
                   </div>
                   <div
-                    className={`tab ${
-                      activeSubTab === "gallery" ? "active" : ""
-                    }`}
+                    className={`tab ${activeSubTab === "gallery" ? "active" : ""
+                      }`}
                     onClick={() => showSubTab("gallery")}
                   >
                     Gallery
                   </div>
 
                   <div
-                    className={`tab ${
-                      activeSubTab === "carrer" ? "active" : ""
-                    }`}
+                    className={`tab ${activeSubTab === "carrer" ? "active" : ""
+                      }`}
                     onClick={() => showSubTab("carrer")}
                   >
                     Carrer
@@ -856,18 +847,16 @@ const EditSetting = () => {
                   </div>
 
                   <div
-                    className={`tab ${
-                      activeSubTab === "testimonial" ? "active" : ""
-                    }`}
+                    className={`tab ${activeSubTab === "testimonial" ? "active" : ""
+                      }`}
                     onClick={() => showSubTab("testimonial")}
                   >
                     Testimonial
                   </div>
 
                   <div
-                    className={`tab ${
-                      activeSubTab === "privacyPolicy" ? "active" : ""
-                    }`}
+                    className={`tab ${activeSubTab === "privacyPolicy" ? "active" : ""
+                      }`}
                     onClick={() => showSubTab("privacyPolicy")}
                   >
                     Privacy Policy
@@ -877,9 +866,8 @@ const EditSetting = () => {
               <form method="post" onSubmit={addSEOData}>
                 <div
                   id="home"
-                  className={`tab-content add_data_form ${
-                    activeSubTab === "home" ? "active" : ""
-                  }`}
+                  className={`tab-content add_data_form ${activeSubTab === "home" ? "active" : ""
+                    }`}
                 >
                   <div className="mb-3">
                     <label htmlFor="home_title" className="modal_label">
@@ -892,7 +880,7 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Home Title"
                       onChange={handleChangeSEO}
-                      value={seoData.home_title}
+                      value={seoData && seoData.home_title}
                     />
                   </div>
                   <div className="mb-3">
@@ -942,7 +930,7 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Home Description"
                       onChange={handleChangeSEO}
-                      value={seoData.home_desc}
+                      value={seoData && seoData.home_desc}
                     />
                   </div>
                   <div className="mb-3">
@@ -956,16 +944,15 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Home Canonical Url"
                       onChange={handleChangeSEO}
-                      value={seoData.home_canonical}
+                      value={seoData && seoData.home_canonical}
                     />
                   </div>
                 </div>
 
                 <div
                   id="about"
-                  className={`tab-content add_data_form ${
-                    activeSubTab === "about" ? "active" : ""
-                  }`}
+                  className={`tab-content add_data_form ${activeSubTab === "about" ? "active" : ""
+                    }`}
                 >
                   <div className="mb-3">
                     <label htmlFor="about_title" className="modal_label">
@@ -978,7 +965,7 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter About Title"
                       onChange={handleChangeSEO}
-                      value={seoData.about_title}
+                      value={seoData && seoData.about_title}
                     />
                   </div>
                   <div className="mb-3">
@@ -1028,7 +1015,7 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter about Description"
                       onChange={handleChangeSEO}
-                      value={seoData.about_desc}
+                      value={seoData && seoData.about_desc}
                     />
                   </div>
                   <div className="mb-3">
@@ -1042,16 +1029,15 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter about Canonical Url"
                       onChange={handleChangeSEO}
-                      value={seoData.about_canonical}
+                      value={seoData && seoData.about_canonical}
                     />
                   </div>
                 </div>
 
                 <div
                   id="product"
-                  className={`tab-content add_data_form ${
-                    activeSubTab === "product" ? "active" : ""
-                  }`}
+                  className={`tab-content add_data_form ${activeSubTab === "product" ? "active" : ""
+                    }`}
                 >
                   <div className="mb-3">
                     <label htmlFor="product_title" className="modal_label">
@@ -1064,7 +1050,7 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Product Title"
                       onChange={handleChangeSEO}
-                      value={seoData.product_title}
+                      value={seoData && seoData.product_title}
                     />
                   </div>
                   <div className="mb-3">
@@ -1114,7 +1100,7 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Product Description"
                       onChange={handleChangeSEO}
-                      value={seoData.product_desc}
+                      value={seoData && seoData.product_desc}
                     />
                   </div>
                   <div className="mb-3">
@@ -1128,16 +1114,15 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Product Canonical Url"
                       onChange={handleChangeSEO}
-                      value={seoData.product_canonical}
+                      value={seoData && seoData.product_canonical}
                     />
                   </div>
                 </div>
 
                 <div
                   id="gallery"
-                  className={`tab-content add_data_form ${
-                    activeSubTab === "gallery" ? "active" : ""
-                  }`}
+                  className={`tab-content add_data_form ${activeSubTab === "gallery" ? "active" : ""
+                    }`}
                 >
                   <div className="mb-3">
                     <label htmlFor="gallery_title" className="modal_label">
@@ -1150,7 +1135,7 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter gallery Title"
                       onChange={handleChangeSEO}
-                      value={seoData.gallery_title}
+                      value={seoData && seoData.gallery_title}
                     />
                   </div>
                   <div className="mb-3">
@@ -1200,7 +1185,7 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter gallery Description"
                       onChange={handleChangeSEO}
-                      value={seoData.gallery_desc}
+                      value={seoData && seoData.gallery_desc}
                     />
                   </div>
                   <div className="mb-3">
@@ -1214,16 +1199,15 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter gallery Canonical Url"
                       onChange={handleChangeSEO}
-                      value={seoData.gallery_canonical}
+                      value={seoData && seoData.gallery_canonical}
                     />
                   </div>
                 </div>
 
                 <div
                   id="carrer"
-                  className={`tab-content add_data_form ${
-                    activeSubTab === "carrer" ? "active" : ""
-                  }`}
+                  className={`tab-content add_data_form ${activeSubTab === "carrer" ? "active" : ""
+                    }`}
                 >
                   <div className="mb-3">
                     <label htmlFor="carrer_title" className="modal_label">
@@ -1236,7 +1220,7 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Carrer Title"
                       onChange={handleChangeSEO}
-                      value={seoData.carrer_title}
+                      value={seoData && seoData.carrer_title}
                     />
                   </div>
                   <div className="mb-3">
@@ -1286,7 +1270,7 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Carrer Description"
                       onChange={handleChangeSEO}
-                      value={seoData.carrer_desc}
+                      value={seoData && seoData.carrer_desc}
                     />
                   </div>
                   <div className="mb-3">
@@ -1300,16 +1284,15 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Carrer Canonical Url"
                       onChange={handleChangeSEO}
-                      value={seoData.carrer_canonical}
+                      value={seoData && seoData.carrer_canonical}
                     />
                   </div>
                 </div>
 
                 <div
                   id="blog"
-                  className={`tab-content add_data_form ${
-                    activeSubTab === "blog" ? "active" : ""
-                  }`}
+                  className={`tab-content add_data_form ${activeSubTab === "blog" ? "active" : ""
+                    }`}
                 >
                   <div className="mb-3">
                     <label htmlFor="blog_title" className="modal_label">
@@ -1322,7 +1305,7 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Blog Title"
                       onChange={handleChangeSEO}
-                      value={seoData.blog_title}
+                      value={seoData && seoData.blog_title}
                     />
                   </div>
                   <div className="mb-3">
@@ -1372,7 +1355,7 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Blog Description"
                       onChange={handleChangeSEO}
-                      value={seoData.blog_desc}
+                      value={seoData && seoData.blog_desc}
                     />
                   </div>
                   <div className="mb-3">
@@ -1386,16 +1369,15 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Blog Canonical Url"
                       onChange={handleChangeSEO}
-                      value={seoData.blog_canonical}
+                      value={seoData && seoData.blog_canonical}
                     />
                   </div>
                 </div>
 
                 <div
                   id="testimonial"
-                  className={`tab-content add_data_form ${
-                    activeSubTab === "testimonial" ? "active" : ""
-                  }`}
+                  className={`tab-content add_data_form ${activeSubTab === "testimonial" ? "active" : ""
+                    }`}
                 >
                   <div className="mb-3">
                     <label htmlFor="testimonial_title" className="modal_label">
@@ -1408,7 +1390,7 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Testimonial Title"
                       onChange={handleChangeSEO}
-                      value={seoData.testimonial_title}
+                      value={seoData && seoData.testimonial_title}
                     />
                   </div>
                   <div className="mb-3">
@@ -1461,7 +1443,7 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Testimonial Description"
                       onChange={handleChangeSEO}
-                      value={seoData.testimonial_desc}
+                      value={seoData && seoData.testimonial_desc}
                     />
                   </div>
                   <div className="mb-3">
@@ -1478,16 +1460,15 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Testimonial Canonical Url"
                       onChange={handleChangeSEO}
-                      value={seoData.testimonial_canonical}
+                      value={seoData && seoData.testimonial_canonical}
                     />
                   </div>
                 </div>
 
                 <div
                   id="privacyPolicy"
-                  className={`tab-content add_data_form ${
-                    activeSubTab === "privacyPolicy" ? "active" : ""
-                  }`}
+                  className={`tab-content add_data_form ${activeSubTab === "privacyPolicy" ? "active" : ""
+                    }`}
                 >
                   <div className="mb-3">
                     <label htmlFor="privacy_title" className="modal_label">
@@ -1500,7 +1481,7 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Privacy Title"
                       onChange={handleChangeSEO}
-                      value={seoData.privacy_title}
+                      value={seoData && seoData.privacy_title}
                     />
                   </div>
                   <div className="mb-3">
@@ -1550,7 +1531,7 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Privacy Description"
                       onChange={handleChangeSEO}
-                      value={seoData.privacy_desc}
+                      value={seoData && seoData.privacy_desc}
                     />
                   </div>
                   <div className="mb-3">
@@ -1564,7 +1545,7 @@ const EditSetting = () => {
                       className="modal_input"
                       placeholder="Enter Privacy Canonical Url"
                       onChange={handleChangeSEO}
-                      value={seoData.privacy_canonical}
+                      value={seoData && seoData.privacy_canonical}
                     />
                   </div>
                 </div>

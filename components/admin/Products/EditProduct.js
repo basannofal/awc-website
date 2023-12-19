@@ -128,11 +128,15 @@ const EditProduct = () => {
         deleteProductImg(productImgId);
       } else if (deleteopt == "docs") {
         deleteProductdocs(productImgId);
+
       } else if (deleteopt == "video") {
         deleteProductVideos(productImgId);
       } else if (deleteopt == "certificate") {
         deleteProductcertificate(productImgId);
       } else if (deleteopt == "certificate") {
+        deleteProductcertificate(productImgId);
+      }
+      else if (deleteopt == "certificate") {
         deleteProductcertificate(productImgId);
       }
       closeDeleteModal();
@@ -547,6 +551,7 @@ const EditProduct = () => {
       certificate_link: data.certificate_link,
     });
   };
+
 
   const handlePerCertificateFileData = (event) => {
     const file = event.target.files[0];
@@ -2238,9 +2243,8 @@ const EditProduct = () => {
           {/* Certificate Tabs */}
           <div
             id="docs"
-            className={`tab-content add_data_form ${
-              activeTab === "certificate" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "certificate" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={saveMultipleCertificate}>
               <div className="mb-3">
@@ -2262,7 +2266,7 @@ const EditProduct = () => {
                 style={{ display: "flex", flexWrap: "wrap" }}
               >
                 {addMultiCertificate.product_certificate &&
-                addMultiCertificate.product_certificate.length > 0 ? (
+                  addMultiCertificate.product_certificate.length > 0 ? (
                   <table className="multi-images-table">
                     <thead>
                       <tr>
@@ -2272,42 +2276,40 @@ const EditProduct = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {addMultiCertificate.product_certificate.map(
-                        (image, index) => (
-                          <tr key={index}>
-                            <td>
-                              <img
-                                src={"/assets/images/pdf-icon.webp"}
-                                alt={`Selected productimg ${index + 1}`}
-                              />
-                            </td>
-                            <td>
-                              <input
-                                type="text"
-                                id={`certificate_title-${index}`}
-                                name="certificate_title"
-                                placeholder="certificate Title"
-                                onChange={(e) =>
-                                  handleCertificateDetailsChange(
-                                    index,
-                                    "certificate_title",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </td>
-                            <td>
-                              <button
-                                type="button"
-                                className="remove_multi_img_btn"
-                                onClick={() => removeMultiCertificate(index)}
-                              >
-                                <i className="fa-solid fa-xmark"></i>
-                              </button>
-                            </td>
-                          </tr>
-                        )
-                      )}
+                      {addMultiCertificate.product_certificate.map((image, index) => (
+                        <tr key={index}>
+                          <td>
+                            <img
+                              src={"/assets/images/pdf-icon.webp"}
+                              alt={`Selected productimg ${index + 1}`}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              id={`certificate_title-${index}`}
+                              name="certificate_title"
+                              placeholder="certificate Title"
+                              onChange={(e) =>
+                                handleCertificateDetailsChange(
+                                  index,
+                                  "certificate_title",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </td>
+                          <td>
+                            <button
+                              type="button"
+                              className="remove_multi_img_btn"
+                              onClick={() => removeMultiCertificate(index)}
+                            >
+                              <i className="fa-solid fa-xmark"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 ) : (
@@ -2434,7 +2436,7 @@ const EditProduct = () => {
                         <td>
                           {product.status === 1 ? (
                             <img
-                              src="/assets/images/activeStatus.png"
+                              src='/assets/images/activeStatus.png'
                               alt="active"
                               className="status_btn"
                               onClick={() =>
@@ -2446,7 +2448,7 @@ const EditProduct = () => {
                             />
                           ) : (
                             <img
-                              src="/assets/images/inActiveStatus.png"
+                              src='/assets/images/inActiveStatus.png'
                               alt="inActive"
                               className="status_btn"
                               onClick={() =>
