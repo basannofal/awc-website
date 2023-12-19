@@ -460,9 +460,13 @@ const AddProduct = () => {
 
   //META KEYWORD HANDLER
   const handleKeyword = (event) => {
-    const value = event.target.value.trim();
-    if (value && (event.key === "Enter" || event.key === ",")) {
+    if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
+      const value = event.target.value.trim();
+      if (value === "") {
+        ErrorToast("Please Write Keyword");
+        return;
+      }
       setAddMetaKeyword([...addMetaKeyword, value]);
       event.target.value = "";
     }
@@ -476,9 +480,13 @@ const AddProduct = () => {
 
   //META TAG HANDERS
   const handleTags = (event) => {
-    const value = event.target.value.trim();
-    if (value && (event.key === "Enter" || event.key === ",")) {
+    if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
+      const value = event.target.value.trim();
+      if (value == "") {
+        ErrorToast("Please Write Tag");
+        return;
+      }
       setAddMetaTag([...addMetaTag, value]);
       event.target.value = "";
     }

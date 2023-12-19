@@ -157,8 +157,12 @@ const AddProdCategory = () => {
 
   // add meta keyword
   const handleKeyword = (event) => {
-    if (event.key === "Enter" || event.key == ",") {
+    if ((event.key === "Enter" || event.key == ",")) {
       event.preventDefault();
+      if( event.target.value.trim() === ''){
+        ErrorToast("Please Write Keyword")
+        return
+      }
       setAddMetaKeyword([...addMetaKeyword, event.target.value.trim()]);
       event.target.value = "";
     }
@@ -173,6 +177,10 @@ const AddProdCategory = () => {
   const handleTags = (event) => {
     if (event.key === "Enter" || event.key == ",") {
       event.preventDefault();
+      if( event.target.value.trim() === ''){
+        ErrorToast("Please Write Tag")
+        return
+      }
       setAddMetaTag([...addMetaTag, event.target.value.trim()]);
       event.target.value = "";
     }

@@ -41,6 +41,10 @@ const AddBlogCategory = () => {
     if (event.key === "Enter" || event.key === ",") {
       // Add the entered keyword to the keywords array
       event.preventDefault();
+      if( event.target.value.trim() === ''){
+        ErrorToast("Please Write Tag")
+        return
+      }
       setAddMetaTag([...addMetaTag, event.target.value]);
       // Clear the input field
       event.target.value = "";
@@ -56,6 +60,10 @@ const AddBlogCategory = () => {
     if (event.key === "Enter" || event.key === ",") {
       // Add the entered keyword to the keywords array
       event.preventDefault();
+      if( event.target.value.trim() === ''){
+        ErrorToast("Please Write Keyword")
+        return
+      }
       setAddMetaKeyword([...addMetaKeyword, event.target.value]);
       // Clear the input field
       event.target.value = "";
