@@ -1,34 +1,43 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import $ from "jquery";
 import Link from "next/link";
 
 const Navbar = () => {
-  useEffect(() => {
-    $(function () {
-      $("#navbar-toggle").click(function () {
-        $("nav ul").slideToggle();
-      });
+  const [isOpen, setIsOpen] = useState(false);
+  const [isDropdown, setIsDropdown] = useState(false);
 
-      // Hamburger toggle
-      $("#navbar-toggle").on("click", function () {
-        this.classList.toggle("active");
-      });
+  const handleToggle = (e) => {
+    const navToggle = $("#navbar-toggle");
+    const dropdown = $(e.target).siblings(".navbar-dropdown");
 
-      // If a link has a dropdown, add sub menu toggle.
-      $("nav ul li a:not(:only-child)").click(function (e) {
-        $(this).siblings(".navbar-dropdown").slideToggle("slow");
+    setIsOpen(!isOpen);
 
-        // Close dropdown when selecting another dropdown
-        $(".navbar-dropdown").not($(this).siblings()).hide("slow");
-        e.stopPropagation();
-      });
+    // Toggle the "active" class on the #navbar-toggle element
+    navToggle.toggleClass("active");
 
-      // Click outside the dropdown will remove the dropdown class
-      $("html").click(function () {
-        $(".navbar-dropdown").hide();
-      });
-    });
-  }, []);
+    // Toggle the navigation visibility
+    const nav = $("nav ul");
+    if (!isOpen) {
+      nav.slideDown();
+      dropdown.hide("slow");
+    } else {
+      nav.slideUp();
+    }
+
+    e.stopPropagation(); // Add this line to stop the event propagation
+  };
+
+  const handleDropdown = (e) => {
+    setIsDropdown(!isDropdown);
+    const dropdown = $(e.target).siblings(".navbar-dropdown");
+    if (!isDropdown) {
+      dropdown.slideToggle("slow");
+    } else {
+      dropdown.hide("slow");
+    }
+    e.stopPropagation(); // Add this line to stop the event propagation
+  };
+
   return (
     <>
       <header className="header">
@@ -158,7 +167,11 @@ const Navbar = () => {
                   <div className="nav-container">
                     <nav>
                       <div className="nav-mobile">
-                        <Link id="navbar-toggle" href="/">
+                        <Link
+                          id="navbar-toggle"
+                          href="/"
+                          onClick={handleToggle}
+                        >
                           <span></span>
                         </Link>
                       </div>
@@ -170,7 +183,12 @@ const Navbar = () => {
                           <Link href="/about">About Us</Link>
                         </li>
                         <li>
-                          <Link href="javascript:void(0);">Products</Link>
+                          <Link
+                            href="javascript:void(0);"
+                            onClick={handleDropdown}
+                          >
+                            Products
+                          </Link>
                           <ul className="navbar-dropdown">
                             <li>
                               <Link href="/roof-product">

@@ -109,13 +109,13 @@ const AllSetting = () => {
               <label htmlFor="Email" className="modal_label_setting">
                 Email:-
               </label>
-              <p className="mt-1">{userData && userData.email}</p>
+              <p className="setting_data">{userData && userData.email}</p>
             </div>
             <div className="mb-3">
               <label htmlFor="number" className="modal_label_setting">
                 Contact Number:-
               </label>
-              <p className="mt-1">{userData && userData.number}</p>
+              <p className="setting_data">{userData && userData.number}</p>
             </div>
             <div style={{ paddingBottom: "1rem", borderBottom: "1px solid rgb(209, 201, 201)" }} className="mb-3">
               <label htmlFor="preview" className="modal_label_setting">
@@ -127,7 +127,7 @@ const AllSetting = () => {
                   width="100px"
                   height="100px"
                   alt="Add Favicon"
-                  className="mt-1"
+                  className="setting_data"
                 />
               </div>
             </div>
@@ -141,7 +141,7 @@ const AllSetting = () => {
                   width="100px"
                   height="100px"
                   alt="Add Favicon"
-                  className="mt-1"
+                  className="setting_data"
                 />
               </div>
             </div>
@@ -149,7 +149,7 @@ const AllSetting = () => {
               <label htmlFor="password" className="modal_label_setting">
                 Password:-
               </label>
-              <p className="mt-1">{userData && userData.password}</p>
+              <p className="setting_data">{userData && userData.password}</p>
             </div>
           </div>
           <div
@@ -161,31 +161,31 @@ const AllSetting = () => {
               <label htmlFor="whatsapp" className="modal_label_setting">
                 Whatsapp:-
               </label>
-              <p className="mt-1">{settingData && settingData.whatsapp_link}</p>
+              <p className="setting_data">{settingData && settingData.whatsapp_link}</p>
             </div>
             <div className="mb-3">
               <label htmlFor="facebook" className="modal_label_setting">
                 Facebook:-
               </label>
-              <p className="mt-1">{settingData && settingData.facebook_link}</p>
+              <p className="setting_data">{settingData && settingData.facebook_link}</p>
             </div>
             <div className="mb-3">
               <label htmlFor="twiter" className="modal_label_setting">
                 Twiter:-
               </label>
-              <p className="mt-1">{settingData && settingData.twiter_link}</p>
+              <p className="setting_data">{settingData && settingData.twiter_link}</p>
             </div>
             <div className="mb-3">
               <label htmlFor="instagram" className="modal_label_setting">
                 Instagram:-
               </label>
-              <p className="mt-1">{settingData && settingData.instagram_link}</p>
+              <p className="setting_data">{settingData && settingData.instagram_link}</p>
             </div>
             <div className="mb-3">
               <label htmlFor="linkdin" className="modal_label_setting">
                 Linkedin:-
               </label>
-              <p className="mt-1">{settingData && settingData.linkedin_link}</p>
+              <p className="setting_data">{settingData && settingData.linkedin_link}</p>
             </div>
           </div>
 

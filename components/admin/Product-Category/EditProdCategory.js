@@ -391,7 +391,7 @@ const EditProdCategory = () => {
                 >
                   SAVE
                 </button>
-                <Link href="/admin/products-category">
+                <Link href="/admin/product-category">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
                   </button>
