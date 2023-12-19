@@ -493,7 +493,7 @@ form .modal_input:focus {
 .data_delete_btn {
   background-color: rgb(199, 11, 42);
   color: white;
-  padding: 7px 10px;
+  padding: 4px 10px 20px 10px;
   border-radius: 4px;
   cursor: pointer;
   margin-left: 10px;
@@ -522,7 +522,6 @@ form .modal_input:focus {
   position: absolute;
   right: 30px;
   top: 15px;
-  font-size: 1.5rem;
   color: #999;
   background: transparent;
 }
@@ -572,8 +571,8 @@ form .modal_input:focus {
 /* table operation */
 .editbutton {
   background-color: #b5bbfe;
-  padding: 7px 10px;
-  border-radius: 4px 0px 0px 4px;
+  padding: 4px 10px 20px 10px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
@@ -968,10 +967,6 @@ select::after {
 
 .delete-button {
   margin-right: 1rem;
-}
-
-.fa-solid {
-  font-size: 0.7109375rem;
 }
 /* Media query for screens with a width of 600 pixels or less */
 @media (max-width: 600px) {
