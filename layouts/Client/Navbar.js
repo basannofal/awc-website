@@ -5,11 +5,12 @@ import Link from "next/link";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDropdown, setIsDropdown] = useState(false);
+  const [isDropdown, setIsDropdown] = useState(true);
 
   const handleToggle = (e) => {
     const navToggle = $("#navbar-toggle");
-    const dropdown = $(e.target).siblings(".navbar-dropdown");
+    const dropdown = $(".navbar-dropdown");
+
 
     setIsOpen(!isOpen);
 
@@ -20,18 +21,19 @@ const Navbar = () => {
     const nav = $("nav ul");
     if (!isOpen) {
       nav.slideDown();
-      dropdown.hide("slow");
+      dropdown.slideUp();
     } else {
       nav.slideUp();
+      dropdown.slideDown();
     }
 
     e.stopPropagation(); // Add this line to stop the event propagation
   };
 
   const handleDropdown = (e) => {
-    setIsDropdown(!isDropdown);
+    setIsDropdown(isDropdown);
     const dropdown = $(e.target).siblings(".navbar-dropdown");
-    if (!isDropdown) {
+    if (isDropdown) {
       dropdown.slideToggle("slow");
     } else {
       dropdown.hide("slow");
@@ -39,32 +41,6 @@ const Navbar = () => {
     e.stopPropagation(); // Add this line to stop the event propagation
   };
 
-  useEffect(() => {
-    $(function () {
-      $("#navbar-toggle").click(function () {
-        $("nav ul").slideToggle();
-      });
-
-      // Hamburger toggle
-      $("#navbar-toggle").on("click", function () {
-        this.classList.toggle("active");
-      });
-
-      // If a link has a dropdown, add sub menu toggle.
-      $("nav ul li a:not(:only-child)").click(function (e) {
-        $(this).siblings(".navbar-dropdown").slideToggle("slow");
-
-        // Close dropdown when selecting another dropdown
-        $(".navbar-dropdown").not($(this).siblings()).hide("slow");
-        e.stopPropagation();
-      });
-
-      // Click outside the dropdown will remove the dropdown class
-      $("html").click(function () {
-        $(".navbar-dropdown").hide();
-      });
-    });
-  }, []);
   return (
     <>
       <header className="header">
@@ -216,6 +192,7 @@ const Navbar = () => {
                           >
                             Products
                           </Link>
+
                           <Link href="javascript:void(0);">Products</Link>
                           <ul className="navbar-dropdown">
                             <li>
