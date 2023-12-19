@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import $ from "jquery";
 import Link from "next/link";
@@ -38,6 +39,32 @@ const Navbar = () => {
     e.stopPropagation(); // Add this line to stop the event propagation
   };
 
+  useEffect(() => {
+    $(function () {
+      $("#navbar-toggle").click(function () {
+        $("nav ul").slideToggle();
+      });
+
+      // Hamburger toggle
+      $("#navbar-toggle").on("click", function () {
+        this.classList.toggle("active");
+      });
+
+      // If a link has a dropdown, add sub menu toggle.
+      $("nav ul li a:not(:only-child)").click(function (e) {
+        $(this).siblings(".navbar-dropdown").slideToggle("slow");
+
+        // Close dropdown when selecting another dropdown
+        $(".navbar-dropdown").not($(this).siblings()).hide("slow");
+        e.stopPropagation();
+      });
+
+      // Click outside the dropdown will remove the dropdown class
+      $("html").click(function () {
+        $(".navbar-dropdown").hide();
+      });
+    });
+  }, []);
   return (
     <>
       <header className="header">
@@ -189,6 +216,7 @@ const Navbar = () => {
                           >
                             Products
                           </Link>
+                          <Link href="javascript:void(0);">Products</Link>
                           <ul className="navbar-dropdown">
                             <li>
                               <Link href="/roof-product">

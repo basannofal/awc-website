@@ -27,7 +27,7 @@ export default async function handler(req, res) {
             .json({ message: "Please Upload Category Icon." });
         }
         //check! is this image ?
-        const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
+        const allowedImageExtensions = [".jpg", ".jpeg", ".png", ".webp"];
         const CategoryImgExtension = path
           .extname(files.category_image[0].originalFilename)
           .toLowerCase();

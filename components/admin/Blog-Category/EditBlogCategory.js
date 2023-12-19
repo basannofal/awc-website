@@ -272,7 +272,7 @@ const EditBlogCategory = () => {
                   name="category_image"
                   onChange={handleEditFileChange}
                   className="modal_input mb-3"
-                  accept="image/png, image/jpeg, image/jpg"
+                  accept="image/*"
                 />
                 {selectedImage ? (
                   <img
@@ -309,7 +309,7 @@ const EditBlogCategory = () => {
                   name="category_icon"
                   className="modal_input mb-3"
                   onChange={handleEditFileChange}
-                  accept="image/png, image/jpeg, image/jpg"
+                  accept="image/*"
                 />
                 {selectedIcon ? (
                   <img

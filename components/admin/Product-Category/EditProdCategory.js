@@ -90,13 +90,13 @@ const EditProdCategory = () => {
     const file = event.target.files[0];
 
     // Check if the file has a valid extension
-    const validExtensions = ["jpg", "jpeg", "png"];
+    const validExtensions = ["jpg", "jpeg", "png", "webp"];
     const fileExtension = file.name.split(".").pop().toLowerCase();
 
     if (!validExtensions.includes(fileExtension)) {
       // Reset the input value to clear the invalid file
       event.target.value = "";
-      WarningToast("Please add the JPG, JPEG & PNG format file");
+      WarningToast("Please add the JPG, JPEG, PNG & WEBP format file");
       return;
     }
 
@@ -326,7 +326,7 @@ const EditProdCategory = () => {
                   id="category_image"
                   name="category_image"
                   className="modal_input"
-                  accept="image/png, image/jpeg, image/jpg"
+                  accept="image/*"
                   onChange={handleEditFileChange}
                 />
               </div>

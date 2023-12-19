@@ -150,7 +150,7 @@ const AllSetting = () => {
                 Password:-
               </label>
               <p className="setting_data">{userData && userData.password}</p>
-            </div>
+            </div>  
           </div>
           <div
             id="social-media"
@@ -168,6 +168,7 @@ const AllSetting = () => {
                 Facebook:-
               </label>
               <p className="setting_data">{settingData && settingData.facebook_link}</p>
+        
             </div>
             <div className="mb-3">
               <label htmlFor="twiter" className="modal_label_setting">
