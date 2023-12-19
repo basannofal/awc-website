@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import $ from "jquery";
 import Link from "next/link";
 
@@ -9,6 +10,7 @@ const Navbar = () => {
   const handleToggle = (e) => {
     const navToggle = $("#navbar-toggle");
     const dropdown = $(".navbar-dropdown");
+
 
     setIsOpen(!isOpen);
 
@@ -190,6 +192,8 @@ const Navbar = () => {
                           >
                             Products
                           </Link>
+
+                          <Link href="javascript:void(0);">Products</Link>
                           <ul className="navbar-dropdown">
                             <li>
                               <Link href="/roof-product">

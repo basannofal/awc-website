@@ -52,10 +52,11 @@ const EditProdCategory = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/productcategory/${id}`
       );
       setEditProductCategoryData(response.data[0]);
+      console.log(response.data[0]);
       const keyString = response.data[0].meta_keyword;
-      setEditMetaKeyword(keyString.split(","));
+      setEditMetaKeyword(keyString.trim() !== "" ? keyString.split(",") : []);
       const tagString = response.data[0].meta_tag;
-      setEditMetaTag(tagString.split(","));
+      setEditMetaTag(tagString.trim() !== "" ? tagString.split(",") : []);
       setLoading(false);
     } catch (err) {
       ErrorToast(err?.response?.data?.message);
@@ -90,13 +91,13 @@ const EditProdCategory = () => {
     const file = event.target.files[0];
 
     // Check if the file has a valid extension
-    const validExtensions = ["jpg", "jpeg", "png"];
+    const validExtensions = ["jpg", "jpeg", "png", "webp"];
     const fileExtension = file.name.split(".").pop().toLowerCase();
 
     if (!validExtensions.includes(fileExtension)) {
       // Reset the input value to clear the invalid file
       event.target.value = "";
-      WarningToast("Please add the JPG, JPEG & PNG format file");
+      WarningToast("Please add the JPG, JPEG, PNG & WEBP format file");
       return;
     }
 
@@ -107,14 +108,9 @@ const EditProdCategory = () => {
     setSelectedImage(file);
   };
 
-
-
-  //for validation 
+  //for validation
   const validateForm = () => {
-    const requiredFields = [
-      "category_name",
-      "category_image",
-    ];
+    const requiredFields = ["category_name", "category_image"];
     for (const field of requiredFields) {
       if (!editProductCategoryData[field]) {
         if (field == "category_name") {
@@ -181,6 +177,8 @@ const EditProdCategory = () => {
       if (newKeyword) {
         setEditMetaKeyword([...editMetaKeyword, newKeyword]);
         event.target.value = "";
+      } else {
+        ErrorToast("Please Write Keyword");
       }
     }
   };
@@ -198,6 +196,8 @@ const EditProdCategory = () => {
       if (newTag) {
         setEditMetaTag([...editMetaTag, newTag]);
         event.target.value = "";
+      } else {
+        ErrorToast("Please Write Tag");
       }
     }
   };
@@ -245,8 +245,9 @@ const EditProdCategory = () => {
           </div>
           <div
             id="general"
-            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "general" ? "active" : ""
+            }`}
           >
             <form>
               <div className="mb-3">
@@ -326,7 +327,7 @@ const EditProdCategory = () => {
                   id="category_image"
                   name="category_image"
                   className="modal_input"
-                  accept="image/png, image/jpeg, image/jpg"
+                  accept="image/*"
                   onChange={handleEditFileChange}
                 />
               </div>
@@ -361,7 +362,6 @@ const EditProdCategory = () => {
                 >
                   <option value={0}>Choose Sub Category</option>
                   {getActiveCateData.map((cate) => {
-
                     if (
                       cate.category_id != cateId &&
                       cate.sub_category != cateId
@@ -391,7 +391,7 @@ const EditProdCategory = () => {
                 >
                   SAVE
                 </button>
-                <Link href="/admin/products-category">
+                <Link href="/admin/product-category">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
                   </button>
@@ -401,8 +401,9 @@ const EditProdCategory = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "seo" ? "active" : ""
+            }`}
           >
             <form>
               <div className="mb-3">

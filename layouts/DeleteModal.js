@@ -30,6 +30,7 @@ const DeleteModal = ({ isOpen, onClose, onDelete, itemType, itemId }) => {
           </p>
           <p>
             Enter the <b>{expectedCode}</b> for delete this item {itemType}
+
           </p>
           <div>
             <input

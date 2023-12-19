@@ -133,6 +133,8 @@ const EditProduct = () => {
         deleteProductVideos(productImgId);
       } else if (deleteopt == "certificate") {
         deleteProductcertificate(productImgId);
+      } else if (deleteopt == "certificate") {
+        deleteProductcertificate(productImgId);
       }
       else if (deleteopt == "certificate") {
         deleteProductcertificate(productImgId);
@@ -164,9 +166,9 @@ const EditProduct = () => {
       );
       setEditProductData(response.data[0]);
       const keyString = response.data[0].meta_keyword;
-      setEditMetaKeyword(keyString.split(","));
+      setEditMetaKeyword(keyString.trim() !== "" ? keyString.split(",") : []);
       const tagString = response.data[0].meta_tag;
-      setEditMetaTag(tagString.split(","));
+      setEditMetaTag(tagString.trim() !== "" ? tagString.split(",") : []);
       setLoading(false);
     } catch (err) {
       ErrorToast(err?.response?.data?.message);
@@ -208,13 +210,13 @@ const EditProduct = () => {
     const file = event.target.files[0];
 
     // Check if the file has a valid extension
-    const validExtensions = ["jpg", "jpeg", "png"];
+    const validExtensions = ["jpg", "jpeg", "png", "webp"];
     const fileExtension = file.name.split(".").pop().toLowerCase();
 
     if (!validExtensions.includes(fileExtension)) {
       // Reset the input value to clear the invalid file
       event.target.value = "";
-      WarningToast("Please add the JPG, JPEG & PNG format file");
+      WarningToast("Please add the JPG, JPEG, PNG & JPEG format file");
       return;
     }
 
@@ -225,8 +227,7 @@ const EditProduct = () => {
     setSelectedImage(file);
   };
   const saveEditProductData = async (e) => {
-
-    e.preventDefault()
+    e.preventDefault();
     if (editProductData.product_title === "") {
       ErrorToast("Please Enter the Product Title");
       return false;
@@ -271,6 +272,10 @@ const EditProduct = () => {
   const handleKeyword = (event) => {
     if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
+      if (event.target.value.trim() === "") {
+        ErrorToast("Please Write Keyword");
+        return;
+      }
       setEditMetaKeyword([...editMetaKeyword, event.target.value]);
       event.target.value = "";
     }
@@ -285,6 +290,10 @@ const EditProduct = () => {
   const handleTags = (event) => {
     if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
+      if( event.target.value.trim() === ''){
+        ErrorToast("Please Write Tag")
+        return
+      }
       setEditMetaTag([...editMetaTag, event.target.value.trim()]);
       event.target.value = "";
     }
@@ -483,8 +492,8 @@ const EditProduct = () => {
     window.scrollTo({ behavior: "smooth", top: 0 });
 
     if (addMultiCertificate.product_certificate.length == 0) {
-      ErrorToast('please atleast one Certificate select');
-      return false
+      ErrorToast("please atleast one Certificate select");
+      return false;
     }
     setLoading(true);
     try {
@@ -876,6 +885,21 @@ const EditProduct = () => {
   };
   const handleVedioFileChange = (event) => {
     const file = event.target.files[0];
+    // Check if a file is selected
+    if (!file) {
+      return;
+    }
+
+    // Check if the file has a valid extension
+    const validExtensions = ["jpg", "jpeg", "png", "webp"];
+    const fileExtension = file.name.split(".").pop().toLowerCase();
+
+    if (!validExtensions.includes(fileExtension)) {
+      // Reset the input value to clear the invalid file
+      event.target.value = "";
+      WarningToast("Please add the JPG, JPEG, PNG & WEBP format file");
+      return;
+    }
     setAddProductVedio((prevProfileData) => ({
       ...prevProfileData,
       [event.target.name]: file,
@@ -1146,7 +1170,7 @@ const EditProduct = () => {
                   id="product_image"
                   name="product_image"
                   className="modal_input"
-                  accept="image/png, image/jpeg, image/jpg"
+                  accept="image/*"
                   onChange={handleEditFileChange}
                 />
               </div>
@@ -1338,7 +1362,7 @@ const EditProduct = () => {
                   id="product_images"
                   name="product_images"
                   className="modal_input"
-                  accept="image/png, image/jpeg, image/jpg"
+                  accept="image/*"
                   onChange={handleAddMultipleImagesChange}
                   multiple
                 />
@@ -1935,7 +1959,7 @@ const EditProduct = () => {
                       id="vedio_thumbnail"
                       name="vedio_thumbnail"
                       className="modal_input"
-                      accept="image/png, image/jpeg, image/jpg"
+                      accept="image/*"
                       onChange={handleVedioFileChange}
                       required
                     />

@@ -1,5 +1,5 @@
-import React from "react";
 import Navbar from "@/layouts/Client/Navbar";
+import React from "react";
 import HeroSection from "./HeroSection";
 import Products from "./Products";
 import Contact from "./Contact";

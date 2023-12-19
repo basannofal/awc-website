@@ -6,6 +6,7 @@ import axios from "axios";
 import Toast, { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
 import Loading from "@/layouts/Loading";
 import DeleteModal from "@/layouts/DeleteModal";
+import YouTube from "react-youtube";
 import ViewModal from "../ViewModal";
 
 const Testimonials = () => {
@@ -216,6 +217,10 @@ const Testimonials = () => {
                         src={`/assets/upload/testimonial/${testimonial.testimonial_image}`}
                         alt="testimonial"
                         className="table_data_image"
+                        style={{
+                          margin: "auto",
+                          borderRadius: "100%",
+                        }}
                       />
                     </td>
 
@@ -238,7 +243,7 @@ const Testimonials = () => {
                     <td>
                       <span>
                         <button
-                          className="editbutton"
+                          className="operation_btn_edv"
                           onClick={() => {
                             handleEditTestimonial(testimonial.id);
                           }}
@@ -246,13 +251,13 @@ const Testimonials = () => {
                           <i className="fa-regular fa-pen-to-square"></i>
                         </button>
                         <button
-                          className="data_delete_btn"
+                          className="operation_btn_edv"
                           onClick={() => openDeleteModal(testimonial.id)}
                         >
                           <i className="fa-solid fa-trash"></i>
                         </button>
                         <button
-                          className="editbutton"
+                          className="operation_btn_edv"
                           onClick={() => openViewModal(testimonial)}
                         >
                           <i class="fa-solid fa-eye"></i>

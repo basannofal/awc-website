@@ -39,9 +39,9 @@ const EditBlogCategory = () => {
       .then((res) => {
         setEditBlogCategoryData(res.data[0]);
         const keyString = res.data[0].meta_keyword;
-        setEditMetaKeyword(keyString.split(","));
+        setEditMetaKeyword(keyString.trim() !== "" ? keyString.split(",") : []);
         const tagString = res.data[0].meta_tag;
-        setEditMetaTag(tagString.split(","));
+        setEditMetaTag(tagString.trim() !== "" ? tagString.split(",") : []);
         setLoading(false);
       })
       .catch((err) => {
@@ -141,6 +141,10 @@ const EditBlogCategory = () => {
   const handleKeyword = (event) => {
     if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
+      if( event.target.value.trim() === ''){
+        ErrorToast("Please Write Keyword")
+        return
+      }
       setEditMetaKeyword([...editMetaKeyword, event.target.value]);
       event.target.value = "";
     }
@@ -155,6 +159,10 @@ const EditBlogCategory = () => {
   const handleTags = (event) => {
     if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
+      if( event.target.value.trim() === ''){
+        ErrorToast("Please Write Tag")
+        return
+      }
       setEditMetaTag([...editMetaTag, event.target.value.trim()]);
       event.target.value = "";
     }
@@ -272,7 +280,7 @@ const EditBlogCategory = () => {
                   name="category_image"
                   onChange={handleEditFileChange}
                   className="modal_input mb-3"
-                  accept="image/png, image/jpeg, image/jpg"
+                  accept="image/*"
                 />
                 {selectedImage ? (
                   <img
@@ -309,7 +317,7 @@ const EditBlogCategory = () => {
                   name="category_icon"
                   className="modal_input mb-3"
                   onChange={handleEditFileChange}
-                  accept="image/png, image/jpeg, image/jpg"
+                  accept="image/*"
                 />
                 {selectedIcon ? (
                   <img

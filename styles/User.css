@@ -289,6 +289,21 @@ form .mb-3 {
   margin-bottom: 14px;
 }
 
+.mb-3 {
+  margin-bottom: 14px;
+}
+
+.setting_data {
+  background-color: #E4E9F7;
+  padding: 5px;
+  border-radius: 2px;
+}
+
+.modal_label_setting {
+  font-size: 15px;
+  font-weight: 700;
+}
+
 form .modal_label {
   display: block;
   font-size: 14px;
@@ -318,12 +333,12 @@ form .modal_input:focus {
 
 .success_btn {
   background-color: var(--primary-color);
-  padding: 8px 13px;
+  padding: 6px 14px;
   border-radius: 5px;
   color: var(--fourth-color);
   cursor: pointer;
-  height: auto;
-  /* float: inline-end; */
+  font-size: 13px;
+  height: 35px;
   letter-spacing: 1px;
 }
 
@@ -480,9 +495,11 @@ form .modal_input:focus {
 
 .editbutton {
   background-color: #b5bbfe;
-  padding: 7px 10px;
+  padding: 6px 9px;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 15px;
+  height: 35px;
   margin-left: 10px;
 }
 
@@ -496,6 +513,8 @@ form .modal_input:focus {
   padding: 4px 10px 20px 10px;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 15px;
+  height: 35px;
   margin-left: 10px;
 }
 
@@ -707,16 +726,19 @@ form .modal_input:focus {
 
 .product_data_save_btn {
   background-color: var(--primary-color);
-  height: 40px;
-  width: 40px;
-  border-radius: 5px;
+  padding: 7px 10px;
   color: var(--fourth-color);
+  border-radius: 4px;
   cursor: pointer;
   letter-spacing: 1px;
   font-size: 18px;
   position: absolute;
   right: 20px;
   top: 130px;
+}
+
+.product_data_save_btn:hover {
+  background-color: #8992f1;
 }
 
 .tab-content.active {
@@ -1092,6 +1114,276 @@ select::after {
   background: #fff;
   border-radius: 10px;
   height: 30rem; /* Set the fixed height value as needed */
+  position: absolute;
+  top: auto;
+  left: 60%;
+  transform: translate(-50%, 20%);
+  overflow-y: auto;
+  transition: all 0.5s ease-in-out;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+.popup .close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.popup .close:hover {
+  color: #6255f0;
+}
+
+.popup .content {
+  padding: 1rem;
+}
+
+/* Style the scrollbar */
+.popup::-webkit-scrollbar {
+  width: 2px;
+}
+
+.popup::-webkit-scrollbar-thumb {
+  background-color: #6255f0;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 700px) {
+  .popup {
+    width: 70%;
+  }
+}
+
+/* Media query for screens with a width of 600 pixels or less */
+@media (max-width: 600px) {
+  .button-container {
+    flex-direction: column;
+    /* Stack buttons vertically on smaller screens */
+    align-items: center;
+    /* Center buttons horizontally */
+  }
+
+  .delete-button {
+    margin-bottom: 1rem;
+    /* Add margin between buttons on smaller screens */
+  }
+}
+
+/* operation button style */
+.operation_btn_edv {
+  padding: 5px;
+  font-size: 1.2em;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(229, 229, 229, 0.951);
+  transition: opacity 500ms;
+  opacity: 1;
+}
+
+.overlay:target {
+  opacity: 1;
+  /* Set opacity to 1 when the target is present */
+}
+
+.popup {
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  height: 30rem;
+  /* Set the fixed height value as needed */
+  position: absolute;
+  top: auto;
+  left: 60%;
+  transform: translate(-50%, 20%);
+  overflow-y: auto;
+  transition: all 0.5s ease-in-out;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+.popup .close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.popup .close:hover {
+  color: #6255f0;
+}
+
+.popup .content {
+  padding: 1rem;
+}
+
+/* Style the scrollbar */
+.popup::-webkit-scrollbar {
+  width: 2px;
+}
+
+.popup::-webkit-scrollbar-thumb {
+  background-color: #6255f0;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 700px) {
+  .popup {
+    width: 70%;
+  }
+}
+
+/* Media query for screens with a width of 600 pixels or less */
+@media (max-width: 600px) {
+  .button-container {
+    flex-direction: column;
+    /* Stack buttons vertically on smaller screens */
+    align-items: center;
+    /* Center buttons horizontally */
+  }
+
+  .delete-button {
+    margin-bottom: 1rem;
+    /* Add margin between buttons on smaller screens */
+  }
+}
+
+/* operation button style */
+.operation_btn_edv {
+  padding: 5px;
+  font-size: 1.2em;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(229, 229, 229, 0.951);
+  transition: opacity 500ms;
+  opacity: 1;
+}
+
+.overlay:target {
+  opacity: 1; /* Set opacity to 1 when the target is present */
+}
+
+.popup {
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  height: 30rem; /* Set the fixed height value as needed */
+  position: absolute;
+  top: auto;
+  left: 60%;
+  transform: translate(-50%, 20%);
+  overflow-y: auto;
+  transition: all 0.5s ease-in-out;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+.popup .close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.popup .close:hover {
+  color: #6255f0;
+}
+
+.popup .content {
+  padding: 1rem;
+}
+
+/* Style the scrollbar */
+.popup::-webkit-scrollbar {
+  width: 2px;
+}
+
+.popup::-webkit-scrollbar-thumb {
+  background-color: #6255f0;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 700px) {
+  .popup {
+    width: 70%;
+  }
+}
+/* Media query for screens with a width of 600 pixels or less */
+@media (max-width: 600px) {
+  .button-container {
+    flex-direction: column; /* Stack buttons vertically on smaller screens */
+    align-items: center; /* Center buttons horizontally */
+  }
+
+  .delete-button {
+    margin-bottom: 1rem; /* Add margin between buttons on smaller screens */
+  }
+}
+
+/* operation button style */
+.operation_btn {
+  padding: 5px;
+  font-size: 1em;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(229, 229, 229, 0.951);
+  transition: opacity 500ms;
+  opacity: 1;
+}
+
+.overlay:target {
+  opacity: 1;
+  /* Set opacity to 1 when the target is present */
+}
+
+.popup {
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  height: 30rem;
+  /* Set the fixed height value as needed */
   position: absolute;
   top: auto;
   left: 60%;

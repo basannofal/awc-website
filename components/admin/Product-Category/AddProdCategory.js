@@ -69,13 +69,13 @@ const AddProdCategory = () => {
     const file = event.target.files[0];
 
     // Check if the file has a valid extension
-    const validExtensions = ["jpg", "jpeg", "png"];
+    const validExtensions = ["jpg", "jpeg", "png", "webp"];
     const fileExtension = file.name.split(".").pop().toLowerCase();
 
     if (!validExtensions.includes(fileExtension)) {
       // Reset the input value to clear the invalid file
       event.target.value = "";
-      WarningToast("Please add the JPG, JPEG & PNG format file");
+      WarningToast("Please add the JPG, JPEG, PNG & WEBP format file");
       return;
     }
 
@@ -157,8 +157,12 @@ const AddProdCategory = () => {
 
   // add meta keyword
   const handleKeyword = (event) => {
-    if (event.key === "Enter" || event.key == ",") {
+    if ((event.key === "Enter" || event.key == ",")) {
       event.preventDefault();
+      if( event.target.value.trim() === ''){
+        ErrorToast("Please Write Keyword")
+        return
+      }
       setAddMetaKeyword([...addMetaKeyword, event.target.value.trim()]);
       event.target.value = "";
     }
@@ -173,6 +177,10 @@ const AddProdCategory = () => {
   const handleTags = (event) => {
     if (event.key === "Enter" || event.key == ",") {
       event.preventDefault();
+      if( event.target.value.trim() === ''){
+        ErrorToast("Please Write Tag")
+        return
+      }
       setAddMetaTag([...addMetaTag, event.target.value.trim()]);
       event.target.value = "";
     }
@@ -298,7 +306,7 @@ const AddProdCategory = () => {
                   id="category_image"
                   name="category_image"
                   className="modal_input"
-                  accept="image/png, image/jpeg, image/jpg"
+                  accept="image/*"
                   onChange={handleAddFileChange}
                 />
               </div>

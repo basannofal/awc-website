@@ -35,7 +35,7 @@ export default async function handler(req, res) {
       }
 
       //check! is this image ?
-      const allowedImageExtensions = [".jpg", ".jpeg", ".png"];
+      const allowedImageExtensions = [".jpg", ".jpeg", ".png", ".webp"];
       const fileExtension = path
         .extname(files.product_image[0].originalFilename)
         .toLowerCase();
