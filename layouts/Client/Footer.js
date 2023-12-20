@@ -1,7 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import axios from "axios";
 
 const Footer = () => {
+  const [loading, setLoading] = useState(true);
+  const [productCategories, setProductCategories] = useState([]);
+
+  const getData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/home/home-product-data/router`
+      );
+      const data = response.data;
+
+      const categories = {};
+
+      data.forEach((item) => {
+        if (!categories[item.category_id]) {
+          const productItem = {
+            product_id: item.product_id,
+            product_title: item.product_title,
+          };
+
+          categories[item.category_id] = {
+            category_id: item.category_id,
+            category_name: item.category_name,
+            products: [productItem],
+          };
+        } else {
+          const productItem = {
+            product_id: item.product_id,
+            product_title: item.product_title,
+          };
+          categories[item.category_id].products.push(productItem);
+        }
+      });
+
+      const categoryArray = Object.values(categories);
+      console.log(categoryArray);
+      setProductCategories(categoryArray);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <>
       <section className="get-started-sec">
@@ -27,7 +75,10 @@ const Footer = () => {
           <section className="grid footer-info">
             <div className="xl-4 lg-4 sm-6 footer-logo-sec">
               <Link href="/" className="footer-logo-link">
-                <img src={"./assets/images/client/awc_logo_1.webp"} alt="Footer Logo" />
+                <img
+                  src={"./assets/images/client/awc_logo_1.webp"}
+                  alt="Footer Logo"
+                />
               </Link>
               <p>
                 Discover innovative solutions that protect surfaces against
@@ -143,45 +194,18 @@ const Footer = () => {
             </div>
             <div className=" xl-2 lg-4 sm-6 our-products-sec">
               <h4 className="footer-info-heading">Our Products</h4>
-              <div className="our-sub-cat">
-                <h5>Roof Section</h5>
-                <ul className="list-items">
-                  <li className="list-item">
-                    <Link href="/">AWC ROOF 540</Link>
-                  </li>
-                  <li className="list-item">
-                    <Link href="/">AWC ROOF-300</Link>
-                  </li>
-                  <li className="list-item">
-                    <Link href="/">AWC ROOF-250</Link>
-                  </li>
-                </ul>
-              </div>
-              <div className="our-sub-cat">
-                <h5>Wall Section</h5>
-                <ul className="list-items">
-                  <li className="list-item">
-                    <Link href="/">AWC-WALLMATE</Link>
-                  </li>
-                  <li className="list-item">
-                    <Link href="/">AWC-ELASTIC</Link>
-                  </li>
-                </ul>
-              </div>
-              <div className="our-sub-cat">
-                <h5>Exclusive Products</h5>
-                <ul className="list-items">
-                  <li className="list-item">
-                    <Link href="/">TUFF COAT</Link>
-                  </li>
-                  <li className="list-item">
-                    <Link href="/">CLEAR COAT</Link>
-                  </li>
-                  <li className="list-item">
-                    <Link href="/">SWIFT PLAST</Link>
-                  </li>
-                </ul>
-              </div>
+              {productCategories.map((category) => (
+                <div key={category.category_id} className="our-sub-cat">
+                  <h5>{category.category_name}</h5>
+                  <ul className="list-items">
+                    {category.products.map((product) => (
+                      <li key={product.product_id} className="list-item">
+                        <Link href="/">{product.product_title}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
             <div className="xl-4 lg-12 sm-6 contact-footer">
               <h4 className="footer-info-heading">Contact Us</h4>
