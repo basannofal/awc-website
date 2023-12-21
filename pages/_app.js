@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import "@/styles/Dashboard.css";
 import "@/styles/User.css";
 import "@/styles/client/Home.css";
+import "@/styles/client/About.css";
 import "@/styles/client/Blog.css";
 import Head from "next/head";
 import "react-toastify/dist/ReactToastify.css";
