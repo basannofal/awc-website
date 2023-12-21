@@ -213,10 +213,10 @@ const Navbar = () => {
                           <Link href="/career">Career</Link>
                         </li>
                         <li>
-                          <Link href="/blog">Blog</Link>
+                          <Link href="/blogs">Blog</Link>
                         </li>
                         <li>
-                          <Link href="/teastimonials">Testimonials</Link>
+                          <Link href="/testimonials">Testimonials</Link>
                         </li>
                         <li className="contact-us-link">
                           <Link href="/contact">Contact</Link>

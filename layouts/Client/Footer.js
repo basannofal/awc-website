@@ -185,10 +185,10 @@ const Footer = () => {
                   <Link href="/">Contact Us</Link>
                 </li>
                 <li className="list-item">
-                  <Link href="/">Blogs</Link>
+                  <Link href="/blogs">Blogs</Link>
                 </li>
                 <li className="list-item">
-                  <Link href="/">Testimonials</Link>
+                  <Link href="/testimonials">Testimonials</Link>
                 </li>
               </ul>
             </div>

@@ -77,7 +77,7 @@ const Contact = ({ cid }) => {
                     <div className="grid">
                       {testimonial.map((item, idx) => {
                         return (
-                          <div className="lg-6 sm-12">
+                          <div key={item.id} className="lg-6 sm-12">
                             <div className="testimonials-content">
                               <img
                                 className="q-img"

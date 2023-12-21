@@ -1,7 +1,6 @@
 import React from "react";
 import Index from "@/components/client/about/Index";
-
-const about = () => {
+const index = () => {
   return (
     <>
       <Index />
@@ -9,4 +8,4 @@ const about = () => {
   );
 };
 
-export default about;
+export default index;
