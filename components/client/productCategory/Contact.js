@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 // import $ from "jquery";
-const Contact = () => {
+const Contact = ({data}) => {
   // useEffect(() => {
   //   $(".client-sec .testimonials-sec > .grid").slick({
   //     slidesToShow: 2,
@@ -46,7 +46,7 @@ const Contact = () => {
                       <div className="testimonials-content">
                         <img
                           className="q-img"
-                          src={"./assets/images/client/quotes-img.png"}
+                          src={"/assets/images/client/quotes-img.png"}
                           alt="Double Quotes Image"
                           width="22"
                           height="auto"
@@ -62,7 +62,7 @@ const Contact = () => {
                         </p>
                         <div className="c-img-sec">
                           <img
-                            src={"./assets/images/client/client-img-1.png"}
+                            src={"/assets/images/client/client-img-1.png"}
                             alt="Client Image"
                             width="50"
                             height="auto"
@@ -71,31 +71,31 @@ const Contact = () => {
                             <h4>Rajasi Behere</h4>
                             <div className="rating-sec">
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
                               />
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
                               />
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
                               />
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
                               />
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
@@ -109,7 +109,7 @@ const Contact = () => {
                       <div className="testimonials-content">
                         <img
                           className="q-img"
-                          src={"./assets/images/client/quotes-img.png"}
+                          src={"/assets/images/client/quotes-img.png"}
                           alt="Double Quotes Image"
                           width="22"
                           height="auto"
@@ -125,7 +125,7 @@ const Contact = () => {
                         </p>
                         <div className="c-img-sec">
                           <img
-                            src={"./assets/images/client/client-img-2.png"}
+                            src={"/assets/images/client/client-img-2.png"}
                             alt="Client Image"
                             width="50"
                             height="auto"
@@ -134,31 +134,31 @@ const Contact = () => {
                             <h4>Camillo Dcosta</h4>
                             <div className="rating-sec">
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
                               />
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
                               />
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
                               />
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
                               />
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
@@ -172,7 +172,7 @@ const Contact = () => {
                       <div className="testimonials-content">
                         <img
                           className="q-img"
-                          src={"./assets/images/client/quotes-img.png"}
+                          src={"/assets/images/client/quotes-img.png"}
                           alt="Double Quotes Image"
                           width="22"
                           height="auto"
@@ -188,7 +188,7 @@ const Contact = () => {
                         </p>
                         <div className="c-img-sec">
                           <img
-                            src={"./assets/images/client/client-img-1.png"}
+                            src={"/assets/images/client/client-img-1.png"}
                             alt="Client Image"
                             width="50"
                             height="auto"
@@ -197,31 +197,31 @@ const Contact = () => {
                             <h4>Rajasi Behere</h4>
                             <div className="rating-sec">
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
                               />
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
                               />
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
                               />
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
                               />
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
@@ -235,7 +235,7 @@ const Contact = () => {
                       <div className="testimonials-content">
                         <img
                           className="q-img"
-                          src={"./assets/images/client/quotes-img.png"}
+                          src={"/assets/images/client/quotes-img.png"}
                           alt="Double Quotes Image"
                           width="22"
                           height="auto"
@@ -251,7 +251,7 @@ const Contact = () => {
                         </p>
                         <div className="c-img-sec">
                           <img
-                            src={"./assets/images/client/client-img-2.png"}
+                            src={"/assets/images/client/client-img-2.png"}
                             alt="Client Image"
                             width="50"
                             height="auto"
@@ -260,31 +260,31 @@ const Contact = () => {
                             <h4>Camillo Dcosta</h4>
                             <div className="rating-sec">
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
                               />
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
                               />
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
                               />
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"
                               />
                               <img
-                                src={"./assets/images/client/rating-icon.png"}
+                                src={"/assets/images/client/rating-icon.png"}
                                 alt="Rating Icon"
                                 width="12"
                                 height="auto"

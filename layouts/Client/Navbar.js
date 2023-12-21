@@ -49,7 +49,7 @@ const Navbar = () => {
                 <div className="header-logo-sec">
                   <Link href="/">
                     <img
-                      src={"./assets/images/client/awc_logo_header.webp"}
+                      src={"/assets/images/client/awc_logo_header.webp"}
                       alt="AWC Header Logo"
                       width="100%"
                       height="auto"
@@ -142,7 +142,7 @@ const Navbar = () => {
                       <li>
                         <Link href="tel:+918686862475">
                           <img
-                            src={"./assets/images/client/h_call_icon.webp"}
+                            src={"/assets/images/client/h_call_icon.webp"}
                             alt="Header Call Icon"
                             width="16"
                             height="16"
@@ -153,7 +153,7 @@ const Navbar = () => {
                       <li>
                         <Link href="mailto:info@awcindia.in">
                           <img
-                            src={"./assets/images/client/h_mail_icon.webp"}
+                            src={"/assets/images/client/h_mail_icon.webp"}
                             alt="Header E-mail Icon"
                             width="16"
                             height="12"

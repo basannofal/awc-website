@@ -10,18 +10,18 @@ const Question = () => {
         if ($(".accordion_body").is(":visible")) {
           $(".accordion_body").slideUp(300);
           // $(".plusminus").attr("src", "images/plus-arrow.png");
-          $(".plusminus").attr("src", "./assets/images/client/plus-arrow.png");
+          $(".plusminus").attr("src", "/assets/images/client/plus-arrow.png");
         }
         if ($(this).next(".accordion_body").is(":visible")) {
           $(this).next(".accordion_body").slideUp(300);
           $(this)
             .children(".plusminus")
-            .attr("src", "./assets/images/client/plus-arrow.png");
+            .attr("src", "/assets/images/client/plus-arrow.png");
         } else {
           $(this).next(".accordion_body").slideDown(300);
           $(this)
             .children(".plusminus")
-            .attr("src", "./assets/images/client/minus-arrow.png");
+            .attr("src", "/assets/images/client/minus-arrow.png");
         }
       });
     }
@@ -46,7 +46,7 @@ const Question = () => {
                 applied to?
                 <img
                   className="plusminus"
-                  src={"./assets/images/client/minus-arrow.png"}
+                  src={"/assets/images/client/minus-arrow.png"}
                   alt="Minus Icon"
                 />
               </h3>
@@ -63,7 +63,7 @@ const Question = () => {
                 How long does the waterproofing solution last?
                 <img
                   className="plusminus"
-                  src={"./assets/images/client/plus-arrow.png"}
+                  src={"/assets/images/client/plus-arrow.png"}
                   alt="Plus Icon"
                 />
               </h3>
@@ -80,7 +80,7 @@ const Question = () => {
                 Do you offer customized solutions for unique projects?
                 <img
                   className="plusminus"
-                  src={"./assets/images/client/plus-arrow.png"}
+                  src={"/assets/images/client/plus-arrow.png"}
                   alt="Plus Icon"
                 />
               </h3>
@@ -97,7 +97,7 @@ const Question = () => {
                 Are your products environmentally friendly?
                 <img
                   className="plusminus"
-                  src={"./assets/images/client/plus-arrow.png"}
+                  src={"/assets/images/client/plus-arrow.png"}
                   alt="Plus Icon"
                 />
               </h3>
@@ -115,7 +115,7 @@ const Question = () => {
                 conditions?
                 <img
                   className="plusminus"
-                  src={"./assets/images/client/plus-arrow.png"}
+                  src={"/assets/images/client/plus-arrow.png"}
                   alt="Plus Icon"
                 />
               </h3>
@@ -132,7 +132,7 @@ const Question = () => {
                 What distinguishes AWC from other waterproofing companies?
                 <img
                   className="plusminus"
-                  src={"./assets/images/client/plus-arrow.png"}
+                  src={"/assets/images/client/plus-arrow.png"}
                   alt="Plus Icon"
                 />
               </h3>
@@ -149,7 +149,7 @@ const Question = () => {
                 How do I get a quote or estimate for a specific project?
                 <img
                   className="plusminus"
-                  src={"./assets/images/client/plus-arrow.png"}
+                  src={"/assets/images/client/plus-arrow.png"}
                   alt="Plus Icon"
                 />
               </h3>
