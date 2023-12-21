@@ -5,8 +5,31 @@ import "@/styles/client/Home.css";
 import "@/styles/client/Blog.css";
 import Head from "next/head";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function App({ Component, pageProps }) {
+
+  const [GlobalSeo, setGlobalSeo] = useState({})
+
+  const getGlobalData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/global-seo/router`
+      );
+      setGlobalSeo(response.data[0]);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async() => {
+      await getGlobalData();
+    }
+    fetchData()
+  }, []);
+  
   return (
     <>
       <Head>

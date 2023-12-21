@@ -76,7 +76,7 @@ const Footer = () => {
             <div className="xl-4 lg-4 sm-6 footer-logo-sec">
               <Link href="/" className="footer-logo-link">
                 <img
-                  src={"./assets/images/client/awc_logo_1.webp"}
+                  src={"/assets/images/client/awc_logo_1.webp"}
                   alt="Footer Logo"
                 />
               </Link>
@@ -198,11 +198,13 @@ const Footer = () => {
                 <div key={category.category_id} className="our-sub-cat">
                   <h5>{category.category_name}</h5>
                   <ul className="list-items">
-                    {category.products.map((product) => (
+                    {category.products.map((product) => {
+                      const slug = product.product_title.replace(/\s+/g, '-'); 
+                      return(
                       <li key={product.product_id} className="list-item">
-                        <Link href="/">{product.product_title}</Link>
+                        <Link href={`/product/${slug}/${product.product_id}`}>{product.product_title}</Link>
                       </li>
-                    ))}
+                    )})}
                   </ul>
                 </div>
               ))}

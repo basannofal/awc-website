@@ -4,10 +4,11 @@ import Index from "@/components/client/productCategory";
 
 const ProductDetailPage = () => {
   const router = useRouter();
-  const { productType, productId } = router.query;
-
+  const { productCategoryType, productCatgoryId } = router.query;
+  console.log(router.query);
+  
   return (
-    <Index pid={productId} />
+    <Index cid={productCatgoryId} />
   );
 };
 

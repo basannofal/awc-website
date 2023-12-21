@@ -69,9 +69,14 @@ const index = () => {
     }
   };
 
+
+
   useEffect(() => {
-    getData();
-    getSEOData();
+    const fetchData = async() => {
+      await getData();
+      await getSEOData();
+    }
+    fetchData()
   }, []);
   return (
     <>
