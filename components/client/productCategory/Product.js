@@ -34,7 +34,7 @@ const Product = ({ cid }) => {
             <div className="grid">
               {CategoryProduct.map((item, key) => {
                 return (
-                  <div className="lg-4 md-6 sm-12">
+                  <div key={item.product_id} className="lg-4 md-6 sm-12">
                     <div className="roof-box">
                       <div className="roof-image">
                         <img

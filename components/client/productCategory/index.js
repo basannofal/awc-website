@@ -5,49 +5,12 @@ import Product from "./Product";
 import Contact from "./Contact";
 import Question from "./Question";
 import Footer from "@/layouts/Client/Footer";
-import axios from "axios";
 
 const index = ({ cid }) => {
   const [loading, setLoading] = useState(true);
-  const [CategoryProduct, setCategoryProduct] = useState([]);
-  console.log(cid);
-  const getCategoryProducts = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/client/product-category/category-products/${cid}`
-      );
-      setCategoryProduct(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setLoading(false);
-    }
-  };
-
-  const getTestimonial = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/client/product-category/category-products/${cid}`
-      );
-      setCategoryProduct(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setLoading(false);
-    }
-  };
-
-
   useEffect(() => {
-    const fetchData = async () => {
-      await getCategoryProducts();
-      await getTestimonial();
-      setLoading(false)
-    };
     if (cid) {
-      fetchData();
+      setLoading(false)
     }
   }, [cid]);
 
@@ -60,7 +23,7 @@ const index = ({ cid }) => {
           <Navbar />
           <HeroSection cid={cid} />
           <Product cid={cid} />
-          <Contact data={CategoryProduct} />
+          <Contact cid={cid} />
           <Question />
           <Footer />
         </>
