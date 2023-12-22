@@ -4,6 +4,7 @@ import "@/styles/User.css";
 import "@/styles/client/Home.css";
 import "@/styles/client/Blog.css";
 import "@/styles/client/Testimonial.css";
+import "@/styles/client/Contact.css";
 import Head from "next/head";
 import "react-toastify/dist/ReactToastify.css";
 
