@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      const q = "SELECT * FROM `product_master` WHERE `cate_id` = ?";
+      const q = "SELECT * FROM `product_master` WHERE `cate_id` = ? && status = 1";
 
       const data = [id];
       const [rows] = await conn.query(q, data);

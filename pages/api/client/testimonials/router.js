@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      const q = "SELECT * FROM `testimonial`";
+      const q = "SELECT * FROM `testimonial` where status = 1";
       const [rows] = await conn.query(q);
 
       res.status(200).json(rows);

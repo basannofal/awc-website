@@ -1,4 +1,4 @@
-import conn from "../../../dbconfig/conn";
+import conn from "../../dbconfig/conn";
 export const config = {
   api: {
     bodyParser: false,
@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      const q = "SELECT * FROM `testimonial` where status = 1 LIMIT 4";
+      const q = "SELECT * FROM `blog_master` where status = 1";
       const [rows] = await conn.query(q);
 
       res.status(200).json(rows);
