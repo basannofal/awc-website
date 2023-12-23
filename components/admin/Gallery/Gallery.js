@@ -198,8 +198,6 @@ const Gallery = () => {
       console.error("Error deleting items in the category:", error);
     }
   };
-  // handle delete all data category wise end
-
   // move edit all gallery page code start
   const handleEditAllInCategory = (categoryId) => {
     // Check if a category is selected
@@ -278,9 +276,9 @@ const Gallery = () => {
                 className="delete-button"
                 disabled={filteredGalleryData.length === 0} // Disable if no records found
               >
-                <span>
+                <span style={{ marginRight: "5px", fontSize: "12px" }}>
                   <i className="fa-solid fa-trash-can"></i>
-                </span>{" "}
+                </span>
                 Delete All Records
               </button>
             </div>
@@ -289,9 +287,9 @@ const Gallery = () => {
               className="edit-button"
               disabled={filteredGalleryData.length === 0} // Disable if no records found
             >
-              <span>
+              <span style={{ marginRight: "5px", fontSize: "12px" }}>
                 <i className="fa-solid fa-pencil"></i>
-              </span>{" "}
+              </span>
               Edit All Records
             </button>
           </div>

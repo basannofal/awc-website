@@ -56,7 +56,6 @@ export default async function handler(req, res) {
           "../../../../../public/assets/upload/product-category"
         );
         const newPath = path.join(projectDirectory, categoryImage);
-        console.log(newPath);
         await unlink(newPath);
       }
 
@@ -64,9 +63,9 @@ export default async function handler(req, res) {
       res.status(200).json(rows);
     } catch (error) {
       console.log(error);
-      res
-        .status(500)
-        .json({ message: "Cannot Delete Category... Check Connection" });
+      res.status(500).json({
+        message: "Cannot delete this Category because it`s used by admin!",
+      });
     } finally {
       conn.releaseConnection();
     }

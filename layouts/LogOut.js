@@ -10,7 +10,7 @@ const LogOut = ({ onCancel, onLogOut }) => {
       <div className="logOut_modal_section">
         <p>Do you want to Logout?</p>
         <div>
-          <button onClick={handleLogOut}>LOG OUT</button>
+          <button onClick={handleLogOut} className="logout_success_btn">LOG OUT</button>
           <button onClick={onCancel}>CANCEL</button>
         </div>
       </div>

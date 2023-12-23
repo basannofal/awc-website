@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Editor } from "@tinymce/tinymce-react";
 import { useRouter } from "next/router";
 import Header from "@/layouts/Header";
 import Loading from "@/layouts/Loading";
@@ -21,17 +20,15 @@ const AllSetting = () => {
   const router = useRouter();
   const addProductTableData = async (e) => {
     e.preventDefault();
-    router.push("/admin/settings/edit-setting")
+    router.push("/admin/settings/edit-setting");
   };
 
   //ALL USER DATA GETTING
   const getAllUserData = async () => {
     await axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/settings/router`)
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/settings/${1}`)
       .then((res) => {
         setUserData(res.data[0]);
-        console.log(res.data[0])
-        console.log("object")
         setLoading(false);
       })
       .catch((err) => {
@@ -44,8 +41,6 @@ const AllSetting = () => {
       .get(`${process.env.NEXT_PUBLIC_API_URL}/settings/social/router`)
       .then((res) => {
         setSettingData(res.data[0]);
-        console.log(res.data[0])
-        console.log("object")
         setLoading(false);
       })
       .catch((err) => {
@@ -57,13 +52,12 @@ const AllSetting = () => {
   useEffect(() => {
     getAllUserData();
     getAllSettingData();
-  }, [])
-
+  }, []);
 
   return (
     <>
       {/* LOADING SECTION */}
-      {/* {<Loading />} */}
+      {loading && <Loading />}
 
       {/* HOME SECTION */}
       <section className="home-section">
@@ -92,7 +86,9 @@ const AllSetting = () => {
                 General
               </div>
               <div
-                className={`tab ${activeTab === "social-media" ? "active" : ""}`}
+                className={`tab ${
+                  activeTab === "social-media" ? "active" : ""
+                }`}
                 onClick={() => showTab("social-media")}
               >
                 Social Media
@@ -102,8 +98,9 @@ const AllSetting = () => {
           {/* GENREL TABS */}
           <div
             id="general"
-            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "general" ? "active" : ""
+            }`}
           >
             <div className="mb-3">
               <label htmlFor="Email" className="modal_label_setting">
@@ -117,9 +114,15 @@ const AllSetting = () => {
               </label>
               <p className="setting_data">{userData && userData.number}</p>
             </div>
-            <div style={{ paddingBottom: "1rem", borderBottom: "1px solid rgb(209, 201, 201)" }} className="mb-3">
+            <div
+              style={{
+                paddingBottom: "1rem",
+                borderBottom: "1px solid rgb(209, 201, 201)",
+              }}
+              className="mb-3"
+            >
               <label htmlFor="preview" className="modal_label_setting">
-                Favicon
+                Favicon:-
               </label>
               <div>
                 <img
@@ -131,9 +134,15 @@ const AllSetting = () => {
                 />
               </div>
             </div>
-            <div style={{ paddingBottom: "1rem", borderBottom: "1px solid rgb(209, 201, 201)" }} className="mb-3">
+            <div
+              style={{
+                paddingBottom: "1rem",
+                borderBottom: "1px solid rgb(209, 201, 201)",
+              }}
+              className="mb-3"
+            >
               <label htmlFor="Preview" className="modal_label_setting">
-                Logo
+                Logo:-
               </label>
               <div>
                 <img
@@ -150,46 +159,75 @@ const AllSetting = () => {
                 Password:-
               </label>
               <p className="setting_data">{userData && userData.password}</p>
-            </div>  
+            </div>
           </div>
           <div
             id="social-media"
-            className={`tab-content add_data_form ${activeTab === "social-media" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "social-media" ? "active" : ""
+            }`}
           >
             <div className="mb-3">
               <label htmlFor="whatsapp" className="modal_label_setting">
                 Whatsapp:-
               </label>
-              <p className="setting_data">{settingData && settingData.whatsapp_link}</p>
+              <p className="setting_data">
+                {settingData && settingData.whatsapp_link && (
+                  <Link href={settingData.whatsapp_link} target="_blank">
+                    {settingData.whatsapp_link}
+                  </Link>
+                )}
+              </p>
             </div>
             <div className="mb-3">
               <label htmlFor="facebook" className="modal_label_setting">
                 Facebook:-
               </label>
-              <p className="setting_data">{settingData && settingData.facebook_link}</p>
-        
+              <p className="setting_data">
+                {settingData && settingData.facebook_link && (
+                  <Link href={settingData.facebook_link} target="_blank">
+                    {settingData.facebook_link}
+                  </Link>
+                )}
+              </p>
             </div>
             <div className="mb-3">
               <label htmlFor="twiter" className="modal_label_setting">
                 Twiter:-
               </label>
-              <p className="setting_data">{settingData && settingData.twiter_link}</p>
+              <p className="setting_data">
+                {settingData && settingData.twiter_link && (
+                  <Link href={settingData.twiter_link} target="_blank">
+                    {settingData.twiter_link}
+                  </Link>
+                )}
+              </p>
             </div>
             <div className="mb-3">
               <label htmlFor="instagram" className="modal_label_setting">
                 Instagram:-
               </label>
-              <p className="setting_data">{settingData && settingData.instagram_link}</p>
+              <p className="setting_data">
+                {settingData && settingData.instagram_link && (
+                  <Link href={settingData.instagram_link} target="_blank">
+                    {settingData.instagram_link}
+                  </Link>
+                )}
+              </p>
             </div>
             <div className="mb-3">
               <label htmlFor="linkdin" className="modal_label_setting">
                 Linkedin:-
               </label>
-              <p className="setting_data">{settingData && settingData.linkedin_link}</p>
+              <p className="setting_data">
+                {settingData && settingData.linkedin_link && (
+                  <Link href={settingData.linkedin_link} target="_blank">
+                    {settingData.linkedin_link}
+                  </Link>
+                )}
+              </p>
             </div>
           </div>
-
         </div>
         <Toast />
       </section>

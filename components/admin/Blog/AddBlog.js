@@ -251,7 +251,7 @@ const AddBlog = () => {
                   }
                 />
               </div>
-              <div className="main">
+              <div className="main" style={{ display: "flex" }}>
                 <div style={{ width: "48%" }}>
                   <div className="mb-3">
                     <label htmlFor="blog_thumbnail" className="modal_label">
@@ -277,7 +277,10 @@ const AddBlog = () => {
                     </div>
                   )}
                 </div>
-                <div className="mb-3" style={{ width: "48%" }}>
+                <div
+                  className="mb-3"
+                  style={{ width: "48%", marginLeft: "30px" }}
+                >
                   <label htmlFor="blog_cate_id" className="modal_label">
                     Choose Category:
                     <small style={{ color: "red" }}> *</small>

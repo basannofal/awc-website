@@ -158,7 +158,7 @@ const Products = () => {
                 <th style={{ width: "25%" }}>IMAGE</th>
                 <th style={{ width: "30%" }}>TITLE</th>
                 <th style={{ width: "20%" }}>CATEGORY</th>
-                <th style={{ width: "15%" }}>OPERATION</th>
+                <th style={{ width: "15%" }}>ACTION</th>
                 <th style={{ width: "10%" }}>STATUS</th>
               </tr>
             </thead>
