@@ -4,7 +4,7 @@
   float: left;
 }
 .blog-view-main-title {
-  font-size: 16px;
+  font-size: 20px;
   margin-top: 20px;
   font-style: normal;
   font-weight: 400;
@@ -17,9 +17,8 @@
 }
 
 .blog_view_image img {
-  width: 1195px;
-  height: 487px;
-  flex-shrink: 0;
+  width: 100%;
+  height: auto;
 }
 
 .blog_view_content_sec {
@@ -71,9 +70,6 @@
   display: flex;
   margin-bottom: 20px;
 }
-.side_sec_card .card_heading {
-  margin-bottom: 10px;
-}
 .article .article_icon {
   width: 20%;
 }
@@ -83,8 +79,10 @@
 .article_data .heading {
   font-weight: 700;
   letter-spacing: 0.7px;
+  color: #475060;
 }
 .article_data .desc {
+  color: #475060;
   font-size: 14px;
   line-height: 22px;
 }
@@ -93,10 +91,97 @@
   background: #fff;
   display: flex;
   justify-content: space-between;
-  padding: 0px 6px;
+  padding: 7px;
   align-items: center;
+  height: 50px;
+  margin-bottom: 10px;
+  cursor: pointer;
 }
 .share_main_section .icon_title {
   display: flex;
   align-items: center;
+}
+.share_main_section .icon_title i {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  background: #f5f5f5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+.share_main_section .arrow {
+  transition: all 0.5s ease;
+  margin-right: 20px;
+}
+.share_main_section:hover .arrow {
+  margin-right: 10px;
+}
+
+@media only screen and (max-width: 1026px) {
+  .blog-view-sec {
+    padding: 10px 40px;
+  }
+  .blog_content {
+    width: 100%;
+    padding-right: 20px;
+  }
+  .side_section {
+    width: 100%;
+  }
+  .side_section .side_sec_card {
+    width: 47%;
+    display: inline-grid;
+  }
+  .side_section .side_sec_card:nth-child(1) {
+    margin-right: 6%;
+  }
+}
+@media only screen and (max-width: 707px) {
+  .blog-view-sec {
+    padding: 10px 20px;
+  }
+  .side_section .side_sec_card {
+    width: 100%;
+    display: block;
+  }
+}
+@media only screen and (max-width: 450px) {
+  .blog-view-main-title {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .blog_title .heading {
+    font-size: 23px;
+    line-height: 30px;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+  .blog_date_section p .fa-clock {
+    margin-left: 30px;
+  }
+}
+@media only screen and (max-width: 380px) {
+  .blog-view-sec {
+    padding: 10px 10px;
+  }
+  .article .article_icon {
+    margin-right: 15px;
+  }
+  .share_main_section .icon_title i {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+    background: #f5f5f5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+  .share_main_section .icon_title P {
+    font-size: 13px;
+  }
 }
