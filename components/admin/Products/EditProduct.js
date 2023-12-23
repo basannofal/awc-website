@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Loading from "@/layouts/Loading";
 import Header from "@/layouts/Header";
 import Link from "next/link";
+import YouTube from "react-youtube";
 import Toast, {
   ErrorToast,
   SuccessToast,
@@ -67,9 +68,6 @@ const EditProduct = () => {
     image_width: "",
     sort_image: "",
   });
-  console.log("====================================");
-  console.log(editperimg);
-  console.log("====================================");
 
   const [editDoc, setEditDoc] = useState({
     pdf_title: "",
@@ -128,22 +126,26 @@ const EditProduct = () => {
         deleteProductImg(productImgId);
       } else if (deleteopt == "docs") {
         deleteProductdocs(productImgId);
-
       } else if (deleteopt == "video") {
         deleteProductVideos(productImgId);
       } else if (deleteopt == "certificate") {
         deleteProductcertificate(productImgId);
       } else if (deleteopt == "certificate") {
         deleteProductcertificate(productImgId);
-      }
-      else if (deleteopt == "certificate") {
+      } else if (deleteopt == "certificate") {
         deleteProductcertificate(productImgId);
       }
       closeDeleteModal();
     }
   };
   // END DELETE MODAL HANDLER
+  const getYouTubeVideoId = (url) => {
+    const videoIdMatch = url.match(
+      /(?:youtu\.be\/|youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|y\/|\/v\/|\/e\/|watch\?.*v=)([^"&?\/\s]{11})/
+    );
 
+    return videoIdMatch ? videoIdMatch[1] : null;
+  };
   // GET ACTIVE CATEGORY
   const getActiveCategoryData = async () => {
     try {
@@ -290,9 +292,9 @@ const EditProduct = () => {
   const handleTags = (event) => {
     if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
-      if( event.target.value.trim() === ''){
-        ErrorToast("Please Write Tag")
-        return
+      if (event.target.value.trim() === "") {
+        ErrorToast("Please Write Tag");
+        return;
       }
       setEditMetaTag([...editMetaTag, event.target.value.trim()]);
       event.target.value = "";
@@ -406,7 +408,6 @@ const EditProduct = () => {
       setLoading(false);
     }
   };
-
   // DELETE DOCS
   const deleteProductdocs = async (deleteId) => {
     setLoading(true);
@@ -516,7 +517,6 @@ const EditProduct = () => {
       setLoading(false);
     }
   };
-
   // DELETE DOCS
   const deleteProductcertificate = async (deleteId) => {
     setLoading(true);
@@ -551,7 +551,6 @@ const EditProduct = () => {
       certificate_link: data.certificate_link,
     });
   };
-
 
   const handlePerCertificateFileData = (event) => {
     const file = event.target.files[0];
@@ -727,7 +726,6 @@ const EditProduct = () => {
       setLoading(false);
     }
   };
-
   //handle images
   const handleAddMultipleImagesChange = async (event) => {
     const files = event.target.files;
@@ -1509,7 +1507,7 @@ const EditProduct = () => {
                     <th style={{ width: "10%" }}>WIDTH</th>
                     <th style={{ width: "20%" }}>Alt TEXT</th>
                     <th style={{ width: "10%" }}>SORT</th>
-                    <th style={{ width: "15%" }}>OPERATION</th>
+                    <th style={{ width: "15%" }}>ACTION</th>
                     <th style={{ width: "10%" }}>STATUS</th>
                   </tr>
                 </thead>
@@ -1763,21 +1761,15 @@ const EditProduct = () => {
                           <th style={{ width: "5%" }}>ID</th>
                           <th style={{ width: "10%" }}>IMAGE</th>
                           <th style={{ width: "15%" }}>TITLE</th>
-                          <th style={{ width: "30%" }}>DESCRIPTION</th>
-                          <th style={{ width: "10%" }}>LINK</th>
-                          <th style={{ width: "20%" }}>OPERATION</th>
-                          <th style={{ width: "10%" }}>STATUS</th>
+                          <th style={{ width: "30%" }}>LINK</th>
+                          <th style={{ width: "18%" }}>ACTION</th>
+                          <th style={{ width: "12%" }}>STATUS</th>
                         </tr>
                       </thead>
                       <tbody>
                         {allProductVedios.length > 0 ? (
                           allProductVedios.map((product, index) => (
-                            <tr
-                              key={product.product_id}
-                              style={{
-                                color: product.status === 1 ? "black" : "red",
-                              }}
-                            >
+                            <tr key={product.product_id}>
                               <td>{index + 1}</td>
                               <td>
                                 <img
@@ -1788,9 +1780,22 @@ const EditProduct = () => {
                                 />
                               </td>
                               <td>{product.video_title}</td>
-                              <td>{product.video_description}</td>
-                              <td>{product.product_video}</td>
-
+                              <td>
+                                {product.product_video && (
+                                  <YouTube
+                                    videoId={getYouTubeVideoId(
+                                      product.product_video
+                                    )}
+                                    opts={{
+                                      width: "100%",
+                                      height: "100",
+                                      playerVars: {
+                                        autoplay: 0,
+                                      },
+                                    }}
+                                  />
+                                )}
+                              </td>
                               <td>
                                 {editingVedioId !== product.prod_video_id ? (
                                   <>
@@ -2089,19 +2094,14 @@ const EditProduct = () => {
                     <th style={{ width: "5%" }}>ID</th>
                     <th style={{ width: "10%" }}>IMAGE</th>
                     <th style={{ width: "25%" }}>TITLE</th>
-                    <th style={{ width: "10%" }}>OPERATION</th>
+                    <th style={{ width: "10%" }}>ACTION</th>
                     <th style={{ width: "10%" }}>STATUS</th>
                   </tr>
                 </thead>
                 <tbody>
                   {allProductDocs.length > 0 ? (
                     allProductDocs.map((product, index) => (
-                      <tr
-                        key={product.product_id}
-                        style={{
-                          color: product.status === 1 ? "black" : "red",
-                        }}
-                      >
+                      <tr key={product.product_id}>
                         <td>{index + 1}</td>
                         {editingDocId === product.prod_docs_id ? (
                           <td className="edit-row">
@@ -2119,7 +2119,6 @@ const EditProduct = () => {
                                   className="overlay"
                                 >
                                   <i className="fa-solid fa-image"></i>
-                                  {/* <i class="fa-solid fa-file-pdf"></i> */}
                                 </label>
                                 <img
                                   src={`/assets/images/pdf-icon.webp`}
@@ -2133,12 +2132,22 @@ const EditProduct = () => {
                         ) : (
                           <td>
                             <td>
-                              <img
-                                src={`/assets/images/pdf-icon.webp`}
-                                width="100%"
-                                alt="product"
-                                className="tabel_data_image"
-                              />
+                              <div
+                                onClick={() =>
+                                  window.open(
+                                    `/assets/upload/products/productDocs/${product.pdf_link}`,
+                                    "_blank"
+                                  )
+                                }
+                                style={{ cursor: "pointer" }}
+                              >
+                                <img
+                                  src={`/assets/images/pdf-icon.webp`}
+                                  width="100%"
+                                  alt="product"
+                                  className="tabel_data_image"
+                                />
+                              </div>
                             </td>
                           </td>
                         )}
@@ -2167,7 +2176,7 @@ const EditProduct = () => {
                                   handleUpdateDocClick(product.prod_docs_id)
                                 }
                               >
-                                {/* <i class="fa-solid fa-floppy-disk"></i> */}U
+                                U
                               </button>
                               <button
                                 className="cancel"
@@ -2243,8 +2252,9 @@ const EditProduct = () => {
           {/* Certificate Tabs */}
           <div
             id="docs"
-            className={`tab-content add_data_form ${activeTab === "certificate" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "certificate" ? "active" : ""
+            }`}
           >
             <form method="post" onSubmit={saveMultipleCertificate}>
               <div className="mb-3">
@@ -2266,7 +2276,7 @@ const EditProduct = () => {
                 style={{ display: "flex", flexWrap: "wrap" }}
               >
                 {addMultiCertificate.product_certificate &&
-                  addMultiCertificate.product_certificate.length > 0 ? (
+                addMultiCertificate.product_certificate.length > 0 ? (
                   <table className="multi-images-table">
                     <thead>
                       <tr>
@@ -2276,40 +2286,42 @@ const EditProduct = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {addMultiCertificate.product_certificate.map((image, index) => (
-                        <tr key={index}>
-                          <td>
-                            <img
-                              src={"/assets/images/pdf-icon.webp"}
-                              alt={`Selected productimg ${index + 1}`}
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="text"
-                              id={`certificate_title-${index}`}
-                              name="certificate_title"
-                              placeholder="certificate Title"
-                              onChange={(e) =>
-                                handleCertificateDetailsChange(
-                                  index,
-                                  "certificate_title",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </td>
-                          <td>
-                            <button
-                              type="button"
-                              className="remove_multi_img_btn"
-                              onClick={() => removeMultiCertificate(index)}
-                            >
-                              <i className="fa-solid fa-xmark"></i>
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
+                      {addMultiCertificate.product_certificate.map(
+                        (image, index) => (
+                          <tr key={index}>
+                            <td>
+                              <img
+                                src={"/assets/images/pdf-icon.webp"}
+                                alt={`Selected productimg ${index + 1}`}
+                              />
+                            </td>
+                            <td>
+                              <input
+                                type="text"
+                                id={`certificate_title-${index}`}
+                                name="certificate_title"
+                                placeholder="certificate Title"
+                                onChange={(e) =>
+                                  handleCertificateDetailsChange(
+                                    index,
+                                    "certificate_title",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+                            <td>
+                              <button
+                                type="button"
+                                className="remove_multi_img_btn"
+                                onClick={() => removeMultiCertificate(index)}
+                              >
+                                <i className="fa-solid fa-xmark"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        )
+                      )}
                     </tbody>
                   </table>
                 ) : (
@@ -2335,19 +2347,14 @@ const EditProduct = () => {
                     <th style={{ width: "5%" }}>ID</th>
                     <th style={{ width: "10%" }}>IMAGE</th>
                     <th style={{ width: "25%" }}>TITLE</th>
-                    <th style={{ width: "10%" }}>OPERATION</th>
+                    <th style={{ width: "10%" }}>ACTION</th>
                     <th style={{ width: "10%" }}>STATUS</th>
                   </tr>
                 </thead>
                 <tbody>
                   {allProductCertificate.length > 0 ? (
                     allProductCertificate.map((product, index) => (
-                      <tr
-                        key={product.product_id}
-                        style={{
-                          color: product.status === 1 ? "black" : "red",
-                        }}
-                      >
+                      <tr key={product.product_id}>
                         <td>{index + 1}</td>
                         {editingCertificateId === product.prod_certi_id ? (
                           <td className="edit-row">
@@ -2368,12 +2375,22 @@ const EditProduct = () => {
                         ) : (
                           <td>
                             <td>
-                              <img
-                                src={`/assets/images/pdf-icon.webp`}
-                                width="100%"
-                                alt="product"
-                                className="tabel_data_image"
-                              />
+                              <div
+                                onClick={() =>
+                                  window.open(
+                                    `/assets/upload/products/productCertificate/${product.certificate_link}`,
+                                    "_blank"
+                                  )
+                                }
+                                style={{ cursor: "pointer" }}
+                              >
+                                <img
+                                  src={`/assets/images/pdf-icon.webp`}
+                                  width="100%"
+                                  alt="product"
+                                  className="tabel_data_image"
+                                />
+                              </div>
                             </td>
                           </td>
                         )}
@@ -2391,21 +2408,35 @@ const EditProduct = () => {
                         )}
                         {editingCertificateId === product.prod_certi_id ? (
                           <td className="edit-row">
-                            <div>
-                              <button
-                                onClick={() =>
-                                  handleUpdateCertiClick(product.prod_certi_id)
-                                }
-                              >
-                                Update
-                              </button>
-                              <button
-                                className="cancel"
-                                onClick={() => setEditingCertificateId(null)}
-                              >
-                                Cancel
-                              </button>
-                            </div>
+                            <td className="edit-row">
+                              <div>
+                                <button
+                                  style={{
+                                    height: "30px",
+                                    width: "30px",
+                                    padding: "5px",
+                                  }}
+                                  onClick={() =>
+                                    handleUpdateCertiClick(
+                                      product.prod_certi_id
+                                    )
+                                  }
+                                >
+                                  U
+                                </button>
+                                <button
+                                  className="cancel"
+                                  style={{
+                                    height: "30px",
+                                    width: "30px",
+                                    padding: "5px",
+                                  }}
+                                  onClick={() => setEditingCertificateId(null)}
+                                >
+                                  <i className="fa-solid fa-xmark"></i>
+                                </button>
+                              </div>
+                            </td>
                           </td>
                         ) : (
                           <td>
@@ -2436,7 +2467,7 @@ const EditProduct = () => {
                         <td>
                           {product.status === 1 ? (
                             <img
-                              src='/assets/images/activeStatus.png'
+                              src="/assets/images/activeStatus.png"
                               alt="active"
                               className="status_btn"
                               onClick={() =>
@@ -2448,7 +2479,7 @@ const EditProduct = () => {
                             />
                           ) : (
                             <img
-                              src='/assets/images/inActiveStatus.png'
+                              src="/assets/images/inActiveStatus.png"
                               alt="inActive"
                               className="status_btn"
                               onClick={() =>

@@ -1,8 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Header from "@/layouts/Header";
+import axios from "axios";
+import Toast, { ErrorToast } from "@/layouts/toast/Toast";
 
 const Dashboard = () => {
+  const [productCategory, setProductCategory] = useState(0);
+  const [productData, setProductData] = useState([]);
+  const [blogCategory, setBlogCategory] = useState([]);
+  const [blogData, setBlogData] = useState([]);
+  //getall catergory data
+  const getAllCategoryData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/productcategory/router`
+      );
+      setProductCategory(response.data.length);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  //all product data
+  const getAllProductData = async () => {
+    await axios
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/products/router`)
+      .then((res) => {
+        setProductData(res.data.length);
+      })
+      .catch((err) => {
+        ErrorToast(err?.response?.data?.message);
+      });
+  };
+  //get all blog category
+  const getAllBlogCategoryData = async () => {
+    await axios
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/blogcategory/router`)
+      .then((res) => {
+        setBlogCategory(res.data.length);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  // get all blog data
+  const getAllBlogData = async () => {
+    await axios
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/blog/router`)
+      .then((res) => {
+        setBlogData(res.data.length);
+      })
+      .catch((err) => {
+        ErrorToast(err?.response?.data?.message);
+      });
+  };
+  useEffect(() => {
+    getAllCategoryData();
+    getAllProductData();
+    getAllBlogCategoryData();
+    getAllBlogData();
+  }, []);
   return (
     <>
       <section className="home-section">
@@ -18,53 +74,52 @@ const Dashboard = () => {
           </p>
         </div>
         <div className="dashboard-cards">
-          <div className="dashboard-card card1">
+          <div className="dashboard-card">
             <div className="card-header">
               <p>Product Category</p>
             </div>
             <div className="card-body">
               <i className="fa-brands fa-product-hunt"></i>
-              <h3>Product Cate...</h3>
-              <p>$1,234,567</p>
+              <p>{productCategory}</p>
             </div>
             <div className="card-footer">
-              <Link href="/admin/products-category">View Detail...</Link>
+              <Link href="/admin/product-category">View Detail...</Link>
             </div>
           </div>
-          <div className="dashboard-card card2">
+          <div className="dashboard-card">
             <div className="card-header">
+              <p>Total Products</p>
+            </div>
+            <div className="card-body">
               <i className="fa-brands fa-product-hunt"></i>
-            </div>
-            <div className="card-body">
-              <h3>Products</h3>
-              <p>3</p>
+              <p>{productData}</p>
             </div>
             <div className="card-footer">
-              <Link href="/admin/admindashboard">View Detail</Link>
+              <Link href="/admin/products">View Detail...</Link>
             </div>
           </div>
-          <div className="dashboard-card card3">
+          <div className="dashboard-card">
             <div className="card-header">
-              <i className="fa-solid fa-blog"></i>
+              <p>Blog Category</p>
             </div>
             <div className="card-body">
-              <h3>Blog Categories</h3>
-              <p>1,234</p>
+              <i className="fa-brands fa-product-hunt"></i>
+              <p>{blogCategory}</p>
             </div>
             <div className="card-footer">
-              <Link href="/admin/blog-category">View Detail</Link>
+              <Link href="/admin/blog-category">View Detail...</Link>
             </div>
           </div>
-          <div className="dashboard-card card4">
+          <div className="dashboard-card">
             <div className="card-header">
-              <i className="fa-solid fa-blog"></i>
+              <p>Total Blogs</p>
             </div>
             <div className="card-body">
-              <h3>Blogs</h3>
-              <p>567</p>
+              <i className="fa-brands fa-product-hunt"></i>
+              <p>{blogData}</p>
             </div>
             <div className="card-footer">
-              <Link href="/admin/blogs">View Detail</Link>
+              <Link href="/admin/blog">View Detail...</Link>
             </div>
           </div>
         </div>

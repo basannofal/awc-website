@@ -6,7 +6,6 @@ import axios from "axios";
 import Toast, { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
 import Loading from "@/layouts/Loading";
 import DeleteModal from "@/layouts/DeleteModal";
-import YouTube from "react-youtube";
 import ViewModal from "../ViewModal";
 
 const Testimonials = () => {
@@ -200,7 +199,7 @@ const Testimonials = () => {
                 <th style={{ width: "20%", textAlign: "center" }}>PROFILE</th>
                 <th style={{ width: "20%", textAlign: "center" }}>PRODUCT</th>
                 <th style={{ width: "20%", textAlign: "center" }}>TITLE</th>
-                <th style={{ width: "15%", textAlign: "center" }}>OPERATION</th>
+                <th style={{ width: "15%", textAlign: "center" }}>ACTION</th>
                 <th style={{ width: "7%", textAlign: "center" }}>STATUS</th>
               </tr>
             </thead>
@@ -217,10 +216,6 @@ const Testimonials = () => {
                         src={`/assets/upload/testimonial/${testimonial.testimonial_image}`}
                         alt="testimonial"
                         className="table_data_image"
-                        style={{
-                          margin: "auto",
-                          borderRadius: "100%",
-                        }}
                       />
                     </td>
 
@@ -243,7 +238,7 @@ const Testimonials = () => {
                     <td>
                       <span>
                         <button
-                          className="operation_btn_edv"
+                          className="editbutton"
                           onClick={() => {
                             handleEditTestimonial(testimonial.id);
                           }}
@@ -251,13 +246,13 @@ const Testimonials = () => {
                           <i className="fa-regular fa-pen-to-square"></i>
                         </button>
                         <button
-                          className="operation_btn_edv"
+                          className="data_delete_btn"
                           onClick={() => openDeleteModal(testimonial.id)}
                         >
                           <i className="fa-solid fa-trash"></i>
                         </button>
                         <button
-                          className="operation_btn_edv"
+                          className="editbutton"
                           onClick={() => openViewModal(testimonial)}
                         >
                           <i class="fa-solid fa-eye"></i>

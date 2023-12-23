@@ -1,18 +1,13 @@
 import React from "react";
 import Navbar from "@/layouts/Client/Navbar";
-import HeroSection from "./HeroSection";
-import Products from "./Products";
-import Contact from "./Contact";
+import Blog from "./Blog";
 import Footer from "@/layouts/Client/Footer";
-
 
 const index = () => {
   return (
     <>
       <Navbar />
-      <HeroSection />
-      <Products />
-      <Contact />
+      <Blog />
       <Footer />
     </>
   );

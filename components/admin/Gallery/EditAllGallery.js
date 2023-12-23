@@ -69,7 +69,6 @@ const EditAllGallery = () => {
 
   const handleFileChange = async (event, index) => {
     const file = event.target.files[0];
-
     setFormDataArray((prevData) => {
       const newData = [...prevData];
       newData[index] = {
@@ -90,10 +89,8 @@ const EditAllGallery = () => {
 
   const handleEditAllItems = async (e) => {
     e.preventDefault();
-
     // Create an array to store error messages
     const errors = [];
-
     // Validate each item
     formDataArray.forEach((item, index) => {
       if (!item.gallery_title.trim()) {

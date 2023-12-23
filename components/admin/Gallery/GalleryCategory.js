@@ -205,15 +205,13 @@ const GalleryCategory = () => {
         </div>
 
         <div style={{ display: "flex" }}>
-          <div className="admin_category_table" style={{ width: "50%" }}>
+          <div className="admin_category_table" style={{ width: "60%" }}>
             <table>
               <thead>
                 <tr>
-                  <th style={{ width: "33%", textAlign: "center" }}>ID</th>
-                  <th style={{ width: "33%", textAlign: "center" }}>TITLE</th>
-                  <th style={{ width: "34%", textAlign: "center" }}>
-                    OPERATION
-                  </th>
+                  <th style={{ width: "15%", textAlign: "center" }}>ID</th>
+                  <th style={{ width: "60%", textAlign: "center" }}>TITLE</th>
+                  <th style={{ width: "25%", textAlign: "center" }}>ACTION</th>
                   {/* <th style={{ width: "10%", textAlign: "center" }}>STATUS</th> */}
                 </tr>
               </thead>
@@ -231,7 +229,7 @@ const GalleryCategory = () => {
                       <td>
                         <span>
                           <button
-                            className="operation_btn_edv"
+                            className="editbutton"
                             onClick={() => {
                               handleEditGalleryCategory(category.id);
                             }}
@@ -239,7 +237,7 @@ const GalleryCategory = () => {
                             <i className="fa-regular fa-pen-to-square"></i>
                           </button>
                           <button
-                            className="operation_btn_edv operation_delete_btn"
+                            className="data_delete_btn"
                             onClick={() => openDeleteModal(category.id)}
                           >
                             <i className="fa-solid fa-trash"></i>
@@ -284,7 +282,7 @@ const GalleryCategory = () => {
           </div>
           <div
             className="add_data_form"
-            style={{ width: "50%", marginTop: "18px" }}
+            style={{ width: "40%", marginTop: "18px", marginRight: "10px" }}
           >
             <form method="post" onSubmit={handleFormSubmit}>
               <div className="mb-3">

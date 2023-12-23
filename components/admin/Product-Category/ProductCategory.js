@@ -141,11 +141,10 @@ const ProductCategory = () => {
     getActiveCategoryData();
   }, []);
 
-
   //for truncate text code
   const truncateString = (str, maxLength) => {
     if (str.length > maxLength) {
-      return str.substring(0, maxLength) + '...';
+      return str.substring(0, maxLength) + "...";
     } else {
       return str;
     }
@@ -188,7 +187,7 @@ const ProductCategory = () => {
                   SUB CATEGORY
                 </th>
                 <th style={{ width: "15%", textAlign: "center" }}>
-                  OPEARATION
+                 ACTION
                 </th>
                 <th style={{ width: "10%", textAlign: "center" }}>STATUS</th>
               </tr>
@@ -213,11 +212,12 @@ const ProductCategory = () => {
                     <td>
                       {category.sub_category
                         ? (
-                          getCategoryData.find(
-                            (subCategory) =>
-                              subCategory.category_id === category.sub_category
-                          )?.category_name || ""
-                        ).substring(0, 40)
+                            getCategoryData.find(
+                              (subCategory) =>
+                                subCategory.category_id ===
+                                category.sub_category
+                            )?.category_name || ""
+                          ).substring(0, 40)
                         : "null"}
                     </td>
                     <td>

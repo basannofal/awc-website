@@ -88,7 +88,7 @@ const EditBlog = () => {
       [event.target.name]: file,
     }));
 
-    setSelectedImage(file)
+    setSelectedImage(file);
   };
   //for validation
   const validateForm = () => {
@@ -144,9 +144,9 @@ const EditBlog = () => {
   const handleKeyword = (event) => {
     if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
-      if( event.target.value.trim() === ''){
-        ErrorToast("Please Write Keyword")
-        return
+      if (event.target.value.trim() === "") {
+        ErrorToast("Please Write Keyword");
+        return;
       }
       setEditMetaKeyword([...editMetaKeyword, event.target.value]);
       event.target.value = "";
@@ -162,9 +162,9 @@ const EditBlog = () => {
   const handleTags = (event) => {
     if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
-      if( event.target.value.trim() === ''){
-        ErrorToast("Please Write Tag")
-        return
+      if (event.target.value.trim() === "") {
+        ErrorToast("Please Write Tag");
+        return;
       }
       setEditMetaTag([...editMetaTag, event.target.value.trim()]);
       event.target.value = "";

@@ -49,9 +49,7 @@ const Blogs = () => {
   const deleteBlogData = async (deleteId) => {
     setLoading(true);
     try {
-      await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/blog/${deleteId}`
-      );
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/blog/${deleteId}`);
       getAllBlogData();
       getBlogCategoryData();
       setLoading(false);
@@ -91,7 +89,6 @@ const Blogs = () => {
       });
   };
 
-
   //status edit
   const blogStatusChange = async (blogId, no) => {
     setLoading(true);
@@ -123,7 +120,7 @@ const Blogs = () => {
   //for truncate text code
   const truncateString = (str, maxLength) => {
     if (str && str.length > maxLength) {
-      return str.substring(0, maxLength) + '...';
+      return str.substring(0, maxLength) + "...";
     } else {
       return str;
     }
@@ -167,17 +164,14 @@ const Blogs = () => {
                 <th style={{ width: "25%" }}>THUMBNAIL</th>
                 <th style={{ width: "30%" }}>TITLE</th>
                 <th style={{ width: "20%" }}>CATEGORY</th>
-                <th style={{ width: "15%" }}>OPERATION</th>
+                <th style={{ width: "15%" }}>ACTION</th>
                 <th style={{ width: "10%" }}>STATUS</th>
               </tr>
             </thead>
             <tbody>
               {filteredBlogs.length > 0 ? (
                 filteredBlogs.map((blog, index) => (
-                  <tr
-                    key={blog.blog_id}
-                    style={{ color: blog.status === 1 ? "black" : "red" }}
-                  >
+                  <tr key={blog.blog_id}>
                     <td>{index + 1}</td>
                     <td>
                       <img
@@ -191,11 +185,12 @@ const Blogs = () => {
                     <td>
                       {blog.blog_cate_id
                         ? truncateString(
-                          getCategoryData.find(
-                            (category) => category.blog_cate_id === blog.blog_cate_id
-                          )?.category_title,
-                          40
-                        )
+                            getCategoryData.find(
+                              (category) =>
+                                category.blog_cate_id === blog.blog_cate_id
+                            )?.category_title,
+                            40
+                          )
                         : "null"}
                     </td>
 
@@ -217,7 +212,7 @@ const Blogs = () => {
                       {blog.status === 1 ? (
                         <img
                           className="status_btn"
-                          src='/assets/images/activeStatus.png'
+                          src="/assets/images/activeStatus.png"
                           alt="active_btn"
                           onClick={() => {
                             blogStatusChange(blog.blog_id, 1);
@@ -226,7 +221,7 @@ const Blogs = () => {
                       ) : (
                         <img
                           className="status_btn"
-                          src='/assets/images/inActiveStatus.png'
+                          src="/assets/images/inActiveStatus.png"
                           alt="deactive_btn"
                           onClick={() => {
                             blogStatusChange(blog.blog_id, 0);

@@ -296,143 +296,148 @@ const AddGallery = () => {
           </p>
         </div>
 
-        <div className="add_data_form">
-          <form method="post" onSubmit={addData}>
-            <div
-              className={`drag-drop-area ${isDragOver ? "drag-over" : ""}`}
-              onDragEnter={handleDragEnter}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-              onDragOver={(e) => e.preventDefault()} // Prevent default to allow drop
-            >
-              <p>Drag & Drop Images Here</p>
-              <span>or</span>
-              <input
-                type="file"
-                id="gallery_image"
-                name="gallery_image"
-                className="modal_input"
-                onChange={handleAddMultipleImagesChange}
-                multiple
-              />
-              <p>(Only jpg, png, and jpeg files supported)</p>
-            </div>
+        <div className="tabs-container">
+          <div
+            className=".sub-tabs-container"
+            style={{ backgroundColor: "white", padding: "20px" }}
+          >
+            <form method="post" onSubmit={addData}>
+              <div
+                className={`drag-drop-area ${isDragOver ? "drag-over" : ""}`}
+                onDragEnter={handleDragEnter}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                onDragOver={(e) => e.preventDefault()} // Prevent default to allow drop
+              >
+                <p>Drag & Drop Images Here</p>
+                <span>or</span>
+                <input
+                  type="file"
+                  id="gallery_image"
+                  name="gallery_image"
+                  className="modal_input"
+                  onChange={handleAddMultipleImagesChange}
+                  multiple
+                />
+                <p>(Only jpg, png, webp, and jpeg files supported)</p>
+              </div>
 
-            {/* Display images in a table */}
-            <table
-              className="admin_category_table"
-              style={{ marginTop: "1rem" }}
-            >
-              <thead>
-                <tr>
-                  <th style={{ width: "10%" }}>IMAGE</th>
-                  <th style={{ width: "25%" }}>TITLE</th>
-                  <th style={{ width: "40%" }}>CATEGORY</th>
-                  <th style={{ width: "25%" }}>SORTING</th>
-                  <th style={{ width: "5%" }}>OPERATION</th>
-                </tr>
-              </thead>
-              <tbody>
-                {imagePreviews.map((preview, index) => (
-                  <tr key={index}>
-                    <td>
-                      <img
-                        src={preview}
-                        alt={`Preview ${index}`}
-                        style={{ width: "100px", height: "75px" }}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        id={`gallery_title_${index}`}
-                        name={`gallery_title_${index}`}
-                        className="modal_input"
-                        placeholder={`Enter Gallery Title ${index + 1}`}
-                        onChange={(e) => handleChangeTitle(e, index)}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        list={`categories_${index}`}
-                        name={`cate_id_${index}`}
-                        id={`cate_id_${index}`}
-                        className="modal_input"
-                        placeholder="Choose Category"
-                        onChange={(e) => handleCategoryChange(e, index)}
-                      />
-                      <datalist id={`categories_${index}`}>
-                        {getAllGalleryCategory.map((category) => (
-                          <option
-                            key={category.id}
-                            value={category.category_title}
-                          />
-                        ))}
-                      </datalist>
-                      <ul
-                        className="selected-categories"
-                        style={{
-                          listStyleType: "none",
-                          padding: "10px",
-                        }}
-                      >
-                        {(imageCategories[index] || []).map((category) => (
-                          <li key={category.id}>
-                            {category.category_title}
-                            <button
-                              type="button"
-                              onClick={() =>
-                                handleRemoveCategory(index, category.id)
-                              }
-                            >
-                              <i
-                                className="fa-solid fa-circle-minus"
-                                style={{
-                                  color: "red",
-                                  paddingLeft: "20px",
-                                  fontSize: "20px",
-                                }}
-                              ></i>
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        id={`gallery_sort_${index}`}
-                        name={`gallery_sort_${index}`}
-                        className="modal_input"
-                        placeholder={`Gallery Sorting ${index + 1}`}
-                        onChange={(e) => handleChangeSorting(e, index)}
-                      />
-                    </td>
-                    <td style={{ textAlign: "center" }}>
-                      <button
-                        type="button"
-                        className="remove_multi_img_btn"
-                        onClick={() => handleRemoveImage(index)}
-                      >
-                        <i className="fa-solid fa-xmark"></i>
-                      </button>
-                    </td>
+              {/* Display images in a table */}
+              <table
+                className="admin_category_table"
+                style={{ marginTop: "1rem" }}
+              >
+                <thead>
+                  <tr>
+                    <th style={{ width: "10%" }}>IMAGE</th>
+                    <th style={{ width: "25%" }}>TITLE</th>
+                    <th style={{ width: "40%" }}>CATEGORY</th>
+                    <th style={{ width: "25%" }}>SORTING</th>
+                    <th style={{ width: "5%" }}>OPERATION</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {imagePreviews.map((preview, index) => (
+                    <tr key={index}>
+                      <td>
+                        <img
+                          src={preview}
+                          alt={`Preview ${index}`}
+                          style={{ width: "100px", height: "75px" }}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          id={`gallery_title_${index}`}
+                          name={`gallery_title_${index}`}
+                          className="modal_input"
+                          placeholder={`Enter Gallery Title ${index + 1}`}
+                          onChange={(e) => handleChangeTitle(e, index)}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          list={`categories_${index}`}
+                          name={`cate_id_${index}`}
+                          id={`cate_id_${index}`}
+                          className="modal_input"
+                          placeholder="Choose Category"
+                          onChange={(e) => handleCategoryChange(e, index)}
+                        />
+                        <datalist id={`categories_${index}`}>
+                          {getAllGalleryCategory.map((category) => (
+                            <option
+                              key={category.id}
+                              value={category.category_title}
+                            />
+                          ))}
+                        </datalist>
+                        <ul
+                          className="selected-categories"
+                          style={{
+                            listStyleType: "none",
+                            padding: "10px",
+                          }}
+                        >
+                          {(imageCategories[index] || []).map((category) => (
+                            <li key={category.id}>
+                              {category.category_title}
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleRemoveCategory(index, category.id)
+                                }
+                              >
+                                <i
+                                  className="fa-solid fa-circle-minus"
+                                  style={{
+                                    color: "red",
+                                    paddingLeft: "20px",
+                                    fontSize: "20px",
+                                  }}
+                                ></i>
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          id={`gallery_sort_${index}`}
+                          name={`gallery_sort_${index}`}
+                          className="modal_input"
+                          placeholder={`Gallery Sorting ${index + 1}`}
+                          onChange={(e) => handleChangeSorting(e, index)}
+                        />
+                      </td>
+                      <td style={{ textAlign: "center" }}>
+                        <button
+                          type="button"
+                          className="remove_multi_img_btn"
+                          onClick={() => handleRemoveImage(index)}
+                        >
+                          <i className="fa-solid fa-xmark"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
 
-            <div className="mt-5">
-              <button type="submit" className="success_btn">
-                SAVE
-              </button>
-              <Link href="/admin/gallery">
-                <button type="button" className="success_btn cancel_btn">
-                  CANCEL
+              <div className="mt-5">
+                <button type="submit" className="success_btn">
+                  SAVE
                 </button>
-              </Link>
-            </div>
-          </form>
+                <Link href="/admin/gallery">
+                  <button type="button" className="success_btn cancel_btn">
+                    CANCEL
+                  </button>
+                </Link>
+              </div>
+            </form>
+          </div>
         </div>
         <Toast />
       </section>
