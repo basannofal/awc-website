@@ -101,6 +101,7 @@ const About = () => {
                   <div className="about-actions">
                     <input
                       className="btn-primary"
+                      type="button"
                       value="Discover our Expertise"
                     />
                   </div>

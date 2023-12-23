@@ -50,7 +50,7 @@
 }
 
 .about-sec .about-inner {
-  max-width: 1200px;
+  max-width: 2600px;
   margin: 0 auto;
 }
 
@@ -592,6 +592,13 @@
   }
 }
 /* Media Query for Responsive */
+
+@media (max-width: 1450px) {
+  .about-sec .about-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
 
 @media (max-width: 1199.98px) {
   .main-sec-about {

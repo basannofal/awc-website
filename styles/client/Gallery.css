@@ -84,7 +84,7 @@
 
 /* Image section css */
 .gallery-image-sec {
-  padding: 50px;
+  padding: 100px;
   float: left;
   width: 100%;
 }
@@ -97,7 +97,25 @@
   position: relative;
 }
 
+#gallery-main-images {
+  padding: 5px;
+}
+
+.gallery-image-sec
+  .gallery-image-container
+  .gallery-image-main-inner
+  .gallery-inner-images {
+  padding-top: 8px;
+}
+
 /* Responsive Desing */
+
+@media (max-width: 1450px) {
+  .gallery-image-sec .gallery-inner-images {
+    width: 100%;
+    height: auto;
+  }
+}
 
 @media (max-width: 1199.98px) {
   .gallery-image-sec {
