@@ -1,23 +1,77 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/splide/dist/css/splide.min.css";
 
 const About = () => {
+  const splideRef = useRef(null);
+
+  const handlePrevClick = () => {
+    if (splideRef.current) {
+      splideRef.current.go("-1");
+    }
+  };
+
+  const handleNextClick = () => {
+    if (splideRef.current) {
+      splideRef.current.go("+1");
+    }
+  };
+
   return (
     <>
       <section className="about-sec">
         <div className="container-about">
           <div className="about-inner">
             <div className="grid">
-              <div className="xl-6 lg-6 md-12 sm-12">
-                <div className="image-sec">
-                  <img
-                    src={"./assets/images/client/unit_image_1.webp"}
-                    alt="Unit Image"
-                  />
-                </div>
-                <div class="flex flex-col sm:flex-row sm:justify-end">
-                  <div class="arrow-group space-x-6">
-                    <span class="arrow">&#11013;</span>
-                    <span class="arrow">&#11157;</span>
+              <div className="xl-6 lg-6 md-12 sm-12 relative">
+                <Splide
+                  ref={splideRef}
+                  options={{ type: "fade", pagination: false, arrows: false }}
+                >
+                  <SplideSlide>
+                    <div className="image-sec">
+                      <img
+                        src={"./assets/images/client/unit_image_1.webp"}
+                        alt="Unit Image"
+                        className="slider-image"
+                      />
+                    </div>
+                  </SplideSlide>
+                  <SplideSlide>
+                    <div className="image-sec">
+                      <img
+                        src={"./assets/images/client/unit_image_2.webp"}
+                        alt="Unit Image"
+                        className="slider-image"
+                      />
+                    </div>
+                  </SplideSlide>
+                  <SplideSlide>
+                    <div className="image-sec">
+                      <img
+                        src={"./assets/images/client/unit_image_3.webp"}
+                        alt="Unit Image"
+                        className="slider-image"
+                      />
+                    </div>
+                  </SplideSlide>
+                </Splide>
+                <div className="flex flex-col sm:flex-row sm:justify-end mt-1">
+                  <div className="arrow-group space-x-6">
+                    <span
+                      className="arrow"
+                      onClick={handlePrevClick}
+                      style={{ cursor: "pointer" }}
+                    >
+                      &#8592;
+                    </span>
+                    <span
+                      className="arrow"
+                      onClick={handleNextClick}
+                      style={{ cursor: "pointer" }}
+                    >
+                      &#8594;
+                    </span>
                   </div>
                 </div>
               </div>
@@ -47,6 +101,7 @@ const About = () => {
                   <div className="about-actions">
                     <input
                       className="btn-primary"
+                      type="button"
                       value="Discover our Expertise"
                     />
                   </div>
