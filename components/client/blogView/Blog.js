@@ -15,7 +15,7 @@ const Blog = () => {
 
           <div className="blog_view_image">
             <img
-              src={"./assets/images/client/blogViewImg.png"}
+              src={"/assets/images/client/blogViewImg.png"}
               alt="lbog_view_image"
             />
           </div>
@@ -44,7 +44,7 @@ const Blog = () => {
                 <div className="article">
                   <div className="article_icon">
                     <img
-                      src={"./assets/images/client/client-img-1.png"}
+                      src={"/assets/images/client/client-img-1.png"}
                       alt=""
                     />
                   </div>
@@ -65,7 +65,7 @@ const Blog = () => {
                 <div className="article">
                   <div className="article_icon">
                     <img
-                      src={"./assets/images/client/client-img-1.png"}
+                      src={"/assets/images/client/client-img-1.png"}
                       alt=""
                     />
                   </div>

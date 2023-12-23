@@ -1,7 +1,7 @@
 import React from 'react';
-import Index from '@/components/client/Contact'
+import Index from '@/components/client/Career'
 
-const contact = () => {
+const career = () => {
     return (
         <>
             <Index />
@@ -9,4 +9,4 @@ const contact = () => {
     )
 }
 
-export default contact
+export default career
