@@ -311,7 +311,7 @@ const AddBlog = () => {
                 <button type="submit" className="success_btn">
                   SAVE
                 </button>
-                <Link href="/admin/blogs">
+                <Link href="/admin/blog">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
                   </button>
@@ -418,7 +418,7 @@ const AddBlog = () => {
                 <button type="submit" className="success_btn">
                   SAVE
                 </button>
-                <Link href="/admin/blogs">
+                <Link href="/admin/blog">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
                   </button>

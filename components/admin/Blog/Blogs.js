@@ -233,7 +233,7 @@ const Blogs = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5" align="center">
+                  <td colSpan="6" align="center">
                     Data is not available
                   </td>
                 </tr>

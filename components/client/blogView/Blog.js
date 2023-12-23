@@ -14,7 +14,10 @@ const Blog = () => {
           </p>
 
           <div className="blog_view_image">
-            <img src={"./assets/images/client/blogViewImg.png"} alt="" />
+            <img
+              src={"./assets/images/client/blogViewImg.png"}
+              alt="lbog_view_image"
+            />
           </div>
 
           <div className="blog_view_content_sec">
@@ -37,7 +40,7 @@ const Blog = () => {
             </div>
             <div className="side_section">
               <div className="side_sec_card">
-                <p className="card_heading">Related Articles</p>
+                <p className="card_heading mb-4">Related Articles</p>
                 <div className="article">
                   <div className="article_icon">
                     <img
@@ -46,7 +49,7 @@ const Blog = () => {
                     />
                   </div>
                   <div className="article_data">
-                    <p className="heading">Article Post-1</p>
+                    <p className="heading mb-1">Article Post-1</p>
                     <p className="desc">
                       University of Michigan freshman & Author of A Tangled Web
                     </p>
@@ -67,7 +70,7 @@ const Blog = () => {
                     />
                   </div>
                   <div className="article_data">
-                    <p className="heading">Article Post-1</p>
+                    <p className="heading mb-1">Article Post-1</p>
                     <p className="desc">
                       University of Michigan freshman & Author of A Tangled Web
                     </p>
@@ -75,14 +78,38 @@ const Blog = () => {
                 </div>
               </div>
               <div className="side_sec_card">
-                <p className="card_heading">Share With Your Friend</p>
+                <p className="card_heading mb-3">Share With Your Friend</p>
                 <div className="share_main_section">
                   <div className="icon_title">
-                    <img
-                      src={"./assets/images/client/client-img-1.png"}
-                      alt=""
-                    />
+                    <i className="fa-brands fa-facebook-f"></i>
                     <p>Share On Facebook</p>
+                  </div>
+                  <div className="arrow">
+                    <i className="fa-solid fa-arrow-right"></i>
+                  </div>
+                </div>
+                <div className="share_main_section">
+                  <div className="icon_title">
+                    <i className="fa-brands fa-x-twitter"></i>
+                    <p>Share On Twitter</p>
+                  </div>
+                  <div className="arrow">
+                    <i className="fa-solid fa-arrow-right"></i>
+                  </div>
+                </div>
+                <div className="share_main_section">
+                  <div className="icon_title">
+                    <i className="fa-brands fa-whatsapp"></i>
+                    <p>Share On Whatsapp</p>
+                  </div>
+                  <div className="arrow">
+                    <i className="fa-solid fa-arrow-right"></i>
+                  </div>
+                </div>
+                <div className="share_main_section">
+                  <div className="icon_title">
+                    <i className="fa-brands fa-linkedin-in"></i>
+                    <p>Share On Linkedin</p>
                   </div>
                   <div className="arrow">
                     <i className="fa-solid fa-arrow-right"></i>
