@@ -1,6 +1,5 @@
 import React from "react";
-import Index from "@/components/client/product";
-
+import Index from '@/components/client/Testimonial'
 const index = () => {
   return (
     <>

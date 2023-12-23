@@ -43,7 +43,7 @@ const Solution = () => {
                 <div className="t-box">
                   <Link href="/" className="t-link">
                     <img
-                      src={"./assets/images/client/terrace-img-1.png"}
+                      src={"/assets/images/client/terrace-img-1.png"}
                       alt="Terrace Image"
                       width="950"
                       height="auto"
@@ -55,7 +55,7 @@ const Solution = () => {
                 <div className="t-box">
                   <Link href="/" className="t-link">
                     <img
-                      src={"./assets/images/client/terrace-img-2.png"}
+                      src={"/assets/images/client/terrace-img-2.png"}
                       alt="Terrace Image"
                       width="470"
                       height="auto"
@@ -73,7 +73,7 @@ const Solution = () => {
                 <div className="t-box">
                   <Link href="/" className="t-link">
                     <img
-                      src={"./assets/images/client/terrace-img-3.png"}
+                      src={"/assets/images/client/terrace-img-3.png"}
                       alt="Terrace Image"
                       width="470"
                       height="auto"
@@ -87,7 +87,7 @@ const Solution = () => {
                 <div className="t-box">
                   <Link href="/" className="t-link">
                     <img
-                      src={"./assets/images/client/terrace-img-4.png"}
+                      src={"/assets/images/client/terrace-img-4.png"}
                       alt="Terrace Image"
                       width="470"
                       height="auto"
@@ -105,7 +105,7 @@ const Solution = () => {
                 <div className="t-box">
                   <Link href="/" className="t-link">
                     <img
-                      src={"./assets/images/client/terrace-img-5.png"}
+                      src={"/assets/images/client/terrace-img-5.png"}
                       alt="Terrace Image"
                       width="470"
                       height="auto"
@@ -117,7 +117,7 @@ const Solution = () => {
                 <div className="t-box">
                   <Link href="/" className="t-link">
                     <img
-                      src={"./assets/images/client/terrace-img-6.png"}
+                      src={"/assets/images/client/terrace-img-6.png"}
                       alt="Terrace Image"
                       width="950"
                       height="auto"

@@ -26,7 +26,7 @@ const AllSetting = () => {
   //ALL USER DATA GETTING
   const getAllUserData = async () => {
     await axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/settings/router`)
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/settings/${1}`)
       .then((res) => {
         setUserData(res.data[0]);
         setLoading(false);
