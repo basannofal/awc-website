@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import "@/styles/Dashboard.css";
 import "@/styles/User.css";
 import "@/styles/client/Home.css";
+import "@/styles/client/BlogView.css";
 import "@/styles/client/About.css";
 import "@/styles/client/Blog.css";
 import "@/styles/client/Testimonial.css";

@@ -294,7 +294,7 @@ form .mb-3 {
 }
 
 .setting_data {
-  background-color: #E4E9F7;
+  background-color: #e4e9f7;
   padding: 5px;
   border-radius: 2px;
 }
@@ -435,7 +435,7 @@ form .modal_input:focus {
 
 .logOut_modal_section button {
   background-color: transparent;
-  padding: 7px 12px;
+  padding: 0px 12px;
   border-radius: 7px;
   border: 1.5px solid var(--primary-color);
   cursor: pointer;
@@ -443,8 +443,15 @@ form .modal_input:focus {
   margin-left: 10px;
   float: inline-end;
   font-weight: 600;
+  font-size: 13px;
 }
-
+.logOut_modal_section .logout_success_btn {
+  border: 1.5px solid rgb(214, 44, 44);
+}
+.logOut_modal_section .logout_success_btn:hover {
+  background-color: rgb(214, 44, 44);
+  color: white;
+}
 .logOut_modal_section button:hover {
   background-color: var(--primary-color);
   color: white;
@@ -495,7 +502,7 @@ form .modal_input:focus {
 
 .editbutton {
   background-color: #b5bbfe;
-  padding: 6px 9px;
+  padding: 6px 10px;
   border-radius: 4px;
   cursor: pointer;
   font-size: 15px;
@@ -510,7 +517,7 @@ form .modal_input:focus {
 .data_delete_btn {
   background-color: rgb(199, 11, 42);
   color: white;
-  padding: 4px 10px 20px 10px;
+  padding: 6px 11px;
   border-radius: 4px;
   cursor: pointer;
   font-size: 15px;
@@ -588,12 +595,6 @@ form .modal_input:focus {
 }
 
 /* table operation */
-.editbutton {
-  background-color: #b5bbfe;
-  padding: 4px 10px 20px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-}
 
 .dropdown {
   display: inline-block;
@@ -726,7 +727,7 @@ form .modal_input:focus {
 
 .product_data_save_btn {
   background-color: var(--primary-color);
-  padding: 7px 10px;
+  padding: 0px 10px;
   color: var(--fourth-color);
   border-radius: 4px;
   cursor: pointer;
@@ -854,7 +855,7 @@ select::after {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
-  margin: 4rem 5rem 3rem 5rem;
+  margin: 2rem 1rem 2rem 2rem;
   position: relative;
 }
 
@@ -929,7 +930,7 @@ select::after {
 }
 
 .popup button {
-  padding: 0.5rem 0.9rem 0.5rem 0.9rem;
+  padding: 0px 10px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -1003,10 +1004,6 @@ select::after {
 }
 
 /* operation button style */
-.operation_btn_edv {
-  padding: 5px;
-  font-size: 1.2em;
-}
 
 .overlay {
   position: fixed;
@@ -1179,10 +1176,6 @@ select::after {
 }
 
 /* operation button style */
-.operation_btn_edv {
-  padding: 5px;
-  font-size: 1.2em;
-}
 
 .overlay {
   position: fixed;
@@ -1271,10 +1264,6 @@ select::after {
 }
 
 /* operation button style */
-.operation_btn_edv {
-  padding: 5px;
-  font-size: 1.2em;
-}
 
 .overlay {
   position: fixed;

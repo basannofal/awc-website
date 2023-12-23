@@ -203,161 +203,168 @@ const AddTestimonial = () => {
           </p>
         </div>
 
-        <div className="add_data_form">
-          <form method="post" onSubmit={addData}>
-            {/* Product Category */}
-            <div className="mb-3">
-              <label htmlFor="product_id" className="modal_label">
-                <span style={{ color: "red" }}>*</span> Select Product:-
-              </label>
-              <select
-                id="product_id"
-                name="product_id"
-                className="modal_input"
-                onChange={handleChangeTestimonial}
-              >
-                <option value="">-- Select Product --</option>
-                {getProductData.map((product) => (
-                  <option key={product.product_id} value={product.product_id}>
-                    {product.product_title}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Title */}
-            <div className="mb-3">
-              <label htmlFor="product_title" className="modal_label">
-                <span style={{ color: "red" }}>*</span> Testimonial Title:-
-              </label>
-              <input
-                type="text"
-                id="testimonial_title"
-                name="testimonial_title"
-                className="modal_input"
-                placeholder="Enter Testimonial Title"
-                onChange={handleChangeTestimonial}
-              />
-            </div>
-
-            {/* Description */}
-            <div className="mb-3">
-              <p className="modal_label">Testimonial Description:-</p>
-              <Editor
-                apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
-                onInit={(evt, editor) => (editorRef.current = editor)}
-                init={{
-                  height: 500,
-                  menubar: true,
-                  plugins: [
-                    "advlist",
-                    "autolink",
-                    "lists",
-                    "link",
-                    "image",
-                    "charmap",
-                    "preview",
-                    "anchor",
-                    "searchreplace",
-                    "visualblocks",
-                    "code",
-                    "fullscreen",
-                    "insertdatetime",
-                    "media",
-                    "table",
-                    "code",
-                    "help",
-                    "wordcount",
-                  ],
-                  toolbar:
-                    "undo redo | blocks | " +
-                    "bold italic forecolor | alignleft aligncenter " +
-                    "alignright alignjustify | bullist numlist outdent indent | " +
-                    "removeformat | help",
-                }}
-                onChange={handleEditorChange}
-              />
-            </div>
-
-            {/* Image */}
-            <div className="mb-3">
-              <label htmlFor="testimonial_image" className="modal_label">
-                Testimonial Image:-{" "}
-                <span style={{ color: "red" }}>
-                  ( * Only jpg, png, jpeg & webp file supported)
-                </span>
-              </label>
-              {/* Display the selected image immediately */}
-              {selectedImage && (
-                <img
-                  src={URL.createObjectURL(selectedImage)}
-                  width="100px"
-                  height="100px"
-                  alt="profile"
-                />
-              )}
-              <input
-                type="file"
-                id="testimonial_image"
-                name="testimonial_image"
-                className="modal_input"
-                onChange={handleFileChange}
-              />
-            </div>
-
-            {/* Video */}
-            <div className="mb-3">
-              <label htmlFor="testimonial_video" className="modal_label">
-                Testimonial Video:-
-              </label>
-              <input
-                type="text"
-                id="testimonial_video"
-                name="testimonial_video"
-                className="modal_input"
-                placeholder="Enter Testimonial Video Link"
-                onChange={handleChangeTestimonial}
-              />
-            </div>
-
-            {/* Rating */}
-            <div className="mb-3">
-              <label htmlFor="testimonial_rating" className="modal_label">
-                Testimonial Rating:-
-              </label>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                {/* Range input */}
-                <input
-                  type="range"
-                  min={starArray[0]}
-                  max={starArray[starArray.length - 1]}
-                  step={0.5}
-                  value={addTestimonialData.testimonial_rating}
-                  onChange={(e) => handleStarClick(parseFloat(e.target.value))}
-                  onBlur={() =>
-                    handleStarClick(addTestimonialData.testimonial_rating)
-                  }
-                />
-                {/* Display selected rating */}
-                <p style={{ paddingLeft: "10px" }}>
-                  {addTestimonialData.testimonial_rating}
-                </p>
-                {/* Display stars based on range input */}
-                <p style={{ paddingLeft: "10px" }}>{generateStars()}</p>
+        <div className="tabs-container">
+          <div
+            className=".sub-tabs-container"
+            style={{ backgroundColor: "white", padding: "20px" }}
+          >
+            <form method="post" onSubmit={addData}>
+              {/* Product Category */}
+              <div className="mb-3">
+                <label htmlFor="product_id" className="modal_label">
+                  <span style={{ color: "red" }}>*</span> Select Product:-
+                </label>
+                <select
+                  id="product_id"
+                  name="product_id"
+                  className="modal_input"
+                  onChange={handleChangeTestimonial}
+                >
+                  <option value="">-- Select Product --</option>
+                  {getProductData.map((product) => (
+                    <option key={product.product_id} value={product.product_id}>
+                      {product.product_title}
+                    </option>
+                  ))}
+                </select>
               </div>
-            </div>
-            {/* Handle Button Save and Cancle */}
-            <div className="mb-3">
-              <button type="submit" className="success_btn">
-                SAVE
-              </button>
-              <Link href="/admin/testimonial">
-                <button type="button" className="success_btn cancel_btn">
-                  CANCEL
+
+              {/* Title */}
+              <div className="mb-3">
+                <label htmlFor="product_title" className="modal_label">
+                  <span style={{ color: "red" }}>*</span> Testimonial Title:-
+                </label>
+                <input
+                  type="text"
+                  id="testimonial_title"
+                  name="testimonial_title"
+                  className="modal_input"
+                  placeholder="Enter Testimonial Title"
+                  onChange={handleChangeTestimonial}
+                />
+              </div>
+
+              {/* Description */}
+              <div className="mb-3">
+                <p className="modal_label">Testimonial Description:-</p>
+                <Editor
+                  apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
+                  onInit={(evt, editor) => (editorRef.current = editor)}
+                  init={{
+                    height: 500,
+                    menubar: true,
+                    plugins: [
+                      "advlist",
+                      "autolink",
+                      "lists",
+                      "link",
+                      "image",
+                      "charmap",
+                      "preview",
+                      "anchor",
+                      "searchreplace",
+                      "visualblocks",
+                      "code",
+                      "fullscreen",
+                      "insertdatetime",
+                      "media",
+                      "table",
+                      "code",
+                      "help",
+                      "wordcount",
+                    ],
+                    toolbar:
+                      "undo redo | blocks | " +
+                      "bold italic forecolor | alignleft aligncenter " +
+                      "alignright alignjustify | bullist numlist outdent indent | " +
+                      "removeformat | help",
+                  }}
+                  onChange={handleEditorChange}
+                />
+              </div>
+
+              {/* Image */}
+              <div className="mb-3">
+                <label htmlFor="testimonial_image" className="modal_label">
+                  Testimonial Image:-{" "}
+                  <span style={{ color: "red" }}>
+                    ( * Only jpg, png, jpeg & webp file supported)
+                  </span>
+                </label>
+                {/* Display the selected image immediately */}
+                {selectedImage && (
+                  <img
+                    src={URL.createObjectURL(selectedImage)}
+                    width="100px"
+                    height="100px"
+                    alt="profile"
+                  />
+                )}
+                <input
+                  type="file"
+                  id="testimonial_image"
+                  name="testimonial_image"
+                  className="modal_input"
+                  onChange={handleFileChange}
+                />
+              </div>
+
+              {/* Video */}
+              <div className="mb-3">
+                <label htmlFor="testimonial_video" className="modal_label">
+                  Testimonial Video:-
+                </label>
+                <input
+                  type="text"
+                  id="testimonial_video"
+                  name="testimonial_video"
+                  className="modal_input"
+                  placeholder="Enter Testimonial Video Link"
+                  onChange={handleChangeTestimonial}
+                />
+              </div>
+
+              {/* Rating */}
+              <div className="mb-3">
+                <label htmlFor="testimonial_rating" className="modal_label">
+                  Testimonial Rating:-
+                </label>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  {/* Range input */}
+                  <input
+                    type="range"
+                    min={starArray[0]}
+                    max={starArray[starArray.length - 1]}
+                    step={0.5}
+                    value={addTestimonialData.testimonial_rating}
+                    onChange={(e) =>
+                      handleStarClick(parseFloat(e.target.value))
+                    }
+                    onBlur={() =>
+                      handleStarClick(addTestimonialData.testimonial_rating)
+                    }
+                  />
+                  {/* Display selected rating */}
+                  <p style={{ paddingLeft: "10px" }}>
+                    {addTestimonialData.testimonial_rating}
+                  </p>
+                  {/* Display stars based on range input */}
+                  <p style={{ paddingLeft: "10px" }}>{generateStars()}</p>
+                </div>
+              </div>
+              {/* Handle Button Save and Cancle */}
+              <div className="mb-3">
+                <button type="submit" className="success_btn">
+                  SAVE
                 </button>
-              </Link>
-            </div>
-          </form>
+                <Link href="/admin/testimonial">
+                  <button type="button" className="success_btn cancel_btn">
+                    CANCEL
+                  </button>
+                </Link>
+              </div>
+            </form>
+          </div>
         </div>
         <Toast />
       </section>
