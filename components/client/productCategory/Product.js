@@ -38,10 +38,10 @@ const Product = ({ cid }) => {
                     <div className="roof-box">
                       <div className="roof-image">
                         <img
-                          src={"/assets/images/client/roof_540_image.png"}
+                          src={`/assets/upload/products/${item.product_image}`}
                           alt="Roof 540 Category Image"
                           width="406"
-                          height="auto"
+                          height="350px"
                         />
                       </div>
                       <div className="roof-content">

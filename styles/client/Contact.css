@@ -38,7 +38,7 @@
     background-color: #1386d3;
 }
 
-.contact_desc {
+.contact_title .contact_second_title .contact_desc {
     font-family: Montserrat;
     font-size: 15px;
     font-weight: 500;
@@ -47,7 +47,6 @@
     padding: 0px 0px 30px 0px;
     border-bottom: 1px solid rgba(122, 122, 122, 0.863);
 }
-
 
 #main_contact {
     max-width: 80%;
