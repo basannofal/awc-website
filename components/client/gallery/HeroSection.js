@@ -1,7 +1,37 @@
+import axios from "axios";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const HeroSection = () => {
+const HeroSection = ({ onSelectCategory, selectedCategory }) => {
+  const [loading, setLoading] = useState(true);
+  const [allProdCategory, setAllProdCategory] = useState([]);
+
+  const handleCategorySelect = (category) => {
+    onSelectCategory(category);
+  };
+
+  const getCategories = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/gallery/allcategory/router`
+      );
+      setAllProdCategory(response.data);
+      onSelectCategory(response.data[0].id)
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getCategories();
+    };
+    fetchData();
+  }, []);
+
   return (
     <>
       <section className="gallery-sec">
@@ -16,13 +46,19 @@ const HeroSection = () => {
               leading waterproofing company and also let you visualise how your
               structure will look after completion.
             </p>
-            <div className="gallery-btn-sec">
-              <Link href="/" className="btn-primary gallery-btn1">
-                Roof Water Proofing
-              </Link>
-              <Link href="/" className="btn-primary gallery-btn2">
-                External Wall Proofing
-              </Link>
+            <div className="grid" style={{marginTop:10}}>
+              {allProdCategory.map((item, idx) => {
+                return (
+                  <div key={item.id} className={`lg-4 md-6 ${
+                    selectedCategory == item.id ? "btn-primary gallery-btn1" : "btn-primary gallery-btn2"
+                  }`}
+                    onClick={() => handleCategorySelect(item.id)}
+                    style={{ margin:10}}
+                  >
+                    {item.category_title}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
