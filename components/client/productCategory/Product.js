@@ -49,7 +49,7 @@ const Product = ({ cid }) => {
                         <p dangerouslySetInnerHTML={{ __html: item.product_short_desc }}>
                         </p>
                         <Link
-                          href="javascript:void(0);"
+                          href={`/product/${item.product_title}/${item.product_id}`}
                           className="view-detail-Link"
                         >
                           View Detail

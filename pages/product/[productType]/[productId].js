@@ -7,7 +7,11 @@ const ProductDetailPage = () => {
   const { productType, productId } = router.query;
 
   return (
-    <Index pid={productId} />
+    <>
+    <h1>{productType}</h1>
+    <h1>{productId}</h1>
+    {/* // <Index pid={productId} /> */}
+    </>
   );
 };
 
