@@ -184,13 +184,8 @@ const Navbar = () => {
                           <Link href="/about">About Us</Link>
                         </li>
                         <li>
-                          <Link
-                            href="javascript:void(0);"
-                            onClick={handleDropdown}
-                          >
-                            Products
-                          </Link>
-                          <ul className="navbar-dropdown">
+                          <Link href="/product">Products</Link>
+                          {/* <ul className="navbar-dropdown">
                             <li>
                               <Link href="/roof-product">
                                 Roof Waterproofing
@@ -204,7 +199,7 @@ const Navbar = () => {
                                 Exclusive Products
                               </Link>
                             </li>
-                          </ul>
+                          </ul> */}
                         </li>
                         <li>
                           <Link href="/gallery">Gallery</Link>
