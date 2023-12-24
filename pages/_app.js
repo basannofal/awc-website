@@ -8,6 +8,7 @@ import "@/styles/client/Gallery.css";
 import "@/styles/client/Blog.css";
 import "@/styles/client/Testimonial.css";
 import "@/styles/client/Contact.css";
+import "@/styles/client/ProductView.css";
 import "@/styles/client/career.css";
 
 import Head from "next/head";
