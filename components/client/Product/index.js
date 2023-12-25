@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "@/layouts/Client/Navbar";
 import HeroSection from "./HeroSection";
-import Form from "./Form";
+import Product from "./Product";
+import Question from "./Question";
 import Footer from "@/layouts/Client/Footer";
 
 const index = () => {
@@ -9,9 +10,11 @@ const index = () => {
     <>
       <Navbar />
       <HeroSection />
-      <Form />
+      <Product />
+      <Question />
       <Footer />
     </>
   );
 };
+
 export default index;

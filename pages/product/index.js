@@ -1,5 +1,5 @@
 import React from "react";
-import Index from "@/components/client/productCategory";
+import Index from "@/components/client/Product";
 
 const index = () => {
   return (

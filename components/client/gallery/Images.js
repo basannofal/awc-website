@@ -39,7 +39,7 @@ const Images = ({ selectedCategory }) => {
                   id="gallery-main-images"
                 >
                   <div className="gallery-inner-images">
-                    <img src={`/assets/upload/gallery/${image.gallery_image}`} alt={image.gallery_title} />
+                    <img src={`/assets/upload/gallery/${image?.gallery_image}`} alt={image?.gallery_title} />
                   </div>
                 </div>
               ))}
