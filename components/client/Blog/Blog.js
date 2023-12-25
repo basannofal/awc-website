@@ -55,21 +55,21 @@ const Blog = () => {
                   return (
                     <div className="sm:w-1/2 md:w-1/3 lg:w-3/12 blog_image_section">
                       <img
-                        src={`./assets/upload/blogs/${item.blog_thumbnail}`}
+                        src={`./assets/upload/blogs/${item?.blog_thumbnail}`}
                         alt="blog_image"
                       />
                       <div className="blog_name_main_section">
                         <div className="blog_name_section">AWC India</div>
                         <div className="blog_rectangle"></div>
                         <div className="blog_name_section">
-                          {item.published_date.substring(0, 10)}
+                          {item?.published_date.substring(0, 10)}
                         </div>
                       </div>
                       <p className="blog_desc_section">
-                        {item.blog_title}
+                        {item?.blog_title}
                       </p>
                       <p className="blog_sec_desc_section">
-                        {extractFirstParagraph(item.blog_description)}
+                        {extractFirstParagraph(item?.blog_description)}
                       </p>
                     </div>
                   );

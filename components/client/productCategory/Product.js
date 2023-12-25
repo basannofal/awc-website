@@ -33,23 +33,24 @@ const Product = ({ cid }) => {
           <div className="roof-category-inner">
             <div className="grid">
               {CategoryProduct.map((item, key) => {
+                const slug = item?.product_title.replace(/\s+/g, '-'); 
                 return (
-                  <div key={item.product_id} className="lg-4 md-6 sm-12">
+                  <div key={item?.product_id} className="lg-4 md-6 sm-12">
                     <div className="roof-box">
                       <div className="roof-image">
                         <img
-                          src={`/assets/upload/products/${item.product_image}`}
+                          src={`/assets/upload/products/${item?.product_image}`}
                           alt="Roof 540 Category Image"
                           width="406"
                           height="350px"
                         />
                       </div>
                       <div className="roof-content">
-                        <h4>{item.product_title}</h4>
-                        <p dangerouslySetInnerHTML={{ __html: item.product_short_desc }}>
+                        <h4>{item?.product_title}</h4>
+                        <p dangerouslySetInnerHTML={{ __html: item?.product_short_desc }}>
                         </p>
                         <Link
-                          href={`/product/${item.product_title}/${item.product_id}`}
+                          href={`/product/${slug}/${item?.product_id}`}
                           className="view-detail-Link"
                         >
                           View Detail

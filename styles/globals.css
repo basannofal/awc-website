@@ -55,3 +55,7 @@
   /* Darker red on hover */
 }
 
+
+svg{
+  display:inline;
+}

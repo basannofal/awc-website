@@ -55,16 +55,17 @@ const Product = () => {
             <div className="product-inner">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 {ProductCategory.map((item, idx) => {
+                  const slug = item?.category_name.replace(/\s+/g, '-'); 
                   return (
-                    <div key={item.category_id} className="product-card">
+                    <div key={item?.category_id} className="product-card">
                       <div className="product-content">
                         <h4>AWC INDIA</h4>
-                        <h2>{item.category_name}</h2>
+                        <h2>{item?.category_name}</h2>
                         <p>
-                        {extractFirstParagraph(item.category_description)}...
+                        {extractFirstParagraph(item?.category_description)}...
                         </p>
-                        <Link href={`/product-category/${item.category_name}/${item.category_id}`}>
-                        {item.category_title} Products{" "}
+                        <Link href={`/product-category/${slug}/${item?.category_id}`}>
+                        {item?.category_title} Products{" "}
                           <span>
                             <svg
                               style={{ verticalAlign: "middle" }}
