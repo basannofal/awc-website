@@ -129,89 +129,7 @@
   padding-bottom: 10px;
   border-bottom: 2px solid #1386d3;
 }
-.main_related_blog_sec {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-.main_related_blog_sec .main_blog {
-  height: 440px;
-  width: 30%;
-  border-radius: 10px;
-  background: #f2f3f4;
-  position: relative;
-  margin-bottom: 20px;
-}
-.main_blog .blog_image_sec {
-  width: 100%;
-  max-height: 210px;
-}
-.main_blog .blog_image_sec img {
-  width: 100%;
-  height: auto;
-}
-.main_blog .blog_image_sec .blog_category_icon {
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  top: 40%;
-  left: 40%;
-}
-.main_blog .blog_data_sec {
-  padding: 0px 12px;
-}
-.blog_data_sec {
-  margin-top: 40px;
-}
-.blog_data_sec .blog_date_sec {
-  display: flex;
-  font-size: 14px;
-}
-.blog_date_sec .reading {
-  display: flex;
-  align-items: center;
-}
-.blog_date_sec .reading div {
-  height: 7px;
-  width: 7px;
-  opacity: 0.3;
-  background: var(--03, #5a5e62);
-  border-radius: 50%;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-.blog_data_sec .blog_heading {
-  margin-top: 10px;
-  color: #07070a;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 25px;
-  text-transform: capitalize;
-}
-.blog_data_sec .blog_desc {
-  margin-top: 10px;
-  color: #5a5e62;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 24px; /* 171.429% */
-  text-transform: capitalize;
-}
 @media only screen and (max-width: 1026px) {
-  .main_related_blog_sec .main_blog {
-    width: 31%;
-  }
-  .main_blog .blog_image_sec .blog_category_icon {
-    position: absolute;
-    top: 36%;
-    left: 39%;
-  }
-  .blog-view-sec {
-    width: 90%;
-  }
-  .blog_content {
-    width: 100%;
-    padding-right: 20px;
-  }
   .side_section {
     width: 100%;
   }
@@ -224,41 +142,18 @@
   }
 }
 @media only screen and (max-width: 707px) {
-  .main_related_blog_sec .main_blog {
-    width: 31%;
-  }
-  .main_blog .blog_image_sec .blog_category_icon {
-    position: absolute;
-    top: 36%;
-    left: 39%;
-  }
-  .blog-view-sec {
-    width: 90%;
-  }
   .side_section .side_sec_card {
     width: 100%;
     display: block;
   }
-}
-@media only screen and (max-width: 450px) {
   .blog-view-sec {
-    width: 100%;
-  }
-  .blog-view-main-title {
-    font-size: 16px;
-    line-height: 24px;
-  }
-  .blog_title .heading {
-    font-size: 23px;
-    line-height: 30px;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-  }
-  .blog_date_section p .fa-clock {
-    margin-left: 30px;
+    width: 90%;
   }
 }
 @media only screen and (max-width: 380px) {
+  .blog-view-sec {
+    width: 97%;
+  }
   .article .article_icon {
     margin-right: 15px;
   }
