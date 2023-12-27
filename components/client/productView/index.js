@@ -8,7 +8,7 @@ import Head from "next/head";
 
 const index = ({ pid }) => {
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
 
   const getProductData = async () => {
     setLoading(true);
@@ -36,8 +36,8 @@ const index = ({ pid }) => {
         <h1>Loding</h1>
       ) : (
         <>
-        <Head>
-        <title>{products?.product_title || "Products"}</title>
+          <Head>
+            <title>{products?.product_title || "Products"}</title>
             <meta
               name="keywords"
               content={
@@ -56,7 +56,7 @@ const index = ({ pid }) => {
           </Head>
           <Navbar />
           <HeroSection product={products} />
-          <Tabs pid={pid} lognDesc={products?.product_long_desc}/>
+          <Tabs pid={pid} lognDesc={products?.product_long_desc} />
           <Footer />
         </>
       )}
