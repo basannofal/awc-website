@@ -2,13 +2,15 @@ import "@/styles/globals.css";
 import "@/styles/Dashboard.css";
 import "@/styles/User.css";
 import "@/styles/client/Home.css";
+import "@/styles/client/Product.css";
 import "@/styles/client/BlogView.css";
 import "@/styles/client/About.css";
 import "@/styles/client/Gallery.css";
 import "@/styles/client/Blog.css";
 import "@/styles/client/Testimonial.css";
 import "@/styles/client/Contact.css";
-import "@/styles/client/career.css";
+import "@/styles/client/ProductView.css";
+import "@/styles/client/Career.css";
 
 import Head from "next/head";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,8 +18,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function App({ Component, pageProps }) {
-
-  const [GlobalSeo, setGlobalSeo] = useState({})
+  const [GlobalSeo, setGlobalSeo] = useState({});
 
   const getGlobalData = async () => {
     try {
@@ -31,12 +32,12 @@ export default function App({ Component, pageProps }) {
   };
 
   useEffect(() => {
-    const fetchData = async() => {
+    const fetchData = async () => {
       await getGlobalData();
-    }
-    fetchData()
+    };
+    fetchData();
   }, []);
-  
+
   return (
     <>
       <Head>

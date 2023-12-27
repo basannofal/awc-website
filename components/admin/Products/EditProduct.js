@@ -1662,8 +1662,8 @@ const EditProduct = () => {
                                   handleUpdateClick(product.prod_image_id)
                                 }
                               >
-                                {/* <i class="fa-solid fa-floppy-disk"></i> */}U
-                                <i className="fa-solid fa-pencil"></i>
+                                <i className="fa-solid fa-floppy-disk"></i>
+                                {/* <i class="fa-solid fa-floppy-disk"></i>U */}
                               </button>
                               <button
                                 style={{
@@ -1966,7 +1966,7 @@ const EditProduct = () => {
                       className="modal_input"
                       accept="image/*"
                       onChange={handleVedioFileChange}
-                      required
+                      required={!editingVedioId}
                     />
                     {editingVedioId ? (
                       <img
@@ -2176,7 +2176,7 @@ const EditProduct = () => {
                                   handleUpdateDocClick(product.prod_docs_id)
                                 }
                               >
-                                U
+                                <i className="fa-solid fa-floppy-disk"></i>
                               </button>
                               <button
                                 className="cancel"
@@ -2407,7 +2407,6 @@ const EditProduct = () => {
                           <td>{product.certificate_title}</td>
                         )}
                         {editingCertificateId === product.prod_certi_id ? (
-                          <td className="edit-row">
                             <td className="edit-row">
                               <div>
                                 <button
@@ -2422,7 +2421,7 @@ const EditProduct = () => {
                                     )
                                   }
                                 >
-                                  U
+                                  <i className="fa-solid fa-floppy-disk"></i>
                                 </button>
                                 <button
                                   className="cancel"
@@ -2437,7 +2436,6 @@ const EditProduct = () => {
                                 </button>
                               </div>
                             </td>
-                          </td>
                         ) : (
                           <td>
                             <button

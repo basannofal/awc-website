@@ -1,4 +1,5 @@
 import conn from "../../dbconfig/conn";
+
 export const config = {
   api: {
     bodyParser: false,
@@ -6,20 +7,21 @@ export const config = {
 };
 
 export default async function handler(req, res) {
-
-  if (req.method === "GET") {
+  if (req.method == "GET") {
     try {
-      const q = "SELECT * FROM `blog_master` where status = 1";
-      const [rows] = await conn.query(q);
+      // Query the database
 
+      const q =
+        "SELECT `blog_title`, `blog_keyword`, `blog_desc`, `blog_canonical` FROM `pages_seo`";
+      console.log(q);
+      const [rows] = await conn.query(q);
+      console.log(rows);
+      // Process the data and send the response
       res.status(200).json(rows);
-    } catch (error) {
-      res
-        .status(500)
-        .json({ message: "Can not Get category... check connection" });
+    } catch (err) {
+      res.status(401).json({ message: "Connection Error" });
     } finally {
       conn.releaseConnection();
     }
   }
-
 }

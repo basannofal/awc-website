@@ -25,7 +25,6 @@ const Blog = () => {
                 alt="lbog_view_image"
               />
             </div>
-
             <div className="blog_view_content_sec">
               <div className="blog_content">
                 <div className="blog_date_section">

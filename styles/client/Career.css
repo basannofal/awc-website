@@ -1,0 +1,55 @@
+.career-main {
+    padding: 220px 0px 0px 0px;
+    width: 80%;
+}
+
+.career-title {
+    font-family: Montserrat;
+    font-size: 45px;
+    font-weight: 900;
+    line-height: 50px;
+    text-align: center;
+    color: #1386D3;
+}
+
+.career-title:after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 2px;
+    background-color: #1386d3;
+    margin: 20px auto;
+}
+
+.career-desc {
+    font-family: Inter;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 25px;
+    color: #5A5E62;
+    width: 63%;
+    margin: 25px auto;
+}
+
+@media screen and (max-width: 800px) {
+    .career-title {
+        font-size: 25px;
+        line-height: 30px;
+        font-weight: 700;
+        text-align: left;
+    }
+
+    .career-main {
+        width: 100%;
+        padding: 200px 0px 0px 0px;
+    }
+
+    .career-desc {
+        width: 95%;
+        margin: 20px 0px;
+    }
+
+    .career-title:after {
+        margin: 20px 10px;
+    }
+}

@@ -77,7 +77,7 @@ const Contact = ({ cid }) => {
                     <div className="grid">
                       {testimonial.map((item, idx) => {
                         return (
-                          <div key={item.id} className="lg-6 sm-12">
+                          <div key={item?.id} className="lg-6 sm-12">
                             <div className="testimonials-content">
                               <img
                                 className="q-img"
@@ -89,21 +89,21 @@ const Contact = ({ cid }) => {
                               <p
                                 className="desc"
                                 dangerouslySetInnerHTML={{
-                                  __html: item.testimonial_desc,
+                                  __html: item?.testimonial_desc,
                                 }}
                               ></p>
                               <div className="c-img-sec">
                                 <img
                                   style={{ borderRadius: "50%" }}
-                                  src={`/assets/upload/testimonial/${item.testimonial_image}`}
+                                  src={`/assets/upload/testimonial/${item?.testimonial_image}`}
                                   alt="Client Image"
                                   width="50"
                                   height="auto"
                                 />
                                 <div className="c-title-sec">
-                                  <h4>{item.testimonial_title}</h4>
+                                  <h4>{item?.testimonial_title}</h4>
                                   <div className="rating-sec">
-                                    {renderStars(item.rating)}
+                                    {renderStars(item?.rating)}
                                   </div>
                                 </div>
                               </div>

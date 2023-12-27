@@ -17,7 +17,7 @@ const HeroSection = ({ onSelectCategory, selectedCategory }) => {
         `${process.env.NEXT_PUBLIC_API_URL}/client/gallery/allcategory/router`
       );
       setAllProdCategory(response.data);
-      onSelectCategory(response.data[0].id)
+      onSelectCategory(response.data[0].id);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -46,16 +46,20 @@ const HeroSection = ({ onSelectCategory, selectedCategory }) => {
               leading waterproofing company and also let you visualise how your
               structure will look after completion.
             </p>
-            <div className="grid" style={{marginTop:10}}>
+            <div className="grid" style={{ marginTop: 10 }}>
               {allProdCategory.map((item, idx) => {
                 return (
-                  <div key={item.id} className={`lg-4 md-6 ${
-                    selectedCategory == item.id ? "btn-primary gallery-btn1" : "btn-primary gallery-btn2"
-                  }`}
-                    onClick={() => handleCategorySelect(item.id)}
-                    style={{ margin:10}}
+                  <div
+                    key={item?.id}
+                    className={`lg-4 md-6 ${
+                      selectedCategory == item?.id
+                        ? "gallery-btn-primary gallery-btn1"
+                        : "gallery-btn-primary gallery-btn2"
+                    }`}
+                    onClick={() => handleCategorySelect(item?.id)}
+                    style={{ margin: 10 }}
                   >
-                    {item.category_title}
+                    {item?.category_title}
                   </div>
                 );
               })}

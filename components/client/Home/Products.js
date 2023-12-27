@@ -10,13 +10,13 @@ const Products = ({ productCategories }) => {
             <h2>Waterproofing Solutions</h2>
             <div className="grid">
               {productCategories.map((category) => (
-                <div key={category.category_id} className="lg-4 md-6">
+                <div key={category?.category_id} className="lg-4 md-6">
                   <div className="solution-box">
-                    <h4>{category.category_name}</h4>
+                    <h4>{category?.category_name}</h4>
                   </div>
                   <div className="solution-category">
                     <ul>
-                      {category.products.map((product) => {
+                      {category?.products.map((product) => {
                         const slug = product.product_title.replace(/\s+/g, "-");
                         return (
                           <li key={product.product_id}>
