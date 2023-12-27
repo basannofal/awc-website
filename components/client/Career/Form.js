@@ -4,7 +4,7 @@ const Form = () => {
   return (
     <div className="blog-view-sec">
       <div className="container mb-6">
-        <div className="form_main lg:py-7 md:py-5">
+        <div className="form_main lg:py-7 py-6">
           <p className="form_title text-center">Apply Now</p>
           <p className="text-center mb-6">Submit The Form Below To Apply</p>
           <form action="">
