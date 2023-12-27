@@ -69,35 +69,41 @@ const index = () => {
     }
   };
 
-
-
   useEffect(() => {
-    const fetchData = async() => {
+    const fetchData = async () => {
       await getData();
       await getSEOData();
-    }
-    fetchData()
+    };
+    fetchData();
   }, []);
   return (
     <>
-      <Head>
-        <title>{seoData.home_title || "AWC India"}</title>
-        <meta
-          name="keywords"
-          content={seoData.home_keyword || "Default Keywords"}
-        />
-        <meta
-          name="description"
-          content={seoData.home_desc || "Default Description"}
-        />
-        {seoData.home_canonical && <link rel="canonical" href={seoData.home_canonical} />}
-      </Head>
+      {loading ? (
+        <h1>Loading </h1>
+      ) : (
+        <>
+          <Head>
+            <title>{seoData.home_title || "AWC India"}</title>
+            <meta
+              name="keywords"
+              content={seoData.home_keyword || "Default Keywords"}
+            />
+            <meta
+              name="description"
+              content={seoData.home_desc || "Default Description"}
+            />
+            {seoData.home_canonical && (
+              <link rel="canonical" href={seoData.home_canonical} />
+            )}
+          </Head>
 
-      <Navbar />
-      <HeroSection />
-      <Products productCategories={productCategories} />
-      <Contact />
-      <Footer />
+          <Navbar />
+          <HeroSection />
+          <Products productCategories={productCategories} />
+          <Contact />
+          <Footer />
+        </>
+      )}
     </>
   );
 };

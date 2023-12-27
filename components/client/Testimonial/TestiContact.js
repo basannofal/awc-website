@@ -9,7 +9,7 @@ const TestiContact = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/client/testimonials/router`
+        `${process.env.NEXT_PUBLIC_API_URL}/client/testimonials/alltestimonials/router`
       );
       console.log(response.data);
       setTestimonial(response.data);
@@ -65,7 +65,7 @@ const TestiContact = () => {
          <div className="main_testi_contact">
         {testimonial.map((item, idx) => {
           return (
-            <div className="main_testi_contact_inner">
+            <div className="main_testi_contact_inner" key={item.id}>
               <div className="testimonials-contents">
                 <img
                   className=""

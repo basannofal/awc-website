@@ -1,6 +1,32 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const Certificate = () => {
+  const [loading, setLoading] = useState(true);
+  const [testimonial, setTestimonial] = useState([]);
+
+  const getTestimonial = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/testimonials/router`
+      );
+      console.log(response.data);
+      setTestimonial(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getTestimonial();
+    };
+    fetchData();
+  }, []);
+
   return (
     <>
       <section className="certificate-sec">
@@ -58,23 +84,27 @@ const Certificate = () => {
         <div className="container-youtube">
           <div className="youtube-inner">
             <div className="grid mt-14">
-              <div className="xl-4 lg-4 md-6 sm-6">
-                <div className="youtube-content">
-                  <div className="youtube-thumbnail">
-                    <img src={"./assets/images/client/unit_image_1.png"} />
-                  </div>
-                  <div className="youtube-icon">
-                    <img src={"./assets/images/client/youtube.png"} />
-                  </div>
-                  <h6>AWC Introductory Video</h6>
-                  <div className="calendar-info flex items-center">
-                    <div className="calendar">
-                      <img src={"./assets/images/client/calendar.png"} />
+              {testimonial.map((item, idx) => {
+                return (
+                  <div className="xl-4 lg-4 md-6 sm-6" key={item.id}>
+                    <div className="youtube-content">
+                      <div className="youtube-thumbnail">
+                        <img src={"./assets/images/client/unit_image_1.png"} />
+                      </div>
+                      <div className="youtube-icon">
+                        <img src={"./assets/images/client/youtube.png"} />
+                      </div>
+                      <h6>AWC Introductory Video</h6>
+                      <div className="calendar-info flex items-center">
+                        <div className="calendar">
+                          <img src={"./assets/images/client/calendar.png"} />
+                        </div>
+                        <p className="pl-3">@awcindiawaterproofingco4479</p>
+                      </div>
                     </div>
-                    <p className="pl-3">@awcindiawaterproofingco4479</p>
                   </div>
-                </div>
-              </div>
+                );
+              })}
               <div className="xl-4 lg-4 md-6 sm-6">
                 <div className="youtube-content">
                   <div className="youtube-thumbnail">

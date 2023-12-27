@@ -4,15 +4,65 @@ import HeroSection from "./HeroSection";
 import Product from "./Product";
 import Question from "./Question";
 import Footer from "@/layouts/Client/Footer";
+import axios from "axios";
+import Head from "next/head";
 
 const index = () => {
+  const [seoData, setSeoData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const getSEOData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/product/router`
+      );
+      setLoading(false);
+      setSeoData(response.data[0]);
+      console.log(response.data[0]);
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getSEOData();
+    };
+    fetchData();
+  }, []);
   return (
     <>
-      <Navbar />
-      <HeroSection />
-      <Product />
-      <Question />
-      <Footer />
+      {loading ? (
+        <h1>Loading</h1>
+      ) : (
+        <>
+          <Head>
+            <title>{seoData.product_title || "product"}</title>
+            <meta
+              name="keywords"
+              content={
+                seoData.product_keyword || "product, AWC product, AWC India"
+              }
+            />
+            <meta
+              name="description"
+              content={
+                seoData.product_desc || "product, AWC product, AWC India"
+              }
+            />
+            {seoData.product_canonical && (
+              <link rel="canonical" href={seoData.product_canonical} />
+            )}
+          </Head>
+          <Navbar />
+          <HeroSection />
+          <Product />
+          <Question />
+          <Footer />
+        </>
+      )}
     </>
   );
 };

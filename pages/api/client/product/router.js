@@ -12,7 +12,7 @@ export default async function handler(req, res) {
       // Query the database
 
       const q =
-        "SELECT `home_title`, `home_keyword`, `home_desc`, `home_canonical` FROM `pages_seo`";
+        "SELECT `product_title`, `product_keyword`, `product_desc`, `product_canonical` FROM `pages_seo`";
       console.log(q);
       const [rows] = await conn.query(q);
       console.log(rows);

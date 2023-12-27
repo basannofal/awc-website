@@ -4,6 +4,7 @@ import HeroSection from "./HeroSection";
 import Footer from "@/layouts/Client/Footer";
 import Tabs from "./Tabs";
 import axios from "axios";
+import Head from "next/head";
 
 const index = ({ pid }) => {
   const [loading, setLoading] = useState(true);
@@ -35,6 +36,24 @@ const index = ({ pid }) => {
         <h1>Loding</h1>
       ) : (
         <>
+        <Head>
+        <title>{products?.product_title || "Products"}</title>
+            <meta
+              name="keywords"
+              content={
+                products?.meta_keyword || "Products, AWC Products, AWC India"
+              }
+            />
+            <meta
+              name="description"
+              content={
+                products?.meta_desc || "Products, AWC Products, AWC India"
+              }
+            />
+            {products?.canonical_url && (
+              <link rel="canonical" href={products?.canonical_url} />
+            )}
+          </Head>
           <Navbar />
           <HeroSection product={products} />
           <Tabs pid={pid} lognDesc={products?.product_long_desc}/>
