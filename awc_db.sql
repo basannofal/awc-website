@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 24, 2023 at 05:27 AM
+-- Generation Time: Dec 28, 2023 at 09:18 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -81,6 +81,37 @@ INSERT INTO `blog_master` (`blog_id`, `blog_title`, `blog_thumbnail`, `blog_desc
 (6, 'Unlocking the Secrets of Effective Roof Waterproofing', '1703305167145.blog-1.png', '<p class=\"blog_sec_desc_section\">Discover the key strategies and expert insights for achieving long-lasting roof waterproofing solutions.</p>', '', '', '', '', '2023-12-23', NULL, 1, 53),
 (7, 'Wall Waterproofing Made Simple: Tips and Techniques', '1703305191653.blog-2.png', '<p class=\"blog_sec_desc_section\">Discover the key strategies and expert insights for achieving long-lasting roof waterproofing solutions. Discover the key strategies and expert insights</p>', '', '', '', '', '2023-12-23', NULL, 1, 53),
 (8, 'The Green Approach: Waterproofing Solutions', '1703305232280.blog-3.png', '<p class=\"blog_sec_desc_section\">The Green Approach: Waterproofing Solutions The Green Approach: Waterproofing Solutions The Green Approach: Waterproofing Solutions</p>', '', '', '', '', '2023-12-23', NULL, 1, 53);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact_form`
+--
+
+CREATE TABLE `contact_form` (
+  `id` int(11) NOT NULL,
+  `name` tinytext NOT NULL,
+  `email` tinytext NOT NULL,
+  `mobile` varchar(10) NOT NULL,
+  `message` text NOT NULL,
+  `salary` varchar(20) DEFAULT NULL,
+  `resume` tinytext DEFAULT NULL,
+  `date` date NOT NULL DEFAULT current_timestamp(),
+  `app_id` int(11) DEFAULT NULL,
+  `identify_status` tinyint(1) NOT NULL DEFAULT 0,
+  `status` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `contact_form`
+--
+
+INSERT INTO `contact_form` (`id`, `name`, `email`, `mobile`, `message`, `salary`, `resume`, `date`, `app_id`, `identify_status`, `status`) VALUES
+(1, 'nofal ', 'basannofal@gmail.in', '', 'Hey', NULL, NULL, '2023-12-27', NULL, 0, 0),
+(2, 'nofal ', 'basannofal@gmail.in', '', 'Hey', NULL, NULL, '2023-12-27', NULL, 0, 0),
+(3, 'ds', 'basannofal@gmail.in', '', 'Hey', NULL, NULL, '2023-12-27', NULL, 0, 0),
+(4, 'nofal', 'basannofal@gmail.in', '', 'Hey', NULL, NULL, '2023-12-27', NULL, 0, 0),
+(5, 'dss', 'basannofal@gmail.in', '8889997778', 'Nofal', NULL, NULL, '2023-12-27', NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -169,6 +200,22 @@ INSERT INTO `global_data` (`id`, `header`, `footer`, `shop_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `job_application`
+--
+
+CREATE TABLE `job_application` (
+  `id` int(11) NOT NULL,
+  `role_name` tinytext NOT NULL,
+  `job_desc` text NOT NULL,
+  `category` tinytext NOT NULL,
+  `nop` int(11) NOT NULL,
+  `duration` tinytext NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pages_seo`
 --
 
@@ -214,7 +261,7 @@ CREATE TABLE `pages_seo` (
 --
 
 INSERT INTO `pages_seo` (`id`, `home_title`, `home_keyword`, `home_desc`, `home_canonical`, `about_title`, `about_keyword`, `about_desc`, `about_canonical`, `product_title`, `product_keyword`, `product_desc`, `product_canonical`, `gallery_title`, `gallery_keyword`, `gallery_desc`, `gallery_canonical`, `carrer_title`, `carrer_keyword`, `carrer_desc`, `carrer_canonical`, `blog_title`, `blog_keyword`, `blog_desc`, `blog_canonical`, `testimonial_title`, `testimonial_keyword`, `testimonial_desc`, `testimonial_canonical`, `privacy_title`, `privacy_keyword`, `privacy_desc`, `privacy_canonical`, `shop_id`) VALUES
-(1, 'Home Page', 'home,key', 'desc', 'canon', 'title', 'about', 'Description', 'url', 'title', 'product', 'Description', 'url', 'title', 'gallery.', 'Description', 'url', 'title', 'carrer', 'Description', 'url', 'title', 'blog', 'Description', 'url', 'title', 'testimonial', 'Description', 'url', 'title', 'privacy policy', 'Description', 'url', 1);
+(1, 'Home Page', 'home,key', 'desc', 'canon', 'title', 'about', 'Description', 'url', 'title', 'product', 'Description', 'url', 'Gallery ', 'gallery.', 'Description', 'url', 'title', 'carrer', 'Description', 'url', 'title', 'blog', 'Description', 'url', 'title', 'testimonial', 'Description', 'url', 'title', 'privacy policy', 'Description', 'url', 1);
 
 -- --------------------------------------------------------
 
@@ -241,11 +288,9 @@ CREATE TABLE `product_category` (
 --
 
 INSERT INTO `product_category` (`category_id`, `category_name`, `category_title`, `category_description`, `meta_tag`, `meta_description`, `meta_keyword`, `canonical_url`, `category_image`, `sub_category`, `status`) VALUES
-(52, 'Roof Waterproofing Solution', 'shoes', '<p>AWC Roof waterproofing and Terrace Waterproofing solutions give your roof and terrace the best care it deserves. AWC roof waterproofing and terrace Waterproofing solutions not just prevent seepage and protect them from weather induced degradation but our exterior wall waterproofing solutions also attempt keep the interiors cooler thus saving you on energy consumption too! AWC roof waterproofing price also turns out quite economical in the long run when compared to the prospect of benefits provided by our products.</p>', '', '', '', '', '1703303657493.contact_us_img_3.webp', 56, 1),
-(53, 'Wall Waterproofing Solution', 'men shoes', '<p>men shoes</p>', '', '', '', '', '1703303670666.contact_us_img_2.webp', 52, 1),
-(56, 'Exclusive Products', 'mnn', '', '', '', '', '', '1703303679909.unit_image_2.webp', 53, 1),
-(57, 'dd', '', '', '', '', '', '', '1703303689563.unit_image_1.webp', 0, 1),
-(58, 'sssssssssdf', '', '', '', '', '', '', '1703334821221.blog-3.png', 0, 1);
+(52, 'Roof Waterproofing Solution', 'shoes', '<p>AWC Roof waterproofing and Terrace Waterproofing solutions give your roof and terrace the best care it deserves. AWC roof waterproofing and terrace Waterproofing solutions not just prevent seepage and protect them from weather induced degradation but our exterior wall waterproofing solutions also attempt keep the interiors cooler thus saving you on energy consumption too! AWC roof waterproofing price also turns out quite economical in the long run when compared to the prospect of benefits provided by our products.</p>', 'wall', 'wall proofing company', 'wall,profing', 'https://awcindia.in/', '1703303657493.contact_us_img_3.webp', 56, 1),
+(53, 'Wall Waterproofing Solution', 'men shoes', '<p>external wall waterproofing solutions and ensure seepage-free performance and continue to support the structure throughout their lifespan</p>', '', '', '', '', '1703303670666.contact_us_img_2.webp', 52, 1),
+(56, 'Exclusive Products', 'mnn', '<p>We specialize in safeguarding your home with expert roofing solutions. From installations to repairs, trust us for a secure and enduring roof.</p>', '', '', '', '', '1703303679909.unit_image_2.webp', 53, 1);
 
 -- --------------------------------------------------------
 
@@ -269,8 +314,8 @@ INSERT INTO `product_certificate` (`prod_certi_id`, `prod_id`, `certificate_titl
 (12, 68, 'cert', '1702562293522_cash-flow_total_history (2).pdf', 0),
 (14, 68, 'hackthon', '1702562500988_husen a.pdf', 1),
 (15, 68, 'ccdd', '1702563587818_CSS-INTERVIEW-Q-A.pdf', 1),
-(20, 72, 'quest', '1702699874480_JavaScript-Interview-Questions-Fabio-Author.pdf', 1),
-(21, 74, 'husen b', '1702834840842_husen b.pdf', 1);
+(21, 74, 'husen b', '1702834840842_husen b.pdf', 1),
+(22, 72, 'Why To Choose Roof 540? ', '1703479309575_JAVASCRIPT-INTERVIEW-Q-A.pdf', 1);
 
 -- --------------------------------------------------------
 
@@ -291,8 +336,8 @@ CREATE TABLE `product_docs` (
 --
 
 INSERT INTO `product_docs` (`prod_docs_id`, `product_id`, `pdf_title`, `pdf_link`, `status`) VALUES
-(44, 72, 'qyue', '1702699845679_Javascript-Interview-Q-A-WsCube-Tech.pdf', 1),
-(45, 74, 'nn', '1702834828213_clan.pdf', 1);
+(45, 74, 'nn', '1702834828213_clan.pdf', 1),
+(46, 72, 'Why To Choose Roof 540? ', '1703479193413_clan.pdf', 1);
 
 -- --------------------------------------------------------
 
@@ -317,7 +362,10 @@ CREATE TABLE `product_images` (
 --
 
 INSERT INTO `product_images` (`prod_image_id`, `product_id`, `image_title`, `product_image`, `sort_image`, `image_width`, `image_height`, `alternative`, `status`) VALUES
-(107, 72, 'img', '1702699778614_1.jpg', 0, '', '', '', 1);
+(108, 72, 'img 3', '1703479001770_blog-2.png', 0, '', '', 'image ', 1),
+(109, 72, 'img 1', '1703479001766_roof_540_image.png', 0, '', '', '', 1),
+(110, 72, 'img 2', '1703479001768_blog-3.png', 0, '', '', '', 1),
+(111, 72, 'img 4', '1703479001771_blog-1.png', 0, '', '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -346,7 +394,7 @@ CREATE TABLE `product_master` (
 --
 
 INSERT INTO `product_master` (`product_id`, `cate_id`, `product_title`, `product_short_desc`, `product_long_desc`, `meta_tag`, `meta_desc`, `meta_keyword`, `canonical_url`, `product_image`, `created_date`, `updated_date`, `status`) VALUES
-(72, 52, 'Roof 540', '<p>external wall waterproofing solutions and ensure seepage-free performance and continue to support the structure throughout their lifespan</p>', '', '', '', '', '', '1703303706642.contact_us_img_3.webp', '2023-12-16', '2023-12-23', 1),
+(72, 52, 'Roof 540', '<p>external wall waterproofing solutions and ensure seepage-free performance and continue to support the structure throughout their lifespan</p>', '<p>Product Composition: Roof-540 is the newest development in water based chemical waterproofing and waterproofing treatment for roof. It is created using the latest acrylic technology that helps it form a tough high solid elastomer coating. 100% acrylic resins of the best quality are added to reinforcing laminar pigments which make Roof-540 a very effective biocide and a non-migrating fire retardant. Also, these give Roof-540 its famous superior durability, making it an excellent roof waterproofing, and terrace waterproofing solution that has high resistance to UV radiation besides being resistant to algae, mildew and fires.</p>\r\n<h1><span style=\"font-size: 24pt; font-family: impact, sans-serif;\"><span style=\"color: rgb(52, 73, 94);\">Product Contain Data</span></span></h1>\r\n<p>&nbsp;</p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"1\"><colgroup><col style=\"width: 9.94924%;\"><col style=\"width: 9.94924%;\"><col style=\"width: 9.94924%;\"><col style=\"width: 9.94924%;\"><col style=\"width: 9.94924%;\"><col style=\"width: 9.94924%;\"><col style=\"width: 9.94924%;\"><col style=\"width: 9.94924%;\"><col style=\"width: 9.94924%;\"><col style=\"width: 9.94924%;\"></colgroup>\r\n<tbody>\r\n<tr>\r\n<td>a</td>\r\n<td>a</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n</tr>\r\n<tr>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n</tr>\r\n<tr>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n</tr>\r\n<tr>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n</tr>\r\n<tr>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n<td>&nbsp;</td>\r\n</tr>\r\n</tbody>\r\n</table>', 'roof 540', 'roof 540', 'roof 540', 'https://awcindia.in/', '1703303706642.contact_us_img_3.webp', '2023-12-16', '2023-12-27', 1),
 (73, 52, 'Roof 300', '<p>external wall waterproofing solutions and ensure seepage-free performance and continue to support the structure throughout their lifespan</p>', '', '', '', '', '', '1703303718604.unit_image_2.webp', '2023-12-16', '2023-12-23', 1),
 (74, 52, 'Roof 250', '<p>external wall waterproofing solutions and ensure seepage-free performance and continue to support the structure throughout their lifespan</p>', '', '', '', '', '', '1703303750338.unit_image_3.webp', '2023-12-17', '2023-12-23', 1),
 (75, 53, 'Wall mate', '', '', '', '', '', '', '1703303762878.awc_logo_header.webp', '2023-12-18', '2023-12-23', 1),
@@ -378,11 +426,12 @@ CREATE TABLE `product_video` (
 --
 
 INSERT INTO `product_video` (`prod_video_id`, `product_id`, `product_video`, `video_thumbnail`, `video_title`, `video_description`, `status`) VALUES
-(31, 72, 'https://www.youtube.com/watch?v=ozq-vIxZPQQ', '1702699789795.2.jpg', 'data data', '', 1),
+(31, 72, 'https://www.youtube.com/watch?v=ozq-vIxZPQQ', '1703479028693.blog-1.png', 'How we do Application For AWC Roof 540', '', 1),
 (32, 74, 'k', '1702834813253.contact_us_img_3.webp', 'kk', '<p>kk</p>', 1),
 (33, 74, 'https://www.youtube.com/watch?v=ozq-vIxZPQQ', '1702834987373.contact_us_img_2.webp', 'dd', '', 1),
 (34, 73, 'https://www.youtube.com/watch?v=ultYYQIFihY', '1702962855443.contact_us_img_2.webp', 'sample', '<p>test video</p>', 1),
-(35, 72, 'https://www.youtube.com/watch?v=ozq-vIxZPQQ', '1703139511541.h_mail_icon.webp', 'dd', '<p>ddddddsfva</p>', 1);
+(35, 72, 'https://www.youtube.com/watch?v=ozq-vIxZPQQ', '1703479051904.blog-3.png', 'How we do Application For AWC Roof 540 How we do Application For AWC Roof 540 How to ', '<p>ddddddsfva</p>', 1),
+(36, 72, 'https://www.youtube.com/watch?v=ozq-vIxZPQQ', '1703479141146.blog-2.png', 'How we do Application For AWC Roof 300', '<p>new</p>', 1);
 
 -- --------------------------------------------------------
 
@@ -480,6 +529,12 @@ ALTER TABLE `blog_master`
   ADD KEY `blog_cate_id` (`blog_cate_id`);
 
 --
+-- Indexes for table `contact_form`
+--
+ALTER TABLE `contact_form`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `gallery`
 --
 ALTER TABLE `gallery`
@@ -498,6 +553,12 @@ ALTER TABLE `gallery_category`
 ALTER TABLE `global_data`
   ADD PRIMARY KEY (`id`),
   ADD KEY `shop_id` (`shop_id`);
+
+--
+-- Indexes for table `job_application`
+--
+ALTER TABLE `job_application`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `pages_seo`
@@ -582,6 +643,12 @@ ALTER TABLE `blog_master`
   MODIFY `blog_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `contact_form`
+--
+ALTER TABLE `contact_form`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `gallery`
 --
 ALTER TABLE `gallery`
@@ -600,6 +667,12 @@ ALTER TABLE `global_data`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `job_application`
+--
+ALTER TABLE `job_application`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `pages_seo`
 --
 ALTER TABLE `pages_seo`
@@ -615,19 +688,19 @@ ALTER TABLE `product_category`
 -- AUTO_INCREMENT for table `product_certificate`
 --
 ALTER TABLE `product_certificate`
-  MODIFY `prod_certi_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `prod_certi_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `product_docs`
 --
 ALTER TABLE `product_docs`
-  MODIFY `prod_docs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `prod_docs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `prod_image_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+  MODIFY `prod_image_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT for table `product_master`
@@ -639,7 +712,7 @@ ALTER TABLE `product_master`
 -- AUTO_INCREMENT for table `product_video`
 --
 ALTER TABLE `product_video`
-  MODIFY `prod_video_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `prod_video_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `social_links`
