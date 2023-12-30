@@ -5,7 +5,6 @@ import Products from "./Products";
 import Contact from "./Contact";
 import Footer from "@/layouts/Client/Footer";
 import axios from "axios";
-import Link from "next/link";
 import Head from "next/head";
 
 const index = () => {
@@ -45,7 +44,6 @@ const index = () => {
       });
 
       const categoryArray = Object.values(categories);
-      console.log(categoryArray);
       setProductCategories(categoryArray);
       setLoading(false);
     } catch (error) {
@@ -61,7 +59,6 @@ const index = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/client/home/router`
       );
       setSeoData(response.data[0]);
-      console.log(response.data[0]);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -79,7 +76,9 @@ const index = () => {
   return (
     <>
       {loading ? (
-        <h1>Loading </h1>
+        <div className="fixed top-12 right-0 h-screen w-screen z-50 flex justify-center items-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-900"></div>
+        </div>
       ) : (
         <>
           <Head>
