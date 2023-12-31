@@ -50,16 +50,16 @@ const HeroSection = ({ onSelectCategory, selectedCategory }) => {
               {allProdCategory.map((item, idx) => {
                 return (
                   <div
-                    key={item.id}
+                    key={item?.id}
                     className={`lg-4 md-6 ${
-                      selectedCategory == item.id
+                      selectedCategory == item?.id
                         ? "gallery-btn-primary gallery-btn1"
                         : "gallery-btn-primary gallery-btn2"
                     }`}
-                    onClick={() => handleCategorySelect(item.id)}
+                    onClick={() => handleCategorySelect(item?.id)}
                     style={{ margin: 10 }}
                   >
-                    {item.category_title}
+                    {item?.category_title}
                   </div>
                 );
               })}

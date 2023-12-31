@@ -9,7 +9,7 @@ const TestiContact = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/client/testimonials/router`
+        `${process.env.NEXT_PUBLIC_API_URL}/client/testimonials/alltestimonials/router`
       );
       console.log(response.data);
       setTestimonial(response.data);
@@ -65,7 +65,7 @@ const TestiContact = () => {
          <div className="main_testi_contact">
         {testimonial.map((item, idx) => {
           return (
-            <div className="main_testi_contact_inner">
+            <div className="main_testi_contact_inner" key={item.id}>
               <div className="testimonials-contents">
                 <img
                   className=""
@@ -77,21 +77,21 @@ const TestiContact = () => {
                 <p
                   className="contact_desc mt-4"
                   dangerouslySetInnerHTML={{
-                    __html: item.testimonial_desc,
+                    __html: item?.testimonial_desc,
                   }}
                 ></p>
                 <div className="testi_contact_review mt-4">
                   <img
                     style={{ borderRadius: "50%" }}
-                    src={`/assets/upload/testimonial/${item.testimonial_image}`}
+                    src={`/assets/upload/testimonial/${item?.testimonial_image}`}
                     alt="Client Image"
                     width="50"
                     height="auto"
                   />
                   <div className="testi_contact_title ms-2">
-                    <h4>{item.testimonial_title}</h4>
+                    <h4>{item?.testimonial_title}</h4>
                     <div className="testi_rating">
-                      {renderStars(item.rating)}
+                      {renderStars(item?.rating)}
                     </div>
                   </div>
                 </div>
