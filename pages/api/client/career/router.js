@@ -3,6 +3,7 @@ import path from "path";
 import { IncomingForm } from "formidable";
 import fs from "fs";
 
+
 export const config = {
   api: {
     bodyParser: false,
@@ -88,6 +89,7 @@ export default async function handler(req, res) {
       res
         .status(500)
         .json({ message: "Inquiry Failed to Add... Check connection" });
+
     }
   }
 }

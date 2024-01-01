@@ -121,6 +121,7 @@ const Form = () => {
     }
   };
 
+
   return (
     <div className="blog-view-sec">
       <div className="container mb-6">
@@ -128,6 +129,7 @@ const Form = () => {
           <p className="form_title text-center">Apply Now</p>
           <p className="text-center mb-6">Submit The Form Below To Apply</p>
           <form onSubmit={handleSubmit}>
+
             <div className="grid gap-6 mb-6 md:grid-cols-2 justify-center">
               <div className="lg:w-1/3 md:w-2/5 w-5/6">
                 <label
@@ -145,6 +147,7 @@ const Form = () => {
                   placeholder="Enter Your Name"
                   onChange={handleChange}
                   value={addFormData.name}
+
                 />
               </div>
               <div className="lg:w-1/3 md:w-2/5 w-5/6">
@@ -163,6 +166,7 @@ const Form = () => {
                   placeholder="Enter Your Email"
                   onChange={handleChange}
                   value={addFormData.email}
+
                 />
               </div>
             </div>
@@ -254,6 +258,7 @@ const Form = () => {
             </div>
 
             <div className="pt-2 career_form_file_input">
+
               <label
                 htmlFor="message"
                 className="block mb-1 text-sm font-semibold"
@@ -289,6 +294,7 @@ const Form = () => {
                 // disabled={loading}
               >
                 {loading ? "Sending..." : "Submit Information"}
+
               </button>
             </div>
           </form>

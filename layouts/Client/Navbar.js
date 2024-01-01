@@ -1,8 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import $ from "jquery";
 import Link from "next/link";
+import axios from "axios";
 
 const Navbar = () => {
+  const [seoData, setSeoData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const getSEOData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/setting/router`
+      );
+      setLoading(false);
+      setSeoData(response.data[0]);
+      console.log(response.data[0]);
+      console.log("response.data[0]");
+
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // Check if it's a hard reload
+      const isHardReload = !window.performance.navigation.type;
+      if (isHardReload) {
+        await getSEOData();
+      }
+    };
+    fetchData();
+  }, []);
+
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdown, setIsDropdown] = useState(true);
 

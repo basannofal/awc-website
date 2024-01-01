@@ -10,6 +10,7 @@ const index = () => {
   const [seoData, setSeoData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
   const getSEOData = async () => {
     setLoading(true);
     try {
@@ -33,28 +34,34 @@ const index = () => {
   }, []);
   return (
     <>
-      <>
-        <Head>
-          <title>{seoData.carrer_title || "Career"}</title>
-          <meta
-            name="keywords"
-            content={
-              seoData.carrer_keyword || "Careers, AWC Careers, AWC India"
-            }
-          />
-          <meta
-            name="description"
-            content={seoData.carrer_desc || "Careers, AWC Careers, AWC India"}
-          />
-          {seoData.carrer_canonical && (
-            <link rel="canonical" href={seoData.carrer_canonical} />
-          )}
-        </Head>
-        <Navbar />
-        <HeroSection />
-        <Form />
-        <Footer />
-      </>
+      {loading ? (
+        <div className="fixed top-12 right-0 h-screen w-screen z-50 flex justify-center items-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-900"></div>
+        </div>
+      ) : (
+        <>
+          <Head>
+            <title>{seoData.carrer_title || "Career"}</title>
+            <meta
+              name="keywords"
+              content={
+                seoData.carrer_keyword || "Careers, AWC Careers, AWC India"
+              }
+            />
+            <meta
+              name="description"
+              content={seoData.carrer_desc || "Careers, AWC Careers, AWC India"}
+            />
+            {seoData.carrer_canonical && (
+              <link rel="canonical" href={seoData.carrer_canonical} />
+            )}
+          </Head>
+          <Navbar />
+          <HeroSection />
+          <Form />
+          <Footer />
+        </>
+      )}
     </>
   );
 };

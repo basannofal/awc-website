@@ -7,6 +7,7 @@ const index = () => {
     <>
       <Sidebar />
       <Applications />
+
     </>
   );
 };
