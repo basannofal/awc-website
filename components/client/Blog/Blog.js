@@ -162,7 +162,10 @@ const Blog = () => {
                         </div>
                       </div>
                       <Link href={`/blogs/${slug}/${item?.blog_id}`}>
-                        <p className="blog_desc_section">{item?.blog_title}</p>
+
+                      <p className="blog_desc_section">
+                        {item?.blog_title}
+                      </p>
                       </Link>
                       <p className="blog_sec_desc_section">
                         {extractFirstParagraph(item?.blog_description)}

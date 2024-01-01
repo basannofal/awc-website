@@ -14,21 +14,19 @@ export default async function handler(req, res) {
       try {
         const { name, email, number, message } = fields;
         // db operation
-        const [row] = await conn.query(
-          "INSERT INTO contact_form SET ? ",
-          {
-            name: name,
-            email: email,
-            mobile: number,
-            message: message,
-          }
-        );
+        const [row] = await conn.query("INSERT INTO contact_form SET ? ", {
+          name: name,
+          email: email,
+          mobile: number,
+          message: message,
+        });
+
         res.status(200).json(row);
       } catch (err) {
         console.log(err);
         res.status(500).json({ message: "Failed to Add Product Category" });
-      }
-      finally {
+      } finally {
+
         conn.releaseConnection();
       }
     });

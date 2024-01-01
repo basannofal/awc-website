@@ -37,41 +37,23 @@ const Question = () => {
     },
   ];
 
-  const accordionRef = useRef(null);
+  const [openIndex, setOpenIndex] = useState(0);
+
+  const handleQuestionClick = (index) => {
+    setOpenIndex((prevOpenIndex) => (prevOpenIndex === index ? null : index));
+  };
 
   useEffect(() => {
-    const accordionHead = $(".accordion_head", accordionRef.current);
-    const accordionBody = $(".accordion_body", accordionRef.current);
+    const questions = $(".accordion_body");
 
-    accordionHead.click(function () {
-      if (accordionBody.is(":visible")) {
-        accordionBody.slideUp(300);
-        $(".plusminus", this).attr(
-          "src",
-          "/assets/images/client/plus-arrow.png"
-        );
-      }
-      if ($(this).next(accordionBody).is(":visible")) {
-        $(this).next(accordionBody).slideUp(300);
-        $(".plusminus", this).attr(
-          "src",
-          "/assets/images/client/plus-arrow.png"
-        );
+    questions.each(function (index) {
+      if (index === openIndex) {
+        $(this).slideDown();
       } else {
-        $(this).next(accordionBody).slideDown(300);
-        $(".plusminus", this).attr(
-          "src",
-          "/assets/images/client/minus-arrow.png"
-        );
+        $(this).slideUp();
       }
     });
-  }, []);
-
-  const [activeIndex, setActiveIndex] = useState(null);
-  const handleQuestionClick = (event) => {
-    // Stop event propagation to prevent undesired behavior
-    // event.stopPropagation();
-  };
+  }, [openIndex]);
 
   return (
     <>
@@ -82,25 +64,23 @@ const Question = () => {
             {faqData.map((faq, index) => (
               <div key={index} className="accordion_content">
                 <h3
-                  className={`accordion_head ${
-                    activeIndex === index ? "active" : ""
-                  }`}
+                  className="accordion_head"
                   onClick={() => handleQuestionClick(index)}
                 >
                   {faq.question}
                   <img
                     className="plusminus"
                     src={
-                      activeIndex === index
+                      openIndex === index
                         ? "/assets/images/client/minus-arrow.png"
                         : "/assets/images/client/plus-arrow.png"
                     }
-                    alt={activeIndex === index ? "Minus Icon" : "Plus Icon"}
+                    alt={openIndex === index ? "Minus Icon" : "Plus Icon"}
                   />
                 </h3>
                 <div
                   className={`accordion_body ${
-                    activeIndex === index ? "show" : ""
+                    openIndex === index ? "show" : "hide"
                   }`}
                 >
                   <p>{faq.answer}</p>

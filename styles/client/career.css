@@ -22,7 +22,8 @@
   width: 70%;
 }
 
-.career_container{
+.career_container {
+
   margin-top: 100px;
 }
 .career_card {
@@ -82,7 +83,8 @@
   margin: 30px auto;
 }
 @media only screen and (max-width: 1024px) {
-  .career_container{
+  .career_container {
+
     margin-top: 85px;
   }
   .career_form_file_input {
@@ -93,7 +95,8 @@
   }
 }
 @media only screen and (max-width: 734px) {
-  .career_container{
+  .career_container {
+
     margin-top: 70px;
   }
   .career_form_file_input {
@@ -104,7 +107,7 @@
   }
 }
 @media only screen and (max-width: 760px) {
-  .career_container{
+  .career_container {
     margin-top: 65px;
   }
   .career_card .career_card_right_sec {
@@ -118,7 +121,7 @@
   }
 }
 @media only screen and (max-width: 600px) {
-  .career_container{
+  .career_container {
     margin-top: 50px;
   }
   .career_card {
@@ -132,5 +135,4 @@
     width: 100%;
     justify-content: start;
   }
-  
 }

@@ -10,6 +10,7 @@ const index = () => {
   const [seoData, setSeoData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
   const getSEOData = async () => {
     setLoading(true);
     try {
