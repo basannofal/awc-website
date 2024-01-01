@@ -43,7 +43,6 @@ const Product = () => {
     return "";
   }
 
-
   return (
     <>
       {/* {loading ? (
@@ -118,8 +117,8 @@ const Product = () => {
               </>
             )}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
     </>
   );
 };

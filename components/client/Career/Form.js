@@ -2,7 +2,7 @@ import { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
 import axios from "axios";
 import React, { useState } from "react";
 
-const Form = () => {
+const Form = ({jobId, setJobId, formref}) => {
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -95,6 +95,7 @@ const Form = () => {
     formdata.append("message", addFormData.message);
     formdata.append("salary", addFormData.salary);
     formdata.append("resume", addFormData.resume);
+    formdata.append("app_id", jobId);
 
     try {
       const response = await axios.post(
@@ -112,6 +113,7 @@ const Form = () => {
         message: "",
         resume: null,
       });
+      setJobId(null)
       setSelectedFile(null);
     } catch (error) {
       // Handle error
@@ -123,7 +125,7 @@ const Form = () => {
 
 
   return (
-    <div className="blog-view-sec">
+    <div className="blog-view-sec" ref={formref}>
       <div className="container mb-6">
         <div className="form_main lg:py-7 py-6">
           <p className="form_title text-center">Apply Now</p>
@@ -291,7 +293,7 @@ const Form = () => {
                   padding: "0px 30px",
                 }}
                 value={"Submit Information"}
-                // disabled={loading}
+                disabled={loading}
               >
                 {loading ? "Sending..." : "Submit Information"}
 

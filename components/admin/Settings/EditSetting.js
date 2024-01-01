@@ -740,7 +740,7 @@ const EditSetting = () => {
 
               <div className="mb-3">
                 <label htmlFor="linkedin" className="modal_label">
-                  Linkedin:-
+                  YouTube:-
                 </label>
                 <input
                   type="text"

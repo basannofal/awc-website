@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "@/layouts/Client/Navbar";
 import HeroSection from "./HeroSection";
 import Footer from "@/layouts/Client/Footer";
@@ -9,7 +9,9 @@ import Head from "next/head";
 const index = () => {
   const [seoData, setSeoData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [jobId, setJobId] = useState(null);
+  
+  const formRef = useRef(null);
 
   const getSEOData = async () => {
     setLoading(true);
@@ -57,8 +59,8 @@ const index = () => {
             )}
           </Head>
           <Navbar />
-          <HeroSection />
-          <Form />
+          <HeroSection setJobId={setJobId} scrollToForm={() => formRef.current?.scrollIntoView({ behavior: "smooth" })}  />
+          <Form jobId={jobId}  setJobId={setJobId} formref={formRef} />
           <Footer />
         </>
       )}

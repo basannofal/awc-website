@@ -217,7 +217,7 @@ const AllSetting = () => {
             </div>
             <div className="mb-3">
               <label htmlFor="linkdin" className="modal_label_setting">
-                Linkedin:-
+                YouTube:-
               </label>
               <p className="setting_data">
                 {settingData && settingData.linkedin_link && (
