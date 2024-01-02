@@ -26,10 +26,11 @@ const HeroSection = ({ setJobId, scrollToForm }) => {
   };
 
 
+  const fetchData = async () => {
+    await getSEOData();
+  };
+  
   useEffect(() => {
-    const fetchData = async () => {
-      await getSEOData();
-    };
     fetchData();
   }, []);
   return (

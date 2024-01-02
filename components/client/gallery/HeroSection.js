@@ -25,10 +25,11 @@ const HeroSection = ({ onSelectCategory, selectedCategory }) => {
     }
   };
 
+  const fetchData = async () => {
+    await getCategories();
+  };
+  
   useEffect(() => {
-    const fetchData = async () => {
-      await getCategories();
-    };
     fetchData();
   }, []);
 

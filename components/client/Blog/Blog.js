@@ -37,10 +37,11 @@ const Blog = () => {
     return "";
   }
 
+  const fetchData = async () => {
+    await getBlog();
+  };
+  
   useEffect(() => {
-    const fetchData = async () => {
-      await getBlog();
-    };
     fetchData();
   }, []);
   return (

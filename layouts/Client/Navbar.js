@@ -23,15 +23,15 @@ const Navbar = () => {
     }
   };
 
+  const fetchData = async () => {
+    await getSEOData();
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      // Check if it's a hard reload
-      const isHardReload = !window.performance.navigation.type;
-      if (isHardReload) {
-        await getSEOData();
-      }
-    };
-    fetchData();
+    const isHardReload = !window.performance.navigation.type;
+    if (isHardReload) {
+      fetchData();
+    }
   }, []);
 
   const [isOpen, setIsOpen] = useState(false);

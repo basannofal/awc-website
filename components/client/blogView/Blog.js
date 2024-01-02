@@ -1,6 +1,34 @@
-import React from "react";
+import axios from "axios";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 
-const Blog = () => {
+const Blog = ({ bid }) => {
+  const [loading, setLoading] = useState(true);
+  const [blog, setBlog] = useState("");
+
+  const getBlogData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/blogview/${bid}`
+      );
+      console.log(response.data);
+      setBlog(response.data[0]);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
+
+  const fetchData = async () => {
+    await getBlogData();
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <>
       <section className="testi_hero_main">
@@ -12,11 +40,12 @@ const Blog = () => {
         >
           <div className="blog-view-sec">
             <p className="blog-view-main-title">
-              blogs <i className="fa-solid fa-angles-right"></i>
-              <i className="fa-solid fa-angles-right"></i> wall section{" "}
+              <Link href={"/blogs"}>blogs</Link>
               <i className="fa-solid fa-angles-right"></i>
-              <i className="fa-solid fa-angles-right"></i> external wall
-              waterproofing - reason for failure & best solution
+              <i className="fa-solid fa-angles-right"></i>{" "}
+              {blog?.category_title}{" "}
+              <i className="fa-solid fa-angles-right"></i>
+              <i className="fa-solid fa-angles-right"></i> {blog?.blog_title}
             </p>
 
             <div className="blog_view_image">
@@ -29,68 +58,18 @@ const Blog = () => {
               <div className="blog_content">
                 <div className="blog_date_section">
                   <p>
-                    <i className="fa-solid fa-calendar-days"></i> january 2023
+                    <i className="fa-solid fa-calendar-days"></i> {blog?.published_date?.substring(0,10)}
                   </p>
-                  <p>
+                  {/* <p>
                     <i className="fa-solid fa-clock"></i> 2:00 PM
-                  </p>
+                  </p> */}
                 </div>
                 <div className="blog_title">
-                  <p className="heading">
-                    External Wall Waterproofing – Reasons for failure & best
-                    solutions
-                  </p>
-                  <p className="blog_desc">
-                    Here are the 5 top reasons why external waterproofing fails
-                    and the 5 top solutions to rectify them. 1. Poor workmanship
-                    This is one of the key reasons why external waterproofing
-                    fails in most cases. Unlike earlier, today most external
-                    walls are not load-bearing walls, but their fundamental
-                    purpose to protect interiors continues. Poor workmanship
-                    during the construction phase or any repairs later can leave
-                    a lot of cracks causing the wall to allow moisture inside
-                    the structure. This failure to contain the moisture makes
-                    the wall damp thus attracting fungus and algae thus creating
-                    a hygiene threat to the lives of the people staying inside.
-                    Growth of such algae and fungus also creates dark patches
-                    which create a very undesirable look on the inside as well
-                    on the outside. If the waterproofing of the wall is not done
-                    right, eventually the wall may even become weak thus
-                    threatening the stability of the structure itself! 2. Use of
-                    inferior-quality material Another top reason for the failure
-                    of external wall waterproofing is the use of inferior or
-                    inadequate quantities of waterproofing material during the
-                    construction or repairs of the external walls. By its
-                    nature, cement emits heat when it is set. This heat is
-                    emitted through micro fissures and cracks in the walls.
-                    However, if the right varieties of waterproofing chemicals
-                    are not used in the right quantities then these cracks
-                    remain and water starts seeping through them over time. 3.
-                    Continuous leakage from pipes Most external walls have a
-                    system of pipes fitted on them that carries the stormwater
-                    or even the wastewater from the various amenities provided
-                    to the occupants. If the joints in such pipes are not sealed
-                    correctly, this wastewater starts leaking on the walls.
-                    Eventually, they may even lead to the growth of some algae,
-                    fungus, or even small plants which creates cracks in the
-                    external wall waterproofing. Continuous exposure to such
-                    wastewater can make the plaster layer weak and allow water
-                    to seep in. 4. Unplastered wall surfaces Many times, the
-                    external walls are either left fully unplastered or
-                    plastered minimally. This may be due to aesthetic reasons or
-                    due to financial constraints. But in either of the cases, an
-                    unplastered or poorly plastered wall allows moisture to seep
-                    in. 5. Puncture from outside If a wall is punctured from the
-                    outside by way of driving a nail or even to accommodate a
-                    new fixture, it may lead to the creation of microscopic
-                    cracks that are not visible to the naked eye. Over time,
-                    water starts seeping in through these cracks thus causing
-                    the external waterproofing to fail. However, not much is
-                    lost if you discover that the external wall waterproofing
-                    has failed. There exist a variety of exterior wall
-                    waterproofing solutions which can cure the problem and
-                    provide the occupants with long-term peace of mind.
-                  </p>
+                  <p className="heading">{blog?.blog_title}</p>
+                  <p
+                    className="blog_desc"
+                    dangerouslySetInnerHTML={{ __html: blog?.blog_description }}
+                  ></p>
                 </div>
               </div>
               <div className="side_section">

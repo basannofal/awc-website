@@ -66,11 +66,12 @@ const index = () => {
     }
   };
 
+  const fetchData = async () => {
+    await getData();
+    await getSEOData();
+  };
+  
   useEffect(() => {
-    const fetchData = async () => {
-      await getData();
-      await getSEOData();
-    };
     fetchData();
   }, []);
   return (

@@ -27,11 +27,11 @@ const Index = () => {
       console.error("Error fetching data:", error);
     }
   };
+  const fetchData = async () => {
+    await getSEOData();
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      await getSEOData();
-    };
     fetchData();
   }, []);
 

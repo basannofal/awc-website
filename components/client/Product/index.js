@@ -26,10 +26,11 @@ const index = () => {
     }
   };
 
+  const fetchData = async () => {
+    await getSEOData();
+  };
+  
   useEffect(() => {
-    const fetchData = async () => {
-      await getSEOData();
-    };
     fetchData();
   }, []);
   return (

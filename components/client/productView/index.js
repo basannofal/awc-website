@@ -24,10 +24,11 @@ const index = ({ pid }) => {
     }
   };
 
+  const fetchData = async () => {
+    await getProductData();
+  };
+  
   useEffect(() => {
-    const fetchData = async () => {
-      await getProductData();
-    };
     fetchData();
   }, [pid]);
   return (

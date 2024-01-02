@@ -20,10 +20,11 @@ const Product = ({ cid }) => {
     }
   };
 
+  const fetchData = async () => {
+    await getCategoryProducts();
+  };
+  
   useEffect(() => {
-    const fetchData = async () => {
-      await getCategoryProducts();
-    };
     fetchData();
   }, []);
   return (
