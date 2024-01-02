@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 const Blog = ({ bid }) => {
   const [loading, setLoading] = useState(true);
   const [blog, setBlog] = useState("");
+  const [reletedblog, setReletedblog] = useState([]);
 
   const getBlogData = async () => {
     setLoading(true);
@@ -14,6 +15,22 @@ const Blog = ({ bid }) => {
       );
       console.log(response.data);
       setBlog(response.data[0]);
+      releatedBlogs(response.data[0].blog_cate_id);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
+
+  const releatedBlogs = async (blogId) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/blogview/reletedblog/${blogId}`
+      );
+      console.log(response.data);
+      setReletedblog(response.data);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -27,7 +44,23 @@ const Blog = ({ bid }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [bid]);
+
+  function extractFirstParagraph(content) {
+    const parser = new DOMParser();
+
+    const doc = parser.parseFromString(content, "text/html");
+
+    const firstParagraphTag = doc.querySelector("p");
+
+    if (firstParagraphTag) {
+      const words = firstParagraphTag.textContent.split(/\s+/);
+      const limitedText = words.slice(0, 20).join(" ");
+      return limitedText;
+    }
+
+    return "";
+  }
 
   return (
     <>
@@ -58,7 +91,8 @@ const Blog = ({ bid }) => {
               <div className="blog_content">
                 <div className="blog_date_section">
                   <p>
-                    <i className="fa-solid fa-calendar-days"></i> {blog?.published_date?.substring(0,10)}
+                    <i className="fa-solid fa-calendar-days"></i>{" "}
+                    {blog?.published_date?.substring(0, 10)}
                   </p>
                   {/* <p>
                     <i className="fa-solid fa-clock"></i> 2:00 PM
@@ -75,21 +109,6 @@ const Blog = ({ bid }) => {
               <div className="side_section">
                 <div className="side_sec_card">
                   <p className="card_heading mb-4">Related Articles</p>
-                  <div className="article">
-                    <div className="article_icon">
-                      <img
-                        src={"/assets/images/client/client-img-1.png"}
-                        alt=""
-                      />
-                    </div>
-                    <div className="article_data">
-                      <p className="heading mb-1">Article Post-1</p>
-                      <p className="desc">
-                        University of Michigan freshman & Author of A Tangled
-                        Web
-                      </p>
-                    </div>
-                  </div>
                   <hr
                     style={{
                       marginBottom: "20px",
@@ -97,21 +116,33 @@ const Blog = ({ bid }) => {
                       backgroundColor: "gray",
                     }}
                   />
-                  <div className="article">
-                    <div className="article_icon">
-                      <img
-                        src={"/assets/images/client/client-img-1.png"}
-                        alt=""
-                      />
-                    </div>
-                    <div className="article_data">
-                      <p className="heading mb-1">Article Post-1</p>
-                      <p className="desc">
-                        University of Michigan freshman & Author of A Tangled
-                        Web
-                      </p>
-                    </div>
-                  </div>
+                  {reletedblog.map((item, idx) => {
+                    return (
+                      <>
+                        <div className="article" key={item?.blog_id}>
+                          <div className="article_icon">
+                            <img
+                              src={"/assets/images/client/client-img-1.png"}
+                              alt=""
+                            />
+                          </div>
+                          <div className="article_data">
+                            <p className="heading mb-1">{item?.blog_title}</p>
+                            <p className="desc">
+                            {extractFirstParagraph(item?.blog_description)}
+                            </p>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })}
+                  <hr
+                    style={{
+                      marginBottom: "20px",
+                      height: "1.6px",
+                      backgroundColor: "gray",
+                    }}
+                  />
                 </div>
                 <div className="side_sec_card">
                   <p className="card_heading mb-3">Share With Your Friend</p>
@@ -167,51 +198,33 @@ const Blog = ({ bid }) => {
         <div className="containers">
           <div className="main_blogs">
             <div className="flex flex-wrap justify-center">
-              <div className="sm:w-1/2 md:w-1/3 lg:w-3/12 blog_image_section">
-                <img src={"/assets/images/client/blog-1.png"} alt="" />
-                <div className="blog_name_main_section">
-                  <div className="blog_name_section">AWC India</div>
-                  <div className="blog_rectangle"></div>
-                  <div className="blog_name_section">2023-12-15</div>
-                </div>
-                <p className="blog_desc_section">
-                  Unlocking the Secrets of Effective Roof Waterproofing
-                </p>
-                <p className="blog_sec_desc_section">
-                  Discover the key strategies and expert insights for achieving
-                  long-lasting roof waterproofing solutions.
-                </p>
-              </div>
-              <div className="sm:w-1/2 md:w-1/3 lg:w-3/12 blog_image_section">
-                <img src={"/assets/images/client/blog-1.png"} alt="" />
-                <div className="blog_name_main_section">
-                  <div className="blog_name_section">AWC India</div>
-                  <div className="blog_rectangle"></div>
-                  <div className="blog_name_section">2023-12-15</div>
-                </div>
-                <p className="blog_desc_section">
-                  Unlocking the Secrets of Effective Roof Waterproofing
-                </p>
-                <p className="blog_sec_desc_section">
-                  Discover the key strategies and expert insights for achieving
-                  long-lasting roof waterproofing solutions.
-                </p>
-              </div>
-              <div className="sm:w-1/2 md:w-1/3 lg:w-3/12 blog_image_section">
-                <img src={"/assets/images/client/blog-1.png"} alt="" />
-                <div className="blog_name_main_section">
-                  <div className="blog_name_section">AWC India</div>
-                  <div className="blog_rectangle"></div>
-                  <div className="blog_name_section">2023-12-15</div>
-                </div>
-                <p className="blog_desc_section">
-                  Unlocking the Secrets of Effective Roof Waterproofing
-                </p>
-                <p className="blog_sec_desc_section">
-                  Discover the key strategies and expert insights for achieving
-                  long-lasting roof waterproofing solutions.
-                </p>
-              </div>
+              {reletedblog.map((item, idx) => {
+                const slug = item?.blog_title.replace(/\s+/g, "-");
+                return (
+                  <div
+                    className="sm:w-1/2 md:w-1/3 lg:w-3/12 blog_image_section"
+                    key={item?.blog_id}
+                  >
+                    <img
+                      src={`/assets/upload/blogs/${item?.blog_thumbnail}`}
+                      alt="blog_image"
+                    />
+                    <div className="blog_name_main_section">
+                      <div className="blog_name_section">AWC India</div>
+                      <div className="blog_rectangle"></div>
+                      <div className="blog_name_section">
+                        {item?.published_date.substring(0, 10)}
+                      </div>
+                    </div>
+                    <Link href={`/blogs/${slug}/${item?.blog_id}`}>
+                      <p className="blog_desc_section">{item?.blog_title}</p>
+                    </Link>
+                    <p className="blog_sec_desc_section">
+                      {extractFirstParagraph(item?.blog_description)}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
