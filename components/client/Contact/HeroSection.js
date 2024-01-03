@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
@@ -7,6 +8,7 @@ const HeroSection = () => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
 
   const [addFormData, setAddFormData] = useState({
     name: "",
@@ -145,6 +147,7 @@ const HeroSection = () => {
 
           {activeTab === "factory" && (
             <div>
+
               <p className="contact_title">AWC INDIA</p>
               <p className="contact_second_title">
                 Connecting Excellence, Exceeding Expectations
@@ -192,6 +195,7 @@ const HeroSection = () => {
               If you require additional information, please complete the form
               below and submit it. Our team will be in touch with you promptly.
             </p>
+
             <form className="contact-form" method="post" onSubmit={saveData}>
               <div className="form-field">
                 <label
@@ -205,6 +209,7 @@ const HeroSection = () => {
                   type="text"
                   name="name"
                   id="name"
+
                   onChange={handleChangeData}
                   value={addFormData.name}
                   placeholder="Enter Your Name"
@@ -265,6 +270,7 @@ const HeroSection = () => {
                   className="form-input-contact"
                 ></textarea>
               </div>
+
               {validationError && validationError != "" ? (
                 <small style={{ color: "red" }}>* {validationError}</small>
               ) : (
