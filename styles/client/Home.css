@@ -392,7 +392,7 @@ a {
   color: #ffffff;
   font-weight: 600;
   display: inline-block;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   position: relative;
 }
 
@@ -812,11 +812,13 @@ a {
   display: block;
   width: 100px;
   height: 2px;
+  font-size: 30px;
   background-color: #1386d3;
 }
 
 .contact-image-sec h2 > span {
   color: #000000;
+  font-size: 30px;
 }
 
 .contact-image-sec .image-sec img {
@@ -1275,6 +1277,7 @@ body::-webkit-scrollbar-thumb:hover {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   border-radius: 20px;
   margin-bottom: 20px;
+  height: 100vh;
 }
 
 .roof-category-sec .roof-box .roof-image img {
@@ -1308,6 +1311,11 @@ body::-webkit-scrollbar-thumb:hover {
   color: #5a5e62;
   text-transform: capitalize;
   margin-bottom: 20px;
+  display: -webkit-box;
+  max-height: 5em;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .roof-category-sec .roof-content a {

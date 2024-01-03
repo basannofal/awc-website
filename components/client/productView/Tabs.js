@@ -94,13 +94,14 @@ const Tabs = ({ pid, lognDesc }) => {
     return "";
   }
 
+  const fetchData = async () => {
+    await getProductImages();
+    await getProductVideo();
+    await getProductDocs();
+    await getProductCertificate();
+  };
+  
   useEffect(() => {
-    const fetchData = async () => {
-      await getProductImages();
-      await getProductVideo();
-      await getProductDocs();
-      await getProductCertificate();
-    };
     fetchData();
   }, [pid]);
 

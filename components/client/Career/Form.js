@@ -2,7 +2,7 @@ import { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
 import axios from "axios";
 import React, { useState } from "react";
 
-const Form = () => {
+const Form = ({jobId, setJobId, formref}) => {
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -95,6 +95,7 @@ const Form = () => {
     formdata.append("message", addFormData.message);
     formdata.append("salary", addFormData.salary);
     formdata.append("resume", addFormData.resume);
+    formdata.append("app_id", jobId);
 
     try {
       const response = await axios.post(
@@ -112,6 +113,7 @@ const Form = () => {
         message: "",
         resume: null,
       });
+      setJobId(null)
       setSelectedFile(null);
     } catch (error) {
       // Handle error
@@ -121,13 +123,15 @@ const Form = () => {
     }
   };
 
+
   return (
-    <div className="blog-view-sec">
+    <div className="blog-view-sec" ref={formref}>
       <div className="container mb-6">
         <div className="form_main lg:py-7 py-6">
           <p className="form_title text-center">Apply Now</p>
           <p className="text-center mb-6">Submit The Form Below To Apply</p>
           <form onSubmit={handleSubmit}>
+
             <div className="grid gap-6 mb-6 md:grid-cols-2 justify-center">
               <div className="lg:w-1/3 md:w-2/5 w-5/6">
                 <label
@@ -145,6 +149,7 @@ const Form = () => {
                   placeholder="Enter Your Name"
                   onChange={handleChange}
                   value={addFormData.name}
+
                 />
               </div>
               <div className="lg:w-1/3 md:w-2/5 w-5/6">
@@ -163,6 +168,7 @@ const Form = () => {
                   placeholder="Enter Your Email"
                   onChange={handleChange}
                   value={addFormData.email}
+
                 />
               </div>
             </div>
@@ -254,6 +260,7 @@ const Form = () => {
             </div>
 
             <div className="pt-2 career_form_file_input">
+
               <label
                 htmlFor="message"
                 className="block mb-1 text-sm font-semibold"
@@ -286,9 +293,10 @@ const Form = () => {
                   padding: "0px 30px",
                 }}
                 value={"Submit Information"}
-                // disabled={loading}
+                disabled={loading}
               >
                 {loading ? "Sending..." : "Submit Information"}
+
               </button>
             </div>
           </form>

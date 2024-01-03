@@ -17,10 +17,11 @@ const HeroSection = ({ cid, data }) => {
     }
   };
 
+  const fetchData = async () => {
+    await getCategory();
+  };
+  
   useEffect(() => {
-    const fetchData = async () => {
-      await getCategory();
-    };
     fetchData();
   }, []);
   return (

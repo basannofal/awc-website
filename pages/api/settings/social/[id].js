@@ -37,14 +37,14 @@ export default async function handler(req, res) {
     try {
       const form = new IncomingForm();
       form.parse(req, async (err, fields, files) => {
-        const { whatsapp, facebook, instagram, twiter, linkedin } = fields;
+        const { whatsapp, facebook, instagram, twiter, youtube } = fields;
 
         let sql = "";
         let params = [];
         sql =
-          "UPDATE `social_links` SET `whatsapp_link`= ?, `facebook_link`= ?, `twiter_link`= ?, `instagram_link`= ?, `linkedin_link`= ? WHERE `id` = ?";
+          "UPDATE `social_links` SET `whatsapp_link`= ?, `facebook_link`= ?, `twiter_link`= ?, `instagram_link`= ?, `youtube_link`= ? WHERE `id` = ?";
 
-        params = [whatsapp, facebook, twiter, instagram, linkedin, id];
+        params = [whatsapp, facebook, twiter, instagram, youtube, id];
         const result = await conn.query(sql, params);
         res.status(200).json(result);
       });
