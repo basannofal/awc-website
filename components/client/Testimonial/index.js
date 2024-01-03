@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "@/layouts/Client/Navbar";
-import HeroSection from "./HeroSection";
-import TestiContact from "./TestiContact";
-import Footer from "@/layouts/Client/Footer";
+import React, { useEffect, useState } from 'react';
+import Navbar from '@/layouts/Client/Navbar';
+import HeroSection from './HeroSection';
+import TestiContact from './TestiContact';
+import Footer from '@/layouts/Client/Footer';
 import axios from "axios";
 import Head from "next/head";
 
 const index = () => {
+
   const [seoData, setSeoData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,10 +26,11 @@ const index = () => {
     }
   };
 
+  const fetchData = async () => {
+    await getSEOData();
+  };
+  
   useEffect(() => {
-    const fetchData = async () => {
-      await getSEOData();
-    };
     fetchData();
   }, []);
   return (

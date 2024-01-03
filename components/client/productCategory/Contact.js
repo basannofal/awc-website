@@ -20,10 +20,11 @@ const Contact = ({ cid }) => {
     }
   };
 
+  const fetchData = async () => {
+    await getTestimonial();
+  };
+  
   useEffect(() => {
-    const fetchData = async () => {
-      await getTestimonial();
-    };
     fetchData();
   }, []);
 
@@ -57,6 +58,76 @@ const Contact = ({ cid }) => {
     }
 
     return stars;
+  };
+
+  const [addFormData, setAddFormData] = useState({
+    name: "",
+    email: "",
+    number: "",
+    message: "",
+  });
+
+  const [validationError, setValidationError] = useState("");
+
+  // add blog data section start
+  const handleChangeData = (event) => {
+    const { name, value } = event.target;
+    setAddFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const saveData = async (e) => {
+    e.preventDefault();
+
+    // Validate the form data
+    if (addFormData.name.trim() == "") {
+      setValidationError("Invalid Name");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(addFormData.email)) {
+      setValidationError("Invalid Email");
+      return;
+    }
+
+    const mobileRegex = /^\d{10}$/;
+    if (addFormData.number && !mobileRegex.test(addFormData.number)) {
+      setValidationError("Invalid Mobile Number");
+      return;
+    }
+
+    if (addFormData.message.trim() == "") {
+      setValidationError("Please Write Message");
+      return;
+    }
+
+    setValidationError("");
+    setLoading(true);
+    try {
+      const formdata = new FormData();
+      formdata.append("name", addFormData.name);
+      formdata.append("email", addFormData.email);
+      formdata.append("number", addFormData.number);
+      formdata.append("message", addFormData.message);
+
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/contact/contactform/router`,
+        formdata
+      );
+      setAddFormData({
+        name: "",
+        email: "",
+        number: "",
+        message: "",
+      });
+      setLoading(false);
+    } catch (error) {
+      setValidationError(error?.response?.data?.message);
+      setLoading(false);
+    }
   };
 
   return (
@@ -139,7 +210,11 @@ const Contact = ({ cid }) => {
                       form below and submit it. Our team will be in touch with
                       you promptly.
                     </p>
-                    <form className="contact-form" method="post">
+                    <form
+                      className="contact-form"
+                      method="post"
+                      onSubmit={saveData}
+                    >
                       <div className="form-field">
                         <label htmlFor="name" className="form-label">
                           Your Name: <small>*</small>
@@ -148,6 +223,8 @@ const Contact = ({ cid }) => {
                           type="text"
                           name="name"
                           id="name"
+                          onChange={handleChangeData}
+                          value={addFormData.name}
                           placeholder="Enter Your Name"
                           className="form-input"
                         />
@@ -160,6 +237,8 @@ const Contact = ({ cid }) => {
                           type="email"
                           name="email"
                           id="email"
+                          onChange={handleChangeData}
+                          value={addFormData.email}
                           placeholder="Enter Your Email"
                           className="form-input"
                         />
@@ -171,8 +250,10 @@ const Contact = ({ cid }) => {
                         </label>
                         <input
                           type="text"
-                          name="mobile"
-                          id="mobile"
+                          name="number"
+                          id="number"
+                          onChange={handleChangeData}
+                          value={addFormData.number}
                           placeholder="Enter Your Mobile"
                           className="form-input"
                         />
@@ -185,15 +266,26 @@ const Contact = ({ cid }) => {
                           rows="3"
                           name="message"
                           id="message"
+                          onChange={handleChangeData}
+                          value={addFormData.message}
                           placeholder="Type Your Message Here..."
                           className="form-input"
                         ></textarea>
                       </div>
+                      {validationError && validationError != "" ? (
+                        <span style={{ color: "red" }}>
+                          * {validationError}
+                        </span>
+                      ) : (
+                        ""
+                      )}
                       <div className="form-actions">
                         <input
+                          style={loading ? { cursor: "not-allowed" } : {}}
                           className="btn-primary"
                           type="submit"
-                          value="Submit Information"
+                          value={loading ? "Sending..." : "Submit Information"}
+                          disabled={loading}
                         />
                       </div>
                     </form>

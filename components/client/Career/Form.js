@@ -1,13 +1,137 @@
-import React from "react";
+import { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
+import axios from "axios";
+import React, { useState } from "react";
 
-const Form = () => {
+const Form = ({jobId, setJobId, formref}) => {
+  const [loading, setLoading] = useState(false);
+  const [validationError, setValidationError] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const [addFormData, setAddFormData] = useState({
+    name: "",
+    email: "",
+    number: "",
+    salary: "",
+    message: "",
+    resume: null,
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setAddFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    handleFile(file);
+  };
+
+  const handleFileDrop = (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    handleFile(file);
+  };
+
+  const handleFile = (file) => {
+    // Check if a file is selected
+    if (file) {
+      // Get the file extension
+      const fileExtension = file.name.split(".").pop().toLowerCase();
+
+      // Check if the file extension is allowed (PDF or DOCX)
+      if (fileExtension === "pdf" || fileExtension === "docx") {
+        setAddFormData((prevData) => ({
+          ...prevData,
+          resume: file,
+        }));
+        setValidationError("");
+        setSelectedFile(file);
+      } else {
+        // Show error for an invalid file type
+        setValidationError(
+          "Invalid file type. Please upload a PDF or DOCX file."
+        );
+      }
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validate the form data
+    if (addFormData.name.trim() == "") {
+      setValidationError("Invalid Name");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(addFormData.email)) {
+      setValidationError("Invalid Email");
+      return;
+    }
+
+    const mobileRegex = /^\d{10}$/;
+    if (addFormData.number && !mobileRegex.test(addFormData.number)) {
+      setValidationError("Invalid Mobile Number");
+      return;
+    }
+
+    if (addFormData.message.trim() == "") {
+      setValidationError("Please Write Message");
+      return;
+    }
+
+    setValidationError("");
+
+    setLoading(true);
+
+    const formdata = new FormData();
+    formdata.append("name", addFormData.name);
+    formdata.append("email", addFormData.email);
+    formdata.append("number", addFormData.number);
+    formdata.append("message", addFormData.message);
+    formdata.append("salary", addFormData.salary);
+    formdata.append("resume", addFormData.resume);
+    formdata.append("app_id", jobId);
+
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/career/router`,
+        formdata
+      );
+      // Handle success
+      SuccessToast("Inquiry Sent Successfully");
+      // Reset form fields
+      setAddFormData({
+        name: "",
+        email: "",
+        number: "",
+        salary: "",
+        message: "",
+        resume: null,
+      });
+      setJobId(null)
+      setSelectedFile(null);
+    } catch (error) {
+      // Handle error
+      ErrorToast("Failed to send inquiry");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   return (
-    <div className="blog-view-sec">
+    <div className="blog-view-sec" ref={formref}>
       <div className="container mb-6">
         <div className="form_main lg:py-7 py-6">
           <p className="form_title text-center">Apply Now</p>
           <p className="text-center mb-6">Submit The Form Below To Apply</p>
-          <form action="">
+          <form onSubmit={handleSubmit}>
+
             <div className="grid gap-6 mb-6 md:grid-cols-2 justify-center">
               <div className="lg:w-1/3 md:w-2/5 w-5/6">
                 <label
@@ -19,9 +143,13 @@ const Form = () => {
                 </label>
                 <input
                   type="text"
-                  id="first_name"
+                  id="name"
+                  name="name"
                   className="bg-white border border-gray-300 text-sm rounded-lg focus:outline-none block w-full p-2.5"
                   placeholder="Enter Your Name"
+                  onChange={handleChange}
+                  value={addFormData.name}
+
                 />
               </div>
               <div className="lg:w-1/3 md:w-2/5 w-5/6">
@@ -34,9 +162,13 @@ const Form = () => {
                 </label>
                 <input
                   type="text"
-                  id="first_name"
+                  id="email"
+                  name="email"
                   className="bg-white border border-gray-300 text-sm rounded-lg focus:outline-none block w-full p-2.5"
                   placeholder="Enter Your Email"
+                  onChange={handleChange}
+                  value={addFormData.email}
+
                 />
               </div>
             </div>
@@ -50,9 +182,12 @@ const Form = () => {
                 </label>
                 <input
                   type="text"
-                  id="mobile_no"
+                  id="number"
+                  name="number"
                   className="bg-white border border-gray-300 text-sm rounded-lg focus:outline-none block w-full p-2.5"
                   placeholder="Enter Your Mobile"
+                  onChange={handleChange}
+                  value={addFormData.number}
                 />
               </div>
               <div className="lg:w-1/3 md:w-2/5 w-5/6">
@@ -64,12 +199,16 @@ const Form = () => {
                 </label>
                 <input
                   type="text"
-                  id="expected_salary"
+                  id="salary"
+                  name="salary"
                   className="bg-white border border-gray-300 text-sm rounded-lg focus:outline-none block w-full p-2.5"
                   placeholder="Expected Salary"
+                  onChange={handleChange}
+                  value={addFormData.salary}
                 />
               </div>
             </div>
+
             <div className="career_form_file_input">
               <label
                 htmlFor="resume"
@@ -81,6 +220,8 @@ const Form = () => {
             <div className="flex items-center justify-center career_form_file_input">
               <label
                 htmlFor="dropzone-file"
+                onDrop={handleFileDrop}
+                onDragOver={(e) => e.preventDefault()}
                 className="flex flex-col items-center justify-center w-full border border-gray-300 rounded-lg cursor-pointer"
               >
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -103,10 +244,23 @@ const Form = () => {
                     Click Or Drag This Area To Upload
                   </p>
                 </div>
-                <input id="dropzone-file" type="file" className="hidden" />
+                <input
+                  id="file"
+                  name="file"
+                  type="file"
+                  className="block w-full h-full opacity-0"
+                  onChange={handleFileChange}
+                />
               </label>
             </div>
             <div className="career_form_file_input">
+              {selectedFile && (
+                <p className="mt-2 text-sm">{selectedFile.name}</p>
+              )}
+            </div>
+
+            <div className="pt-2 career_form_file_input">
+
               <label
                 htmlFor="message"
                 className="block mb-1 text-sm font-semibold"
@@ -116,24 +270,39 @@ const Form = () => {
               </label>
               <textarea
                 id="message"
+                name="message"
                 rows="4"
                 class="block p-2.5 w-full text-sm rounded-lg border border-gray-300 focus:outline-none"
                 placeholder="Type Your Message Here..."
+                onChange={handleChange}
+                value={addFormData.message}
               ></textarea>
             </div>
             <div className="carrer_submit_btn">
+              <div>
+                {validationError && validationError != "" ? (
+                  <span style={{ color: "red" }}>* {validationError}</span>
+                ) : (
+                  ""
+                )}
+              </div>
               <button
-                className="btn-primary learn-btn"
-                style={{ padding: "0px 30px" }}
+                className="mt-3 btn-primary learn-btn"
+                style={{
+                  cursor: loading ? "not-allowed" : "",
+                  padding: "0px 30px",
+                }}
+                value={"Submit Information"}
+                disabled={loading}
               >
-                submit information
+                {loading ? "Sending..." : "Submit Information"}
+
               </button>
             </div>
           </form>
         </div>
       </div>
     </div>
-
   );
 };
 

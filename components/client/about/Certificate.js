@@ -20,10 +20,11 @@ const Certificate = () => {
     }
   };
 
+  const fetchData = async () => {
+    await getTestimonial();
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      await getTestimonial();
-    };
     fetchData();
   }, []);
 

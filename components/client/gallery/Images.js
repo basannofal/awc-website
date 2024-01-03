@@ -20,10 +20,11 @@ const Images = ({ selectedCategory }) => {
     }
   };
 
+  const fetchData = async () => {
+    await getImages();
+  };
+  
   useEffect(() => {
-    const fetchData = async () => {
-      await getImages();
-    };
     fetchData();
   }, [selectedCategory]);
 

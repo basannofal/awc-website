@@ -1,3 +1,5 @@
+
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const HeroSection = () => {
@@ -6,13 +8,85 @@ const HeroSection = () => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
+
+  const [addFormData, setAddFormData] = useState({
+    name: "",
+    email: "",
+    number: "",
+    message: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [validationError, setValidationError] = useState("");
+
+  // add blog data section start
+  const handleChangeData = (event) => {
+    const { name, value } = event.target;
+    setAddFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const saveData = async (e) => {
+    e.preventDefault();
+
+    // Validate the form data
+    if (addFormData.name.trim() == "") {
+      setValidationError("Invalid Name");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(addFormData.email)) {
+      setValidationError("Invalid Email");
+      return;
+    }
+
+    const mobileRegex = /^\d{10}$/;
+    if (addFormData.number && !mobileRegex.test(addFormData.number)) {
+      setValidationError("Invalid Mobile Number");
+      return;
+    }
+
+    if (addFormData.message.trim() == "") {
+      setValidationError("Please Write Message");
+      return;
+    }
+
+    setValidationError("");
+    setLoading(true);
+    try {
+      const formdata = new FormData();
+      formdata.append("name", addFormData.name);
+      formdata.append("email", addFormData.email);
+      formdata.append("number", addFormData.number);
+      formdata.append("message", addFormData.message);
+
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/contact/contactform/router`,
+        formdata
+      );
+      setAddFormData({
+        name: "",
+        email: "",
+        number: "",
+        message: "",
+      });
+      setLoading(false);
+    } catch (error) {
+      setValidationError(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <section className="container flex flex-wrap mb-5" id="main_contact">
         <div className="lg-5 sm-12">
           <div>
             <button
-              className={`contact_btn ${
+              className={`tab-btn  ${
                 activeTab === "office" ? "active" : ""
               }`}
               onClick={() => handleTabClick("office")}
@@ -20,12 +94,12 @@ const HeroSection = () => {
               OFFICE
             </button>
             <button
-              className={`contact_btn ${
+              className={`tab-btn  ${
                 activeTab === "factory" ? "active" : ""
               }`}
               onClick={() => handleTabClick("factory")}
             >
-              FACTORY
+              AWC Manufacturing Unit
             </button>
           </div>
 
@@ -73,7 +147,44 @@ const HeroSection = () => {
 
           {activeTab === "factory" && (
             <div>
-              <p>Factory Content Goes Here</p>
+
+              <p className="contact_title">AWC INDIA</p>
+              <p className="contact_second_title">
+                Connecting Excellence, Exceeding Expectations
+              </p>
+              <p className="contact_desc">
+                Feel free to get in touch with us at aWC india. We're here to
+                answer your questions and provide exceptional solutions. Your
+                inquiries are important to us, and we're committed to delivering
+                quality service that goes above and beyond your expectations.
+              </p>
+              <p className="contact_address">
+                <span className="contact_address_title">Address:</span>
+                Survey/Plot No:-662 Village:- Tembhi Taluka:- Umbergaon,Dist
+                -Valsad, Umargam, Gujarat 396150
+              </p>
+              <p className="contact_phone">
+                <span className="contact_address_title">Phone:</span>+91 86 86
+                86 2475
+              </p>
+              <p className="contact_email">
+                <span className="contact_address_title">Email Address:</span>
+                info@awcindia.in
+              </p>
+              <div className="flex">
+                <div className="social_icons" id="first_social_icon">
+                  <i class="fa-brands fa-facebook-f"></i>
+                </div>
+                <div className="social_icons">
+                  <i class="fa-brands fa-instagram"></i>
+                </div>
+                <div className="social_icons">
+                  <i class="fa-brands fa-linkedin-in"></i>
+                </div>
+                <div className="social_icons">
+                  <i class="fa-brands fa-pinterest-p"></i>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -84,7 +195,8 @@ const HeroSection = () => {
               If you require additional information, please complete the form
               below and submit it. Our team will be in touch with you promptly.
             </p>
-            <form className="contact-form" method="post">
+
+            <form className="contact-form" method="post" onSubmit={saveData}>
               <div className="form-field">
                 <label
                   for="name"
@@ -97,6 +209,9 @@ const HeroSection = () => {
                   type="text"
                   name="name"
                   id="name"
+
+                  onChange={handleChangeData}
+                  value={addFormData.name}
                   placeholder="Enter Your Name"
                   className="form-input-contact"
                 />
@@ -113,13 +228,15 @@ const HeroSection = () => {
                   type="email"
                   name="email"
                   id="email"
+                  onChange={handleChangeData}
+                  value={addFormData.email}
                   placeholder="Enter Your Email"
                   className="form-input-contact"
                 />
               </div>
               <div className="form-field">
                 <label
-                  for="mobile"
+                  for="number"
                   className="form-label"
                   id="form-lable-contact"
                 >
@@ -127,8 +244,10 @@ const HeroSection = () => {
                 </label>
                 <input
                   type="text"
-                  name="mobile"
-                  id="mobile"
+                  name="number"
+                  id="number"
+                  onChange={handleChangeData}
+                  value={addFormData.number}
                   placeholder="Enter Your Mobile"
                   className="form-input-contact"
                 />
@@ -145,16 +264,25 @@ const HeroSection = () => {
                   rows="3"
                   name="message"
                   id="message"
+                  onChange={handleChangeData}
+                  value={addFormData.message}
                   placeholder="Type Your Message Here..."
                   className="form-input-contact"
                 ></textarea>
               </div>
-              <div className="form-action">
+
+              {validationError && validationError != "" ? (
+                <small style={{ color: "red" }}>* {validationError}</small>
+              ) : (
+                ""
+              )}
+              <div className="form-action mt-4">
                 <input
+                  style={loading ? { cursor: "not-allowed" } : {}}
                   className="btn-primary"
-                  id="contact_btn"
                   type="submit"
-                  value="Submit Information"
+                  value={loading ? "Sending..." : "Submit Information"}
+                  disabled={loading}
                 />
               </div>
             </form>

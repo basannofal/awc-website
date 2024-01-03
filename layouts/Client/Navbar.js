@@ -1,8 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import $ from "jquery";
 import Link from "next/link";
+import axios from "axios";
 
 const Navbar = () => {
+  const [seoData, setSeoData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const getSEOData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/setting/router`
+      );
+      setLoading(false);
+      setSeoData(response.data[0]);
+      console.log(response.data[0]);
+      console.log("response.data[0]");
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const fetchData = async () => {
+    await getSEOData();
+  };
+
+  useEffect(() => {
+    const isHardReload = !window.performance.navigation.type;
+    if (isHardReload) {
+      fetchData();
+    }
+  }, []);
+
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdown, setIsDropdown] = useState(true);
 
@@ -48,13 +79,30 @@ const Navbar = () => {
               <div className="lg-3 sm-3 xs-12">
                 <div className="header-logo-sec">
                   <Link href="/">
-                    <img
+                    {seoData && seoData.logo ? (
+                      <img
+                        src={`/assets/upload/setting/${seoData.logo}`}
+                        alt="AWC Header Logo"
+                        width="100%"
+                        height="auto"
+                        className="header-logo"
+                      />
+                    ) : (
+                      <img
+                        src={"/assets/images/client/awc_logo_header.webp"}
+                        alt="AWC Header Logo"
+                        width="100%"
+                        height="auto"
+                        className="header-logo"
+                      />
+                    )}
+                    {/* <img
                       src={"/assets/images/client/awc_logo_header.webp"}
                       alt="AWC Header Logo"
                       width="100%"
                       height="auto"
                       className="header-logo"
-                    />
+                    /> */}
                   </Link>
                 </div>
               </div>
@@ -147,7 +195,7 @@ const Navbar = () => {
                             width="16"
                             height="16"
                           />
-                          +91 86 86 86 2475
+                          {seoData && `+91 ${seoData?.number}`}
                         </Link>
                       </li>
                       <li>
@@ -158,7 +206,7 @@ const Navbar = () => {
                             width="16"
                             height="12"
                           />
-                          info@awcindia.in
+                          {seoData && seoData?.email}
                         </Link>
                       </li>
                     </ul>
