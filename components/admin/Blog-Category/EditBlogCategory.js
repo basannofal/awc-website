@@ -86,7 +86,7 @@ const EditBlogCategory = () => {
   const validateForm = () => {
     const requiredFields = [
       "category_title",
-      "category_image",
+      "category_image",  
       "category_icon",
     ];
     for (const field of requiredFields) {
@@ -297,15 +297,6 @@ const EditBlogCategory = () => {
                     alt="category_image"
                   />
                 )}
-                {/* <img
-                  src={
-                    editBlogCategoryData.category_image instanceof File
-                      ? URL.createObjectURL(editBlogCategoryData.category_image)
-                      : `/assets/upload/blog/${editBlogCategoryData.category_image}`
-                  }
-                  alt="category_image"
-                  className="modal_data_image"
-                /> */}
               </div>
               <div className="mb-3">
                 <label htmlFor="editBlog_icon" className="modal_label">
