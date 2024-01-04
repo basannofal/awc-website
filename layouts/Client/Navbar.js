@@ -16,7 +16,7 @@ const Navbar = () => {
       setLoading(false);
       setSeoData(response.data[0]);
       console.log(response.data[0]);
-      console.log("response.data[0]");
+      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
     } catch (error) {
       setLoading(false);
       console.error("Error fetching data:", error);
