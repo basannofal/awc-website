@@ -31,6 +31,7 @@ const EditSetting = () => {
     instagram: "",
     twiter: "",
     youtube: "",
+    linkedin: "",
   });
 
   //SEO TAB VAR
@@ -203,6 +204,7 @@ const EditSetting = () => {
       formdata.append("twiter", socialData.twiter);
       formdata.append("instagram", socialData.instagram);
       formdata.append("youtube", socialData.youtube);
+      formdata.append("linkedin", socialData.linkedin);
 
       await axios.patch(
         `${process.env.NEXT_PUBLIC_API_URL}/settings/social/${1}`,
@@ -230,6 +232,7 @@ const EditSetting = () => {
         instagram: response.data[0].instagram_link,
         twiter: response.data[0].twiter_link,
         youtube: response.data[0].youtube_link,
+        linkedin: response.data[0].linkedin_link,
       });
       setLoading(false);
     } catch (err) {
@@ -750,6 +753,21 @@ const EditSetting = () => {
                   placeholder="Enter Youtube"
                   onChange={handleChangeSocial}
                   value={socialData && socialData.youtube}
+                />
+              </div>
+
+              <div className="mb-3">
+                <label htmlFor="linkedin" className="modal_label">
+                  LinkedIn:-
+                </label>
+                <input
+                  type="text"
+                  id="linkedin"
+                  name="linkedin"
+                  className="modal_input"
+                  placeholder="Enter LinkedIn"
+                  onChange={handleChangeSocial}
+                  value={socialData && socialData.linkedin}
                 />
               </div>
 

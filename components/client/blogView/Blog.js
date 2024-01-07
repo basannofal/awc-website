@@ -211,6 +211,13 @@ const Blog = ({ bid }) => {
                     <img
                       src={`/assets/upload/blogs/${item?.blog_thumbnail}`}
                       alt="blog_image"
+                      style={{
+                        width: "100%",
+                        height: "200px",
+                        objectFit: "cover",
+                        borderTopLeftRadius: "5px",
+                        borderTopRightRadius: "5px",
+                      }}
                     />
                     <div className="blog_name_main_section">
                       <div className="blog_name_section">AWC India</div>

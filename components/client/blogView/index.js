@@ -3,11 +3,11 @@ import Navbar from "@/layouts/Client/Navbar";
 import Blog from "./Blog";
 import Footer from "@/layouts/Client/Footer";
 
-const index = ({bid}) => {
+const index = ({ bid }) => {
   return (
     <>
       <Navbar />
-      <Blog bid={bid}/>
+      <Blog bid={bid} />
       <Footer />
     </>
   );

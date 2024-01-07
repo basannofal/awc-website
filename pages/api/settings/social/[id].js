@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      const q = "SELECT * FROM `social_links` WHERE id = ?";
+      const q = "SELECT * FROM social_links WHERE id = ?";
 
       const data = [id];
       const [rows] = await conn.query(q, data);
@@ -37,14 +37,15 @@ export default async function handler(req, res) {
     try {
       const form = new IncomingForm();
       form.parse(req, async (err, fields, files) => {
-        const { whatsapp, facebook, instagram, twiter, youtube } = fields;
+        const { whatsapp, facebook, instagram, twiter, youtube, linkedin } =
+          fields;
 
         let sql = "";
         let params = [];
         sql =
-          "UPDATE `social_links` SET `whatsapp_link`= ?, `facebook_link`= ?, `twiter_link`= ?, `instagram_link`= ?, `youtube_link`= ? WHERE `id` = ?";
+          "UPDATE social_links SET whatsapp_link= ?, facebook_link= ?, twiter_link= ?, instagram_link= ?, youtube_link= ?, linkedin_link= ? WHERE id = ?";
 
-        params = [whatsapp, facebook, twiter, instagram, youtube, id];
+        params = [whatsapp, facebook, twiter, instagram, youtube, linkedin, id];
         const result = await conn.query(sql, params);
         res.status(200).json(result);
       });

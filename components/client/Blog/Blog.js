@@ -40,7 +40,7 @@ const Blog = () => {
   const fetchData = async () => {
     await getBlog();
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -154,6 +154,13 @@ const Blog = () => {
                       <img
                         src={`./assets/upload/blogs/${item?.blog_thumbnail}`}
                         alt="blog_image"
+                        style={{
+                          width: "100%",
+                          height: "200px",
+                          objectFit: "cover",
+                          borderTopLeftRadius: "5px",
+                          borderTopRightRadius: "5px",
+                        }}
                       />
                       <div className="blog_name_main_section">
                         <div className="blog_name_section">AWC India</div>
@@ -163,10 +170,7 @@ const Blog = () => {
                         </div>
                       </div>
                       <Link href={`/blogs/${slug}/${item?.blog_id}`}>
-
-                      <p className="blog_desc_section">
-                        {item?.blog_title}
-                      </p>
+                        <p className="blog_desc_section">{item?.blog_title}</p>
                       </Link>
                       <p className="blog_sec_desc_section">
                         {extractFirstParagraph(item?.blog_description)}
