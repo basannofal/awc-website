@@ -74,6 +74,7 @@ const Blog = ({ bid }) => {
           <div className="blog-view-sec">
             <p className="blog-view-main-title">
               <Link href={"/blogs"}>blogs</Link>
+
               <i className="fa-solid fa-angles-right"></i>
               <i className="fa-solid fa-angles-right"></i>{" "}
               {blog?.category_title}{" "}
@@ -130,7 +131,8 @@ const Blog = ({ bid }) => {
                           <div className="article_data">
                             <p className="heading mb-1">{item?.blog_title}</p>
                             <p className="desc">
-                              {extractFirstParagraph(item?.blog_description)}
+
+                            {extractFirstParagraph(item?.blog_description)}
                             </p>
                           </div>
                         </div>
@@ -200,9 +202,8 @@ const Blog = ({ bid }) => {
           <div className="main_blogs">
             <div className="flex flex-wrap justify-center">
               {reletedblog.map((item, idx) => {
-                const slug = blog?.blog_title
-                  ? blog.blog_title.replace(/\s+/g, "-")
-                  : "";
+
+                const slug = item?.blog_title.replace(/\s+/g, "-");
                 return (
                   <div
                     className="sm:w-1/2 md:w-1/3 lg:w-3/12 blog_image_section"
@@ -218,6 +219,7 @@ const Blog = ({ bid }) => {
                         borderTopLeftRadius: "5px",
                         borderTopRightRadius: "5px",
                       }}
+
                     />
                     <div className="blog_name_main_section">
                       <div className="blog_name_section">AWC India</div>

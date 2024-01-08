@@ -187,7 +187,8 @@ const Blog = () => {
               style={{ right: "10%" }}
             >
               <li>
-                <a
+
+                <Link
                   href="#"
                   className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180"
                 >
@@ -204,16 +205,18 @@ const Blog = () => {
                       clipRule="evenodd"
                     />
                   </svg>
-                </a>
+
+                </Link>
               </li>
 
               <li>
-                <a
+                <Link
                   href="#"
                   className="block h-8 w-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900"
                 >
                   1
-                </a>
+
+                </Link>
               </li>
 
               <li className="block h-8 w-8 rounded border-blue-600 bg-blue-600 text-center leading-8 text-white">
@@ -221,25 +224,28 @@ const Blog = () => {
               </li>
 
               <li>
-                <a
+
+                <Link
                   href="#"
                   className="block h-8 w-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900"
                 >
                   3
-                </a>
+
+                </Link>
               </li>
 
               <li>
-                <a
+                <Link
                   href="#"
                   className="block h-8 w-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900"
                 >
                   4
-                </a>
+
+                </Link>
               </li>
 
               <li>
-                <a
+                <Link
                   href="#"
                   className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180"
                 >
@@ -256,7 +262,8 @@ const Blog = () => {
                       clipRule="evenodd"
                     />
                   </svg>
-                </a>
+
+                </Link>
               </li>
             </ol>
           </div>

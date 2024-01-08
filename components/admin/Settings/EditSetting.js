@@ -759,6 +759,7 @@ const EditSetting = () => {
               <div className="mb-3">
                 <label htmlFor="linkedin" className="modal_label">
                   LinkedIn:-
+
                 </label>
                 <input
                   type="text"

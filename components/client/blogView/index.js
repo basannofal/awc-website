@@ -7,7 +7,7 @@ const index = ({ bid }) => {
   return (
     <>
       <Navbar />
-      <Blog bid={bid} />
+      <Blog bid={bid}/>
       <Footer />
     </>
   );

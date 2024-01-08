@@ -6,6 +6,7 @@ import axios from "axios";
 const Navbar = () => {
   const [seoData, setSeoData] = useState([]);
   const [socialLinks, setSocialLinks] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   const getSEOData = async () => {
@@ -17,7 +18,7 @@ const Navbar = () => {
       setLoading(false);
       setSeoData(response.data[0]);
       console.log(response.data[0]);
-      console.log("response.data[0]");
+
     } catch (error) {
       setLoading(false);
       console.error("Error fetching data:", error);
@@ -37,6 +38,7 @@ const Navbar = () => {
     }
   };
 
+  
   const fetchData = async () => {
     await getSEOData();
   };
@@ -47,6 +49,8 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
+
+    
     const isHardReload = !window.performance.navigation.type;
     if (isHardReload) {
       fetchData();
@@ -414,6 +418,7 @@ const Navbar = () => {
                             {seoData && seoData?.email}
                           </Link>
                         )}
+
                       </li>
                     </ul>
                   </div>
