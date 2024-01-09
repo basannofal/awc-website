@@ -74,6 +74,7 @@ const Blog = ({ bid }) => {
           <div className="blog-view-sec">
             <p className="blog-view-main-title">
               <Link href={"/blogs"}>blogs</Link>
+
               <i className="fa-solid fa-angles-right"></i>
               <i className="fa-solid fa-angles-right"></i>{" "}
               {blog?.category_title}{" "}
@@ -101,8 +102,9 @@ const Blog = ({ bid }) => {
                 <div className="blog_title">
                   <p className="heading">{blog?.blog_title}</p>
                   <p
-                    className="blog_desc"
-                    dangerouslySetInnerHTML={{ __html: blog?.blog_description }}
+                    dangerouslySetInnerHTML={{
+                      __html: blog?.blog_description,
+                    }}
                   ></p>
                 </div>
               </div>
@@ -129,6 +131,7 @@ const Blog = ({ bid }) => {
                           <div className="article_data">
                             <p className="heading mb-1">{item?.blog_title}</p>
                             <p className="desc">
+
                             {extractFirstParagraph(item?.blog_description)}
                             </p>
                           </div>
@@ -199,6 +202,7 @@ const Blog = ({ bid }) => {
           <div className="main_blogs">
             <div className="flex flex-wrap justify-center">
               {reletedblog.map((item, idx) => {
+
                 const slug = item?.blog_title.replace(/\s+/g, "-");
                 return (
                   <div
@@ -208,6 +212,14 @@ const Blog = ({ bid }) => {
                     <img
                       src={`/assets/upload/blogs/${item?.blog_thumbnail}`}
                       alt="blog_image"
+                      style={{
+                        width: "100%",
+                        height: "200px",
+                        objectFit: "cover",
+                        borderTopLeftRadius: "5px",
+                        borderTopRightRadius: "5px",
+                      }}
+
                     />
                     <div className="blog_name_main_section">
                       <div className="blog_name_section">AWC India</div>

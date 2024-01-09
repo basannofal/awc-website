@@ -30,6 +30,7 @@ const EditSetting = () => {
     facebook: "",
     instagram: "",
     twiter: "",
+    youtube: "",
     linkedin: "",
   });
 
@@ -202,6 +203,7 @@ const EditSetting = () => {
       formdata.append("facebook", socialData.facebook);
       formdata.append("twiter", socialData.twiter);
       formdata.append("instagram", socialData.instagram);
+      formdata.append("youtube", socialData.youtube);
       formdata.append("linkedin", socialData.linkedin);
 
       await axios.patch(
@@ -229,6 +231,7 @@ const EditSetting = () => {
         facebook: response.data[0].facebook_link,
         instagram: response.data[0].instagram_link,
         twiter: response.data[0].twiter_link,
+        youtube: response.data[0].youtube_link,
         linkedin: response.data[0].linkedin_link,
       });
       setLoading(false);
@@ -739,15 +742,31 @@ const EditSetting = () => {
               </div>
 
               <div className="mb-3">
-                <label htmlFor="linkedin" className="modal_label">
+                <label htmlFor="youtube" className="modal_label">
                   YouTube:-
+                </label>
+                <input
+                  type="text"
+                  id="youtube"
+                  name="youtube"
+                  className="modal_input"
+                  placeholder="Enter Youtube"
+                  onChange={handleChangeSocial}
+                  value={socialData && socialData.youtube}
+                />
+              </div>
+
+              <div className="mb-3">
+                <label htmlFor="linkedin" className="modal_label">
+                  LinkedIn:-
+
                 </label>
                 <input
                   type="text"
                   id="linkedin"
                   name="linkedin"
                   className="modal_input"
-                  placeholder="Enter Linkedin"
+                  placeholder="Enter LinkedIn"
                   onChange={handleChangeSocial}
                   value={socialData && socialData.linkedin}
                 />
