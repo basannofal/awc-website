@@ -121,7 +121,7 @@ const Sidebar = () => {
             }
           >
             <Link href="/admin/applications">
-              <i class="fa-solid fa-address-card"></i>{" "}
+              <i className="fa-solid fa-address-card"></i>{" "}
               <span className="links_name">Applicatons</span>
             </Link>
           </li>

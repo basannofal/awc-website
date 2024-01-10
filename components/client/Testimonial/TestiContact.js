@@ -23,7 +23,7 @@ const TestiContact = () => {
   const fetchData = async () => {
     await getTestimonial();
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -62,60 +62,70 @@ const TestiContact = () => {
 
   return (
     <>
-     {loading ? <h1>Loading</h1>:
-         <div className="main_testi_contact">
-        {testimonial.map((item, idx) => {
-          return (
-            <div className="main_testi_contact_inner" key={item.id}>
-              <div className="testimonials-contents">
-                <img
-                  className=""
-                  src={"./assets/images/client/quotes-img.png"}
-                  alt="Double Quotes Image"
-                  width="22"
-                  height="auto"
-                />
-                <p
-                  className="contact_desc mt-4"
-                  dangerouslySetInnerHTML={{
-                    __html: item?.testimonial_desc,
-                  }}
-                ></p>
-                <div className="testi_contact_review mt-4">
+      {loading ? (
+        <div className="main_testi_contact">
+          <div role="status" className="w-full animate-pulse">
+            <div className="h-48 bg-gray-200 rounded mb-4"></div>
+          </div>
+          <div role="status" className="w-full animate-pulse">
+            <div className="h-48 bg-gray-200 rounded mb-4"></div>
+          </div>
+        </div>
+      ) : (
+        <div className="main_testi_contact">
+          {testimonial.map((item, idx) => {
+            return (
+              <div className="main_testi_contact_inner" key={item.id}>
+                <div className="testimonials-contents">
                   <img
-                    style={{ borderRadius: "50%" }}
-                    src={`/assets/upload/testimonial/${item?.testimonial_image}`}
-                    alt="Client Image"
-                    width="50"
+                    className=""
+                    src={"./assets/images/client/quotes-img.png"}
+                    alt="Double Quotes Image"
+                    width="22"
                     height="auto"
                   />
-                  <div className="testi_contact_title ms-2">
-                    <h4>{item?.testimonial_title}</h4>
-                    <div className="testi_rating">
-                      {renderStars(item?.rating)}
+                  <p
+                    className="contact_desc mt-4"
+                    dangerouslySetInnerHTML={{
+                      __html: item?.testimonial_desc,
+                    }}
+                  ></p>
+                  <div className="testi_contact_review mt-4">
+                    <img
+                      style={{ borderRadius: "50%" }}
+                      src={`/assets/upload/testimonial/${item?.testimonial_image}`}
+                      alt="Client Image"
+                      width="50"
+                      height="auto"
+                    />
+                    <div className="testi_contact_title ms-2">
+                      <h4>{item?.testimonial_title}</h4>
+                      <div className="testi_rating">
+                        {renderStars(item?.rating)}
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div className="video_testimonial">
+                  <iframe
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/your-video-id"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                  ></iframe>
+                  <p className="testi_video_title">
+                    Mr SG Bapat EX Chief Engineer Nuclear Power Corporation of
+                    India
+                  </p>
+                </div>
               </div>
-              <div className="video_testimonial">
-                <iframe
-                  width="560"
-                  height="315"
-                  src="https://www.youtube.com/embed/your-video-id"
-                  title="YouTube video player"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                ></iframe>
-                <p className="testi_video_title">
-                  Mr SG Bapat EX Chief Engineer Nuclear Power Corporation of
-                  India
-                </p>
-              </div>
-            </div>
-          );
-        })}
-      </div>}
+            );
+          })}
+        </div>
+      )}
     </>
   );
 };

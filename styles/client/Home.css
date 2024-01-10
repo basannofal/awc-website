@@ -445,7 +445,7 @@ a {
 .header nav ul li.contact-us-link a:hover {
   color: #ffffff !important;
 }
-.header nav ul li:first-child a {
+.header nav ul li .active {
   color: #1386d3;
   font-weight: bold;
 }
@@ -2086,7 +2086,6 @@ body::-webkit-scrollbar-thumb:hover {
     font-size: 12px;
     line-height: 20px;
     padding: 10px 15px !important;
-    color: #1386d3;
   }
   .main-sec .sub-title {
     font-size: 15px;

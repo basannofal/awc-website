@@ -40,7 +40,7 @@ const Blog = () => {
   const fetchData = async () => {
     await getBlog();
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -55,11 +55,11 @@ const Blog = () => {
                   <div className="sm:w-1/2 md:w-1/3 lg:w-3/12 blog_image_section">
                     <div
                       role="status"
-                      class="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center"
+                      className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center"
                     >
-                      <div class="flex items-center justify-center w-full h-48 bg-gray-300 rounded sm:w-96">
+                      <div className="flex items-center justify-center w-full h-48 bg-gray-300 rounded sm:w-96">
                         <svg
-                          class="w-10 h-10 text-gray-200 dark:text-gray-600"
+                          className="w-10 h-10 text-gray-200 dark:text-gray-600"
                           aria-hidden="true"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="currentColor"
@@ -72,12 +72,12 @@ const Blog = () => {
                     <div>
                       <p className="blog_desc_section mt-3">
                         <div className="w-full">
-                          <div class="h-4 bg-gray-200 rounded-full w-52 mb-0"></div>
+                          <div className="h-4 bg-gray-200 rounded-full w-52 mb-0"></div>
                         </div>
                       </p>
                       <p className="blog_sec_desc_section">
                         <div className="w-full">
-                          <div class="h-28 bg-gray-200 rounded w-52 mb-0"></div>
+                          <div className="h-28 bg-gray-200 rounded w-52 mb-0"></div>
                         </div>
                       </p>
                     </div>
@@ -85,11 +85,11 @@ const Blog = () => {
                   <div className="sm:w-1/2 md:w-1/3 lg:w-3/12 blog_image_section">
                     <div
                       role="status"
-                      class="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center"
+                      className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center"
                     >
-                      <div class="flex items-center justify-center w-full h-48 bg-gray-300 rounded sm:w-96">
+                      <div className="flex items-center justify-center w-full h-48 bg-gray-300 rounded sm:w-96">
                         <svg
-                          class="w-10 h-10 text-gray-200 dark:text-gray-600"
+                          className="w-10 h-10 text-gray-200 dark:text-gray-600"
                           aria-hidden="true"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="currentColor"
@@ -102,12 +102,12 @@ const Blog = () => {
                     <div>
                       <p className="blog_desc_section mt-3">
                         <div className="w-full">
-                          <div class="h-4 bg-gray-200 rounded-full w-52 mb-0"></div>
+                          <div className="h-4 bg-gray-200 rounded-full w-52 mb-0"></div>
                         </div>
                       </p>
                       <p className="blog_sec_desc_section">
                         <div className="w-full">
-                          <div class="h-28 bg-gray-200 rounded w-52 mb-0"></div>
+                          <div className="h-28 bg-gray-200 rounded w-52 mb-0"></div>
                         </div>
                       </p>
                     </div>
@@ -115,11 +115,11 @@ const Blog = () => {
                   <div className="sm:w-1/2 md:w-1/3 lg:w-3/12 blog_image_section">
                     <div
                       role="status"
-                      class="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center"
+                      className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center"
                     >
-                      <div class="flex items-center justify-center w-full h-48 bg-gray-300 rounded sm:w-96">
+                      <div className="flex items-center justify-center w-full h-48 bg-gray-300 rounded sm:w-96">
                         <svg
-                          class="w-10 h-10 text-gray-200 dark:text-gray-600"
+                          className="w-10 h-10 text-gray-200 dark:text-gray-600"
                           aria-hidden="true"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="currentColor"
@@ -132,12 +132,12 @@ const Blog = () => {
                     <div>
                       <p className="blog_desc_section mt-3">
                         <div className="w-full">
-                          <div class="h-4 bg-gray-200 rounded-full w-52 mb-0"></div>
+                          <div className="h-4 bg-gray-200 rounded-full w-52 mb-0"></div>
                         </div>
                       </p>
                       <p className="blog_sec_desc_section">
                         <div className="w-full">
-                          <div class="h-28 bg-gray-200 rounded w-52 mb-0"></div>
+                          <div className="h-28 bg-gray-200 rounded w-52 mb-0"></div>
                         </div>
                       </p>
                     </div>
@@ -163,10 +163,7 @@ const Blog = () => {
                         </div>
                       </div>
                       <Link href={`/blogs/${slug}/${item?.blog_id}`}>
-
-                      <p className="blog_desc_section">
-                        {item?.blog_title}
-                      </p>
+                        <p className="blog_desc_section">{item?.blog_title}</p>
                       </Link>
                       <p className="blog_sec_desc_section">
                         {extractFirstParagraph(item?.blog_description)}

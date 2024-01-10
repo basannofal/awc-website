@@ -23,7 +23,7 @@ const Product = () => {
   const fetchData = async () => {
     await getCategoryProducts();
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -46,9 +46,6 @@ const Product = () => {
 
   return (
     <>
-      {/* {loading ? (
-        <h1>Loading</h1>
-      ) : ( */}
       <section className="product-sec">
         <div className="product-container">
           <div className="product-inner">

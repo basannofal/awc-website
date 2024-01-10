@@ -1,5 +1,4 @@
 import axios from "axios";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const HeroSection = ({ onSelectCategory, selectedCategory }) => {
@@ -28,7 +27,7 @@ const HeroSection = ({ onSelectCategory, selectedCategory }) => {
   const fetchData = async () => {
     await getCategories();
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -48,22 +47,33 @@ const HeroSection = ({ onSelectCategory, selectedCategory }) => {
               structure will look after completion.
             </p>
             <div className="grid" style={{ marginTop: 10 }}>
-              {allProdCategory.map((item, idx) => {
-                return (
-                  <div
-                    key={item?.id}
-                    className={`lg-4 md-6 ${
-                      selectedCategory == item?.id
-                        ? "gallery-btn-primary gallery-btn1"
-                        : "gallery-btn-primary gallery-btn2"
-                    }`}
-                    onClick={() => handleCategorySelect(item?.id)}
-                    style={{ margin: 10 }}
-                  >
-                    {item?.category_title}
+              {loading ? (
+                <div className="lg-4 md-6">
+                  <div role="status" className="w-full animate-pulse">
+                    <div className="h-12 bg-gray-200 rounded-full mb-4"></div>
                   </div>
-                );
-              })}
+                  <div role="status" className="w-full animate-pulse">
+                    <div className="h-12 bg-gray-200 rounded-full mb-4"></div>
+                  </div>
+                </div>
+              ) : (
+                allProdCategory.map((item, idx) => {
+                  return (
+                    <div
+                      key={item?.id}
+                      className={`lg-4 md-6 ${
+                        selectedCategory == item?.id
+                          ? "gallery-btn-primary gallery-btn1"
+                          : "gallery-btn-primary gallery-btn2"
+                      }`}
+                      onClick={() => handleCategorySelect(item?.id)}
+                      style={{ margin: 10 }}
+                    >
+                      {item?.category_title}
+                    </div>
+                  );
+                })
+              )}
             </div>
           </div>
         </div>
