@@ -154,6 +154,13 @@ const Blog = () => {
                       <img
                         src={`./assets/upload/blogs/${item?.blog_thumbnail}`}
                         alt="blog_image"
+                        style={{
+                          width: "100%",
+                          height: "200px",
+                          objectFit: "cover",
+                          borderTopLeftRadius: "5px",
+                          borderTopRightRadius: "5px",
+                        }}
                       />
                       <div className="blog_name_main_section">
                         <div className="blog_name_section">AWC India</div>
@@ -180,6 +187,7 @@ const Blog = () => {
               style={{ right: "10%" }}
             >
               <li>
+
                 <Link
                   href="#"
                   className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180"
@@ -197,6 +205,7 @@ const Blog = () => {
                       clipRule="evenodd"
                     />
                   </svg>
+
                 </Link>
               </li>
 
@@ -206,6 +215,7 @@ const Blog = () => {
                   className="block h-8 w-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900"
                 >
                   1
+
                 </Link>
               </li>
 
@@ -214,11 +224,13 @@ const Blog = () => {
               </li>
 
               <li>
+
                 <Link
                   href="#"
                   className="block h-8 w-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900"
                 >
                   3
+
                 </Link>
               </li>
 
@@ -228,6 +240,7 @@ const Blog = () => {
                   className="block h-8 w-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900"
                 >
                   4
+
                 </Link>
               </li>
 
@@ -249,6 +262,7 @@ const Blog = () => {
                       clipRule="evenodd"
                     />
                   </svg>
+
                 </Link>
               </li>
             </ol>

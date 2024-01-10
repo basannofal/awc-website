@@ -220,12 +220,26 @@ const AllSetting = () => {
                 YouTube:-
               </label>
               <p className="setting_data">
+                {settingData && settingData.youtube_link && (
+                  <Link href={settingData.youtube_link} target="_blank">
+                    {settingData.youtube_link}
+                  </Link>
+                )}
+              </p>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="linkedin" className="modal_label_setting">
+                LinkedIn:-
+
+              </label>
+              <p className="setting_data">
                 {settingData && settingData.linkedin_link && (
                   <Link href={settingData.linkedin_link} target="_blank">
                     {settingData.linkedin_link}
                   </Link>
                 )}
               </p>
+                        
             </div>
           </div>
         </div>

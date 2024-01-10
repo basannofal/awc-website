@@ -51,6 +51,9 @@ const AddBlog = () => {
       ...prevData,
       blog_description: content,
     }));
+
+    // Log the content of the editor
+    console.log(content);
   };
 
   // end
@@ -246,8 +249,8 @@ const AddBlog = () => {
                       "alignright alignjustify | bullist numlist outdent indent | " +
                       "removeformat | help",
                   }}
-                  onChange={(e) =>
-                    handleEditorChange(editorRef.current.getContent())
+                  onEditorChange={(content, editor) =>
+                    handleEditorChange(content, editor)
                   }
                 />
               </div>

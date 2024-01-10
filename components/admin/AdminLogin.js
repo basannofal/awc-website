@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const AdminLogin = () => {
   // global state
@@ -18,7 +18,6 @@ const AdminLogin = () => {
     setLoginData({ ...loginData, [name]: value });
   };
 
-
   // login submit
   const loginAuth = (e) => {
     e.preventDefault();
@@ -31,7 +30,7 @@ const AdminLogin = () => {
     axios
       .post(url, data)
       .then((response) => {
-        localStorage.setItem('token', response.data.token); // Save token  in local storage
+        localStorage.setItem("token", response.data.token); // Save token  in local storage
         router.push("/admin/admindashboard");
       })
       .catch((error) => {
@@ -39,6 +38,12 @@ const AdminLogin = () => {
       });
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.push("/admin/admindashboard");
+    }
+  }, []);
 
   //page render
   return (
