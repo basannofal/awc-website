@@ -272,7 +272,7 @@ const Form = ({jobId, setJobId, formref}) => {
                 id="message"
                 name="message"
                 rows="4"
-                class="block p-2.5 w-full text-sm rounded-lg border border-gray-300 focus:outline-none"
+                className="block p-2.5 w-full text-sm rounded-lg border border-gray-300 focus:outline-none"
                 placeholder="Type Your Message Here..."
                 onChange={handleChange}
                 value={addFormData.message}

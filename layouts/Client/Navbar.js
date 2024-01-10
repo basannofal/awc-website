@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import $ from "jquery";
 import Link from "next/link";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const [seoData, setSeoData] = useState([]);
   const [socialLinks, setSocialLinks] = useState([]);
 
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   const getSEOData = async () => {
     setLoading(true);
@@ -17,7 +19,6 @@ const Navbar = () => {
       );
       setLoading(false);
       setSeoData(response.data[0]);
-      console.log(response.data[0]);
 
     } catch (error) {
       setLoading(false);
@@ -44,29 +45,16 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    getSEOData();
-    getSocialLinksData();
-  }, []);
-
-  useEffect(() => {
-
-    
-    const isHardReload = !window.performance.navigation.type;
-    if (isHardReload) {
-      fetchData();
-    }
+    fetchData();
   }, []);
 
   const [isOpen, setIsOpen] = useState(false);
-  const [isDropdown, setIsDropdown] = useState(true);
 
   const handleToggle = (e) => {
     const navToggle = $("#navbar-toggle");
     const dropdown = $(".navbar-dropdown");
 
     setIsOpen(!isOpen);
-
-    // Toggle the "active" class on the #navbar-toggle element
     navToggle.toggleClass("active");
 
     // Toggle the navigation visibility
@@ -79,18 +67,7 @@ const Navbar = () => {
       dropdown.slideDown();
     }
 
-    e.stopPropagation(); // Add this line to stop the event propagation
-  };
-
-  const handleDropdown = (e) => {
-    setIsDropdown(isDropdown);
-    const dropdown = $(e.target).siblings(".navbar-dropdown");
-    if (isDropdown) {
-      dropdown.slideToggle("slow");
-    } else {
-      dropdown.hide("slow");
-    }
-    e.stopPropagation(); // Add this line to stop the event propagation
+    e.stopPropagation();
   };
 
   return (
@@ -102,7 +79,27 @@ const Navbar = () => {
               <div className="lg-3 sm-3 xs-12">
                 <div className="header-logo-sec">
                   <Link href="/">
-                    {seoData && seoData.logo ? (
+                    {loading ? (
+                      <div
+                        role="status"
+                        className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center"
+                      >
+                        <div
+                          className="flex items-center justify-center bg-gray-300 rounded"
+                          style={{ width: "180px", height: "97px" }}
+                        >
+                          <svg
+                            className="w-10 h-10 text-gray-200"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 20 18"
+                          >
+                            <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
+                          </svg>
+                        </div>
+                      </div>
+                    ) : seoData && seoData.logo ? (
                       <img
                         src={`/assets/upload/setting/${seoData.logo}`}
                         alt="AWC Header Logo"
@@ -119,13 +116,6 @@ const Navbar = () => {
                         className="header-logo"
                       />
                     )}
-                    {/* <img
-                      src={"/assets/images/client/awc_logo_header.webp"}
-                      alt="AWC Header Logo"
-                      width="100%"
-                      height="auto"
-                      className="header-logo"
-                    /> */}
                   </Link>
                 </div>
               </div>
@@ -374,50 +364,49 @@ const Navbar = () => {
                   <div className="header-contact-sec">
                     <ul>
                       <li>
-                        {seoData && seoData.number ? (
-                          <Link href={`tel:+91${seoData?.number}`}>
-                            <img
-                              src={"/assets/images/client/h_call_icon.webp"}
-                              alt="Header Call Icon"
-                              width="16"
-                              height="16"
-                            />
-                            {seoData && `+91 ${seoData?.number}`}
-                          </Link>
-                        ) : (
-                          <Link href="tel:+918686862475">
-                            <img
-                              src={"/assets/images/client/h_call_icon.webp"}
-                              alt="Header Call Icon"
-                              width="16"
-                              height="16"
-                            />
-                            {seoData && `+91 ${seoData?.number}`}
-                          </Link>
-                        )}
+                        <Link href="tel:+918686862475">
+                          <img
+                            src={"/assets/images/client/h_call_icon.webp"}
+                            alt="Header Call Icon"
+                            width="16"
+                            height="16"
+                          />
+                          {loading ? (
+                            <div
+                              role="status"
+                              className="space-y-2.5 animate-pulse inline-block"
+                            >
+                              <div className="flex items-center w-full">
+                                <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 w-32"></div>
+                              </div>
+                            </div>
+                          ) : (
+                            <>{seoData && `+91 ${seoData?.number}`}</>
+                          )}
+                        </Link>
                       </li>
                       <li>
-                        {seoData && seoData.email ? (
-                          <Link href={`mailto:${seoData && seoData.email}`}>
-                            <img
-                              src={"/assets/images/client/h_mail_icon.webp"}
-                              alt="Header E-mail Icon"
-                              width="16"
-                              height="12"
-                            />
-                            {seoData && seoData?.email}
-                          </Link>
-                        ) : (
-                          <Link href="mailto:info@awcindia.in">
-                            <img
-                              src={"/assets/images/client/h_mail_icon.webp"}
-                              alt="Header E-mail Icon"
-                              width="16"
-                              height="12"
-                            />
-                            {seoData && seoData?.email}
-                          </Link>
-                        )}
+                        <Link href="mailto:info@awcindia.in">
+                          <img
+                            src={"/assets/images/client/h_mail_icon.webp"}
+                            alt="Header E-mail Icon"
+                            width="16"
+                            height="12"
+                          />
+
+                          {loading ? (
+                            <div
+                              role="status"
+                              className="space-y-2.5 animate-pulse inline-block"
+                            >
+                              <div className="flex items-center w-full">
+                                <div className="h-3 bg-gray-200 rounded-full dark:bg-gray-700 w-32"></div>
+                              </div>
+                            </div>
+                          ) : (
+                            <>{seoData && seoData?.email}</>
+                          )}
+                        </Link>
 
                       </li>
                     </ul>
@@ -427,50 +416,80 @@ const Navbar = () => {
                   <div className="nav-container">
                     <nav>
                       <div className="nav-mobile">
-                        <Link
-                          id="navbar-toggle"
-                          href="/"
-                          onClick={handleToggle}
-                        >
+                        <span id="navbar-toggle" onClick={handleToggle}>
                           <span></span>
-                        </Link>
+                        </span>
                       </div>
                       <ul className="nav-list">
                         <li>
-                          <Link href="/">Home</Link>
+                          <Link
+                            className={router.pathname === "/" ? "active" : ""}
+                            href="/"
+                          >
+                            Home
+                          </Link>
                         </li>
                         <li>
-                          <Link href="/about">About Us</Link>
+                          <Link
+                            className={
+                              router.pathname === "/about" ? "active" : ""
+                            }
+                            href="/about"
+                          >
+                            About Us
+                          </Link>
                         </li>
                         <li>
-                          <Link href="/product">Products</Link>
-                          {/* <ul className="navbar-dropdown">
-                            <li>
-                              <Link href="/roof-product">
-                                Roof Waterproofing
-                              </Link>
-                            </li>
-                            <li>
-                              <Link href="/wall-section">Wall Section</Link>
-                            </li>
-                            <li>
-                              <Link href="/exclusive-product">
-                                Exclusive Products
-                              </Link>
-                            </li>
-                          </ul> */}
+                          <Link
+                            className={
+                              router.pathname === "/product" ? "active" : ""
+                            }
+                            href="/product"
+                          >
+                            Products
+                          </Link>
                         </li>
                         <li>
-                          <Link href="/gallery">Gallery</Link>
+                          <Link
+                            className={
+                              router.pathname === "/gallery" ? "active" : ""
+                            }
+                            href="/gallery"
+                          >
+                            Gallery
+                          </Link>
                         </li>
                         <li>
-                          <Link href="/career">Career</Link>
+                          <Link
+                            className={
+                              router.pathname === "/career" ? "active" : ""
+                            }
+                            href="/career"
+                          >
+                            Career
+                          </Link>
                         </li>
                         <li>
-                          <Link href="/blogs">Blog</Link>
+                          <Link
+                            className={
+                              router.pathname === "/blogs" ? "active" : ""
+                            }
+                            href="/blogs"
+                          >
+                            Blog
+                          </Link>
                         </li>
                         <li>
-                          <Link href="/testimonials">Testimonials</Link>
+                          <Link
+                            className={
+                              router.pathname === "/testimonials"
+                                ? "active"
+                                : ""
+                            }
+                            href="/testimonials"
+                          >
+                            Testimonials
+                          </Link>
                         </li>
                         <li className="contact-us-link">
                           <Link href="/contact">Contact</Link>
