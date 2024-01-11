@@ -18,7 +18,7 @@ const VisionMision = () => {
                   <div className="leading-content">
                     <h3>VISION</h3>
                     <h4>Setting the Standard for Waterproofing Excellence</h4>
-                    <div>
+                    <div className="text-justify">
                       To be recognized as the best roof waterproofing, terrace
                       waterproofing, external waterproofing company and the
                       provider of waterproofing solutions in India. We aspire to
@@ -40,7 +40,7 @@ const VisionMision = () => {
                   <div className="leading-content">
                     <h3>MISSION</h3>
                     <h4>Building Trust through Quality</h4>
-                    <div>
+                    <div className="text-justify">
                       To become India’s leading waterproofing company and
                       waterproofing contractor that exceed its customer’s
                       expectations. To provide the best quality roof

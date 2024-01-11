@@ -100,7 +100,7 @@ const Tabs = ({ pid, lognDesc }) => {
     await getProductDocs();
     await getProductCertificate();
   };
-  
+
   useEffect(() => {
     fetchData();
   }, [pid]);
@@ -168,7 +168,7 @@ const Tabs = ({ pid, lognDesc }) => {
                       href={`/assets/upload/products/productDocs/${item?.pdf_link}`}
                       download
                     >
-                      <i class="fa-solid fa-download"></i>
+                      <i class="fa-solid fa-download text-white"></i>
                     </Link>
                   </div>
                 </div>
@@ -256,17 +256,17 @@ const Tabs = ({ pid, lognDesc }) => {
                 return (
                   <div className="lg-4 md-6 sm-12 product_view_images_gallary">
                     <Link href={item?.product_video} target="_blank">
-                    <div className="product_view_youtube_icon">
-                      <img
-                        src={`/assets/upload/products/productVedios/${item?.video_thumbnail}`}
-                        alt={extractFirstParagraph(item?.video_description)}
-                      />
-                      <i class="fa-brands fa-youtube"></i>
-                    </div>
-                    <p className="product-view-title">
-                      {truncateString(item?.video_title, 40)}
-                    </p>
-                    <p>@Awc India</p>
+                      <div className="product_view_youtube_icon">
+                        <img
+                          src={`/assets/upload/products/productVedios/${item?.video_thumbnail}`}
+                          alt={extractFirstParagraph(item?.video_description)}
+                        />
+                        <i class="fa-brands fa-youtube"></i>
+                      </div>
+                      <p className="product-view-title">
+                        {truncateString(item?.video_title, 40)}
+                      </p>
+                      <p>@Awc India</p>
                     </Link>
                   </div>
                 );

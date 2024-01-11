@@ -6,9 +6,12 @@ const HeroSection = ({ product }) => {
     <>
       <div className="product_view_main">
         <p className="view_product_back_arrow">
-          <Link href={"/product"}>Products</Link>
+          <Link className="text-black" href={"/product"}>
+            Products
+          </Link>
           <i className="fa-solid fa-angles-right"></i>
           <Link
+            className="text-black"
             href={`/product-category/${product?.category_name}/${product?.cate_id}`}
           >
             {product?.category_name}
