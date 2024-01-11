@@ -118,6 +118,7 @@
 
 .product-card .product-content p {
   color: var(--03, #5a5e62);
+  text-align: justify;
   font-family: Inter;
   font-size: 14px;
   font-style: normal;
