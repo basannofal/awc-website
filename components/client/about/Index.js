@@ -21,7 +21,6 @@ const Index = () => {
       );
       setLoading(false);
       setSeoData(response.data[0]);
-      console.log(response.data[0]);
     } catch (error) {
       setLoading(false);
       console.error("Error fetching data:", error);

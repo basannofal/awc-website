@@ -51,7 +51,7 @@ const Timeline = () => {
               <div className="xl-3 lg-3 md-6 sm-6">
                 <div className="timeline-content">
                   <h6>KNOWLEDGE</h6>
-                  <img src={"./assets/images/client/line.svg"} />
+                  <img src={"/assets/images/client/line.svg"} />
                   <p>
                     we Started in 2008 with small application company now in
                     2015 we have 2 unit & have developed ourselves as an pure
@@ -64,7 +64,7 @@ const Timeline = () => {
               <div className="xl-3 lg-3 md-6 sm-6">
                 <div className="timeline-content">
                   <h6>SKILL</h6>
-                  <img src={"./assets/images/client/line.svg"} />
+                  <img src={"/assets/images/client/line.svg"} />
                   <p>
                     We specialize in safeguarding your home with expert roofing
                     solutions. From installations to repairs, trust us for a
@@ -75,7 +75,7 @@ const Timeline = () => {
               <div className="xl-3 lg-3 md-6 sm-6">
                 <div className="timeline-content">
                   <h6>TRAINING</h6>
-                  <img src={"./assets/images/client/line.svg"} />
+                  <img src={"/assets/images/client/line.svg"} />
                   <p>
                     We specialize in safeguarding your home with expert roofing
                     solutions. From installations to repairs, trust us for a
@@ -86,7 +86,7 @@ const Timeline = () => {
               <div className="xl-3 lg-3 md-6 sm-6">
                 <div className="timeline-content">
                   <h6>INNOVATIONS</h6>
-                  <img src={"./assets/images/client/line.svg"} />
+                  <img src={"/assets/images/client/line.svg"} />
                   <p>
                     We understand that Innovation is crucial when it comes to
                     staying ahead of the curve. Hence we attempt to continuously
