@@ -14,8 +14,6 @@
   float: left;
   width: 100%;
   padding: 80px 100px 0 100px;
-  /* background: url("../../public/assets/images/client/roof-water-proofing-banner.jpg")
-    no-repeat; */
   background: url("/assets/images/client/roof-water-proofing-banner.jpg")
     no-repeat !important;
   background-position: center;
@@ -24,7 +22,7 @@
 }
 
 .gallery-sec .gallery-main-inner .gallery-main-title {
-  font-family: Montserrat;
+  font-family: "Montserrat", sans-serif !important;
   font-size: 50px;
   font-weight: 900;
   line-height: 62px;
@@ -34,7 +32,7 @@
 
 .gallery-sec .gallery-main-inner .gallery-main-title .main-title-color {
   color: #1386d3;
-  font-family: Montserrat;
+  font-family: "Montserrat", sans-serif !important;
   font-size: 50px;
   font-weight: 900;
   line-height: 62px;
@@ -53,7 +51,7 @@
 
 .gallery-sec .gallery-main-inner p {
   color: #e9eef3;
-  font-family: Inter;
+  font-family: Inter !important;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -85,7 +83,7 @@
   background-color: #1386d3;
   color: #ffffff;
   border-radius: 30px;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif !important;
   font-size: 14px;
   line-height: 24px;
   font-weight: bold;

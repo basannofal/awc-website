@@ -329,7 +329,7 @@
 
 .certificate-sec .youtube-inner .youtube-content h6 {
   color: #000;
-  font-family: Inter;
+  font-family: "Montserrat", sans-serif !important;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
@@ -386,7 +386,7 @@
 .container-member .member-inner p {
   color: var(--03, #5a5e62);
   text-align: justify;
-  font-family: Inter;
+  font-family: "Montserrat", sans-serif !important;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
