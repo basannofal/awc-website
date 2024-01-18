@@ -14,8 +14,10 @@
   float: left;
   width: 100%;
   padding: 80px 100px 0 100px;
-  background: url("../../public/assets/images/client/roof-water-proofing-banner.jpg")
-    no-repeat;
+  /* background: url("../../public/assets/images/client/roof-water-proofing-banner.jpg")
+    no-repeat; */
+  background: url("/assets/images/client/roof-water-proofing-banner.jpg")
+    no-repeat !important;
   background-position: center;
   background-size: cover;
   color: #fff;
