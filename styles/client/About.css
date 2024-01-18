@@ -17,7 +17,7 @@
 }
 
 .main-sec-about .sub-title-about {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif !important;
   font-size: 22px;
   line-height: 32px;
   color: #5a5e62;
@@ -80,8 +80,8 @@
   color: #424652;
   text-align: start;
   text-transform: capitalize;
+  font-family: "Montserrat", sans-serif !important;
   margin-bottom: 10px;
-  font-family: Inter;
   text-align: justify;
 }
 
@@ -131,7 +131,7 @@
 .leading-sec .leading-box .leading-content h3 {
   color: #1386d3;
   font-size: 20px;
-  font-family: Montserrat;
+  font-family: "Montserrat", sans-serif !important;
   font-weight: 700;
   text-transform: capitalize;
   line-height: 34px;
@@ -141,7 +141,7 @@
 .leading-sec .leading-box .leading-content h4 {
   color: white;
   font-size: 15px;
-  font-family: Montserrat;
+  font-family: "Montserrat", sans-serif !important;
   font-weight: 400;
   text-transform: capitalize;
   line-height: 30px;
@@ -151,7 +151,7 @@
 .leading-sec .leading-box .leading-content div {
   color: #e9eef3;
   font-size: 13px;
-  font-family: Montserrat;
+  font-family: "Montserrat", sans-serif !important;
   font-weight: 400;
   text-transform: capitalize;
   line-height: 24px;
@@ -177,7 +177,7 @@
 .timeline-sec .timeline-inner h5 {
   color: #1386d3;
   font-size: 24px;
-  font-family: Montserrat;
+  font-family: "Montserrat", sans-serif !important;
   font-weight: 900;
   text-transform: capitalize;
   line-height: 34px;
@@ -188,7 +188,7 @@
 .timeline-sec .timeline-inner p {
   color: #424652;
   font-size: 16px;
-  font-family: Montserrat;
+  font-family: "Montserrat", sans-serif !important;
   font-weight: 400;
   text-transform: capitalize;
   line-height: 28px;
@@ -208,7 +208,7 @@
 .timeline-sec .timeline-inner .timeline-content h6 {
   color: #424652;
   font-size: 15px;
-  font-family: Montserrat;
+  font-family: "Montserrat", sans-serif !important;
   font-weight: 700;
   text-transform: capitalize;
   line-height: 28px;
@@ -223,12 +223,11 @@
   color: #5a5e62;
   text-align: justify !important;
   font-size: 15px;
-  font-family: Inter;
+  font-family: "Montserrat", sans-serif !important;
   font-weight: 400;
   text-transform: capitalize;
   line-height: 24px;
   word-wrap: break-word;
-  text-align: start;
   padding: 10px 0 0 10px;
 }
 
@@ -250,7 +249,7 @@
 .certificate-sec .certificate-inner h3 {
   color: #1386d3;
   text-align: center;
-  font-family: Montserrat;
+  font-family: "Montserrat", sans-serif !important;
   font-size: 38px;
   font-style: normal;
   font-weight: 900;
@@ -261,7 +260,7 @@
 .certificate-sec .certificate-inner p {
   color: #000;
   text-align: center;
-  font-family: Montserrat;
+  font-family: "Montserrat", sans-serif !important;
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
@@ -281,7 +280,7 @@
 
 .certificate-sec .certificate-inner .certificate-content h6 {
   color: #000;
-  font-family: Montserrat;
+  font-family: "Montserrat", sans-serif !important;
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
@@ -329,7 +328,7 @@
 
 .certificate-sec .youtube-inner .youtube-content h6 {
   color: #000;
-  font-family: Inter;
+  font-family: "Montserrat", sans-serif !important;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
@@ -386,7 +385,7 @@
 .container-member .member-inner p {
   color: var(--03, #5a5e62);
   text-align: justify;
-  font-family: Inter;
+  font-family: "Montserrat", sans-serif !important;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
