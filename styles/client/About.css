@@ -17,7 +17,7 @@
 }
 
 .main-sec-about .sub-title-about {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif !important;
   font-size: 22px;
   line-height: 32px;
   color: #5a5e62;
@@ -82,7 +82,6 @@
   text-transform: capitalize;
   font-family: "Montserrat", sans-serif !important;
   margin-bottom: 10px;
-  font-family: Inter;
   text-align: justify;
 }
 

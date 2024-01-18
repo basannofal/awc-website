@@ -89,7 +89,7 @@
   font-size: 14px !important;
   line-height: 22px !important;
   font-weight: 500;
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins", sans-serif !important;
   letter-spacing: 0.5px;
 }
 
