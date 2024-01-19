@@ -9,7 +9,7 @@ const HeroSection = ({ product }) => {
           <Link className="text-black" href={"/product"}>
             Products
           </Link>
-          <i className="fa-solid fa-angles-right"></i>
+          <i className="fa-solid fa-angles-right me-1"></i>
           <Link
             className="text-black"
             href={`/product-category/${product?.category_name}/${product?.cate_id}`}
