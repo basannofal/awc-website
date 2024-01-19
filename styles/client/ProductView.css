@@ -193,6 +193,7 @@
 
 .tab-btn {
   padding: 5px 25px;
+  cursor: pointer;
   margin-top: 40px;
   height: 35px;
   font-size: 12px;
