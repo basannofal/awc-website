@@ -91,9 +91,9 @@ const Certificate = () => {
                     <div className="youtube-content">
                       <div className="youtube-thumbnail">
                         <img src={"./assets/images/client/unit_image_1.png"} />
-                      </div>
-                      <div className="youtube-icon">
-                        <img src={"./assets/images/client/youtube.png"} />
+                        <div className="iconOfYo9utube">
+                          <img src={"./assets/images/client/youtube.png"} />
+                        </div>
                       </div>
                       <h6>AWC Introductory Video</h6>
                       <div className="calendar-info flex items-center">
@@ -110,9 +110,9 @@ const Certificate = () => {
                 <div className="youtube-content">
                   <div className="youtube-thumbnail">
                     <img src={"./assets/images/client/youtube-video-2.png"} />
-                  </div>
-                  <div className="youtube-icon">
-                    <img src={"./assets/images/client/youtube.png"} />
+                    <div className="iconOfYo9utube">
+                      <img src={"./assets/images/client/youtube.png"} />
+                    </div>
                   </div>
                   <h6>How we do Application For AWC Roof 540</h6>
                   <div className="calendar-info flex items-center">
@@ -127,10 +127,10 @@ const Certificate = () => {
                 <div className="youtube-content">
                   <div className="youtube-thumbnail">
                     <img src={"./assets/images/client/youtube-video-3.png"} />
-                  </div>
-                  <div className="youtube-icon">
-                    <img src={"./assets/images/client/youtube.png"} />
-                  </div>
+                    <div className="iconOfYo9utube">
+                      <img src={"./assets/images/client/youtube.png"} />
+                    </div>
+                  </div>\
                   <h6>
                     AWC ROOF 540 premium quality waterproofing systems, for
                     virtually any kind of roofs
