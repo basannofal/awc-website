@@ -936,6 +936,7 @@ a {
 
 .form-sec p {
   font-size: 16px;
+  font-family: "Montserrat", sans-serif !important;
   line-height: 28px;
   color: #424652;
   text-align: center;
@@ -952,6 +953,7 @@ a {
   display: block;
   cursor: pointer;
   margin-bottom: 6px;
+  font-family: "Montserrat", sans-serif !important;
   font-size: 14px;
   line-height: 26px;
   font-weight: 600;
@@ -1296,9 +1298,8 @@ body::-webkit-scrollbar-thumb:hover {
   float: left;
   width: 100%;
   padding: 120px 0 70px 0;
-  /* background: url(../images/roof-water-proofing-banner.jpg) no-repeat; */
-  background: url("../../public/assets/images/client/roof-water-proofing-banner.jpg")
-    no-repeat;
+  background: url("/assets/images/client/roof-water-proofing-banner.jpg")
+    no-repeat !important;
   background-position: center;
   background-size: cover;
   color: #fff;
@@ -1361,7 +1362,6 @@ body::-webkit-scrollbar-thumb:hover {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   border-radius: 20px;
   margin-bottom: 20px;
-  height: 100vh;
 }
 
 .roof-category-sec .roof-box .roof-image img {
@@ -1681,7 +1681,12 @@ body::-webkit-scrollbar-thumb:hover {
   border-radius: 4px;
   margin-bottom: 15px;
 }
-
+.form-sec .form-field label {
+  font-family: "Montserrat", sans-serif !important;
+}
+.form-sec .form-field input::placeholder {
+  font-family: "Montserrat", sans-serif !important;
+}
 .faqs-sec .accordion_content .accordion_head {
   font-size: 16px;
   line-height: 26px;

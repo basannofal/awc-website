@@ -196,6 +196,9 @@
   .product-sec .product-container .product-inner {
     padding: 0 20px 0 20px;
   }
+  .product-sec {
+    padding: 70px 0 70px 0;
+  }
 }
 
 @media (max-width: 576px) {
@@ -212,5 +215,8 @@
   }
   .product-sec .product-container .product-inner {
     padding: 0 20px 0 20px;
+  }
+  .product-sec {
+    padding: 40px 0 70px 0;
   }
 }
