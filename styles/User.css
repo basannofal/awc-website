@@ -445,13 +445,16 @@ form .modal_input:focus {
   font-weight: 600;
   font-size: 13px;
 }
+
 .logOut_modal_section .logout_success_btn {
   border: 1.5px solid rgb(214, 44, 44);
 }
+
 .logOut_modal_section .logout_success_btn:hover {
   background-color: rgb(214, 44, 44);
   color: white;
 }
+
 .logOut_modal_section button:hover {
   background-color: var(--primary-color);
   color: white;
@@ -649,11 +652,11 @@ form .modal_input:focus {
   width: 100px;
 }
 
-.dd-input + .dd-menu {
+.dd-input+.dd-menu {
   display: none;
 }
 
-.dd-input:checked + .dd-menu {
+.dd-input:checked+.dd-menu {
   display: block;
 }
 
@@ -976,6 +979,7 @@ select::after {
   display: flex;
   width: 100%;
 }
+
 .button-container .delete-button:disabled {
   cursor: not-allowed;
   background-color: #e88a8a;
@@ -991,15 +995,19 @@ select::after {
 .delete-button {
   margin-right: 1rem;
 }
+
 /* Media query for screens with a width of 600 pixels or less */
 @media (max-width: 600px) {
   .button-container {
-    flex-direction: column; /* Stack buttons vertically on smaller screens */
-    align-items: center; /* Center buttons horizontally */
+    flex-direction: column;
+    /* Stack buttons vertically on smaller screens */
+    align-items: center;
+    /* Center buttons horizontally */
   }
 
   .delete-button {
-    margin-bottom: 1rem; /* Add margin between buttons on smaller screens */
+    margin-bottom: 1rem;
+    /* Add margin between buttons on smaller screens */
   }
 }
 
@@ -1017,14 +1025,16 @@ select::after {
 }
 
 .overlay:target {
-  opacity: 1; /* Set opacity to 1 when the target is present */
+  opacity: 1;
+  /* Set opacity to 1 when the target is present */
 }
 
 .popup {
   padding: 20px;
   background: #fff;
   border-radius: 10px;
-  height: 30rem; /* Set the fixed height value as needed */
+  height: 30rem;
+  /* Set the fixed height value as needed */
   position: absolute;
   top: auto;
   left: 60%;
@@ -1073,15 +1083,19 @@ select::after {
     width: 70%;
   }
 }
+
 /* Media query for screens with a width of 600 pixels or less */
 @media (max-width: 600px) {
   .button-container {
-    flex-direction: column; /* Stack buttons vertically on smaller screens */
-    align-items: center; /* Center buttons horizontally */
+    flex-direction: column;
+    /* Stack buttons vertically on smaller screens */
+    align-items: center;
+    /* Center buttons horizontally */
   }
 
   .delete-button {
-    margin-bottom: 1rem; /* Add margin between buttons on smaller screens */
+    margin-bottom: 1rem;
+    /* Add margin between buttons on smaller screens */
   }
 }
 
@@ -1103,14 +1117,16 @@ select::after {
 }
 
 .overlay:target {
-  opacity: 1; /* Set opacity to 1 when the target is present */
+  opacity: 1;
+  /* Set opacity to 1 when the target is present */
 }
 
 .popup {
   padding: 20px;
   background: #fff;
   border-radius: 10px;
-  height: 30rem; /* Set the fixed height value as needed */
+  height: 30rem;
+  /* Set the fixed height value as needed */
   position: absolute;
   top: auto;
   left: 60%;
@@ -1277,14 +1293,16 @@ select::after {
 }
 
 .overlay:target {
-  opacity: 1; /* Set opacity to 1 when the target is present */
+  opacity: 1;
+  /* Set opacity to 1 when the target is present */
 }
 
 .popup {
   padding: 20px;
   background: #fff;
   border-radius: 10px;
-  height: 30rem; /* Set the fixed height value as needed */
+  height: 30rem;
+  /* Set the fixed height value as needed */
   position: absolute;
   top: auto;
   left: 60%;
@@ -1333,15 +1351,19 @@ select::after {
     width: 70%;
   }
 }
+
 /* Media query for screens with a width of 600 pixels or less */
 @media (max-width: 600px) {
   .button-container {
-    flex-direction: column; /* Stack buttons vertically on smaller screens */
-    align-items: center; /* Center buttons horizontally */
+    flex-direction: column;
+    /* Stack buttons vertically on smaller screens */
+    align-items: center;
+    /* Center buttons horizontally */
   }
 
   .delete-button {
-    margin-bottom: 1rem; /* Add margin between buttons on smaller screens */
+    margin-bottom: 1rem;
+    /* Add margin between buttons on smaller screens */
   }
 }
 
