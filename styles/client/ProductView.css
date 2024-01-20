@@ -143,7 +143,7 @@
 
   .product_view_main {
     width: 80%;
-    margin: 10px auto;
+    margin: 0px auto;
   }
 
   .product_view_image {
@@ -155,6 +155,7 @@
 @media only screen and (max-width: 500px) {
   .product_view_hero_section {
     display: block;
+    margin: 0px 0px 0px 0px;
   }
 
   .product_view_hero_section_right_conent {
@@ -169,13 +170,17 @@
 
   .product_view_main {
     width: 95%;
-    margin: 10px auto;
+    margin: 0px auto;
   }
 
   .product_view_image {
     width: 305px;
     height: auto;
     margin-top: 10px;
+  }
+  .product_view_image img {
+    width: 100%;
+    height: auto;
   }
 }
 
@@ -188,6 +193,7 @@
 
 .tab-btn {
   padding: 5px 25px;
+  cursor: pointer;
   margin-top: 40px;
   height: 35px;
   font-size: 12px;

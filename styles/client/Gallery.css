@@ -145,13 +145,11 @@
 }
 
 /* Responsive Desing */
-
 @media (max-width: 1450px) {
   .gallery-image-sec .gallery-inner-images {
     width: 100%;
     height: auto;
   }
-
   .gallery-btn1 {
     padding: 15px 15px;
     line-height: 20px;

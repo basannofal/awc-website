@@ -313,6 +313,12 @@ const Navbar = () => {
                               {seoData?.number
                                 ? `+91 ${seoData.number.slice(
                                     0,
+                                    2
+                                  )} ${seoData.number.slice(
+                                    2,
+                                    4
+                                  )} ${seoData.number.slice(
+                                    4,
                                     6
                                   )} ${seoData.number.slice(6)}`
                                 : ""}

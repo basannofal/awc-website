@@ -23,7 +23,7 @@ const Images = ({ selectedCategory }) => {
   const fetchData = async () => {
     await getImages();
   };
-  
+
   useEffect(() => {
     fetchData();
   }, [selectedCategory]);
@@ -101,6 +101,7 @@ const Images = ({ selectedCategory }) => {
                       <img
                         src={`/assets/upload/gallery/${image?.gallery_image}`}
                         alt={image?.gallery_title}
+                        style={{ width: "100%" }}
                       />
                     </div>
                   </div>
