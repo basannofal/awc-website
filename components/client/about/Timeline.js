@@ -50,7 +50,7 @@ const Timeline = () => {
             <div className="grid mt-14">
               <div className="xl-3 lg-3 md-6 sm-6">
                 <div className="timeline-content">
-                  <h6>KNOWLEDGEww</h6>
+                  <h6>KNOWLEDGE</h6>
                   <img src={"/assets/images/client/Line.svg"} />
                   <p>
                     we Started in 2008 with small application company now in

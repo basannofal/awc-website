@@ -91,6 +91,7 @@
 
 .product-card .product-content h4 {
   font-size: 15px;
+  font-family: "Inter", sans-serif !important;
   line-height: 42px;
   font-weight: 400;
   color: #07070a;
