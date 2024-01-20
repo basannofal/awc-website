@@ -135,6 +135,19 @@ const Sidebar = () => {
 
           <li
             className={
+              router.pathname === "/admin/about"
+                ? "admin_sidebar_active_li"
+                : ""
+            }
+          >
+            <Link href="/admin/about">
+              <i className="fa-solid fa-grip-horizontal"></i>{" "}
+              <span className="links_name">About</span>
+            </Link>
+          </li>
+
+          <li
+            className={
               router.pathname === "/admin/settings"
                 ? "admin_sidebar_active_li"
                 : ""
