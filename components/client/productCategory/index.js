@@ -6,6 +6,7 @@ import Contact from "./Contact";
 import Question from "./Question";
 import Footer from "@/layouts/Client/Footer";
 import Watshapp from "@/layouts/Client/Watshapp";
+import Head from "next/head";
 
 const index = ({ cid }) => {
   const [loading, setLoading] = useState(true);
@@ -23,6 +24,17 @@ const index = ({ cid }) => {
         </div>
       ) : (
         <>
+          <Head>
+            <title>AWC India - Roof Waterproofing Solutions</title>
+            <meta name="keywords" content={"product, AWC product, AWC India"} />
+            <meta
+              name="description"
+              content={
+                "AWC is the best roof waterproofing, terrace waterproofing, and external wall waterproofing contractor in Mumbai"
+              }
+            />
+            <link rel="canonical" href="https://awcindia.in/" />
+          </Head>
           <Navbar />
           <Watshapp />
           <HeroSection cid={cid} />

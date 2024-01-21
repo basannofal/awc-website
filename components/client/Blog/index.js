@@ -43,17 +43,24 @@ const index = () => {
       ) : (
         <>
           <Head>
-            <title>{seoData.blog_title || "AWC India"}</title>
+            <title>
+              {seoData.blog_title || "AWC India - Roof Waterproofing Solutions"}
+            </title>
             <meta
               name="keywords"
               content={seoData.blog_keyword || "Blogs, AWC Blogs, AWC India"}
             />
             <meta
               name="description"
-              content={seoData.blog_desc || "Blogs, AWC Blogs, AWC India"}
+              content={
+                seoData.blog_desc ||
+                "AWC is the best roof waterproofing, terrace waterproofing, and external wall waterproofing contractor in Mumbai"
+              }
             />
-            {seoData.blog_canonical && (
+            {seoData.blog_canonical ? (
               <link rel="canonical" href={seoData.blog_canonical} />
+            ) : (
+              <link rel="canonical" href="https://awcindia.in/" />
             )}
           </Head>
           <Navbar />

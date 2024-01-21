@@ -45,7 +45,10 @@ const index = () => {
       ) : (
         <>
           <Head>
-            <title>{seoData.carrer_title || "Career"}</title>
+            <title>
+              {seoData.carrer_title ||
+                "AWC India - Roof Waterproofing Solutions"}
+            </title>
             <meta
               name="keywords"
               content={
@@ -54,15 +57,25 @@ const index = () => {
             />
             <meta
               name="description"
-              content={seoData.carrer_desc || "Careers, AWC Careers, AWC India"}
+              content={
+                seoData.carrer_desc ||
+                "AWC is the best roof waterproofing, terrace waterproofing, and external wall waterproofing contractor in Mumbai"
+              }
             />
-            {seoData.carrer_canonical && (
+            {seoData.carrer_canonical ? (
               <link rel="canonical" href={seoData.carrer_canonical} />
+            ) : (
+              <link rel="canonical" href="https://awcindia.in/" />
             )}
           </Head>
           <Navbar />
           <Watshapp />
-          <HeroSection setJobId={setJobId} scrollToForm={() => formRef.current?.scrollIntoView({ behavior: "smooth" })} />
+          <HeroSection
+            setJobId={setJobId}
+            scrollToForm={() =>
+              formRef.current?.scrollIntoView({ behavior: "smooth" })
+            }
+          />
           <Form jobId={jobId} setJobId={setJobId} formref={formRef} />
           <Footer />
         </>

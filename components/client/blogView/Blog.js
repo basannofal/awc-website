@@ -1,4 +1,5 @@
 import axios from "axios";
+import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
@@ -69,6 +70,27 @@ const Blog = ({ bid }) => {
 
   return (
     <>
+      <Head>
+        <title>
+          {blog?.blog_title || "AWC India - Roof Waterproofing Solutions"}
+        </title>
+        <meta
+          name="keywords"
+          content={blog?.meta_keyword || "Blogs, AWC Blogs, AWC India"}
+        />
+        <meta
+          name="description"
+          content={
+            blog?.meta_desc ||
+            "AWC is the best roof waterproofing, terrace waterproofing, and external wall waterproofing contractor in Mumbai"
+          }
+        />
+        {blog?.canonical_url ? (
+          <link rel="canonical" href={blog?.canonical_url} />
+        ) : (
+          <link rel="canonical" href="https://awcindia.in/" />
+        )}
+      </Head>
       <section className="testi_hero_main">
         <div
           className="containeres"

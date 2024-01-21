@@ -156,8 +156,17 @@
 }
 .gallery-image-sec .gallery-inner-images img {
   border-radius: 10px;
-  transition: transform 0.5s ease-out;
 
+  transition: transform 0.8s ease-in-out;
+  transform: scale(0.9);
+}
+
+.gallery-image-sec .gallery-inner-images.on-scroll-effect img {
+  transform: scale(1);
+}
+
+.gallery-image-sec .gallery-inner-images {
+  transition: opacity 0.9s ease-in-out;
 }
 /* Responsive Desing */
 @media (max-width: 1450px) {

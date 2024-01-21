@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import Watshapp from "@/layouts/Client/Watshapp";
 
 const index = ({ pid }) => {
-  const router = useRouter()
+  const router = useRouter();
   const { productType, productId } = router.query;
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
@@ -20,7 +20,7 @@ const index = ({ pid }) => {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/client/product-view/getproduct/${productId}`
       );
-      console.log(response.data[0])
+      console.log(response.data[0]);
       setProducts(response.data[0]);
       setLoading(false);
     } catch (error) {
@@ -45,7 +45,10 @@ const index = ({ pid }) => {
       ) : (
         <>
           <Head>
-            <title>{products?.product_title || "Products"}</title>
+            <title>
+              {products?.product_title ||
+                "AWC India - Roof Waterproofing Solutions"}
+            </title>
             <meta
               name="keywords"
               content={
@@ -55,11 +58,14 @@ const index = ({ pid }) => {
             <meta
               name="description"
               content={
-                products?.meta_desc || "Products, AWC Products, AWC India"
+                products?.meta_desc ||
+                "AWC is the best roof waterproofing, terrace waterproofing, and external wall waterproofing contractor in Mumbai"
               }
             />
-            {products?.canonical_url && (
+            {products?.canonical_url ? (
               <link rel="canonical" href={products?.canonical_url} />
+            ) : (
+              <link rel="canonical" href="https://awcindia.in/" />
             )}
           </Head>
           <Navbar />
