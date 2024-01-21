@@ -456,7 +456,7 @@ const Applications = () => {
                       ) : (
                         // If data is not available in database so show this message
                         <tr>
-                          <td colSpan="5" align="center">
+                          <td colSpan="6" align="center">
                             data is not available
                           </td>
                         </tr>
@@ -579,7 +579,7 @@ const Applications = () => {
                       ) : (
                         // If data is not available in database so show this message
                         <tr>
-                          <td colSpan="5" align="center">
+                          <td colSpan="6" align="center">
                             data is not available
                           </td>
                         </tr>

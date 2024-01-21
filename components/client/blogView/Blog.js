@@ -72,7 +72,6 @@ const Blog = ({ bid }) => {
           <div className="blog-view-sec">
             <p className="blog-view-main-title">
               <Link href={"/blogs"}>blogs</Link>
-
               <i className="fa-solid fa-angles-right"></i>
               <i className="fa-solid fa-angles-right"></i>{" "}
               {loading ? (
@@ -156,6 +155,7 @@ const Blog = ({ bid }) => {
                     }}
                   />
                   {reletedblog.map((item, idx) => {
+                    const slug = item?.blog_title.replace(/\s+/g, "-");
                     return (
                       <>
                         <div className="article" key={item?.blog_id}>
@@ -166,10 +166,17 @@ const Blog = ({ bid }) => {
                             />
                           </div>
                           <div className="article_data">
-                            <p className="heading mb-1">{item?.blog_title}</p>
+                            {/* <p className="heading mb-1">{item?.blog_title}</p> */}
+                            <Link href={`/blogs/${slug}/${item?.blog_id}`}>
+                              <p
+                                className="blog_desc_section p-0"
+                                style={{ padding: "0px" }}
+                              >
+                                {item?.blog_title}
+                              </p>
+                            </Link>
                             <p className="desc">
-
-                            {extractFirstParagraph(item?.blog_description)}
+                              {extractFirstParagraph(item?.blog_description)}
                             </p>
                           </div>
                         </div>
@@ -239,7 +246,6 @@ const Blog = ({ bid }) => {
           <div className="main_blogs">
             <div className="flex flex-wrap justify-center">
               {reletedblog.map((item, idx) => {
-
                 const slug = item?.blog_title.replace(/\s+/g, "-");
                 return (
                   <div
@@ -256,7 +262,6 @@ const Blog = ({ bid }) => {
                         borderTopLeftRadius: "5px",
                         borderTopRightRadius: "5px",
                       }}
-
                     />
                     <div className="blog_name_main_section">
                       <div className="blog_name_section">AWC India</div>
