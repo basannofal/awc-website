@@ -87,7 +87,7 @@ const Contact = () => {
                     <div className="sm-12">
                       <div className="image-sec">
                         <img
-                          src={"./assets/images/client/unit_image_1.webp"}
+                          src={"./assets/images/client/unit_image_1.JPG"}
                           alt="Unit Image"
                         />
                       </div>
@@ -97,7 +97,7 @@ const Contact = () => {
                     <div className="sm-12 md-6">
                       <div className="image-sec">
                         <img
-                          src={"./assets/images/client/unit_image_2.webp"}
+                          src={"./assets/images/client/unit_image_2.JPG"}
                           alt="Unit Image"
                         />
                       </div>
@@ -105,7 +105,7 @@ const Contact = () => {
                     <div className="sm-12 md-6">
                       <div className="image-sec">
                         <img
-                          src={"./assets/images/client/unit_image_3.webp"}
+                          src={"./assets/images/client/unit_image_3.JPG"}
                           alt="Unit Image"
                         />
                       </div>

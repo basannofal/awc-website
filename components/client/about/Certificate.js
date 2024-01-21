@@ -127,13 +127,6 @@ const Certificate = () => {
                         </Link>
                       </div>
                     </div>
-                    <h6>{vid.title}</h6>
-                    <div className="calendar-info flex items-center">
-                      <div className="calendar">
-                        <img src={"./assets/images/client/calendar.png"} />
-                      </div>
-                      <p className="pl-3">@awcindiawaterproofingco4479</p>
-                    </div>
                   </div>
                 </div>
               ))}

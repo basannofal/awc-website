@@ -292,7 +292,7 @@ const Navbar = () => {
                   <div className="header-contact-sec">
                     <ul>
                       <li>
-                        <Link href="tel:+918686862475">
+                        <Link href={`tel:+91${seoData?.number}`}>
                           <img
                             src={"/assets/images/client/h_call_icon.webp"}
                             alt="Header Call Icon"
@@ -327,7 +327,7 @@ const Navbar = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link href="mailto:info@awcindia.in">
+                        <Link href={`mailto:${seoData && seoData?.email}`}>
                           <img
                             src={"/assets/images/client/h_mail_icon.webp"}
                             alt="Header E-mail Icon"

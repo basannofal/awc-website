@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/splide.min.css";
+import Link from "next/link";
 
 const About = () => {
   const splideRef = useRef(null);
@@ -31,7 +32,7 @@ const About = () => {
                   <SplideSlide>
                     <div className="image-sec">
                       <img
-                        src={"./assets/images/client/unit_image_1.webp"}
+                        src={"./assets/images/client/DSC_6905 Clean-min.jpg"}
                         alt="Unit Image"
                         className="slider-image"
                       />
@@ -40,7 +41,7 @@ const About = () => {
                   <SplideSlide>
                     <div className="image-sec">
                       <img
-                        src={"./assets/images/client/unit_image_2.webp"}
+                        src={"./assets/images/client/about_slider2.JPG"}
                         alt="Unit Image"
                         className="slider-image"
                       />
@@ -49,7 +50,88 @@ const About = () => {
                   <SplideSlide>
                     <div className="image-sec">
                       <img
-                        src={"./assets/images/client/unit_image_3.webp"}
+                        src={"./assets/images/client/about_slider3.JPG"}
+                        alt="Unit Image"
+                        className="slider-image"
+                      />
+                    </div>
+                  </SplideSlide>
+                  <SplideSlide>
+                    <div className="image-sec">
+                      <img
+                        src={"./assets/images/client/about_slider4.JPG"}
+                        alt="Unit Image"
+                        className="slider-image"
+                      />
+                    </div>
+                  </SplideSlide>
+                  <SplideSlide>
+                    <div className="image-sec">
+                      <img
+                        src={"./assets/images/client/about_slider5.JPG"}
+                        alt="Unit Image"
+                        className="slider-image"
+                      />
+                    </div>
+                  </SplideSlide>
+                  <SplideSlide>
+                    <div className="image-sec">
+                      <img
+                        src={"./assets/images/client/about_slider6.JPG"}
+                        alt="Unit Image"
+                        className="slider-image"
+                      />
+                    </div>
+                  </SplideSlide>
+                  <SplideSlide>
+                    <div className="image-sec">
+                      <img
+                        src={"./assets/images/client/about_slider7.JPG"}
+                        alt="Unit Image"
+                        className="slider-image"
+                      />
+                    </div>
+                  </SplideSlide>
+                  <SplideSlide>
+                    <div className="image-sec">
+                      <img
+                        src={"./assets/images/client/about_slider8.JPG"}
+                        alt="Unit Image"
+                        className="slider-image"
+                      />
+                    </div>
+                  </SplideSlide>
+                  <SplideSlide>
+                    <div className="image-sec">
+                      <img
+                        src={"./assets/images/client/about_slider9.JPG"}
+                        alt="Unit Image"
+                        className="slider-image"
+                      />
+                    </div>
+                  </SplideSlide>
+                  <SplideSlide>
+                    <div className="image-sec">
+                      <img
+                        src={"./assets/images/client/about_slider10.JPG"}
+                        alt="Unit Image"
+                        className="slider-image"
+                      />
+                    </div>
+                  </SplideSlide>
+                  <SplideSlide>
+                    <div className="image-sec">
+                      <img
+                        src={"./assets/images/client/about_slider11.JPG"}
+                        alt="Unit Image"
+                        className="slider-image"
+                      />
+                    </div>
+                  </SplideSlide>
+                  <SplideSlide>
+                    <div className="image-sec">
+                      <img
+                        src={"./assets/images/client/about_slider12.JPG"}
                         alt="Unit Image"
                         className="slider-image"
                       />
@@ -99,11 +181,13 @@ const About = () => {
                     Synonymous With Trust And Quality In Waterproofing Services.
                   </p>
                   <div className="about-actions">
-                    <input
-                      className="btn-primary"
-                      type="button"
-                      value="Discover our Expertise"
-                    />
+                    <Link href="/contact">
+                      <input
+                        className="btn-primary"
+                        type="button"
+                        value="Discover our Expertise"
+                      />
+                    </Link>
                   </div>
                 </div>
               </div>
