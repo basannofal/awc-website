@@ -256,7 +256,8 @@
   font-size: 38px;
   font-style: normal;
   font-weight: 900;
-  line-height: 52px; /* 136.842% */
+  line-height: 52px;
+  /* 136.842% */
   text-transform: capitalize;
 }
 
@@ -267,15 +268,12 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
-  line-height: 28px; /* 175% */
+  line-height: 28px;
+  /* 175% */
   text-transform: capitalize;
 }
 
-.certificate-sec
-  .certificate-inner
-  .certificate-content
-  .certificate-image
-  img {
+.certificate-sec .certificate-inner .certificate-content .certificate-image img {
   width: 353.729px;
   height: 571.021px;
   flex-shrink: 0;
@@ -287,16 +285,13 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
-  line-height: 28px; /* 175% */
+  line-height: 28px;
+  /* 175% */
   text-transform: capitalize;
   padding-right: 10px;
 }
 
-.certificate-sec
-  .certificate-inner
-  .certificate-content
-  .certificate-download
-  img {
+.certificate-sec .certificate-inner .certificate-content .certificate-download img {
   height: 27px;
   width: auto;
   background: #1386d3;
@@ -354,7 +349,8 @@
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   font-weight: 400;
-  line-height: 20px; /* 111.111% */
+  line-height: 20px;
+  /* 111.111% */
   letter-spacing: 0.36px;
   text-transform: capitalize;
   padding-top: 20px;
@@ -392,7 +388,8 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 27px; /* 166.667% */
+  line-height: 27px;
+  /* 166.667% */
   text-transform: capitalize;
 }
 
@@ -405,7 +402,8 @@
   margin-left: auto;
   margin-right: auto;
   max-width: 1920px;
-  padding: 4rem; /* Use the spacing scale provided by Tailwind */
+  padding: 4rem;
+  /* Use the spacing scale provided by Tailwind */
   position: relative;
   background: #e9eef3;
 }
@@ -578,6 +576,19 @@
 #progress-content-section .section-content.active {
   display: block;
 }
+.youtube-inner .youtube-thumbnail {
+  position: relative;
+}
+
+.iconOfYo9utube img {
+  width: 40px !important;
+  height: 40px !important;
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  /* padding: 5px; */
+  transform: translate(-50%, -50%);
+}
 
 @keyframes FadeInUp {
   0% {
@@ -589,7 +600,9 @@
     transform: translateY(0px);
     opacity: 1;
   }
+  
 }
+
 /* Media Query for Responsive */
 
 @media (max-width: 1450px) {
@@ -603,35 +616,42 @@
   .main-sec-about {
     padding: 60px 30px 0 30px;
   }
+
   .main-sec-about .main-title-about {
     font-size: 42px;
     line-height: 100px;
     margin: 0 0 30px 0;
   }
+
   .about-sec {
     padding: 20px 0px 0 0px;
   }
+
   .about-desc {
     padding: 0 0 0 30px;
   }
+
   .about-desc p {
     font-size: 16px;
     line-height: 23px;
   }
+
   .leading-sec {
     margin: 50px 0 0 0;
   }
+
   .leading-sec .leading-box .leading-content h4 {
     font-size: 16px;
     line-height: 24px;
   }
+
   .certificate-sec .certificate-inner .certificate-content h6 {
     font-size: 14px;
     padding-right: 20px;
   }
 
   .certificate-sec .youtube-inner .youtube-content .youtube-thumbnail img {
-    width: 403px;
+    width: 100%;
     height: 230px;
     flex-shrink: 0;
     border-radius: 8px;
@@ -649,12 +669,7 @@
     padding-top: 20px;
   }
 
-  .certificate-sec
-    .youtube-inner
-    .youtube-content
-    .calendar-info
-    .calendar
-    img {
+  .certificate-sec .youtube-inner .youtube-content .calendar-info .calendar img {
     width: 16.603px;
     height: 18px;
     flex-shrink: 0;
@@ -662,8 +677,22 @@
   }
 
   .certificate-sec .youtube-inner .youtube-content .calendar-info p {
-    font-size: 16px;
+
+    font-size: 18px;
+  }  .youtube-inner .youtube-thumbnail {
+    position: relative;
   }
+
+  .iconOfYo9utube img {
+    width: 40px !important;
+    height: 40px !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* padding: 5px; */
+    transform: translate(-50%, -50%);
+  }
+
 }
 
 @media (max-width: 991px) {
@@ -671,13 +700,16 @@
     padding: 40px 10px 0 10px;
     text-align: center;
   }
+
   .main-sec-about .sub-title-about {
     font-size: 18px;
     line-height: 28px;
   }
+
   .main-sec-about .sub-title-about::after {
     margin: 20px auto;
   }
+
   .main-sec-about .main-title-about {
     font-size: 32px;
     line-height: 40px;
@@ -686,6 +718,7 @@
   .about-desc {
     padding: 20px 20px 0px 0px;
   }
+
   .about-desc .about-actions .btn-primary {
     font-size: 14px;
     line-height: 24px;
@@ -694,20 +727,38 @@
   .leading-sec {
     padding: 40px 0 20px;
   }
+
   .leading-sec .leading-box .leading-content p {
     max-width: 100%;
   }
+
   .timeline-sec .timeline-inner .timeline-content h6 {
     padding-top: 20px;
   }
+
   .youtube-inner .youtube-thumbnail {
     margin-top: 30px;
   }
+
   .certificate-sec .youtube-inner .youtube-content .youtube-icon img {
     position: absolute;
     bottom: 0;
     top: 120px;
     left: 180px;
+  }
+
+  .youtube-inner .youtube-thumbnail {
+    position: relative;
+  }
+
+  .iconOfYo9utube img {
+    width: 40px !important;
+    height: 40px !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* padding: 5px; */
+    transform: translate(-50%, -50%);
   }
 }
 
@@ -715,24 +766,19 @@
   .about-desc {
     padding: 20px 20px 0px 0px;
   }
-  .certificate-sec
-    .certificate-inner
-    .certificate-content
-    .certificate-image
-    img {
+
+  .certificate-sec .certificate-inner .certificate-content .certificate-image img {
     width: 100%;
     height: 100%;
     flex-shrink: 0;
     margin-top: 30px;
   }
+
   .certificate-sec .certificate-inner .certificate-content h6 {
     padding-top: 30px;
   }
-  .certificate-sec
-    .certificate-inner
-    .certificate-content
-    .certificate-download
-    img {
+
+  .certificate-sec .certificate-inner .certificate-content .certificate-download img {
     margin-top: 30px;
   }
 
@@ -750,6 +796,20 @@
   .certificate-sec .youtube-inner .youtube-content .calendar-info p {
     font-size: 14px;
   }
+
+  .youtube-inner .youtube-thumbnail {
+    position: relative;
+  }
+
+  .iconOfYo9utube img {
+    width: 40px !important;
+    height: 40px !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* padding: 5px; */
+    transform: translate(-50%, -50%);
+  }
 }
 
 @media (max-width: 576px) {
@@ -757,32 +817,39 @@
     font-size: 16px;
     line-height: 21px;
   }
+
   .main-sec-about .sub-title-about:after {
     margin: 16px auto 20px;
   }
+
   .main-sec-about .main-title-about {
     font-size: 20px;
     line-height: 28px;
     margin: 0 0 20px 0;
   }
+
   .about-desc .about-actions .btn-primary {
     font-size: 11px;
     line-height: 20px;
     padding: 8px 20px;
   }
+
   .about-sec .image-sec .slider-image {
     height: 200px;
     object-fit: cover;
     width: 100%;
   }
+
   .about-desc {
     padding: 20px 0px 0px 0px;
   }
+
   .about-desc h3 {
     margin: 0 0 12px 0;
     font-size: 20px;
     line-height: 28px;
   }
+
   .about-desc p {
     font-size: 16px;
     line-height: 21px;
@@ -792,56 +859,77 @@
     font-size: 16px;
     line-height: 22px;
   }
+
   .leading-sec .leading-box .leading-content p {
     font-size: 13px;
     line-height: 20px;
   }
+
   .timeline-sec .container-timeline {
     padding: 20px;
   }
+
   .timeline-sec .slider-timeline-container {
     margin-top: 50px;
     padding: 20px 10px 20px 10px;
     width: 100%;
   }
+
   .timeline-sec .slider-timeline-container .slider-timeline-inner {
     padding: 20px;
     border-radius: 5px;
     width: 100%;
   }
+
   .certificate-sec .container-certificate {
     padding: 20px 10px 0 10px;
   }
+
   .certificate-sec .certificate-inner h3 {
     font-size: 25px;
   }
-  .certificate-sec
-    .certificate-inner
-    .certificate-content
-    .certificate-image
-    img {
+
+  .certificate-sec .certificate-inner .certificate-content .certificate-image img {
     width: 100%;
     height: 100%;
     flex-shrink: 0;
   }
+
   .certificate-sec .container-youtube {
     padding: 20px 10px 0 10px;
     width: 100%;
   }
+
   .certificate-sec .youtube-inner .youtube-content .youtube-icon img {
     position: absolute;
     bottom: 0;
     top: 120px;
     left: 150px;
   }
+
   .certificate-sec .container-member {
     margin-top: 50px;
     padding: 20px 10px 20px 10px;
     width: 100%;
   }
+
   .certificate-sec .container-member .member-inner {
     padding: 20px;
     border-radius: 5px;
     width: 100%;
+  }
+
+  .youtube-inner .youtube-thumbnail {
+    position: relative;
+  }
+
+  .iconOfYo9utube img {
+    width: 40px !important;
+    height: 40px !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* padding: 5px; */
+    transform: translate(-50%, -50%);
   }
 }

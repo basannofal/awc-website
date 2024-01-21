@@ -70,7 +70,7 @@ const index = () => {
     await getData();
     await getSEOData();
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
