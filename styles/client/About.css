@@ -585,6 +585,7 @@
 #progress-content-section .section-content.active {
   display: block;
 }
+
 .youtube-inner .youtube-thumbnail {
   position: relative;
 }
@@ -864,6 +865,10 @@
     padding: 20px 0px 0px 0px;
   }
 
+  .about-desc {
+    margin: 0px;
+  }
+
   .about-desc h3 {
     margin: 0 0 12px 0;
     font-size: 20px;
@@ -871,8 +876,8 @@
   }
 
   .about-desc p {
-    font-size: 16px;
-    line-height: 21px;
+    font-size: 15px;
+    line-height: 25px;
   }
 
   .leading-sec .leading-box .leading-content h4 {
@@ -955,5 +960,13 @@
     left: 50%;
     /* padding: 5px; */
     transform: translate(-50%, -50%);
+  }
+
+  .about-sec .about-inner .arrow {
+    font-size: 22px;
+    line-height: 50px;
+    user-select: none;
+    font-weight: 300;
+    cursor: pointer;
   }
 }
