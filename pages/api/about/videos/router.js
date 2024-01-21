@@ -15,9 +15,9 @@ export default async function handler(req, res) {
     try {
       // Query the database to fetch all contact details
       const fetchQuery = "SELECT * FROM `yt_video` ORDER BY id DESC";
-
       // Execute the query
       const [rows] = await conn.query(fetchQuery);
+      console.log(rows);
 
       // Process the data and send the response
       res.status(200).json(rows);

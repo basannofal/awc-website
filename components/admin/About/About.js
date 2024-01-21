@@ -37,26 +37,26 @@ const About = () => {
   const [filteredApplication, setFilteredApplication] = useState([]);
   const [getApplication, setGetApplication] = useState([]);
 
-  //get or fetch all data start
-  const getvideosData = async () => {
-    await axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/about/videos/router`)
-      .then((res) => {
-        setGetApplication(res.data);
-        setGetVideos(res.data)
-        setFilteredApplication(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        ErrorToast(err?.response?.data?.message);
-        setLoading(false);
-      });
-  };
+  // //get or fetch all data start
+  // const getvideosData = async () => {
+  //   await axios
+  //     .get(`${process.env.NEXT_PUBLIC_API_URL}/about/videos/router`)
+  //     .then((res) => {
+  //       setGetApplication(res.data);
+  //       setGetVideos(res.data)
+  //       setFilteredApplication(res.data);
+  //       setLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       ErrorToast(err?.response?.data?.message);
+  //       setLoading(false);
+  //     });
+  // };
 
-  // fetch all application data
-  useEffect(() => {
-    getvideosData();
-  }, []);
+  // // fetch all application data
+  // useEffect(() => {
+  //   getvideosData();
+  // }, []);
   //get or fetch all application data end
 
   //filter code Start
@@ -78,7 +78,8 @@ const About = () => {
 
   // Career Form Code Start
 
-  const [filteredCareer, setFilteredCareer] = useState([]);
+  const [filteredVideos, setFilteredVideos] = useState([]);
+  const [filteredCertificate, setFilteredCertificate] = useState([]);
   const [getCareer, setGetCareer] = useState([]);
 
   const [getCertificate, setGetCertificate] = useState([]);
@@ -88,7 +89,7 @@ const About = () => {
       .get(`${process.env.NEXT_PUBLIC_API_URL}/about/certificates/router`)
       .then((res) => {
         setGetCertificate(res.data);
-        setFilteredCareer(res.data);
+        setFilteredCertificate(res.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -101,27 +102,6 @@ const About = () => {
   useEffect(() => {
     getCertificateData();
   }, []);
-  //get or fetch all career data end
-
-  const [editMode, setEditMode] = useState(false);
-  const [editItemId, setEditItemId] = useState(null);
-
-  const [addJobData, setAddJobData] = useState({
-    role_name: "",
-    job_desc: "",
-    category: "",
-    nop: "",
-    duration: "",
-  });
-
-  //ADD CAREER DATA AND CAREER HANDLER
-  const handleChangeJobCareer = (event) => {
-    const { name, value } = event.target;
-    setAddJobData((prevContData) => ({
-      ...prevContData,
-      [name]: value,
-    }));
-  };
 
   // NEw Code
 
@@ -174,7 +154,7 @@ const About = () => {
         } Deleted Successfully`
       );
       if (dataType === "videos") {
-        getvideosData();
+        getVideosData();
       } else if (dataType === "certificates") {
         getCertificateData();
       }
@@ -343,6 +323,8 @@ const About = () => {
     await axios
       .get(`${process.env.NEXT_PUBLIC_API_URL}/about/videos/router`)
       .then((res) => {
+        console.log(res.data);
+        setFilteredVideos(res.data);
         setGetVideos(res.data);
         setLoading(false);
       })
@@ -392,7 +374,7 @@ const About = () => {
 
   const SaveVideoData = async (e) => {
     e.preventDefault();
-    
+
     // Validation
     const errors = [];
 
@@ -420,7 +402,7 @@ const About = () => {
       WarningToast(errors[0]);
       return;
     }
-
+    console.log(addVideoData);
     // Check if it's in edit mode
     if (editVideoMode && editVideoItemId) {
       try {
@@ -431,7 +413,7 @@ const About = () => {
         formdata.append("thumbnail", addVideoData.thumbnail);
 
         await axios.patch(
-          `${process.env.NEXT_PUBLIC_API_URL}/about/videos/router/${editVideoItemId}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/about/videos/${editVideoItemId}`,
           formdata
         );
 
@@ -493,6 +475,21 @@ const About = () => {
       setActiveSubTab("job-application"); // Set activeSubTab to "job-application" when editing
     }
   };
+
+  const StatusVideoChange = async (cateId, no) => {
+    try {
+      setLoading(true);
+      const res = await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/about/videos/statuschanges/${cateId}/${no}`
+      );
+      setLoading(false);
+      getVideosData();
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       {/* LOADING SECTION */}
@@ -538,7 +535,18 @@ const About = () => {
                     className={`tab ${
                       activeSubTab === "contact" ? "active" : ""
                     }`}
-                    onClick={() => showSubTab("contact")}
+                    onClick={() => {
+                      showSubTab("contact");
+                      setActiveSubTab("contact");
+                      setEditVideoMode(false);
+                      setEditVideoItemId(null);
+                      setAddVideoData({
+                        title: "",
+                        short_desc: "",
+                        link: "",
+                        thumbnail: null,
+                      });
+                    }}
                   >
                     All Videos
                   </div>
@@ -548,7 +556,7 @@ const About = () => {
                     }`}
                     onClick={() => showSubTab("job-application")}
                   >
-                    Add New
+                    {editVideoMode ? "Edit Video" : "Add New"}
                   </div>
                 </div>
               </div>
@@ -568,16 +576,19 @@ const About = () => {
                           ID
                         </th>
                         <th style={{ width: "20%", textAlign: "center" }}>
-                          JOB ROLE
+                          Title
                         </th>
                         <th style={{ width: "20%", textAlign: "center" }}>
-                          CATEGORY
+                          Description
                         </th>
                         <th style={{ width: "15%", textAlign: "center" }}>
-                          NO OF OPENING
+                          Link
                         </th>
                         <th style={{ width: "15%", textAlign: "center" }}>
-                          DURATION
+                          Thumbnail
+                        </th>
+                        <th style={{ width: "15%", textAlign: "center" }}>
+                          Status
                         </th>
                         <th style={{ width: "20%", textAlign: "center" }}>
                           ACTION
@@ -585,15 +596,45 @@ const About = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredCareer.length > 0 ? (
-                        filteredCareer.map((data, index) => (
+                      {filteredVideos.length > 0 ? (
+                        filteredVideos.map((data, index) => (
                           <tr key={data.id} style={{ textAlign: "center" }}>
                             {/* ID */}
                             <td>{videoidCounterCareer++}</td>
-                            <td>{data.role_name}</td>
-                            <td>{data.category}</td>
-                            <td>{data.nop}</td>
-                            <td>{data.duration}</td>
+                            <td>{data.title}</td>
+                            <td>{data.short_desc}</td>
+                            <td>{data.link}</td>
+                            <td>
+                              {" "}
+                              <img
+                                src={`/assets/upload/about/videos/${data.thumbnail}`}
+                                width="100%"
+                                className="tabel_data_image"
+                                alt="category_image"
+                              />
+                            </td>
+                            <td>
+                              {" "}
+                              {data.status === 1 ? (
+                                <img
+                                  src="/assets/images/activeStatus.png"
+                                  alt="active"
+                                  className="status_btn"
+                                  onClick={() => {
+                                    StatusVideoChange(data.id, 1);
+                                  }}
+                                />
+                              ) : (
+                                <img
+                                  src="/assets/images/inActiveStatus.png"
+                                  alt="inActive"
+                                  className="status_btn"
+                                  onClick={() => {
+                                    StatusVideoChange(data.id, 0);
+                                  }}
+                                />
+                              )}
+                            </td>
 
                             {/* Handle Operation that you want to perform */}
                             <td>
@@ -601,7 +642,7 @@ const About = () => {
                                 <button
                                   className="data_delete_btn"
                                   onClick={() =>
-                                    openDeleteModal("career", data.id)
+                                    openDeleteModal("videos", data.id)
                                   }
                                 >
                                   <i className="fa-solid fa-trash"></i>
@@ -610,7 +651,7 @@ const About = () => {
                               <span className="ml-2">
                                 <button
                                   className="success_btn"
-                                  onClick={() => editItem(data.id)}
+                                  onClick={() => editVideoItem(data.id)}
                                 >
                                   <i className="fa-regular fa-pen-to-square"></i>
                                 </button>
@@ -744,11 +785,17 @@ const About = () => {
                         setActiveSubTab("contact");
                         setEditVideoMode(false);
                         setEditVideoItemId(null);
+                        setAddVideoData({
+                          title: "",
+                          short_desc: "",
+                          link: "",
+                          thumbnail: null,
+                        });
                       }}
-                    >Cancel</button>
-                    
+                    >
+                      Cancel
+                    </button>
                   </div>
-              
                 </form>
               </div>
             </div>
@@ -820,8 +867,8 @@ const About = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredCareer.length > 0 ? (
-                      filteredCareer.map((data, index) => (
+                    {filteredCertificate.length > 0 ? (
+                      filteredCertificate.map((data, index) => (
                         <tr key={data.id} style={{ textAlign: "center" }}>
                           {/* ID */}
                           <td>{certificateidCounterCareer++}</td>
