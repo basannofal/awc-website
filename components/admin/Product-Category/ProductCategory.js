@@ -17,8 +17,8 @@ const ProductCategory = () => {
   useEffect(() => {
     setFilterdCategory(
       getCategoryData.filter((e) => {
-        let data = e.category_title;
-        return data.includes(filterValue);
+        let data = e.category_title.toLowerCase();
+        return data.includes(filterValue.toLowerCase());
       })
     );
   }, [filterValue]);
@@ -187,7 +187,7 @@ const ProductCategory = () => {
                   SUB CATEGORY
                 </th>
                 <th style={{ width: "15%", textAlign: "center" }}>
-                 ACTION
+                  ACTION
                 </th>
                 <th style={{ width: "10%", textAlign: "center" }}>STATUS</th>
               </tr>
@@ -212,12 +212,12 @@ const ProductCategory = () => {
                     <td>
                       {category.sub_category
                         ? (
-                            getCategoryData.find(
-                              (subCategory) =>
-                                subCategory.category_id ===
-                                category.sub_category
-                            )?.category_name || ""
-                          ).substring(0, 40)
+                          getCategoryData.find(
+                            (subCategory) =>
+                              subCategory.category_id ===
+                              category.sub_category
+                          )?.category_name || ""
+                        ).substring(0, 40)
                         : "null"}
                     </td>
                     <td>
