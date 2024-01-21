@@ -17,9 +17,9 @@ const Products = () => {
   useEffect(() => {
     setFilterdProduct(
       getAllProduct.filter((e) => {
-        let data = e.product_title;
-        return data.includes(filterValue);
-      })
+        let data = e.product_title.toLowerCase();
+        return data.includes(filterValue.toLowerCase());
+      }) 
     );
   }, [filterValue]);
   // filter End
