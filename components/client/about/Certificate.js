@@ -1,5 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Certificate = () => {
   const [loading, setLoading] = useState(true);
@@ -28,63 +31,129 @@ const Certificate = () => {
     fetchData();
   }, []);
 
+  const certificateData = [
+    {
+      id: 1,
+      title: "(EMS) Environmental Management System",
+      image: "./assets/images/client/certificate1.webp",
+    },
+    {
+      id: 2,
+      title: "Occupational Health and Safety Management System (OHSMS)",
+      image: "./assets/images/client/certificate2.webp",
+    },
+    {
+      id: 3,
+      title: "(QMS) Quality Management System",
+      image: "./assets/images/client/certificate3.webp",
+    },
+    {
+      id: 4,
+      title: "(KKR) Environmental Management System",
+      image: "./assets/images/client/certificate1.webp",
+    },
+    {
+      id: 5,
+      title: "(GGP) Occupational Health and Safety Management System (OHSMS)",
+      image: "./assets/images/client/certificate2.webp",
+    },
+  ];
+
+  const NextArrow = ({ onClick }) => {
+    return (
+      <p
+        className="slick-arrow slick-next "
+        style={{
+          background: "gray",
+          borderRadius: "100%",
+        }}
+        onClick={onClick}
+      >
+        {/* <i className="fa-solid fa-angle-right"></i> */}
+      </p>
+    );
+  };
+
+  const PrevArrow = ({ onClick }) => {
+    return (
+      <p
+        className="slick-arrow slick-prev "
+        style={{
+          background: "gray",
+          borderRadius: "100%",
+        }}
+        onClick={onClick}
+      >
+        {/* <i className="fa-solid fa-angle-left"></i> */}
+      </p>
+    );
+  };
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
   return (
     <>
       <section className="certificate-sec">
+        {/* Certificate section */}
         <div className="container-certificate">
           <div className="certificate-inner">
             <h3>CERTIFICATES</h3>
             <p>Our Commitment to Quality, Environment, and Safety</p>
-            <div className="grid mt-14">
-              <div className="xl-4 lg-4 md-6 sm-12">
-                <div className="certificate-content">
+            <Slider {...settings}>
+              {certificateData.map((certificate) => (
+                <div key={certificate.id} className="certificate-content">
                   <div className="certificate-image">
-                    <img src={"./assets/images/client/certificate1.webp"} />
+                    <img
+                      src={certificate.image}
+                      alt={`Certificate ${certificate.id}`}
+                    />
                   </div>
                   <div className="flex items-center">
-                    <h6>(EMS) Environmental Management System</h6>
+                    <h6>{certificate.title}</h6>
                     <div className="certificate-download">
-                      <img src={"./assets/images/client/download.png"} />
+                      <img
+                        src={"./assets/images/client/download.png"}
+                        alt="Download"
+                      />
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="xl-4 lg-4 md-6 sm-12">
-                <div className="certificate-content">
-                  <div className="certificate-image">
-                    <img src={"./assets/images/client/certificate2.webp"} />
-                  </div>
-                  <div className="flex items-center">
-                    <h6>
-                      Occupational Health and Safety Management System (OHSMS)
-                    </h6>
-                    <div className="certificate-download">
-                      <img src={"./assets/images/client/download.png"} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="xl-4 lg-4 md-6 sm-12">
-                <div className="certificate-content">
-                  <div className="certificate-image">
-                    <img src={"./assets/images/client/certificate3.webp"} />
-                  </div>
-                  <div className="flex items-center">
-                    <h6>(QMS) Quality Management System</h6>
-                    <div className="certificate-download">
-                      <img src={"./assets/images/client/download.png"} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              ))}
+            </Slider>
           </div>
         </div>
 
         {/* YouTube Video Links */}
         <div className="container-youtube">
           <div className="youtube-inner">
-            <div className="grid mt-14">
+            {/* <div className="grid mt-14"> */}
+            <Slider {...settings}>
               {testimonial.map((item, idx) => {
                 return (
                   <div className="xl-4 lg-4 md-6 sm-6" key={item.id}>
@@ -131,7 +200,6 @@ const Certificate = () => {
                       <img src={"./assets/images/client/youtube.png"} />
                     </div>
                   </div>
-                  \
                   <h6>
                     AWC ROOF 540 premium quality waterproofing systems, for
                     virtually any kind of roofs
@@ -144,7 +212,45 @@ const Certificate = () => {
                   </div>
                 </div>
               </div>
-            </div>
+              <div className="xl-4 lg-4 md-6 sm-6">
+                <div className="youtube-content">
+                  <div className="youtube-thumbnail">
+                    <img src={"./assets/images/client/youtube-video-2.png"} />
+                    <div className="iconOfYo9utube">
+                      <img src={"./assets/images/client/youtube.png"} />
+                    </div>
+                  </div>
+                  <h6>How we do Application For AWC Roof 540</h6>
+                  <div className="calendar-info flex items-center">
+                    <div className="calendar">
+                      <img src={"./assets/images/client/calendar.png"} />
+                    </div>
+                    <p className="pl-3">@awcindiawaterproofingco4479</p>
+                  </div>
+                </div>
+              </div>
+              <div className="xl-4 lg-4 md-6 sm-6">
+                <div className="youtube-content">
+                  <div className="youtube-thumbnail">
+                    <img src={"./assets/images/client/youtube-video-3.png"} />
+                    <div className="iconOfYo9utube">
+                      <img src={"./assets/images/client/youtube.png"} />
+                    </div>
+                  </div>
+                  <h6>
+                    AWC ROOF 540 premium quality waterproofing systems, for
+                    virtually any kind of roofs
+                  </h6>
+                  <div className="calendar-info flex items-center">
+                    <div className="calendar">
+                      <img src={"./assets/images/client/calendar.png"} />
+                    </div>
+                    <p className="pl-3">@awcindiawaterproofingco4479</p>
+                  </div>
+                </div>
+              </div>
+            </Slider>
+            {/* </div> */}
           </div>
         </div>
 
