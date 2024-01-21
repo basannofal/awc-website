@@ -117,9 +117,8 @@ const Tabs = ({ pid, lognDesc }) => {
         <div className="main_tab_section">
           <div>
             <button
-              className={`tab-btn ${
-                activeTab === "description" ? "active" : ""
-              }`}
+              className={`tab-btn ${activeTab === "description" ? "active" : ""
+                }`}
               onClick={() => handleTabClick("description")}
             >
               DESCRIPTION
@@ -137,17 +136,15 @@ const Tabs = ({ pid, lognDesc }) => {
               PHOTOS
             </button>
             <button
-              className={`tab-btn ${
-                activeTab === "testing-videos" ? "active" : ""
-              }`}
+              className={`tab-btn ${activeTab === "testing-videos" ? "active" : ""
+                }`}
               onClick={() => handleTabClick("testing-videos")}
             >
               TESTING VIDEOS
             </button>
             <button
-              className={`tab-btn ${
-                activeTab === "certificate" ? "active" : ""
-              }`}
+              className={`tab-btn ${activeTab === "certificate" ? "active" : ""
+                }`}
               onClick={() => handleTabClick("certificate")}
             >
               CERTIFICATES
@@ -178,14 +175,38 @@ const Tabs = ({ pid, lognDesc }) => {
                     <Link
                       href={`/assets/upload/products/productDocs/${item?.pdf_link}`}
                       target="_blank"
+                      className="product_view_doc_dowonload"
                     >
-                      <div className="product_view_doc_dowonload">
-                        <i className="fa-solid fa-download text-white"></i>
-                      </div>
+                      <i className="fa-solid fa-download text-white"></i>
                     </Link>
+                    {/* <iframe
+                      title="PDF Viewer"
+                      src={`/assets/upload/products/productDocs/${item?.pdf_link}`}
+                      width="35%"
+                      height="300px"
+                    /> */}
                   </div>
+
                 );
               })}
+              <div className="product_view_docs_main">
+                <div className="product_view_doc_thumbnail">
+                  <img src={"/assets/images/client/pdf 2.png"} alt="" />
+                </div>
+                <div className="product_view_doc_thumbnail_title">
+                  Roof 540 Detailed Drowing{" "}
+                </div>
+                <Link href={`/product/ROOF-540/drawing/${productId}`} className="product_view_doc_dowonload" target="blank">
+                  <i className="fa-solid fa-download text-white"></i>
+                </Link>
+                {/* <iframe
+                      title="PDF Viewer"
+                      src={`/assets/upload/products/productDocs/${item?.pdf_link}`}
+                      width="35%"
+                      height="300px"
+                    /> */}
+              </div>
+
             </div>
           )}
           {activeTab === "photos" && (
@@ -202,6 +223,7 @@ const Tabs = ({ pid, lognDesc }) => {
                     </div>
                   );
                 })}
+
               </div>
             </div>
           )}
@@ -249,7 +271,7 @@ const Tabs = ({ pid, lognDesc }) => {
                       href={`/assets/upload/products/productCertificate/${item?.certificate_link}`}
                       target="_blank"
                     >
-                      <div className="product_view_doc_dowonload">
+                      <div className="product_view_certificate_dowonload">
                         <i className="fa-solid fa-download text-white"></i>
                       </div>
                     </Link>

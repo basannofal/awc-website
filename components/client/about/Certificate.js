@@ -157,7 +157,7 @@ const Certificate = () => {
               </div>
               <div className="xl-6 lg-6 md-12 sm-12">
                 <div className="member-image">
-                  <img src={"./assets/images/client/member-certificate.png"} />
+                  <img src={"./assets/images/client/IGBC 2024_page-0001.jpg"} />
                 </div>
               </div>
             </div>
