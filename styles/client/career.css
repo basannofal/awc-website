@@ -94,6 +94,9 @@ div.form_main form div input::placeholder {
   width: 71%;
   margin: 30px auto;
 }
+.form_main p.mb-6 {
+  font-family: "Inter", sans-serif !important;
+}
 @media only screen and (max-width: 1024px) {
   .career_container {
     margin-top: 85px;

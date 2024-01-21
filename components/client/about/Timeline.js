@@ -126,72 +126,57 @@ const Timeline = () => {
 
           <div id="progress-content-section">
             <div class="section-content discovery active">
-              <h2>HOME SECTION</h2>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                neque justo, consequat non fermentum ac, tempor eu turpis. Proin
-                nulla eros, placerat non ipsum ut, dapibus ullamcorper ex. Nulla
-                in dapibus lorem. Suspendisse vitae velit ac ante consequat
-                placerat ut sed eros. Nullam porttitor mattis mi, id fringilla
-                ex consequat eu. Praesent pulvinar tincidunt leo et condimentum.
-                Maecenas volutpat turpis at felis egestas malesuada. Phasellus
-                sem odio, venenatis at ex a, lacinia suscipit orci.
+                We believe that every project is unique and hence has its own
+                specific requirements. AWC products and services reflect this
+                uniqueness and are hence customized to suit specific client
+                requirements. The popularity of our waterproof roof coatings,
+                waterproof wall coatings and ceiling waterproofing solutions
+                makes us one of the leading waterproofing companies in India.
               </p>
             </div>
 
             <div class="section-content strategy">
-              <h2>GALLERY SECTION</h2>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                neque justo, consequat non fermentum ac, tempor eu turpis. Proin
-                nulla eros, placerat non ipsum ut, dapibus ullamcorper ex. Nulla
-                in dapibus lorem. Suspendisse vitae velit ac ante consequat
-                placerat ut sed eros. Nullam porttitor mattis mi, id fringilla
-                ex consequat eu. Praesent pulvinar tincidunt leo et condimentum.
-                Maecenas volutpat turpis at felis egestas malesuada. Phasellus
-                sem odio, venenatis at ex a, lacinia suscipit orci.
+                AWC is known as the leading waterproofing company with excellent
+                customer service which also makes us one of the preferred
+                waterproofing contractors in Mumbai. Our ability to retain
+                customers helps us get our new customers. In fact, majority of
+                our new customers are referred by our existing customers making
+                us an exterior wall waterproofing expert!
               </p>
             </div>
 
             <div class="section-content creative">
-              <h2>Creative CREATIONS</h2>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                neque justo, consequat non fermentum ac, tempor eu turpis. Proin
-                nulla eros, placerat non ipsum ut, dapibus ullamcorper ex. Nulla
-                in dapibus lorem. Suspendisse vitae velit ac ante consequat
-                placerat ut sed eros. Nullam porttitor mattis mi, id fringilla
-                ex consequat eu. Praesent pulvinar tincidunt leo et condimentum.
-                Maecenas volutpat turpis at felis egestas malesuada. Phasellus
-                sem odio, venenatis at ex a, lacinia suscipit orci.
+                As a waterproofing company and as the maker of cool roof coating
+                products, AWC believes that our responsibility is not
+                waterproofing alone, but to contribute towards improving the
+                energy efficiency of the structure too. AWC products are
+                designed to reflect the sun’s heat energy falling on the
+                structure.
               </p>
             </div>
 
             <div class="section-content production">
-              <h2>TESTIMONIALS NOW</h2>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                neque justo, consequat non fermentum ac, tempor eu turpis. Proin
-                nulla eros, placerat non ipsum ut, dapibus ullamcorper ex. Nulla
-                in dapibus lorem. Suspendisse vitae velit ac ante consequat
-                placerat ut sed eros. Nullam porttitor mattis mi, id fringilla
-                ex consequat eu. Praesent pulvinar tincidunt leo et condimentum.
-                Maecenas volutpat turpis at felis egestas malesuada. Phasellus
-                sem odio, venenatis at ex a, lacinia suscipit orci.
+                We believe that our responsibility does not end by being one of
+                the best roof waterproofing company or by providing top quality
+                terrace waterproofing solutions alone, but includes providing
+                energy efficient interiors, encouraging recycling, minimizing
+                and/or scientific disposal of wastes too.
               </p>
             </div>
 
             <div class="section-content analysis">
-              <h2>OUR LOCATIONS</h2>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                neque justo, consequat non fermentum ac, tempor eu turpis. Proin
-                nulla eros, placerat non ipsum ut, dapibus ullamcorper ex. Nulla
-                in dapibus lorem. Suspendisse vitae velit ac ante consequat
-                placerat ut sed eros. Nullam porttitor mattis mi, id fringilla
-                ex consequat eu. Praesent pulvinar tincidunt leo et condimentum.
-                Maecenas volutpat turpis at felis egestas malesuada. Phasellus
-                sem odio, venenatis at ex a, lacinia suscipit orci.
+                We believe that our applicators are our real brand ambassadors.
+                Caring for them and upgrading their knowledge levels had made us
+                the leading waterproofing contractor in Mumbai. As a roof
+                waterproofing, terrace waterproofing and external waterproofing
+                expert, we are committed to undertake regular training sessions
+                to up skill them and familiarize them with the latest in the
+                field of waterproofing roof coatings.
               </p>
             </div>
           </div>

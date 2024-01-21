@@ -165,9 +165,7 @@ const Tabs = ({ pid, lognDesc }) => {
           )}
           {activeTab === "docs" && (
             <div>
-              <p className="product_view_doc_title">
-                Technical Details and Brouchers
-              </p>
+              <p className="product_view_doc_title">Product Documents</p>
               {productDocs.map((item, idx) => {
                 return (
                   <div className="product_view_docs_main">
@@ -177,15 +175,14 @@ const Tabs = ({ pid, lognDesc }) => {
                     <div className="product_view_doc_thumbnail_title">
                       {item?.pdf_title}{" "}
                     </div>
-                    <div className="product_view_doc_dowonload">
-                      <Link
-                        href={`/assets/upload/products/productDocs/${item?.pdf_link}`}
-                        target="_blank"
-                        // download
-                      >
-                        <i class="fa-solid fa-download text-white"></i>
-                      </Link>
-                    </div>
+                    <Link
+                      href={`/assets/upload/products/productDocs/${item?.pdf_link}`}
+                      target="_blank"
+                    >
+                      <div className="product_view_doc_dowonload">
+                        <i className="fa-solid fa-download text-white"></i>
+                      </div>
+                    </Link>
                   </div>
                 );
               })}
@@ -210,7 +207,7 @@ const Tabs = ({ pid, lognDesc }) => {
           )}
           {activeTab === "testing-videos" && (
             <div>
-              <p className="product_view_photo_title">Photos</p>
+              <p className="product_view_photo_title">Videos</p>
               <div className="grid">
                 {productVideo.map((item, idx) => {
                   return (
@@ -221,7 +218,7 @@ const Tabs = ({ pid, lognDesc }) => {
                             src={`/assets/upload/products/productVedios/${item?.video_thumbnail}`}
                             alt={extractFirstParagraph(item?.video_description)}
                           />
-                          <i class="fa-brands fa-youtube"></i>
+                          <i className="fa-brands fa-youtube"></i>
                         </div>
                         <p className="product-view-title">
                           {truncateString(item?.video_title, 40)}
@@ -248,14 +245,14 @@ const Tabs = ({ pid, lognDesc }) => {
                     <div className="product_view_doc_thumbnail_title">
                       {item?.certificate_title}{" "}
                     </div>
-                    <div className="product_view_doc_dowonload">
-                      <Link
-                        href={`/assets/upload/products/productCertificate/${item?.certificate_link}`}
-                        download
-                      >
-                        <i class="fa-solid fa-download"></i>
-                      </Link>
-                    </div>
+                    <Link
+                      href={`/assets/upload/products/productCertificate/${item?.certificate_link}`}
+                      target="_blank"
+                    >
+                      <div className="product_view_doc_dowonload">
+                        <i className="fa-solid fa-download text-white"></i>
+                      </div>
+                    </Link>
                   </div>
                 );
               })}

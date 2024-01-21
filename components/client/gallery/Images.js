@@ -1,9 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Masonry from "react-masonry-css";
+import Lightbox from "react-image-lightbox";
+import "react-image-lightbox/style.css";
 
 const Images = ({ selectedCategory }) => {
   const [loading, setLoading] = useState(true);
   const [galleryPhoto, setGalleryPhoto] = useState([]);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   const getImages = async () => {
     setLoading(true);
@@ -24,6 +29,14 @@ const Images = ({ selectedCategory }) => {
     await getImages();
   };
 
+  const openLightbox = (index) => {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+  };
   useEffect(() => {
     fetchData();
   }, [selectedCategory]);
@@ -89,25 +102,52 @@ const Images = ({ selectedCategory }) => {
               </div>
             </div>
           ) : (
-            <div className="gallery-image-main-inner">
-              <div className="grid">
+            <>
+              <Masonry
+                breakpointCols={{ default: 3, 1100: 3, 700: 2, 500: 1 }}
+                className="gallery-image-main-inner"
+                columnClassName="grid-column"
+              >
                 {galleryPhoto.map((image, index) => (
                   <div
                     key={index}
-                    className={`xl-4 lg-4 md-4 sm-6`}
-                    id="gallery-main-images"
+                    className="gallery-inner-images"
+                    onClick={() => openLightbox(index)}
                   >
-                    <div className="gallery-inner-images">
-                      <img
-                        src={`/assets/upload/gallery/${image?.gallery_image}`}
-                        alt={image?.gallery_title}
-                        style={{ width: "100%" }}
-                      />
-                    </div>
+                    <img
+                      src={`/assets/upload/gallery/${image?.gallery_image}`}
+                      alt={image?.gallery_title}
+                      style={{ width: "100%" }}
+                    />
                   </div>
                 ))}
-              </div>
-            </div>
+              </Masonry>
+              {lightboxOpen && (
+                <Lightbox
+                  mainSrc={`/assets/upload/gallery/${galleryPhoto[lightboxIndex]?.gallery_image}`}
+                  nextSrc={
+                    galleryPhoto[(lightboxIndex + 1) % galleryPhoto.length]
+                      ?.gallery_image
+                  }
+                  prevSrc={
+                    galleryPhoto[
+                      (lightboxIndex + galleryPhoto.length - 1) %
+                        galleryPhoto.length
+                    ]?.gallery_image
+                  }
+                  onCloseRequest={closeLightbox}
+                  onMovePrevRequest={() =>
+                    setLightboxIndex(
+                      (lightboxIndex + galleryPhoto.length - 1) %
+                        galleryPhoto.length
+                    )
+                  }
+                  onMoveNextRequest={() =>
+                    setLightboxIndex((lightboxIndex + 1) % galleryPhoto.length)
+                  }
+                />
+              )}
+            </>
           )}
         </div>
       </section>

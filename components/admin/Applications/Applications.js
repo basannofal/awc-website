@@ -154,7 +154,6 @@ const Applications = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/application/${feedbackId}`,
         mailData
       );
-      console.log(res);
       SuccessToast("Feedback Sent Successfully");
       closeFeedbackModal();
       getApplicationData();
@@ -196,9 +195,7 @@ const Applications = () => {
 
   // Edit button click handler
   const editItem = (id) => {
-    console.log(id);
     const itemToEdit = getCareer.find((item) => item.id == id);
-    console.log(itemToEdit);
     if (itemToEdit) {
       setAddJobData({
         role_name: itemToEdit.role_name,
@@ -699,7 +696,7 @@ const Applications = () => {
                     ) : (
                       // If data is not available in database so show this message
                       <tr>
-                        <td colSpan="5" align="center">
+                        <td colSpan="6" align="center">
                           data is not available
                         </td>
                       </tr>

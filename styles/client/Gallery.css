@@ -143,7 +143,10 @@
   .gallery-inner-images {
   padding-top: 8px;
 }
-
+.gallery-image-main-inner {
+  display: flex;
+  gap: 14px;
+}
 /* Responsive Desing */
 @media (max-width: 1450px) {
   .gallery-image-sec .gallery-inner-images {
