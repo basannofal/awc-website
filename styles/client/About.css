@@ -273,7 +273,11 @@
   text-transform: capitalize;
 }
 
-.certificate-sec .certificate-inner .certificate-content .certificate-image img {
+.certificate-sec
+  .certificate-inner
+  .certificate-content
+  .certificate-image
+  img {
   width: 353.729px;
   height: 571.021px;
   flex-shrink: 0;
@@ -291,7 +295,11 @@
   padding-right: 10px;
 }
 
-.certificate-sec .certificate-inner .certificate-content .certificate-download img {
+.certificate-sec
+  .certificate-inner
+  .certificate-content
+  .certificate-download
+  img {
   height: 27px;
   width: auto;
   background: #1386d3;
@@ -600,7 +608,6 @@
     transform: translateY(0px);
     opacity: 1;
   }
-  
 }
 
 /* Media Query for Responsive */
@@ -669,7 +676,12 @@
     padding-top: 20px;
   }
 
-  .certificate-sec .youtube-inner .youtube-content .calendar-info .calendar img {
+  .certificate-sec
+    .youtube-inner
+    .youtube-content
+    .calendar-info
+    .calendar
+    img {
     width: 16.603px;
     height: 18px;
     flex-shrink: 0;
@@ -677,9 +689,9 @@
   }
 
   .certificate-sec .youtube-inner .youtube-content .calendar-info p {
-
     font-size: 18px;
-  }  .youtube-inner .youtube-thumbnail {
+  }
+  .youtube-inner .youtube-thumbnail {
     position: relative;
   }
 
@@ -692,7 +704,6 @@
     /* padding: 5px; */
     transform: translate(-50%, -50%);
   }
-
 }
 
 @media (max-width: 991px) {
@@ -767,7 +778,11 @@
     padding: 20px 20px 0px 0px;
   }
 
-  .certificate-sec .certificate-inner .certificate-content .certificate-image img {
+  .certificate-sec
+    .certificate-inner
+    .certificate-content
+    .certificate-image
+    img {
     width: 100%;
     height: 100%;
     flex-shrink: 0;
@@ -778,7 +793,11 @@
     padding-top: 30px;
   }
 
-  .certificate-sec .certificate-inner .certificate-content .certificate-download img {
+  .certificate-sec
+    .certificate-inner
+    .certificate-content
+    .certificate-download
+    img {
     margin-top: 30px;
   }
 
@@ -889,7 +908,11 @@
     font-size: 25px;
   }
 
-  .certificate-sec .certificate-inner .certificate-content .certificate-image img {
+  .certificate-sec
+    .certificate-inner
+    .certificate-content
+    .certificate-image
+    img {
     width: 100%;
     height: 100%;
     flex-shrink: 0;

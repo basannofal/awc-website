@@ -130,7 +130,8 @@ const Certificate = () => {
                     <div className="iconOfYo9utube">
                       <img src={"./assets/images/client/youtube.png"} />
                     </div>
-                  </div>\
+                  </div>
+                  \
                   <h6>
                     AWC ROOF 540 premium quality waterproofing systems, for
                     virtually any kind of roofs
