@@ -11,87 +11,122 @@ export const config = {
   },
 };
 
-// Create a nodemailer transporter
-const transporter = nodemailer.createTransport({
-  service: "Gmail",
-  auth: {
-    user: "fackidi69@gmail.com",
-    pass: "efwqgxzraskgpcga",
-  },
-});
-
-// Function to send an email
-const sendEmail = async (email, subject, text) => {
-  try {
-    await transporter.sendMail({
-      from: "fackidi69@gmail.com",
-      to: email,
-      subject,
-      text,
-    });
-    return true; // Indicate success
-  } catch (error) {
-    throw new Error("Email not sent");
-  }
-};
-
 export default async function handler(req, res) {
   const { id } = req.query; // Get the dynamic ID from the URL parameter
-  if (req.method === "POST") {
+  if (req.method === "DELETE") {
     try {
-      const form = new IncomingForm();
-      form.parse(req, async (err, fields, files) => {
-        const { email, comment } = fields;
-        // Send email with dynamic content
-        const subject = "Feedback Received";
-        const text = comment;
-        const emailSent = await sendEmail(email, subject, text);
+      const { id } = req.query;
 
-        if (emailSent) {
-          res.status(200).json({ message: "Email sent successfully" });
-        } else {
-          res.status(500).json({ message: "Error sending email" });
-        }
-      });
-    } catch (err) {
-      res.status(500).json({ message: "Cannot Send Mail" });
+      // Get the video thumbnail file name from the database
+      const [video] = await conn.query(
+        "SELECT thumbnail FROM yt_video WHERE id = ?",
+        [id]
+      );
+
+      // Query to delete the video
+      const deleteQuery = "DELETE FROM yt_video WHERE id = ?";
+
+      // Execute the delete query
+      const [rows] = await conn.query(deleteQuery, [id]);
+
+      let videoThumbnail = "";
+      if (video.length !== 0) {
+        videoThumbnail = video[0].thumbnail;
+
+        // Define the project directory and the path to the video thumbnail
+        const projectDirectory = path.resolve(
+          __dirname,
+          "../../../../../../public/assets/upload/about/videos"
+        );
+        const thumbnailPath = path.join(projectDirectory, videoThumbnail);
+
+        // Delete the video thumbnail file
+        await unlink(thumbnailPath);
+      }
+
+      // Send a success response
+      res.status(200).json(rows);
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ message: "Cannot Delete Video... Check Connection" });
     } finally {
       conn.releaseConnection();
     }
   }
 
-  // Handling DELETE request for deleting a contact form
-  if (req.method === "DELETE") {
+  if (req.method === "PATCH") {
     try {
-      // Get contact form data
-      const [contactForm] = await conn.query(
-        "SELECT resume FROM contact_form WHERE id = ?",
-        [id]
-      );
+      const form = new IncomingForm();
+      form.parse(req, async (err, fields, files) => {
+        // Check if the file exists
+        const { title, short_desc, link } = fields;
 
-      // Query to delete contact form data
-      const deleteQuery = "DELETE FROM contact_form WHERE id = ?";
-      const [deleteRows] = await conn.query(deleteQuery, [id]);
-      res.status(200).json({ message: "Data deleted successfully" });
-
-      // Check if the resume is available
-      if (contactForm.length !== 0) {
-        const resumeFile = contactForm[0].resume;
-        const uploadDir = path.resolve(
-          __dirname,
-          "../../../../../public/assets/upload/career"
+        const [video] = await conn.query(
+          "SELECT thumbnail FROM yt_video WHERE id = ?",
+          [id]
         );
-        const resumePath = path.join(uploadDir, resumeFile);
 
-        // Delete the resume file
-        await unlink(resumePath);
-      }
+        let sql = "";
+        let params = [];
+        let result = "";
 
-      // Send the response
-      res.status(200).json({ message: "Data deleted successfully" });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Error processing request" });
+        if (!files.thumbnail) {
+          // Update without changing thumbnail
+          sql =
+            "UPDATE `yt_video` SET `title`= ?, `short_desc`= ?, `link`= ? WHERE id = ?";
+          params = [title, short_desc, link, id];
+          result = await conn.query(sql, params);
+        } else {
+          // Update with changing thumbnail
+          const allowedImageExtensions = [".jpg", ".jpeg", ".png", ".webp"];
+          const fileExtension = path
+            .extname(files.thumbnail[0].originalFilename)
+            .toLowerCase();
+
+          if (!allowedImageExtensions.includes(fileExtension)) {
+            return res
+              .status(400)
+              .json({ message: "Only image files are allowed." });
+          }
+
+          const oldPath = files.thumbnail[0].filepath; // Old path of the uploaded image
+          const nFileName = `${Date.now()}.${
+            files.thumbnail[0].originalFilename
+          }`;
+          const newFileName = nFileName.replace(/\s/g, "");
+          const projectDirectory = path.resolve(
+            __dirname,
+            "../../../../../../public/assets/upload/about/videos"
+          );
+          const newPath = path.join(projectDirectory, newFileName);
+
+          // Copy the new image from the old path to the new path
+          fs.copyFile(oldPath, newPath, (moveErr) => {
+            if (moveErr) {
+              console.log(moveErr);
+              return res.status(500).json({ message: "File move failed." });
+            }
+          });
+
+          sql =
+            "UPDATE `yt_video` SET `title`= ?, `short_desc`= ?, `link`= ?, `thumbnail`= ? WHERE id = ?";
+          params = [title, short_desc, link, newFileName, id];
+          result = await conn.query(sql, params);
+
+          if (video.length !== 0) {
+            const oldImage = video[0].thumbnail;
+            const oldImagePath = path.join(projectDirectory, oldImage);
+            await unlink(oldImagePath);
+          }
+        }
+
+        res.status(200).json(result);
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: "Video Updation Failed" });
     } finally {
       conn.releaseConnection();
     }

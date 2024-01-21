@@ -4,7 +4,7 @@
   color: white;
   border-radius: 30px;
   height: 32px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   margin: 0px 20px 0px 0px;
 }
@@ -94,7 +94,7 @@
 }
 
 #form-lable-contact {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .form-input-contact {

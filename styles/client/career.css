@@ -148,4 +148,8 @@ div.form_main form div input::placeholder {
     width: 100%;
     justify-content: start;
   }
+  .career-title{
+    font-size: 25px;
+    line-height: 35px;
+  }
 }
