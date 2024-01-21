@@ -1,7 +1,6 @@
 import nodemailer from "nodemailer";
 import conn from "../dbconfig/conn";
 import path from "path";
-import fs from "fs";
 import { IncomingForm } from "formidable";
 const { unlink } = require("fs").promises;
 

@@ -8,7 +8,6 @@ const pool = mysql.createPool({
   connectionLimit: 10,
 });
 
-
 // const pool = mysql.createPool({
 //   host: "aufcart.com",
 //   user: "valudaaa_awc_db",

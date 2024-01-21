@@ -730,6 +730,7 @@ a {
 
 .btn-primary {
   text-decoration: none;
+  cursor: pointer;
   outline: 0;
   background-color: #1386d3;
   color: #ffffff;
@@ -928,6 +929,7 @@ a {
 .form-sec h4 {
   margin: 0 0 16px 0;
   color: #0f1628;
+  font-family: "Inter", sans-serif !important;
   font-size: 24px;
   line-height: 34px;
   font-weight: bold;
@@ -936,7 +938,7 @@ a {
 
 .form-sec p {
   font-size: 16px;
-  font-family: "Montserrat", sans-serif !important;
+  font-family: "Inter", sans-serif !important;
   line-height: 28px;
   color: #424652;
   text-align: center;
@@ -983,14 +985,14 @@ a {
   font-size: 14px;
   line-height: 26px;
   color: #424652;
-  font-family: "Montserrat", sans-serif !important;
+  font-family: "Inter", sans-serif !important;
 }
 
 .form-sec .form-field .form-input::placeholder {
   font-size: 14px;
   line-height: 26px;
   color: #424652;
-  font-family: "Montserrat", sans-serif !important;
+  font-family: "Inter", sans-serif !important;
 }
 
 .form-sec .form-actions {
@@ -1003,7 +1005,7 @@ a {
   font-size: 16px;
   line-height: 26px;
   font-weight: 600;
-  font-family: "Montserrat", sans-serif !important;
+  font-family: "Inter", sans-serif !important;
   cursor: pointer;
   padding: 8px 30px;
 }
@@ -1022,7 +1024,7 @@ a {
 }
 
 .get-started-sec .get-started-inner h4 {
-  font-family: "Montserrat", sans-serif !important;
+  font-family: "Inter", sans-serif !important;
   color: #ffffff;
   font-size: 26px;
   line-height: 40px;
@@ -1683,10 +1685,10 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .form-sec .form-field label {
-  font-family: "Montserrat", sans-serif !important;
+  font-family: "Inter", sans-serif !important;
 }
 .form-sec .form-field input::placeholder {
-  font-family: "Montserrat", sans-serif !important;
+  font-family: "Inter", sans-serif !important;
 }
 .faqs-sec .accordion_content .accordion_head {
   font-size: 16px;
@@ -1701,6 +1703,7 @@ body::-webkit-scrollbar-thumb:hover {
   align-items: center;
   -ms-flex-pack: justify;
   justify-content: space-between;
+  font-family: "Inter", sans-serif !important;
 }
 
 .faqs-sec .accordion_content .accordion_body {
@@ -2605,4 +2608,21 @@ body::-webkit-scrollbar-thumb:hover {
     font-size: 11px;
     line-height: 18px;
   }
+}
+
+.product_view_desc_title ul,
+.product_view_desc_title ol {
+  list-style-type: disc; /* or your preferred list style type */
+  margin-left: 1.5em; /* adjust the indentation as needed */
+}
+.ckeditor-output ul,
+.ckeditor-output ol {
+  list-style-type: disc; /* or your preferred list style type */
+  margin-left: 1.5em; /* adjust the indentation as needed */
+}
+/* Override CKEditor styles for lists */
+.product_view_desc_title ul,
+.product_view_desc_title ol {
+  list-style-type: disc !important; /* or your preferred list style type */
+  margin-left: 1.5em !important; /* adjust the indentation as needed */
 }

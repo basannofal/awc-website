@@ -5,8 +5,11 @@ import Footer from "@/layouts/Client/Footer";
 import Tabs from "./Tabs";
 import axios from "axios";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 const index = ({ pid }) => {
+  const router = useRouter()
+  const { productType, productId } = router.query;
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
 
@@ -14,7 +17,7 @@ const index = ({ pid }) => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/client/product-view/getproduct/${pid}`
+        `${process.env.NEXT_PUBLIC_API_URL}/client/product-view/getproduct/${productId}`
       );
       setProducts(response.data[0]);
       setLoading(false);
@@ -30,7 +33,7 @@ const index = ({ pid }) => {
   
   useEffect(() => {
     fetchData();
-  }, [pid]);
+  }, [productId]);
   return (
     <>
       {loading ? (
@@ -59,7 +62,7 @@ const index = ({ pid }) => {
           </Head>
           <Navbar />
           <HeroSection product={products} />
-          <Tabs pid={pid} lognDesc={products?.product_long_desc} />
+          <Tabs productId={productId} lognDesc={products?.product_long_desc} />
           <Footer />
         </>
       )}

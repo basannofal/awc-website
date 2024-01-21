@@ -53,24 +53,24 @@ const Product = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 <div
                   role="status"
-                  class="animate-pulse md:space-y-0 md:flex md:items-center"
+                  className="animate-pulse md:space-y-0 md:flex md:items-center"
                   style={{ width: "353px", margin: "0px auto" }}
                 >
-                  <div class="flex items-center justify-center h-56 bg-gray-300 rounded sm:w-96"></div>
+                  <div className="flex items-center justify-center h-56 bg-gray-300 rounded sm:w-96"></div>
                 </div>
                 <div
                   role="status"
-                  class="animate-pulse md:space-y-0 md:flex md:items-center"
+                  className="animate-pulse md:space-y-0 md:flex md:items-center"
                   style={{ width: "353px", margin: "0px auto" }}
                 >
-                  <div class="flex items-center justify-center h-56 bg-gray-300 rounded sm:w-96"></div>
+                  <div className="flex items-center justify-center h-56 bg-gray-300 rounded sm:w-96"></div>
                 </div>
                 <div
                   role="status"
-                  class="animate-pulse md:space-y-0 md:flex md:items-center"
+                  className="animate-pulse md:space-y-0 md:flex md:items-center"
                   style={{ width: "353px", margin: "0px auto" }}
                 >
-                  <div class="flex items-center justify-center h-56 bg-gray-300 rounded sm:w-96"></div>
+                  <div className="flex items-center justify-center h-56 bg-gray-300 rounded sm:w-96"></div>
                 </div>
               </div>
             ) : (

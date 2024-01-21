@@ -192,6 +192,7 @@
 }
 
 .tab-btn {
+  font-family: "Inter", sans-serif !important;
   padding: 5px 25px;
   cursor: pointer;
   margin-top: 40px;

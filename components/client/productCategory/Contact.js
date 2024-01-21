@@ -49,7 +49,7 @@ const Contact = ({ cid }) => {
       stars.push(
         <img
           key="half-star"
-          src="/assets/images/client/half-rating-icon.png" // Replace with your half-star image
+          src="/assets/images/client/half-rating-icon.png"
           alt="Half Rating Icon"
           width="12"
           height="auto"
@@ -133,7 +133,7 @@ const Contact = ({ cid }) => {
   return (
     <>
       {loading ? (
-        <h1>Loading</h1>
+        <h1>Loading...</h1>
       ) : (
         <section className="client-sec">
           <div className="container">
