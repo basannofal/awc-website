@@ -147,6 +147,14 @@
   display: flex;
   gap: 14px;
 }
+.gallery-image-main-inner img {
+  cursor: pointer;
+  transition: filter 0.6s ease; /* Adding a smooth transition for the hover effect */
+}
+
+.gallery-image-main-inner img:hover {
+  filter: brightness(0.6);
+}
 /* Responsive Desing */
 @media (max-width: 1450px) {
   .gallery-image-sec .gallery-inner-images {
