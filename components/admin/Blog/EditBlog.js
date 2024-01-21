@@ -66,12 +66,15 @@ const EditBlog = () => {
 
   // editor
   const editorDescRef = useRef(null);
-  const handleDescEditorChange = (content, editor) => {
+
+  const handleDescEditorChange = () => {
+    const content = editorDescRef.current.getContent();
     setEditBlogData((prevData) => ({
       ...prevData,
       blog_description: content,
     }));
   };
+
   // end
   // edit blog
   const handleEditChange = (e) => {
@@ -241,7 +244,8 @@ const EditBlog = () => {
                 <Editor
                   apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
                   onInit={(evt, editor) => (editorDescRef.current = editor)}
-                  initialValue={editBlogData?.blog_description}
+                  // initialValue={editBlogData?.blog_description}
+                  value={editBlogData?.blog_description}
                   init={{
                     height: 500,
                     menubar: true,
@@ -271,8 +275,8 @@ const EditBlog = () => {
                       "alignright alignjustify | bullist numlist outdent indent | " +
                       "removeformat | help",
                   }}
-                  onChange={(e) =>
-                    handleDescEditorChange(editorDescRef.current.getContent())
+                  onEditorChange={(content, editor) =>
+                    handleDescEditorChange(content)
                   }
                 />
               </div>
