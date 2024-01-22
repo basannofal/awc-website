@@ -971,6 +971,10 @@
   }
 }
 
+.slick-arrow {
+  font-size: 40px;
+}
+
 .slick-prev {
   left: 4% !important;
   z-index: 1;
