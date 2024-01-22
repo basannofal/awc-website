@@ -32,6 +32,7 @@ const pool = mysql.createPool({
   database: "valudas_awc",
 });
 
+
 const conn = pool.promise();
 
 export default conn;
