@@ -970,3 +970,13 @@
     cursor: pointer;
   }
 }
+
+.slick-prev {
+  left: 4% !important;
+  z-index: 1;
+}
+
+.slick-next {
+  right: 4% !important;
+  z-index: 1;
+}
