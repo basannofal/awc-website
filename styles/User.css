@@ -61,7 +61,8 @@
 }
 
 .content_add_btn_section button {
-  width: 140px;
+  width: auto;
+  padding: 0px 10px;
   height: 40px;
   background-color: #b5bbfe;
   font-size: 16px;
@@ -652,11 +653,11 @@ form .modal_input:focus {
   width: 100px;
 }
 
-.dd-input+.dd-menu {
+.dd-input + .dd-menu {
   display: none;
 }
 
-.dd-input:checked+.dd-menu {
+.dd-input:checked + .dd-menu {
   display: block;
 }
 
