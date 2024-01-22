@@ -1084,7 +1084,7 @@ const EditProduct = () => {
                 <Editor
                   apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
                   onInit={(evt, editor) => (editorShortRef.current = editor)}
-                  initialValue={editProductData?.product_short_desc}
+                  value={editProductData?.product_short_desc}
                   init={{
                     height: 300,
                     menubar: true,
@@ -1114,7 +1114,7 @@ const EditProduct = () => {
                       "alignright alignjustify | bullist numlist outdent indent | " +
                       "removeformat | help",
                   }}
-                  onChange={(e) =>
+                  onEditorChange={(e) =>
                     handleShortEditorChange(editorShortRef.current.getContent())
                   }
                 />
@@ -1124,7 +1124,7 @@ const EditProduct = () => {
                 <Editor
                   apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
                   onInit={(evt, editor) => (editorLongRef.current = editor)}
-                  initialValue={editProductData?.product_long_desc}
+                  value={editProductData?.product_long_desc}
                   init={{
                     height: 500,
                     menubar: true,
@@ -1154,7 +1154,7 @@ const EditProduct = () => {
                       "alignright alignjustify | bullist numlist outdent indent | " +
                       "removeformat | help",
                   }}
-                  onChange={(e) =>
+                  onEditorChange={(e) =>
                     handleLongEditorChange(editorLongRef.current.getContent())
                   }
                 />
@@ -1900,7 +1900,7 @@ const EditProduct = () => {
                     <p className="modal_label">Video Description:-</p>
                     <Editor
                       apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
-                      initialValue={addProductVedio.vedio_description}
+                      value={addProductVedio.vedio_description}
                       onInit={(evt, editor) =>
                         (VedioeditorRef.current = editor)
                       }
@@ -1933,7 +1933,7 @@ const EditProduct = () => {
                           "alignright alignjustify | bullist numlist outdent indent | " +
                           "removeformat | help",
                       }}
-                      onChange={() =>
+                      onEditorChange={() =>
                         handleVedioEditorChange(
                           VedioeditorRef.current.getContent()
                         )
@@ -2407,35 +2407,33 @@ const EditProduct = () => {
                           <td>{product.certificate_title}</td>
                         )}
                         {editingCertificateId === product.prod_certi_id ? (
-                            <td className="edit-row">
-                              <div>
-                                <button
-                                  style={{
-                                    height: "30px",
-                                    width: "30px",
-                                    padding: "5px",
-                                  }}
-                                  onClick={() =>
-                                    handleUpdateCertiClick(
-                                      product.prod_certi_id
-                                    )
-                                  }
-                                >
-                                  <i className="fa-solid fa-floppy-disk"></i>
-                                </button>
-                                <button
-                                  className="cancel"
-                                  style={{
-                                    height: "30px",
-                                    width: "30px",
-                                    padding: "5px",
-                                  }}
-                                  onClick={() => setEditingCertificateId(null)}
-                                >
-                                  <i className="fa-solid fa-xmark"></i>
-                                </button>
-                              </div>
-                            </td>
+                          <td className="edit-row">
+                            <div>
+                              <button
+                                style={{
+                                  height: "30px",
+                                  width: "30px",
+                                  padding: "5px",
+                                }}
+                                onClick={() =>
+                                  handleUpdateCertiClick(product.prod_certi_id)
+                                }
+                              >
+                                <i className="fa-solid fa-floppy-disk"></i>
+                              </button>
+                              <button
+                                className="cancel"
+                                style={{
+                                  height: "30px",
+                                  width: "30px",
+                                  padding: "5px",
+                                }}
+                                onClick={() => setEditingCertificateId(null)}
+                              >
+                                <i className="fa-solid fa-xmark"></i>
+                              </button>
+                            </div>
+                          </td>
                         ) : (
                           <td>
                             <button

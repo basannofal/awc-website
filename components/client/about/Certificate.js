@@ -1,18 +1,36 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Link from "next/link";
 
 const Certificate = () => {
   const [loading, setLoading] = useState(true);
-  const [testimonial, setTestimonial] = useState([]);
+  const [videos, setVideos] = useState([]);
+  const [certificate, setCertificate] = useState([]);
 
-  const getTestimonial = async () => {
+  const getVideos = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/client/testimonials/router`
+        `${process.env.NEXT_PUBLIC_API_URL}/client/videos/router`
       );
-      console.log(response.data);
-      setTestimonial(response.data);
+      setVideos(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
+
+  const getCertificates = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/certificate/router`
+      );
+      setCertificate(response.data);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -21,81 +39,142 @@ const Certificate = () => {
   };
 
   const fetchData = async () => {
-    await getTestimonial();
+    await getVideos();
+    await getCertificates();
   };
 
   useEffect(() => {
     fetchData();
   }, []);
 
+  const NextArrow = ({ onClick }) => {
+    return (
+      <p className="slick-arrow slick-next" onClick={onClick}>
+        {/* <i className="fa-solid fa-angle-right" style={{ fontSize: "40px" }}></i> */}
+      </p>
+    );
+  };
+
+  const PrevArrow = ({ onClick }) => {
+    return (
+      <p className="slick-arrow slick-prev " onClick={onClick}>
+        {/* <i className="fa-solid fa-angle-left"></i> */}
+      </p>
+    );
+  };
+
+  const videos_settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: Math.min(3, videos.length),
+    slidesToScroll: 1,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: Math.min(2, videos.length), // Adjust slidesToShow dynamically
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: Math.min(1, videos.length), // Adjust slidesToShow dynamically
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
+  const certificate_settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: Math.min(3, certificate.length),
+    slidesToScroll: 1,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: Math.min(2, certificate.length), // Adjust slidesToShow dynamically
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: Math.min(1, certificate.length), // Adjust slidesToShow dynamically
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
   return (
     <>
       <section className="certificate-sec">
+        {/* Certificate section */}
         <div className="container-certificate">
           <div className="certificate-inner">
             <h3>CERTIFICATES</h3>
             <p>Our Commitment to Quality, Environment, and Safety</p>
-            <div className="grid mt-14">
-              <div className="xl-4 lg-4 md-6 sm-12">
-                <div className="certificate-content">
+            <Slider {...certificate_settings} className="space-y-7">
+              {certificate.map((certificate) => (
+                <div key={certificate.id} className="certificate-content">
                   <div className="certificate-image">
-                    <img src={"./assets/images/client/certificate1.webp"} />
+                    <img
+                      src={`/assets/upload/about/certificates/${certificate.thumbnail}`}
+                      alt={`Certificate ${certificate.id}`}
+                    />
                   </div>
-                  <div className="flex items-center">
-                    <h6>(EMS) Environmental Management System</h6>
+                  <div className="flex items-center pt-3">
+                    <h6>{certificate.title}</h6>
                     <div className="certificate-download">
-                      <img src={"./assets/images/client/download.png"} />
+                      <a
+                        href={`/assets/upload/about/certificates/${certificate.pdf}`}
+                        download
+                      >
+                        <img
+                          src={"./assets/images/client/download.png"}
+                          alt="Download"
+                        />
+                      </a>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="xl-4 lg-4 md-6 sm-12">
-                <div className="certificate-content">
-                  <div className="certificate-image">
-                    <img src={"./assets/images/client/certificate2.webp"} />
-                  </div>
-                  <div className="flex items-center">
-                    <h6>
-                      Occupational Health and Safety Management System (OHSMS)
-                    </h6>
-                    <div className="certificate-download">
-                      <img src={"./assets/images/client/download.png"} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="xl-4 lg-4 md-6 sm-12">
-                <div className="certificate-content">
-                  <div className="certificate-image">
-                    <img src={"./assets/images/client/certificate3.webp"} />
-                  </div>
-                  <div className="flex items-center">
-                    <h6>(QMS) Quality Management System</h6>
-                    <div className="certificate-download">
-                      <img src={"./assets/images/client/download.png"} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              ))}
+            </Slider>
           </div>
         </div>
 
         {/* YouTube Video Links */}
         <div className="container-youtube">
           <div className="youtube-inner">
-            <div className="grid mt-14">
-              {testimonial.map((item, idx) => {
+            {/* <div className="grid mt-14"> */}
+            <Slider {...videos_settings} className="space-y-7">
+              {videos.map((item, idx) => {
                 return (
                   <div className="xl-4 lg-4 md-6 sm-6" key={item.id}>
                     <div className="youtube-content">
                       <div className="youtube-thumbnail">
-                        <img src={"./assets/images/client/unit_image_1.png"} />
+                        <img
+                          src={`/assets/upload/about/videos/${item.thumbnail}`}
+                        />
                         <div className="iconOfYo9utube">
-                          <img src={"./assets/images/client/youtube.png"} />
+                          <Link href={`${item.link}`} target="_blank">
+                            <img src={"./assets/images/client/youtube.png"} />
+                          </Link>
                         </div>
                       </div>
-                      <h6>AWC Introductory Video</h6>
+                      <h6>{item.title}</h6>
                       <div className="calendar-info flex items-center">
                         <div className="calendar">
                           <img src={"./assets/images/client/calendar.png"} />
@@ -106,44 +185,8 @@ const Certificate = () => {
                   </div>
                 );
               })}
-              <div className="xl-4 lg-4 md-6 sm-6">
-                <div className="youtube-content">
-                  <div className="youtube-thumbnail">
-                    <img src={"./assets/images/client/youtube-video-2.png"} />
-                    <div className="iconOfYo9utube">
-                      <img src={"./assets/images/client/youtube.png"} />
-                    </div>
-                  </div>
-                  <h6>How we do Application For AWC Roof 540</h6>
-                  <div className="calendar-info flex items-center">
-                    <div className="calendar">
-                      <img src={"./assets/images/client/calendar.png"} />
-                    </div>
-                    <p className="pl-3">@awcindiawaterproofingco4479</p>
-                  </div>
-                </div>
-              </div>
-              <div className="xl-4 lg-4 md-6 sm-6">
-                <div className="youtube-content">
-                  <div className="youtube-thumbnail">
-                    <img src={"./assets/images/client/youtube-video-3.png"} />
-                    <div className="iconOfYo9utube">
-                      <img src={"./assets/images/client/youtube.png"} />
-                    </div>
-                  </div>\
-                  <h6>
-                    AWC ROOF 540 premium quality waterproofing systems, for
-                    virtually any kind of roofs
-                  </h6>
-                  <div className="calendar-info flex items-center">
-                    <div className="calendar">
-                      <img src={"./assets/images/client/calendar.png"} />
-                    </div>
-                    <p className="pl-3">@awcindiawaterproofingco4479</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </Slider>
+            {/* </div> */}
           </div>
         </div>
 

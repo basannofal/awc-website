@@ -25,6 +25,7 @@ export default async function handler(req, res) {
       res.status(401).json({ message: "Connection Error" });
     }
   }
+
   if (req.method == "POST") {
     const form = new IncomingForm();
     form.parse(req, (err, fields, files) => {
@@ -56,8 +57,8 @@ export default async function handler(req, res) {
               title: title,
               short_desc: short_desc,
               link: link,
-              thumbnail : newFileName,
-              status : 1
+              thumbnail: newFileName,
+              status: 1,
             });
             res.status(200).json(row);
           } catch (err) {
