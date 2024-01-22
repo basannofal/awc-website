@@ -1356,7 +1356,7 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .roof-category-sec .roof-category-inner {
-  max-width: 1284px;
+  max-width: 1184px;
   margin: 0 auto;
 }
 
@@ -1364,20 +1364,19 @@ body::-webkit-scrollbar-thumb:hover {
   background: #ffffff;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   border-radius: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 0px 0px 18px 18px;
 }
 
 .roof-category-sec .roof-box .roof-image img {
   width: 100%;
-  border-radius: 20px 20px 0px 0px;
 }
 
 .roof-category-sec .roof-content {
-  padding: 30px 20px;
+  padding: 17px 18px;
 }
 
 .roof-category-sec .roof-content h4 {
-  font-size: 30px;
+  font-size: 26px;
   line-height: 42px;
   font-weight: bold;
   color: #07070a;
@@ -1386,7 +1385,7 @@ body::-webkit-scrollbar-thumb:hover {
 .roof-category-sec .roof-content h4::after {
   content: "";
   display: block;
-  margin: 15px 0 20px;
+  margin: 6px 0 20px;
   width: 50px;
   height: 2px;
   background-color: #1386d3;
@@ -1398,7 +1397,7 @@ body::-webkit-scrollbar-thumb:hover {
   line-height: 24px;
   color: #5a5e62;
   text-transform: capitalize;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   display: -webkit-box;
   max-height: 5em;
   -webkit-line-clamp: 3;
@@ -1413,10 +1412,12 @@ body::-webkit-scrollbar-thumb:hover {
   font-weight: bold;
   color: #1386d3;
   text-transform: uppercase;
-  text-decoration: underline;
   display: inline-block;
+  transition: color 0.5s ease;
 }
-
+.roof-category-sec .roof-content a:hover {
+  text-decoration: underline;
+}
 .roof-category-sec .roof-content a > span {
   margin-left: 10px;
 }

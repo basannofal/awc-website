@@ -66,14 +66,14 @@ const Product = ({ cid }) => {
                 CategoryProduct.map((item, key) => {
                   const slug = item?.product_title.replace(/\s+/g, "-");
                   return (
-                    <div key={item?.product_id} className="lg-4 md-6 sm-12">
+                    <div key={item?.product_id} className="lg-4 md-6 sm-12 mb-5">
                       <div className="roof-box">
                         <div className="roof-image">
                           <img
                             src={`/assets/upload/products/${item?.product_image}`}
                             alt="Roof 540 Category Image"
                             width="406"
-                            height="350px"
+                            height="300px"
                           />
                         </div>
                         <div className="roof-content">
