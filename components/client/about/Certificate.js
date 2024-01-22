@@ -179,7 +179,7 @@ const Certificate = () => {
                         <div className="calendar">
                           <img src={"./assets/images/client/calendar.png"} />
                         </div>
-                        <p className="pl-3">@awcindiawaterproofingco4479</p>
+                        <p className="pl-3">{item.short_desc}</p>
                       </div>
                     </div>
                   </div>
