@@ -12,16 +12,24 @@
 
 .product_view_hero_section {
   display: flex;
+  /* flex-wrap: wrap; */
   margin: 50px 0px 0px 0px;
 }
 
 .product_view_image {
-  width: 700px;
+  width:50%;
   height: auto;
+  overflow: hidden;
+  object-fit: contain;
+}
+.product_view_image img{
+  width: 100%;
 }
 
 .product_view_hero_section_right_conent {
   margin-left: 50px;
+  width: 50%;
+
 }
 
 .product_view_hero_section_title {
