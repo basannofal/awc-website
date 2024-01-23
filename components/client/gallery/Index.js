@@ -5,6 +5,7 @@ import Images from "./Images";
 import Footer from "@/layouts/Client/Footer";
 import axios from "axios";
 import Head from "next/head";
+import Watshapp from "@/layouts/Client/Watshapp";
 
 const Index = () => {
   const [seoData, setSeoData] = useState([]);
@@ -29,7 +30,7 @@ const Index = () => {
   const fetchData = async () => {
     await getSEOData();
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -62,6 +63,7 @@ const Index = () => {
             )}
           </Head>
           <Navbar />
+          <Watshapp />
           <HeroSection
             onSelectCategory={setSelectedCategory}
             selectedCategory={selectedCategory}

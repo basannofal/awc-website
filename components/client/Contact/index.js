@@ -4,6 +4,7 @@ import Footer from "@/layouts/Client/Footer";
 import HeroSection from "./HeroSection";
 import axios from "axios";
 import Head from "next/head";
+import Watshapp from "@/layouts/Client/Watshapp";
 
 const index = () => {
   const [seoData, setSeoData] = useState([]);
@@ -27,7 +28,7 @@ const index = () => {
   const fetchData = async () => {
     await getSEOData();
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -62,6 +63,7 @@ const index = () => {
             )}
           </Head>
           <Navbar />
+          <Watshapp />
           <HeroSection />
           <Footer />
         </>
