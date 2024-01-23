@@ -5,6 +5,7 @@ import TestiContact from "./TestiContact";
 import Footer from "@/layouts/Client/Footer";
 import axios from "axios";
 import Head from "next/head";
+import Watshapp from "@/layouts/Client/Watshapp";
 
 const index = () => {
   const [seoData, setSeoData] = useState([]);
@@ -59,6 +60,7 @@ const index = () => {
             )}
           </Head>
           <Navbar />
+          <Watshapp />
           <HeroSection />
           <TestiContact />
           <Footer />

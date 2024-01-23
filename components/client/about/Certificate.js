@@ -48,71 +48,64 @@ const Certificate = () => {
   }, []);
 
   const NextArrow = ({ onClick }) => {
-    return (
-      <p className="slick-arrow slick-next" onClick={onClick}>
-        {/* <i className="fa-solid fa-angle-right" style={{ fontSize: "40px" }}></i> */}
-      </p>
-    );
+    return null;
   };
 
   const PrevArrow = ({ onClick }) => {
-    return (
-      <p className="slick-arrow slick-prev " onClick={onClick}>
-        {/* <i className="fa-solid fa-angle-left"></i> */}
-      </p>
-    );
+    return null;
   };
 
+
   const videos_settings = {
-    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: Math.min(3, videos.length),
     slidesToScroll: 1,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    autoplay: true, // Enable auto-slider
+    autoplaySpeed: 3000, // Set the speed in milliseconds (adjust as needed)
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: Math.min(2, videos.length), // Adjust slidesToShow dynamically
+          slidesToShow: Math.min(2, videos.length),
           slidesToScroll: 1,
           infinite: true,
-          dots: true,
         },
       },
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: Math.min(1, videos.length), // Adjust slidesToShow dynamically
+          slidesToShow: Math.min(1, videos.length),
           slidesToScroll: 1,
         },
       },
     ],
   };
 
+
   const certificate_settings = {
-    dots: true,
+    dots: false, // Remove dots/icons
     infinite: true,
     speed: 500,
     slidesToShow: Math.min(3, certificate.length),
     slidesToScroll: 1,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    autoplay: true, // Enable auto-slider
+    autoplaySpeed: 3000, // Set the speed in milliseconds (adjust as needed)
+    nextArrow: false,
+    prevArrow: false,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: Math.min(2, certificate.length), // Adjust slidesToShow dynamically
+          slidesToShow: Math.min(2, certificate.length),
           slidesToScroll: 1,
           infinite: true,
-          dots: true,
         },
       },
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: Math.min(1, certificate.length), // Adjust slidesToShow dynamically
+          slidesToShow: Math.min(1, certificate.length),
           slidesToScroll: 1,
         },
       },
@@ -126,7 +119,7 @@ const Certificate = () => {
           <div className="certificate-inner">
             <h3>CERTIFICATES</h3>
             <p>Our Commitment to Quality, Environment, and Safety</p>
-            <Slider {...certificate_settings} className="space-y-7">
+            <Slider {...certificate_settings} className="space-y-7" nextArrow={<NextArrow />} prevArrow={<PrevArrow />}>
               {certificate.map((certificate) => (
                 <div key={certificate.id} className="certificate-content">
                   <div className="certificate-image">
@@ -159,7 +152,7 @@ const Certificate = () => {
         <div className="container-youtube">
           <div className="youtube-inner">
             {/* <div className="grid mt-14"> */}
-            <Slider {...videos_settings} className="space-y-7">
+            <Slider {...videos_settings} className="space-y-7" nextArrow={<NextArrow />} prevArrow={<PrevArrow />}>
               {videos.map((item, idx) => {
                 return (
                   <div className="xl-4 lg-4 md-6 sm-6" key={item.id}>

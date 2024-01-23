@@ -6,6 +6,7 @@ import Tabs from "./Tabs";
 import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import Watshapp from "@/layouts/Client/Watshapp";
 
 const index = ({ pid }) => {
   const router = useRouter()
@@ -30,7 +31,7 @@ const index = ({ pid }) => {
   const fetchData = async () => {
     await getProductData();
   };
-  
+
   useEffect(() => {
     fetchData();
   }, [productId]);
@@ -61,6 +62,7 @@ const index = ({ pid }) => {
             )}
           </Head>
           <Navbar />
+          <Watshapp />
           <HeroSection product={products} />
           <Tabs productId={productId} lognDesc={products?.product_long_desc} />
           <Footer />
