@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const HeroSection = () => {
   return (
@@ -7,15 +8,17 @@ const HeroSection = () => {
         <div className="container">
           <div className="main-inner">
             <p className="sub-title">Your Trusted Partner in Waterproofing</p>
-            <h1 className="main-title" id='home-title-animation'>Simplifying Waterproofing Company</h1>
+            <h1 className="main-title" id="home-title-animation">
+              Simplifying Waterproofing Company
+            </h1>
             <p className="desc">
               Discover innovative solutions that protect surfaces against leaks
               and enhance longevity. Join us in elevating waterproofing
               standards.
             </p>
-            <a href="javascript:void(0);" className="btn-primary">
+            <Link href="/contact" className="btn-primary">
               Get Free Quote Now
-            </a>
+            </Link>
           </div>
         </div>
       </section>

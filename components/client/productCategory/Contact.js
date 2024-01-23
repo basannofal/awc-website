@@ -164,13 +164,6 @@ const Contact = ({ cid }) => {
                                 }}
                               ></p>
                               <div className="c-img-sec">
-                                <img
-                                  style={{ borderRadius: "50%" }}
-                                  src={`/assets/upload/testimonial/${item?.testimonial_image}`}
-                                  alt="Client Image"
-                                  width="50"
-                                  height="auto"
-                                />
                                 <div className="c-title-sec">
                                   <h4>{item?.testimonial_title}</h4>
                                   <div className="rating-sec">

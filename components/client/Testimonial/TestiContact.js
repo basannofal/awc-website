@@ -91,13 +91,6 @@ const TestiContact = () => {
                     }}
                   ></p>
                   <div className="testi_contact_review mt-4">
-                    <img
-                      style={{ borderRadius: "50%" }}
-                      src={`/assets/upload/testimonial/${item?.testimonial_image}`}
-                      alt="Client Image"
-                      width="50"
-                      height="auto"
-                    />
                     <div className="testi_contact_title ms-2">
                       <h4>{item?.testimonial_title}</h4>
                       <div className="testi_rating">

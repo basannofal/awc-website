@@ -35,9 +35,11 @@ const HeroSection = ({ product }) => {
               dangerouslySetInnerHTML={{ __html: product?.product_short_desc }}
             ></p>
             {/* <p className='product_view_hero_section_desc'>Roof-540 is the newest development in water based chemical waterproofing and waterproofing treatment for roof.</p> */}
-            <button className="product_view_hero_section_btn">
-              INQUIRY NOW
-            </button>
+            <Link href="/contact">
+              <button className="product_view_hero_section_btn">
+                INQUIRY NOW
+              </button>
+            </Link>
           </div>
         </div>
       </div>
