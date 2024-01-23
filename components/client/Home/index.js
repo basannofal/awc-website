@@ -1,5 +1,6 @@
 import Navbar from "@/layouts/Client/Navbar";
 import React, { useEffect, useState } from "react";
+import Watshapp from "@/layouts/Client/Watshapp";
 import HeroSection from "./HeroSection";
 import Products from "./Products";
 import Contact from "./Contact";
@@ -99,6 +100,7 @@ const index = () => {
           </Head>
 
           <Navbar />
+          <Watshapp />
           <HeroSection />
           <Products productCategories={productCategories} />
           <Contact />

@@ -8,6 +8,7 @@ import Certificate from "./Certificate";
 import Footer from "@/layouts/Client/Footer";
 import axios from "axios";
 import Head from "next/head";
+import Watshapp from "@/layouts/Client/Watshapp";
 
 const Index = () => {
   const [seoData, setSeoData] = useState([]);
@@ -58,6 +59,7 @@ const Index = () => {
             )}
           </Head>
           <Navbar />
+          <Watshapp />
           <HeroSection />
           <About />
           <VisionMision />
