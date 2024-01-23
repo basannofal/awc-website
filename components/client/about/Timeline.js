@@ -98,24 +98,26 @@ const Timeline = () => {
             </div>
           </div>
         </div>
-
+        <div className="timeline-inner mt-8">
+          <h5>Our Success Story</h5>
+        </div>
         <div class="process-wrapper">
           <div id="progress-bar-container">
             <ul>
               <li class="step step01 active">
-                <div class="step-inner">27 Jan</div>
+                <div class="step-inner">2008</div>
               </li>
               <li class="step step02">
-                <div class="step-inner"> 21 Feb</div>
+                <div class="step-inner">2011</div>
               </li>
               <li class="step step03">
-                <div class="step-inner"> 08 May</div>
+                <div class="step-inner">2014</div>
               </li>
               <li class="step step04">
-                <div class="step-inner">19 Jun</div>
+                <div class="step-inner">2015</div>
               </li>
               <li class="step step05">
-                <div class="step-inner">29 Aug</div>
+                <div class="step-inner">2023</div>
               </li>
             </ul>
 
@@ -127,56 +129,40 @@ const Timeline = () => {
           <div id="progress-content-section">
             <div class="section-content discovery active">
               <p>
-                We believe that every project is unique and hence has its own
-                specific requirements. AWC products and services reflect this
-                uniqueness and are hence customized to suit specific client
-                requirements. The popularity of our waterproof roof coatings,
-                waterproof wall coatings and ceiling waterproofing solutions
-                makes us one of the leading waterproofing companies in India.
+                <b>"Seeds of Innovation"</b> In 2008, We Embarked on Our Journey
+                as a Small Manufacturing System Application Company
               </p>
             </div>
 
             <div class="section-content strategy">
               <p>
-                AWC is known as the leading waterproofing company with excellent
-                customer service which also makes us one of the preferred
-                waterproofing contractors in Mumbai. Our ability to retain
-                customers helps us get our new customers. In fact, majority of
-                our new customers are referred by our existing customers making
-                us an exterior wall waterproofing expert!
+                <b>"Founding Umargaon Facility in 2011"</b> In 2011, We
+                Established Our Manufacturing Facility in Umargaon, Gujarat,
+                Introducing Our First Product
               </p>
             </div>
 
             <div class="section-content creative">
               <p>
-                As a waterproofing company and as the maker of cool roof coating
-                products, AWC believes that our responsibility is not
-                waterproofing alone, but to contribute towards improving the
-                energy efficiency of the structure too. AWC products are
-                designed to reflect the sun’s heat energy falling on the
-                structure.
+                <b>"AWC Emerges in 2014"</b> In 2014, We Rebranded Ourselves as
+                AWC, Expanding Our Presence from Mumbai to a PAN India Level
               </p>
             </div>
 
             <div class="section-content production">
               <p>
-                We believe that our responsibility does not end by being one of
-                the best roof waterproofing company or by providing top quality
-                terrace waterproofing solutions alone, but includes providing
-                energy efficient interiors, encouraging recycling, minimizing
-                and/or scientific disposal of wastes too.
+                <b>"Becoming Waterproofing Experts in 2015"</b> By 2015, We
+                Transformed into a Full-Fledged Waterproofing Company with a
+                Skilled Labor Applicator Team
               </p>
             </div>
 
             <div class="section-content analysis">
               <p>
-                We believe that our applicators are our real brand ambassadors.
-                Caring for them and upgrading their knowledge levels had made us
-                the leading waterproofing contractor in Mumbai. As a roof
-                waterproofing, terrace waterproofing and external waterproofing
-                expert, we are committed to undertake regular training sessions
-                to up skill them and familiarize them with the latest in the
-                field of waterproofing roof coatings.
+                <b>"Grand Expansion in 2023"</b> In the Memorable Year of 2023,
+                We Established a Grand Lean Manufacturing Setup Spanning 40,000
+                sqft with a Build-Up of 90,000 sqft, Offering 9 Specialized
+                Products to Cater to Niche Waterproofing Segments
               </p>
             </div>
           </div>

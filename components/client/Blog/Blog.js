@@ -50,7 +50,7 @@ const Blog = () => {
       <section>
         <div className="containers">
           <div className="main_blogs">
-            <div className="flex flex-wrap justify-center">
+            <div className="flex flex-wrap lg:justify-start justify-center">
               {loading ? (
                 <>
                   <div className="sm:w-1/2 md:w-1/3 lg:w-3/12 blog_image_section">

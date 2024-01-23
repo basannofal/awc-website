@@ -104,10 +104,10 @@ const Footer = () => {
               the test of time. Contact us today to get started.
             </h4>
             <div className="btn-sec">
-              <Link href="/" className="btn-primary learn-btn">
+              <Link href="/about" className="btn-primary learn-btn">
                 Learn More
               </Link>
-              <Link href="/" className="btn-primary cnt-btn">
+              <Link href="/contact" className="btn-primary cnt-btn">
                 Contact Us
               </Link>
             </div>
@@ -391,8 +391,9 @@ const Footer = () => {
               <div className="contact-info">
                 <h5>AWC Lean Manufacturing Unit</h5>
                 <p>
-                  Survey/Plot No:-662 Village:- Tembhi Taluka:- Umbergaon,Dist
-                  -Valsad,Umargam, Gujarat 396150
+                  Survey/Plot No. 662 Village: Tembhi <br />
+                  Taluka:- Umbergaon,Dist -Valsad,Umargam,
+                  <br /> Gujarat 396150
                 </p>
               </div>
               <div className="contact-info">

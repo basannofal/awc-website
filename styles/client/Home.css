@@ -1338,6 +1338,7 @@ body::-webkit-scrollbar-thumb:hover {
   font-size: 20px;
   line-height: 28px;
   color: #e9eef3;
+  text-align: justify;
   text-transform: capitalize;
   position: relative;
   max-width: 1100px;

@@ -1,5 +1,5 @@
-
 import axios from "axios";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const HeroSection = () => {
@@ -8,7 +8,6 @@ const HeroSection = () => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
-
 
   const [addFormData, setAddFormData] = useState({
     name: "",
@@ -86,17 +85,13 @@ const HeroSection = () => {
         <div className="lg-5 sm-12">
           <div>
             <button
-              className={`tab-btn  ${
-                activeTab === "office" ? "active" : ""
-              }`}
+              className={`tab-btn  ${activeTab === "office" ? "active" : ""}`}
               onClick={() => handleTabClick("office")}
             >
               OFFICE
             </button>
             <button
-              className={`tab-btn  ${
-                activeTab === "factory" ? "active" : ""
-              }`}
+              className={`tab-btn  ${activeTab === "factory" ? "active" : ""}`}
               onClick={() => handleTabClick("factory")}
             >
               AWC Manufacturing Unit
@@ -111,22 +106,27 @@ const HeroSection = () => {
                 Connecting Excellence, Exceeding Expectations
               </p>
               <p className="contact_desc">
-                Feel free to get in touch with us at aWC india. We're here to
+                Feel free to get in touch with us at AWC india. We're here to
                 answer your questions and provide exceptional solutions. Your
                 inquiries are important to us, and we're committed to delivering
                 quality service that goes above and beyond your expectations.
               </p>
               <p className="contact_address">
-                <span className="contact_address_title">Address:</span>A-11, 4th
-                Floor, Malad Yojana CHSL, S.V.Road, Malad (W), Mumbai - 400 064
+                <span className="contact_address_title">Address: </span>A-11,
+                4th Floor, Malad Yojana CHSL, S.V.Road, Malad (W), Mumbai - 400
+                064
               </p>
               <p className="contact_phone">
-                <span className="contact_address_title">Phone:</span>+91 86 86
-                86 2475
+                <Link href="tel:+918686862475">
+                  <span className="contact_address_title">Phone: </span>+91 86
+                  86 86 2475
+                </Link>
               </p>
               <p className="contact_email">
-                <span className="contact_address_title">Email Address:</span>
-                info@awcindia.in
+                <Link href="mailto:info@awcindia.in">
+                  <span className="contact_address_title">Email Address: </span>
+                  info@awcindia.in
+                </Link>
               </p>
               <div className="flex">
                 <div className="social_icons" id="first_social_icon">
@@ -147,33 +147,42 @@ const HeroSection = () => {
 
           {activeTab === "factory" && (
             <div>
-
               <p className="contact_title">AWC INDIA</p>
               <p className="contact_second_title">
                 Connecting Excellence, Exceeding Expectations
               </p>
               <p className="contact_desc">
-                Feel free to get in touch with us at aWC india. We're here to
+                Feel free to get in touch with us at AWC india. We're here to
                 answer your questions and provide exceptional solutions. Your
                 inquiries are important to us, and we're committed to delivering
                 quality service that goes above and beyond your expectations.
               </p>
               <p className="contact_address">
-                <span className="contact_address_title">Address:</span>
-                Survey/Plot No:-662 Village:- Tembhi Taluka:- Umbergaon,Dist
-                -Valsad, Umargam, Gujarat 396150
+                <span className="contact_address_title">Address: </span>
+                Survey/Plot No. 662 Village: Tembhi <br /> Taluka:-
+                Umbergaon,Dist -Valsad, Umargam, <br />
+                Gujarat 396150
               </p>
               <p className="contact_phone">
-                <span className="contact_address_title">Phone:</span>+91 86 86
-                86 2475
+                <Link href="tel:+918976981053">
+                  <span className="contact_address_title">Phone: </span>+91 89
+                  76 98 1053
+                </Link>
               </p>
               <p className="contact_email">
-                <span className="contact_address_title">Email Address:</span>
-                info@awcindia.in
+                <Link href="mailto:factory@awcindia.in">
+                  <span className="contact_address_title">Email Address: </span>
+                  factory@awcindia.in
+                </Link>
               </p>
               <div className="flex">
                 <div className="social_icons" id="first_social_icon">
-                  <i class="fa-brands fa-facebook-f"></i>
+                  <Link
+                    href="https://www.facebook.com/awcindia.in/"
+                    target="_blank"
+                  >
+                    <i class="fa-brands fa-facebook-f"></i>
+                  </Link>
                 </div>
                 <div className="social_icons">
                   <i class="fa-brands fa-instagram"></i>
@@ -209,7 +218,6 @@ const HeroSection = () => {
                   type="text"
                   name="name"
                   id="name"
-
                   onChange={handleChangeData}
                   value={addFormData.name}
                   placeholder="Enter Your Name"
@@ -291,14 +299,26 @@ const HeroSection = () => {
       </section>
 
       <div className="contact_map">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3768.2544093537063!2d72.84442907498021!3d19.18408738204289!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b6fcc002f427%3A0x75bcc8c871340dd5!2sAWC%20India%20-%20Roof%20Waterproofing%20Company!5e0!3m2!1sen!2sin!4v1703251762987!5m2!1sen!2sin"
-          width="600"
-          height="600"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
+        {activeTab === "office" && (
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3768.2544093537063!2d72.84442907498021!3d19.18408738204289!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b6fcc002f427%3A0x75bcc8c871340dd5!2sAWC%20India%20-%20Roof%20Waterproofing%20Company!5e0!3m2!1sen!2sin!4v1703251762987!5m2!1sen!2sin"
+            width="600"
+            height="600"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        )}
+        {activeTab === "factory" && (
+          <iframe
+            src="https://maps.google.com/maps?q=Survey%2FPlot%20No%3A-662%20Village%3A-%20Tembhi%20Taluka%3A-%20Umbergaon%2CDist%20-Valsad%2C%20Gujarat%20Pin%20code%3A-%20396150%2C%20Umargam%2C%20Gujarat%20396150&t=m&z=10&output=embed&iwloc=near"
+            width="600"
+            height="600"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        )}
       </div>
     </>
   );

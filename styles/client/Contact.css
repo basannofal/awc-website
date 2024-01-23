@@ -76,6 +76,10 @@
   letter-spacing: 0em;
   color: #424652;
 }
+.contact_phone a,
+.contact_email a {
+  color: #424652;
+}
 
 .contact_email {
   padding: 20px 0px 0px 0px;
@@ -151,9 +155,10 @@
 
 #first_social_icon {
   background-color: #1386d3;
+}
+#first_social_icon a {
   color: white;
 }
-
 @media screen and (max-width: 500px) {
   #main_contact {
     max-width: 100%;
