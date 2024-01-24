@@ -249,7 +249,7 @@ const Tabs = ({ pid, lognDesc }) => {
                       href={`/assets/upload/products/productCertificate/${item?.certificate_link}`}
                       target="_blank"
                     >
-                      <div className="product_view_doc_dowonload">
+                      <div className="product_view_certificate_dowonload">
                         <i className="fa-solid fa-download text-white"></i>
                       </div>
                     </Link>
