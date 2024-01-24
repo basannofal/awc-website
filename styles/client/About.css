@@ -112,7 +112,7 @@
 .leading-sec {
   float: left;
   width: 100%;
-  padding: 50px 0 0;
+  padding: 50px 0px 30px 0px;
   background-color: black;
 }
 
@@ -646,7 +646,7 @@
   }
 
   .leading-sec {
-    margin: 50px 0 0 0;
+    margin: 50px 0px;
   }
 
   .leading-sec .leading-box .leading-content h4 {
@@ -738,7 +738,7 @@
   }
 
   .leading-sec {
-    padding: 40px 0 20px;
+    padding: 40px 0px;
   }
 
   .leading-sec .leading-box .leading-content p {
