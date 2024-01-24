@@ -147,7 +147,7 @@ const Certificate = () => {
         <div className="container-youtube mt-5">
           <div className="youtube-inner">
             {/* <div className="grid mt-14"> */}
-            <Slider {...videos_settings} className="space-y-7" nextArrow={<NextArrow />} prevArrow={<PrevArrow />}>
+            <Slider {...videos_settings} className="space-y-7" >
               {videos.map((item, idx) => {
                 return (
                   <div className="xl-4 lg-4 md-6 sm-6" key={item.id}>
