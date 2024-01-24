@@ -121,7 +121,7 @@ const Certificate = () => {
             <p>Our Commitment to Quality, Environment, and Safety</p>
             <Slider {...certificate_settings} className="space-y-7" nextArrow={<NextArrow />} prevArrow={<PrevArrow />}>
               {certificate.map((certificate) => (
-                <div key={certificate.id} className="certificate-content">
+                <div key={certificate.id} className="certificate-content" id='cscscs'>
                   <div className="certificate-image">
                     <img
                       src={`/assets/upload/about/certificates/${certificate.thumbnail}`}
@@ -206,7 +206,7 @@ const Certificate = () => {
               </div>
               <div className="xl-6 lg-6 md-12 sm-12">
                 <div className="member-image">
-                  <img src={"./assets/images/client/member-certificate.png"} />
+                  <img src={"./assets/images/client/IGBC 2024_page-0001.jpg"} />
                 </div>
               </div>
             </div>
