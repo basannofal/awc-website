@@ -128,41 +128,44 @@ const Timeline = () => {
 
           <div id="progress-content-section">
             <div class="section-content discovery active">
+              <h3 className="mb-2">SEEDS OF INNOVATION</h3>
               <p>
-                <b>"Seeds of Innovation"</b> In 2008, We Embarked on Our Journey
-                as a Small Manufacturing System Application Company
+                In 2008, We Embarked on Our Journey as a Small Manufacturing
+                System Application Company
               </p>
             </div>
 
             <div class="section-content strategy">
+              <h3 className="mb-2">FOUNDING UMARGAON FACILITY</h3>
               <p>
-                <b>"Founding Umargaon Facility in 2011"</b> In 2011, We
-                Established Our Manufacturing Facility in Umargaon, Gujarat,
-                Introducing Our First Product
+                2011, We Established Our Manufacturing Facility in Umargaon,
+                Gujarat, Introducing Our First Product
               </p>
             </div>
 
             <div class="section-content creative">
+              <h3 className="mb-2">AWC EMERGES</h3>
               <p>
-                <b>"AWC Emerges in 2014"</b> In 2014, We Rebranded Ourselves as
-                AWC, Expanding Our Presence from Mumbai to a PAN India Level
+                In 2014, We Rebranded Ourselves as AWC, Expanding Our Presence
+                from Mumbai to a PAN India Level
               </p>
             </div>
 
             <div class="section-content production">
+              <h3 className="mb-2">BECOMING WATERPROOFING EXPERTS</h3>
               <p>
-                <b>"Becoming Waterproofing Experts in 2015"</b> By 2015, We
-                Transformed into a Full-Fledged Waterproofing Company with a
-                Skilled Labor Applicator Team
+                By 2015, We Transformed into a Full-Fledged Waterproofing
+                Company with a Skilled Labor Applicator Team
               </p>
             </div>
 
             <div class="section-content analysis">
+              <h3 className="mb-2">GRAND EXPANSION</h3>
               <p>
-                <b>"Grand Expansion in 2023"</b> In the Memorable Year of 2023,
-                We Established a Grand Lean Manufacturing Setup Spanning 40,000
-                sqft with a Build-Up of 90,000 sqft, Offering 9 Specialized
-                Products to Cater to Niche Waterproofing Segments
+                In the Memorable Year of 2023, We Established a Grand Lean
+                Manufacturing Setup Spanning 40,000 sqft with a Build-Up of
+                90,000 sqft, Offering 9 Specialized Products to Cater to Niche
+                Waterproofing Segments
               </p>
             </div>
           </div>

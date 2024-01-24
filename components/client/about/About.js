@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/splide.min.css";
+import Link from "next/link";
 
 const About = () => {
   const splideRef = useRef(null);
@@ -180,11 +181,13 @@ const About = () => {
                     Synonymous With Trust And Quality In Waterproofing Services.
                   </p>
                   <div className="about-actions">
-                    <input
-                      className="btn-primary"
-                      type="button"
-                      value="Discover our Expertise"
-                    />
+                    <Link href="/contact">
+                      <input
+                        className="btn-primary"
+                        type="button"
+                        value="Discover our Expertise"
+                      />
+                    </Link>
                   </div>
                 </div>
               </div>
