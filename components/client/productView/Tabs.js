@@ -117,9 +117,8 @@ const Tabs = ({ pid, lognDesc }) => {
         <div className="main_tab_section">
           <div>
             <button
-              className={`tab-btn ${
-                activeTab === "description" ? "active" : ""
-              }`}
+              className={`tab-btn ${activeTab === "description" ? "active" : ""
+                }`}
               onClick={() => handleTabClick("description")}
             >
               DESCRIPTION
@@ -137,17 +136,15 @@ const Tabs = ({ pid, lognDesc }) => {
               PHOTOS
             </button>
             <button
-              className={`tab-btn ${
-                activeTab === "testing-videos" ? "active" : ""
-              }`}
+              className={`tab-btn ${activeTab === "testing-videos" ? "active" : ""
+                }`}
               onClick={() => handleTabClick("testing-videos")}
             >
               TESTING VIDEOS
             </button>
             <button
-              className={`tab-btn ${
-                activeTab === "certificate" ? "active" : ""
-              }`}
+              className={`tab-btn ${activeTab === "certificate" ? "active" : ""
+                }`}
               onClick={() => handleTabClick("certificate")}
             >
               CERTIFICATES
@@ -183,6 +180,12 @@ const Tabs = ({ pid, lognDesc }) => {
                         <i className="fa-solid fa-download text-white"></i>
                       </div>
                     </Link>
+                    {/* <iframe
+                      title="PDF Viewer"
+                      src={`/assets/upload/products/productDocs/${item?.pdf_link}`}
+                      width="35%"
+                      height="300px"
+                    /> */}
                   </div>
                 );
               })}
@@ -202,6 +205,7 @@ const Tabs = ({ pid, lognDesc }) => {
                     </div>
                   );
                 })}
+
               </div>
             </div>
           )}
