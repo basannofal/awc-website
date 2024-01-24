@@ -47,35 +47,19 @@ const Certificate = () => {
     fetchData();
   }, []);
 
-  const NextArrow = ({ onClick }) => {
-    return (
-      <p className="slick-arrow slick-next" onClick={onClick}>
-        {/* <i className="fa-solid fa-angle-right" style={{ fontSize: "40px" }}></i> */}
-      </p>
-    );
-  };
-
-  const PrevArrow = ({ onClick }) => {
-    return (
-      <p className="slick-arrow slick-prev " onClick={onClick}>
-        {/* <i className="fa-solid fa-angle-left"></i> */}
-      </p>
-    );
-  };
-
   const videos_settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: Math.min(3, videos.length),
     slidesToScroll: 1,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    autoplay: true,
+    autoplaySpeed: 3000,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: Math.min(2, videos.length), // Adjust slidesToShow dynamically
+          slidesToShow: Math.min(2, videos.length),
           slidesToScroll: 1,
           infinite: true,
           dots: true,
@@ -84,7 +68,7 @@ const Certificate = () => {
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: Math.min(1, videos.length), // Adjust slidesToShow dynamically
+          slidesToShow: Math.min(1, videos.length),
           slidesToScroll: 1,
         },
       },
@@ -97,8 +81,8 @@ const Certificate = () => {
     speed: 500,
     slidesToShow: Math.min(3, certificate.length),
     slidesToScroll: 1,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    autoplay: true,
+    autoplaySpeed: 3000,
     responsive: [
       {
         breakpoint: 1024,
@@ -126,6 +110,7 @@ const Certificate = () => {
           <div className="certificate-inner">
             <h3>CERTIFICATES</h3>
             <p>Our Commitment to Quality, Environment, and Safety</p>
+            {/* <div className="lg-4 md-6 sm-12"> */}
             <Slider {...certificate_settings} className="space-y-7">
               {certificate.map((certificate) => (
                 <div key={certificate.id} className="certificate-content">
@@ -135,7 +120,7 @@ const Certificate = () => {
                       alt={`Certificate ${certificate.id}`}
                     />
                   </div>
-                  <div className="flex items-center pt-3">
+                  <div className="flex items-center pt-3 pr-5">
                     <h6>{certificate.title}</h6>
                     <div className="certificate-download">
                       <a
@@ -152,11 +137,12 @@ const Certificate = () => {
                 </div>
               ))}
             </Slider>
+            {/* </div> */}
           </div>
         </div>
 
         {/* YouTube Video Links */}
-        <div className="container-youtube">
+        <div className="container-youtube mt-5">
           <div className="youtube-inner">
             {/* <div className="grid mt-14"> */}
             <Slider {...videos_settings} className="space-y-7">
@@ -202,7 +188,7 @@ const Certificate = () => {
                   Its vision is "To enable a sustainable built environment for
                   all and facilitate India to be one of the global leaders in
                   the sustainable built environment by 2025".The prestigious
-                  IGBC membership provides AWC with access to resources,
+                  IGBC membership provides AWC with access to resources2C
                   international best practices and the latest in the field of
                   Green building initiatives thus giving us the crucial
                   competitive advantage. AWC is proud to be in the company of
