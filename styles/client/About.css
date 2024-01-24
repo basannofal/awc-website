@@ -1023,8 +1023,15 @@
   left: 4% !important;
   z-index: 1;
 }
-
+#cscscs{
+width: 50% !important;
+}
 .slick-next {
   right: 4% !important;
   z-index: 1;
+}
+@media only screen and (min-width:1020px) and (max-width:1320) {
+  #cscscs{
+    width: 10% !important;
+  }
 }
