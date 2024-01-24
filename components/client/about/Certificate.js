@@ -47,22 +47,15 @@ const Certificate = () => {
     fetchData();
   }, []);
 
-  const NextArrow = ({ onClick }) => {
-    return null;
-  };
-
-  const PrevArrow = ({ onClick }) => {
-    return null;
-  };
-
 
   const videos_settings = {
     infinite: true,
     speed: 500,
     slidesToShow: Math.min(3, videos.length),
     slidesToScroll: 1,
-    autoplay: true, // Enable auto-slider
-    autoplaySpeed: 3000, // Set the speed in milliseconds (adjust as needed)
+    autoplay: true,
+    autoplaySpeed: 3000,
+
     responsive: [
       {
         breakpoint: 1024,
@@ -89,10 +82,9 @@ const Certificate = () => {
     speed: 500,
     slidesToShow: Math.min(3, certificate.length),
     slidesToScroll: 1,
-    autoplay: true, // Enable auto-slider
-    autoplaySpeed: 3000, // Set the speed in milliseconds (adjust as needed)
-    nextArrow: false,
-    prevArrow: false,
+    autoplay: true,
+    autoplaySpeed: 3000,
+
     responsive: [
       {
         breakpoint: 1024,
@@ -119,7 +111,9 @@ const Certificate = () => {
           <div className="certificate-inner">
             <h3>CERTIFICATES</h3>
             <p>Our Commitment to Quality, Environment, and Safety</p>
-            <Slider {...certificate_settings} className="space-y-7" nextArrow={<NextArrow />} prevArrow={<PrevArrow />}>
+            {/* <div className="lg-4 md-6 sm-12"> */}
+            <Slider {...certificate_settings} className="space-y-7">
+
               {certificate.map((certificate) => (
                 <div key={certificate.id} className="certificate-content">
                   <div className="certificate-image">
@@ -128,7 +122,7 @@ const Certificate = () => {
                       alt={`Certificate ${certificate.id}`}
                     />
                   </div>
-                  <div className="flex items-center pt-3">
+                  <div className="flex items-center pt-3 pr-5">
                     <h6>{certificate.title}</h6>
                     <div className="certificate-download">
                       <a
@@ -145,11 +139,12 @@ const Certificate = () => {
                 </div>
               ))}
             </Slider>
+            {/* </div> */}
           </div>
         </div>
 
         {/* YouTube Video Links */}
-        <div className="container-youtube">
+        <div className="container-youtube mt-5">
           <div className="youtube-inner">
             {/* <div className="grid mt-14"> */}
             <Slider {...videos_settings} className="space-y-7" nextArrow={<NextArrow />} prevArrow={<PrevArrow />}>
@@ -195,7 +190,7 @@ const Certificate = () => {
                   Its vision is "To enable a sustainable built environment for
                   all and facilitate India to be one of the global leaders in
                   the sustainable built environment by 2025".The prestigious
-                  IGBC membership provides AWC with access to resources,
+                  IGBC membership provides AWC with access to resources2C
                   international best practices and the latest in the field of
                   Green building initiatives thus giving us the crucial
                   competitive advantage. AWC is proud to be in the company of
