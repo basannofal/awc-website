@@ -5,12 +5,13 @@ import Footer from "@/layouts/Client/Footer";
 import Form from "./Form";
 import axios from "axios";
 import Head from "next/head";
+import Watshapp from "@/layouts/Client/Watshapp";
 
 const index = () => {
   const [seoData, setSeoData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [jobId, setJobId] = useState(null);
-  
+
   const formRef = useRef(null);
 
   const getSEOData = async () => {
@@ -31,7 +32,7 @@ const index = () => {
   const fetchData = async () => {
     await getSEOData();
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -60,8 +61,9 @@ const index = () => {
             )}
           </Head>
           <Navbar />
-          <HeroSection setJobId={setJobId} scrollToForm={() => formRef.current?.scrollIntoView({ behavior: "smooth" })}  />
-          <Form jobId={jobId}  setJobId={setJobId} formref={formRef} />
+          <Watshapp />
+          <HeroSection setJobId={setJobId} scrollToForm={() => formRef.current?.scrollIntoView({ behavior: "smooth" })} />
+          <Form jobId={jobId} setJobId={setJobId} formref={formRef} />
           <Footer />
         </>
       )}

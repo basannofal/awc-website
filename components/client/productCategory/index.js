@@ -5,6 +5,7 @@ import Product from "./Product";
 import Contact from "./Contact";
 import Question from "./Question";
 import Footer from "@/layouts/Client/Footer";
+import Watshapp from "@/layouts/Client/Watshapp";
 
 const index = ({ cid }) => {
   const [loading, setLoading] = useState(true);
@@ -23,6 +24,7 @@ const index = ({ cid }) => {
       ) : (
         <>
           <Navbar />
+          <Watshapp />
           <HeroSection cid={cid} />
           <Product cid={cid} />
           <Contact cid={cid} />
