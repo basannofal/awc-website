@@ -244,7 +244,7 @@ const Blog = ({ bid }) => {
       <section>
         <div className="containers">
           <div className="main_blogs">
-            <div className="flex flex-wrap justify-center">
+            <div className="flex flex-wrap lg:justify-start justify-center">
               {reletedblog.map((item, idx) => {
                 const slug = item?.blog_title.replace(/\s+/g, "-");
                 return (

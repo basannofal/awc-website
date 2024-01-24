@@ -1,3 +1,4 @@
+import Toast, { ErrorToast } from "@/layouts/toast/Toast";
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -34,7 +35,8 @@ const AdminLogin = () => {
         router.push("/admin/admindashboard");
       })
       .catch((error) => {
-        window.alert("Password is In correct");
+        console.log(error);
+        ErrorToast("Password is In correct");
       });
   };
 
@@ -78,6 +80,7 @@ const AdminLogin = () => {
           />
         </form>
       </div>
+      <Toast />
     </>
   );
 };

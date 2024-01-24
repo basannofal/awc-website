@@ -1,5 +1,6 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import YouTube from "react-youtube";
 
 const TestiContact = () => {
   const [loading, setLoading] = useState(true);
@@ -91,13 +92,6 @@ const TestiContact = () => {
                     }}
                   ></p>
                   <div className="testi_contact_review mt-4">
-                    <img
-                      style={{ borderRadius: "50%" }}
-                      src={`/assets/upload/testimonial/${item?.testimonial_image}`}
-                      alt="Client Image"
-                      width="50"
-                      height="auto"
-                    />
                     <div className="testi_contact_title ms-2">
                       <h4>{item?.testimonial_title}</h4>
                       <div className="testi_rating">
@@ -107,18 +101,9 @@ const TestiContact = () => {
                   </div>
                 </div>
                 <div className="video_testimonial">
-                  <iframe
-                    width="560"
-                    height="315"
-                    src="https://www.youtube.com/embed/your-video-id"
-                    title="YouTube video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                  ></iframe>
+                  <YouTube videoId={item?.testimonial_video} />
                   <p className="testi_video_title">
-                    Mr SG Bapat EX Chief Engineer Nuclear Power Corporation of
-                    India
+                    our client {item?.testimonial_title} review
                   </p>
                 </div>
               </div>

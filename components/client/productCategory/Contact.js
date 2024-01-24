@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-
+import Link from "next/link";
 const Contact = ({ cid }) => {
   const [loading, setLoading] = useState(true);
   const [testimonial, setTestimonial] = useState([]);
@@ -23,7 +23,7 @@ const Contact = ({ cid }) => {
   const fetchData = async () => {
     await getTestimonial();
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -164,13 +164,6 @@ const Contact = ({ cid }) => {
                                 }}
                               ></p>
                               <div className="c-img-sec">
-                                <img
-                                  style={{ borderRadius: "50%" }}
-                                  src={`/assets/upload/testimonial/${item?.testimonial_image}`}
-                                  alt="Client Image"
-                                  width="50"
-                                  height="auto"
-                                />
                                 <div className="c-title-sec">
                                   <h4>{item?.testimonial_title}</h4>
                                   <div className="rating-sec">
@@ -183,8 +176,8 @@ const Contact = ({ cid }) => {
                         );
                       })}
                     </div>
-                    <a href="javascript:void(0);" className="see-all-link">
-                      See All Reviews{" "}
+                    <Link href="/testimonials" className="see-all-link">
+                      See All Reviews
                       <span>
                         <svg
                           width="15"
@@ -199,7 +192,7 @@ const Contact = ({ cid }) => {
                           />
                         </svg>
                       </span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className="lg-5 sm-12">

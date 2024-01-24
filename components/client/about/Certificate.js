@@ -47,14 +47,15 @@ const Certificate = () => {
     fetchData();
   }, []);
 
+
   const videos_settings = {
-    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: Math.min(3, videos.length),
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
+
     responsive: [
       {
         breakpoint: 1024,
@@ -62,7 +63,6 @@ const Certificate = () => {
           slidesToShow: Math.min(2, videos.length),
           slidesToScroll: 1,
           infinite: true,
-          dots: true,
         },
       },
       {
@@ -75,28 +75,29 @@ const Certificate = () => {
     ],
   };
 
+
   const certificate_settings = {
-    dots: true,
+    dots: false, // Remove dots/icons
     infinite: true,
     speed: 500,
     slidesToShow: Math.min(3, certificate.length),
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
+
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: Math.min(2, certificate.length), // Adjust slidesToShow dynamically
+          slidesToShow: Math.min(2, certificate.length),
           slidesToScroll: 1,
           infinite: true,
-          dots: true,
         },
       },
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: Math.min(1, certificate.length), // Adjust slidesToShow dynamically
+          slidesToShow: Math.min(1, certificate.length),
           slidesToScroll: 1,
         },
       },
@@ -112,6 +113,7 @@ const Certificate = () => {
             <p>Our Commitment to Quality, Environment, and Safety</p>
             {/* <div className="lg-4 md-6 sm-12"> */}
             <Slider {...certificate_settings} className="space-y-7">
+
               {certificate.map((certificate) => (
                 <div key={certificate.id} className="certificate-content">
                   <div className="certificate-image">
@@ -145,7 +147,7 @@ const Certificate = () => {
         <div className="container-youtube mt-5">
           <div className="youtube-inner">
             {/* <div className="grid mt-14"> */}
-            <Slider {...videos_settings} className="space-y-7">
+            <Slider {...videos_settings} className="space-y-7" nextArrow={<NextArrow />} prevArrow={<PrevArrow />}>
               {videos.map((item, idx) => {
                 return (
                   <div className="xl-4 lg-4 md-6 sm-6" key={item.id}>
@@ -165,7 +167,7 @@ const Certificate = () => {
                         <div className="calendar">
                           <img src={"./assets/images/client/calendar.png"} />
                         </div>
-                        <p className="pl-3">@awcindiawaterproofingco4479</p>
+                        <p className="pl-3">{item.short_desc}</p>
                       </div>
                     </div>
                   </div>
