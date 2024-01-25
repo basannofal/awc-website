@@ -124,12 +124,34 @@ export default async function handler(req, res) {
 
         await unlink(certificatePath);
 
-        await conn.query("DELETE FROM product_certificate WHERE prod_certi_id = ?", [
-          certificate.prod_certi_id,
+        await conn.query(
+          "DELETE FROM product_certificate WHERE prod_certi_id = ?",
+          [certificate.prod_certi_id]
+        );
+      }
+
+      // 10. Check if product has images in product_images table
+      const [drawings] = await conn.query(
+        "SELECT id, pdf_link FROM product_drawing WHERE product_id = ?",
+        [id]
+      );
+
+      // 7. Delete images from the file system and product_images table
+      for (const drawing of drawings) {
+        const drawingPath = path.join(
+          __dirname,
+          "../../../../../public/assets/upload/products/productDrawing",
+          drawing.pdf_link
+        );
+
+        await unlink(drawingPath);
+
+        await conn.query("DELETE FROM product_drawing WHERE id = ?", [
+          drawing.id,
         ]);
       }
 
-      // 10. Delete the product from the product_master table
+      // 11. Delete the product from the product_master table
       const q = "DELETE FROM product_master WHERE product_id = ?";
 
       const [rows] = await conn.query(q, [id]);
@@ -146,7 +168,7 @@ export default async function handler(req, res) {
         console.log(newPath);
         await unlink(newPath);
       }
-      // 11. Commit the transaction
+      // 12. Commit the transaction
       await conn.query("COMMIT");
 
       // Process the data and send the response

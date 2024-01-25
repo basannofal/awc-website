@@ -27,6 +27,11 @@ const AddProduct = () => {
   const [addMultiDocs, setAddMultiDocs] = useState({
     product_docs: [],
   });
+  const [addMultiDrawing, setAddMultiDrawing] = useState({
+    product_drawing: [],
+  });
+  const [allProductDrawing, setAllProductDrawing] = useState([]);
+
   const [allProductDocs, setAllProductDocs] = useState([]);
 
   const [addMultiCertificate, setAddMultiCertificate] = useState({
@@ -70,7 +75,11 @@ const AddProduct = () => {
   // HANDLE TABS
   const showTab = (tabId) => {
     if (
-      (tabId === "image" || tabId === "docs" || tabId === "video") &&
+      (tabId === "image" ||
+        tabId === "docs" ||
+        tabId === "video" ||
+        tabId === "drawing" ||
+        tabId === "certificate") &&
       !isDataAdded
     ) {
       WarningToast("Please add the general data");
@@ -135,7 +144,6 @@ const AddProduct = () => {
       return false;
     }
     setLoading(true);
-
 
     try {
       const formdata = new FormData();
@@ -590,6 +598,98 @@ const AddProduct = () => {
   };
   //END
 
+  //PRODUCT Drawing
+  const handleAddMultipleDrawingChange = async (event) => {
+    const files = event.target.files;
+    const pdfFiles = Array.from(files).filter(
+      (file) => file.type === "application/pdf"
+    );
+
+    // Check if any non-PDF files were selected
+    const nonPdfFiles = Array.from(files).filter(
+      (file) => file.type !== "application/pdf"
+    );
+
+    if (nonPdfFiles.length > 0) {
+      WarningToast("Only PDF files are taken from given files.");
+    }
+
+    const newcertificate = Array.from(pdfFiles).map((file) => ({
+      file,
+      drawing_title: "",
+    }));
+    setAddMultiDrawing((prevMultiDrawing) => ({
+      ...prevMultiDrawing,
+      product_drawing: [...prevMultiDrawing.product_drawing, ...newcertificate],
+    }));
+  };
+
+  const removeMultiDrawing = async (index) => {
+    const newdrawing = [...addMultiDrawing.product_drawing];
+    newdrawing.splice(index, 1);
+    setAddMultiDrawing((prevMultiDrawing) => ({
+      ...prevMultiDrawing,
+      product_drawing: newdrawing,
+    }));
+  };
+
+  const handleDrawingDetailsChange = (index, field, value) => {
+    setAddMultiDrawing((prevMultiDrawing) => {
+      const updatedImages = [...prevMultiDrawing.product_drawing];
+      updatedImages[index][field] = value;
+      return {
+        ...prevMultiDrawing,
+        product_drawing: updatedImages,
+      };
+    });
+  };
+
+  const saveMultipleDrawing = async (e) => {
+    e.preventDefault();
+    window.scrollTo({ behavior: "smooth", top: 0 });
+    console.log(addMultiDrawing);
+    if (addMultiDrawing.product_drawing.length == 0) {
+      ErrorToast("please atleast one Drawing select");
+      return false;
+    }
+    setLoading(true);
+    try {
+      const formdata = new FormData();
+      formdata.append("product_id", lastAddId.product_id);
+      addMultiDrawing.product_drawing.forEach((docs, index) => {
+        formdata.append(`product_drawing`, docs.file);
+        formdata.append(`drawing_title_${index}`, docs.drawing_title);
+      });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productdrawing/router`,
+        formdata
+      );
+      setLoading(false);
+      getAllProductDrawing(lastAddId.product_id);
+      setAddMultiDrawing({ product_drawing: [] });
+      setActiveTab("drawing");
+      console.log("hiii");
+    } catch (error) {
+      console.log("Error adding prod images" + error);
+      setLoading(false);
+    }
+  };
+
+  // get all Docs of product
+  const getAllProductDrawing = async (prodId) => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productdrawing/${prodId}`
+      );
+      setAllProductDrawing(response.data);
+      setLoading(false);
+    } catch (err) {
+      ErrorToast(err?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+  //END
+
   // USEEFFECT METHOD
   useEffect(() => {
     getActiveCategoryData();
@@ -652,6 +752,13 @@ const AddProduct = () => {
                 onClick={() => showTab("certificate")}
               >
                 Certificate
+              </div>
+
+              <div
+                className={`tab ${activeTab === "drawing" ? "active" : ""}`}
+                onClick={() => showTab("drawing")}
+              >
+                Drawing
               </div>
             </div>
           </div>
@@ -1483,7 +1590,6 @@ const AddProduct = () => {
                         </tr>
                       </thead>
                       <tbody>
-
                         {addMultiCertificate.product_certificate.map(
                           (image, index) => (
                             <tr key={index}>
@@ -1558,6 +1664,139 @@ const AddProduct = () => {
                         >
                           <td>{index + 1}</td>
                           <td>{product.certificate_title}</td>
+                          <td>
+                            <img
+                              src={`/assets/images/pdf-icon.webp`}
+                              width="100%"
+                              alt="product"
+                              className="tabel_data_image"
+                            />
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="3" align="center">
+                          data is not available
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* certifite tab */}
+          {isDataAdded && (
+            <div
+              id="docs"
+              className={`tab-content add_data_form ${
+                activeTab === "drawing" ? "active" : ""
+              }`}
+            >
+              <form method="post" onSubmit={saveMultipleDrawing}>
+                <div className="mb-3">
+                  <label htmlFor="product_images" className="modal_label">
+                    Product Drawing:-
+                  </label>
+                  <input
+                    type="file"
+                    id="product_images"
+                    name="product_images"
+                    className="modal_input"
+                    accept=".pdf,.png"
+                    onChange={handleAddMultipleDrawingChange}
+                    multiple
+                  />
+                </div>
+                <div
+                  className="mb-3"
+                  style={{ display: "flex", flexWrap: "wrap" }}
+                >
+                  {addMultiDrawing.product_drawing &&
+                  addMultiDrawing.product_drawing.length > 0 ? (
+                    <table className="multi-images-table">
+                      <thead>
+                        <tr>
+                          <th width="25%">Title</th>
+                          <th width="15%">Image</th>
+                          <th width="10%">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {addMultiDrawing.product_drawing.map((image, index) => (
+                          <tr key={index}>
+                            <td>
+                              <input
+                                type="text"
+                                id={`drawing_title-${index}`}
+                                name="drawing_title"
+                                placeholder="Certificate Title"
+                                onChange={(e) =>
+                                  handleDrawingDetailsChange(
+                                    index,
+                                    "drawing_title",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </td>
+                            <td>
+                              <img
+                                src={"/assets/images/pdf-icon.webp"}
+                                alt={`Selected productimg ${index + 1}`}
+                              />
+                            </td>
+                            <td>
+                              <button
+                                type="button"
+                                className="remove_multi_img_btn"
+                                onClick={() => removeMultiDrawing(index)}
+                              >
+                                <i className="fa-solid fa-xmark"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <p>No images selected</p>
+                  )}
+                </div>
+                <div className="mb-3">
+                  <button type="submit" className="success_btn">
+                    SAVE
+                  </button>
+                  <Link href="/admin/products">
+                    <button type="button" className="success_btn cancel_btn">
+                      CANCEL
+                    </button>
+                  </Link>
+                </div>
+              </form>
+              <hr style={{ marginTop: "30px", marginBottom: "20px" }} />
+              <div className="admin_category_table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th style={{ width: "15%" }}>ID</th>
+                      <th style={{ width: "25%" }}>TITLE</th>
+                      <th style={{ width: "25%" }}>IMAGE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allProductDrawing.length > 0 ? (
+                      allProductDrawing.map((product, index) => (
+                        <tr
+                          key={product.id}
+                          style={{
+                            color: product.status === 1 ? "black" : "red",
+                          }}
+                        >
+                          <td>{index + 1}</td>
+                          <td>{product.pdf_title}</td>
                           <td>
                             <img
                               src={`/assets/images/pdf-icon.webp`}

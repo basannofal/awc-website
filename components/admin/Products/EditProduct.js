@@ -37,6 +37,11 @@ const EditProduct = () => {
   const [addMultiDocs, setAddMultiDocs] = useState({
     product_docs: [],
   });
+  const [addMultiDrawing, setAddMultiDrawing] = useState({
+    product_drawing: [],
+  });
+  const [allProductDrawing, setAllProductDrawing] = useState([]);
+
   const [allProductImages, setAllProductImages] = useState([]);
   const [allProductDocs, setAllProductDocs] = useState([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -57,6 +62,8 @@ const EditProduct = () => {
   // per image edit data var
   const [editingId, setEditingId] = useState(null);
   const [editingDocId, setEditingDocId] = useState(null);
+  const [editingDrawingId, setEditingDrawingId] = useState(null);
+
   const [editingCertificateId, setEditingCertificateId] = useState(null);
   const [editingVedioId, setEditingVedioId] = useState(null);
 
@@ -70,6 +77,10 @@ const EditProduct = () => {
   });
 
   const [editDoc, setEditDoc] = useState({
+    pdf_title: "",
+    pdf_link: null,
+  });
+  const [editDrawing, setEditDrawing] = useState({
     pdf_title: "",
     pdf_link: null,
   });
@@ -130,11 +141,10 @@ const EditProduct = () => {
         deleteProductVideos(productImgId);
       } else if (deleteopt == "certificate") {
         deleteProductcertificate(productImgId);
-      } else if (deleteopt == "certificate") {
-        deleteProductcertificate(productImgId);
-      } else if (deleteopt == "certificate") {
-        deleteProductcertificate(productImgId);
+      } else if (deleteopt == "drawing") {
+        deleteProductDrawing(productImgId);
       }
+
       closeDeleteModal();
     }
   };
@@ -314,6 +324,7 @@ const EditProduct = () => {
     getAllProductDocs();
     getAllProductCertificate();
     getAllProductVedios();
+    getAllProductDrawing();
   }, [prodId]);
 
   ///  **************** ALL DOCS ******************
@@ -1000,6 +1011,178 @@ const EditProduct = () => {
 
   //END PRODUCT VEDIO SECTION
 
+  //PRODUCT Drawing
+
+  // PRODUCT STATUS CHANGE
+  const productDrawingStatusChange = async (docId, no) => {
+    setLoading(true);
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productdrawing/statuschanges/${docId}/${no}`
+      );
+      getAllProductDrawing();
+      setLoading(false);
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  // DELETE DOCS
+  const deleteProductDrawing = async (deleteId) => {
+    setLoading(true);
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productdrawing/${deleteId}`
+      );
+      getAllProductDrawing();
+      setLoading(false);
+      SuccessToast("Product Drawing Deleted Successfully");
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  // PER DOC EDIT HANDLE.
+  const handlePerDrawingData = (event) => {
+    const { name, value } = event.target;
+    setEditDrawing((prevDocData) => ({
+      ...prevDocData,
+      [name]: value,
+    }));
+  };
+
+  const handleEditDrawingClick = (docId, data) => {
+    setEditingDrawingId(docId);
+    setEditDrawing({
+      pdf_title: data.pdf_title,
+      pdf_link: data.pdf_link,
+    });
+  };
+
+  const handlePerDrewingFileData = (event) => {
+    const file = event.target.files[0];
+    setEditDrawing((prevProfileData) => ({
+      ...prevProfileData,
+      [event.target.name]: file,
+    }));
+  };
+
+  const handleUpdateDrawingClick = async (prodDocsId) => {
+    console.log(editDrawing);
+    console.log(prodDocsId);
+    try {
+      const formdata = new FormData();
+      formdata.append("pdf_link", editDrawing?.pdf_link);
+      formdata.append("pdf_title", editDrawing?.pdf_title);
+
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productdrawing/perdrawingdata/${prodDocsId}`,
+        formdata
+      );
+      window.scrollTo({ behavior: "smooth", top: 0 });
+      setLoading(false);
+      getAllProductDrawing();
+      setEditingDrawingId(null);
+      SuccessToast("Drawing Successfully Updated");
+    } catch (error) {
+      ErrorToast(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+
+  const handleAddMultipleDrawingChange = async (event) => {
+    const files = event.target.files;
+    const pdfFiles = Array.from(files).filter(
+      (file) => file.type === "application/pdf"
+    );
+
+    // Check if any non-PDF files were selected
+    const nonPdfFiles = Array.from(files).filter(
+      (file) => file.type !== "application/pdf"
+    );
+
+    if (nonPdfFiles.length > 0) {
+      WarningToast("Only PDF files are taken from given files.");
+    }
+
+    const newcertificate = Array.from(pdfFiles).map((file) => ({
+      file,
+      drawing_title: "",
+    }));
+    setAddMultiDrawing((prevMultiDrawing) => ({
+      ...prevMultiDrawing,
+      product_drawing: [...prevMultiDrawing.product_drawing, ...newcertificate],
+    }));
+  };
+
+  const removeMultiDrawing = async (index) => {
+    const newdrawing = [...addMultiDrawing.product_drawing];
+    newdrawing.splice(index, 1);
+    setAddMultiDrawing((prevMultiDrawing) => ({
+      ...prevMultiDrawing,
+      product_drawing: newdrawing,
+    }));
+  };
+
+  const handleDrawingDetailsChange = (index, field, value) => {
+    setAddMultiDrawing((prevMultiDrawing) => {
+      const updatedImages = [...prevMultiDrawing.product_drawing];
+      updatedImages[index][field] = value;
+      return {
+        ...prevMultiDrawing,
+        product_drawing: updatedImages,
+      };
+    });
+  };
+
+  const saveMultipleDrawing = async (e) => {
+    e.preventDefault();
+    window.scrollTo({ behavior: "smooth", top: 0 });
+    console.log(addMultiDrawing);
+    if (addMultiDrawing.product_drawing.length == 0) {
+      ErrorToast("please atleast one Drawing select");
+      return false;
+    }
+    setLoading(true);
+    try {
+      const formdata = new FormData();
+      formdata.append("product_id", prodId);
+      addMultiDrawing.product_drawing.forEach((docs, index) => {
+        formdata.append(`product_drawing`, docs.file);
+        formdata.append(`drawing_title_${index}`, docs.drawing_title);
+      });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productdrawing/router`,
+        formdata
+      );
+      setLoading(false);
+      getAllProductDrawing();
+      setAddMultiDrawing({ product_drawing: [] });
+      setActiveTab("drawing");
+      console.log("hiii");
+    } catch (error) {
+      console.log("Error adding prod images" + error);
+      setLoading(false);
+    }
+  };
+
+  // get all Docs of product
+  const getAllProductDrawing = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/products/productdrawing/${prodId}`
+      );
+      setAllProductDrawing(response.data);
+      setLoading(false);
+    } catch (err) {
+      ErrorToast(err?.response?.data?.message);
+      setLoading(false);
+    }
+  };
+  //END
+
   return (
     <>
       {loading && <Loading />}
@@ -1053,6 +1236,12 @@ const EditProduct = () => {
                 onClick={() => showTab("certificate")}
               >
                 Certificate
+              </div>
+              <div
+                className={`tab ${activeTab === "drawing" ? "active" : ""}`}
+                onClick={() => showTab("drawing")}
+              >
+                Drawing
               </div>
             </div>
           </div>
@@ -2493,6 +2682,245 @@ const EditProduct = () => {
                     <tr>
                       <td colSpan="4" align="center">
                         data is not available
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div
+            id="drawing"
+            className={`tab-content add_data_form ${
+              activeTab === "drawing" ? "active" : ""
+            }`}
+          >
+            <form method="post" onSubmit={saveMultipleDrawing}>
+              <div className="mb-3">
+                <label htmlFor="product_images" className="modal_label">
+                  Product Drawing:-
+                </label>
+                <input
+                  type="file"
+                  id="product_images"
+                  name="product_images"
+                  className="modal_input"
+                  accept=".pdf,.png"
+                  onChange={handleAddMultipleDrawingChange}
+                  multiple
+                />
+              </div>
+              <div
+                className="mb-3"
+                style={{ display: "flex", flexWrap: "wrap" }}
+              >
+                {addMultiDrawing.product_drawing &&
+                addMultiDrawing.product_drawing.length > 0 ? (
+                  <table className="multi-images-table">
+                    <thead>
+                      <tr>
+                        <th width="25%">Title</th>
+                        <th width="15%">Image</th>
+                        <th width="10%">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {addMultiDrawing.product_drawing.map((image, index) => (
+                        <tr key={index}>
+                          <td>
+                            <input
+                              type="text"
+                              id={`drawing_title-${index}`}
+                              name="drawing_title"
+                              placeholder="Certificate Title"
+                              onChange={(e) =>
+                                handleDrawingDetailsChange(
+                                  index,
+                                  "drawing_title",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </td>
+                          <td>
+                            <img
+                              src={"/assets/images/pdf-icon.webp"}
+                              alt={`Selected productimg ${index + 1}`}
+                            />
+                          </td>
+                          <td>
+                            <button
+                              type="button"
+                              className="remove_multi_img_btn"
+                              onClick={() => removeMultiDrawing(index)}
+                            >
+                              <i className="fa-solid fa-xmark"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p>No images selected</p>
+                )}
+              </div>
+              <div className="mb-3">
+                <button type="submit" className="success_btn">
+                  SAVE
+                </button>
+                <Link href="/admin/products">
+                  <button type="button" className="success_btn cancel_btn">
+                    CANCEL
+                  </button>
+                </Link>
+              </div>
+            </form>
+            <hr style={{ marginTop: "30px", marginBottom: "20px" }} />
+            <div className="admin_category_table">
+              <table>
+                <thead>
+                  <tr>
+                    <th style={{ width: "5%" }}>ID</th>
+                    <th style={{ width: "25%" }}>PDF</th>
+                    <th style={{ width: "25%" }}>TITLE</th>
+                    <th style={{ width: "10%" }}>ACTION</th>
+                    <th style={{ width: "10%" }}>STATUS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allProductDrawing.length > 0 ? (
+                    allProductDrawing.map((product, index) => (
+                      <tr key={product.id}>
+                        <td>{index + 1}</td>
+
+                        {editingDrawingId === product.id ? (
+                          <td className="edit-row">
+                            <input
+                              type="file"
+                              name="pdf_link"
+                              onChange={handlePerDrewingFileData}
+                            />
+                            <img
+                              src={`/assets/images/pdf-icon.webp`}
+                              width="100%"
+                              alt="product"
+                              className="tabel_data_image"
+                            />
+                          </td>
+                        ) : (
+                          <td>
+                            <div
+                              onClick={() =>
+                                window.open(
+                                  `/assets/upload/products/productDrawing/${product.pdf_link}`,
+                                  "_blank"
+                                )
+                              }
+                              style={{ cursor: "pointer" }}
+                            >
+                              <img
+                                src={`/assets/images/pdf-icon.webp`}
+                                width="100%"
+                                alt="product"
+                                className="tabel_data_image"
+                              />
+                            </div>
+                          </td>
+                        )}
+                        {editingDrawingId === product.id ? (
+                          <td className="edit-row">
+                            <input
+                              type="text"
+                              name="pdf_title"
+                              onChange={handlePerDrawingData}
+                              value={editDrawing.pdf_title}
+                            />
+                          </td>
+                        ) : (
+                          <td>{product.pdf_title}</td>
+                        )}
+
+                        {editingDrawingId === product.id ? (
+                          <td className="edit-row">
+                            <div>
+                              <div>
+                                <button
+                                  style={{
+                                    height: "30px",
+                                    width: "30px",
+                                    padding: "5px",
+                                  }}
+                                  onClick={() =>
+                                    handleUpdateDrawingClick(product.id)
+                                  }
+                                >
+                                  <i className="fa-solid fa-floppy-disk"></i>
+                                </button>
+                                <button
+                                  className="cancel"
+                                  style={{
+                                    height: "30px",
+                                    width: "30px",
+                                    padding: "5px",
+                                  }}
+                                  onClick={() => setEditingDrawingId(null)}
+                                >
+                                  <i className="fa-solid fa-xmark"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </td>
+                        ) : (
+                          <td>
+                            <div>
+                              <button
+                                className="editbutton"
+                                onClick={() =>
+                                  handleEditDrawingClick(product.id, product)
+                                }
+                              >
+                                <i className="fa-regular fa-pen-to-square"></i>
+                              </button>
+                              <button
+                                className="data_delete_btn"
+                                onClick={() =>
+                                  openDeleteModal(product.id, "drawing")
+                                }
+                              >
+                                <i className="fa-solid fa-trash"></i>
+                              </button>
+                            </div>
+                          </td>
+                        )}
+                        <td>
+                          {product.status === 1 ? (
+                            <img
+                              src="/assets/images/activeStatus.png"
+                              alt="active"
+                              className="status_btn"
+                              onClick={() =>
+                                productDrawingStatusChange(product.id, 1)
+                              }
+                            />
+                          ) : (
+                            <img
+                              src="/assets/images/inActiveStatus.png"
+                              alt="inActive"
+                              className="status_btn"
+                              onClick={() =>
+                                productDrawingStatusChange(product.id, 0)
+                              }
+                            />
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="4" align="center">
+                        Data is not available
                       </td>
                     </tr>
                   )}
