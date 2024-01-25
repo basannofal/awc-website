@@ -4,6 +4,7 @@ import Footer from "@/layouts/Client/Footer";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Watshapp from "@/layouts/Client/Watshapp";
+import ProductDrowing from "./ProductDrowing";
 
 const index = ({ pid }) => {
   const router = useRouter()
@@ -17,9 +18,10 @@ const index = ({ pid }) => {
         </div>
       ) : (
         <>
-       
+
           <Navbar />
           <Watshapp />
+          <ProductDrowing />
           <Footer />
         </>
       )}

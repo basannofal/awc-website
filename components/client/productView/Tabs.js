@@ -175,10 +175,9 @@ const Tabs = ({ pid, lognDesc }) => {
                     <Link
                       href={`/assets/upload/products/productDocs/${item?.pdf_link}`}
                       target="_blank"
+                      className="product_view_doc_dowonload"
                     >
-                      <div className="product_view_doc_dowonload">
-                        <i className="fa-solid fa-download text-white"></i>
-                      </div>
+                      <i className="fa-solid fa-download text-white"></i>
                     </Link>
                     {/* <iframe
                       title="PDF Viewer"
@@ -187,8 +186,27 @@ const Tabs = ({ pid, lognDesc }) => {
                       height="300px"
                     /> */}
                   </div>
+
                 );
               })}
+              <div className="product_view_docs_main">
+                <div className="product_view_doc_thumbnail">
+                  <img src={"/assets/images/client/pdf 2.png"} alt="" />
+                </div>
+                <div className="product_view_doc_thumbnail_title">
+                  Roof 540 Detailed Drowing{" "}
+                </div>
+                <Link href={`/product/ROOF-540/drawing/${productId}`} className="product_view_doc_dowonload" target="blank">
+                  <i className="fa-solid fa-download text-white"></i>
+                </Link>
+                {/* <iframe
+                      title="PDF Viewer"
+                      src={`/assets/upload/products/productDocs/${item?.pdf_link}`}
+                      width="35%"
+                      height="300px"
+                    /> */}
+              </div>
+
             </div>
           )}
           {activeTab === "photos" && (
