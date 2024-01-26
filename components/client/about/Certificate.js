@@ -69,7 +69,12 @@ const Certificate = () => {
           <div className="certificate-inner">
             <h3>CERTIFICATES</h3>
             <p>Our Commitment to Quality, Environment, and Safety</p>
-            <Carousel responsive={responsive}>
+            <Carousel
+              responsive={responsive}
+              showDots={true}
+              autoPlay={true}
+              autoPlaySpeed={4000}
+            >
               {certificate?.map((cert, index) => (
                 <div key={cert.id}>
                   <div className="certificate-content">
@@ -103,7 +108,12 @@ const Certificate = () => {
         {/* YouTube Video Links */}
         <div className="container-youtube mt-5">
           <div className="youtube-inner">
-            <Carousel responsive={responsive}>
+            <Carousel
+              responsive={responsive}
+              showDots={true}
+              autoPlay={true}
+              autoPlaySpeed={4000}
+            >
               {videos?.map((vid) => (
                 <div key={vid.id}>
                   <div className="youtube-content">
