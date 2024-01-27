@@ -27,6 +27,7 @@ const EditProduct = () => {
     meta_desc: "",
     canonical_url: "",
     product_image: null,
+    product_brochure: null,
   });
   const [editMetaTag, setEditMetaTag] = useState([]);
   const [editMetaKeyword, setEditMetaKeyword] = useState([]);
@@ -238,10 +239,39 @@ const EditProduct = () => {
     }));
     setSelectedImage(file);
   };
+  const handleEditPdfFileChange = (event) => {
+    const file = event.target.files[0];
+
+    // Check if the file has a valid extension
+    const validExtensions = ["pdf"];
+    const fileExtension = file.name.split(".").pop().toLowerCase();
+
+    if (!validExtensions.includes(fileExtension)) {
+      // Reset the input value to clear the invalid file
+      event.target.value = "";
+      WarningToast("Please add the PDF file format");
+      return;
+    }
+
+    setEditProductData((prevProfileData) => ({
+      ...prevProfileData,
+      [event.target.name]: file,
+    }));
+
+  };
   const saveEditProductData = async (e) => {
     e.preventDefault();
     if (editProductData.product_title === "") {
       ErrorToast("Please Enter the Product Title");
+      return false;
+    }
+
+    if (editProductData.product_image === null) {
+      ErrorToast("Please Select Product Image");
+      return false;
+    }
+    if (editProductData.product_brochure === null) {
+      ErrorToast("Please Select Product Brochure");
       return false;
     }
 
@@ -266,6 +296,7 @@ const EditProduct = () => {
       formdata.append("meta_keyword", editMetaKeyword);
       formdata.append("canonical_url", editProductData?.canonical_url);
       formdata.append("product_image", editProductData?.product_image);
+      formdata.append("product_brochure", editProductData?.product_brochure);
 
       await axios.patch(
         `${process.env.NEXT_PUBLIC_API_URL}/products/${prodId}`,
@@ -1348,35 +1379,65 @@ const EditProduct = () => {
                   }
                 />
               </div>
-              <div className="mb-3">
-                <label htmlFor="product_image" className="modal_label">
-                  Product Thumbnail:-
-                </label>
-                <input
-                  type="file"
-                  id="product_image"
-                  name="product_image"
-                  className="modal_input"
-                  accept="image/*"
-                  onChange={handleEditFileChange}
-                />
+              <div className="two_input_flex">
+                <div style={{ width: "48%" }}>
+                  <div className="mb-3">
+                    <label htmlFor="product_image" className="modal_label">
+                      Product Thumbnail:-
+                    </label>
+                    <input
+                      type="file"
+                      id="product_image"
+                      name="product_image"
+                      className="modal_input"
+                      accept="image/*"
+                      onChange={handleEditFileChange}
+                    />
+                  </div>
+                  {selectedImage ? (
+                    <img
+                      src={URL.createObjectURL(selectedImage)}
+                      width="100px"
+                      height="100px"
+                      alt="product_image"
+                    />
+                  ) : (
+                    <img
+                      src={`/assets/upload/products/${editProductData?.product_image}`}
+                      width="100px"
+                      height="100px"
+                      className="modal_data_image"
+                      alt="product_image"
+                    />
+                  )}
+                </div>
+                <div style={{ width: "48%" }}>
+                  <div className="mb-3">
+                    <label htmlFor="product_brochure" className="modal_label">
+                      Product Brochure:-
+                    </label>
+                    <input
+                      type="file"
+                      id="product_brochure"
+                      name="product_brochure"
+                      className="modal_input"
+                      onChange={handleEditPdfFileChange}
+                    />
+                  </div>
+                  {editProductData.product_brochure != ""? (
+                    <Link href={`/assets/upload/products/${editProductData?.product_brochure}`} target="_blank">
+                    <img
+                      src={`/assets/images/pdf-icon.webp`}
+                      width="100px"
+                      height="100px"
+                      className="modal_data_image"
+                      alt="product_image"
+                    />
+                    </Link>
+                  ) : ""}
+                </div>
               </div>
-              {selectedImage ? (
-                <img
-                  src={URL.createObjectURL(selectedImage)}
-                  width="100px"
-                  height="100px"
-                  alt="product_image"
-                />
-              ) : (
-                <img
-                  src={`/assets/upload/products/${editProductData?.product_image}`}
-                  width="100px"
-                  height="100px"
-                  className="modal_data_image"
-                  alt="product_image"
-                />
-              )}
+
               <div className="mb-3">
                 <label htmlFor="cate_id" className="modal_label">
                   Choose Category:

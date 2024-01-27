@@ -41,7 +41,7 @@ export default async function handler(req, res) {
 
       // 1. First, get product data
       const [product] = await conn.query(
-        "SELECT product_image FROM  product_master WHERE product_id = ?",
+        "SELECT product_image, product_brochure FROM  product_master WHERE product_id = ?",
         [id]
       );
 
@@ -156,17 +156,22 @@ export default async function handler(req, res) {
 
       const [rows] = await conn.query(q, [id]);
 
-      //check image awailable or not
+
       let productImage = "";
+      let productBrochure = "";
+
       if (product.length != 0) {
         productImage = product[0].product_image;
+        productBrochure = product[0].product_brochure;
         const projectDirectory = path.resolve(
           __dirname,
           "../../../../../public/assets/upload/products"
         );
         const newPath = path.join(projectDirectory, productImage);
+        const newBrPath = path.join(projectDirectory, productBrochure);
         console.log(newPath);
         await unlink(newPath);
+        await unlink(newBrPath);
       }
       // 12. Commit the transaction
       await conn.query("COMMIT");
@@ -201,27 +206,30 @@ export default async function handler(req, res) {
           meta_desc,
           meta_keyword,
           canonical_url,
+          product_image,
+          product_brochure
         } = fields;
-
-        // get product data
-        const [product] = await conn.query(
-          "SELECT product_image FROM product_master WHERE product_id = ?",
-          [id]
-        );
-
+  
         let sql = "";
-        let params = [];
+        let params = "";
         let result = "";
-
-        const upadatedDate = new Date()
+  
+        const updatedDate = new Date()
           .toISOString()
           .slice(0, 19)
           .replace("T", " ");
-
-        if (!files.product_image) {
+  
+        // get product data
+        const [product] = await conn.query(
+          "SELECT product_image, product_brochure FROM product_master WHERE product_id = ?",
+          [id]
+        );
+  
+        if (!files.product_image && !files.product_brochure) {
+          // No new images provided, updating other fields
           sql =
             "UPDATE `product_master` SET `cate_id`= ?, `product_title`= ?, `product_short_desc`= ?, `product_long_desc`= ?, `meta_tag`= ?, `meta_desc`= ?, `meta_keyword`= ?, `canonical_url`= ?, `updated_date`= ?  WHERE product_id = ?";
-
+  
           params = [
             cate_id,
             product_title,
@@ -231,46 +239,107 @@ export default async function handler(req, res) {
             meta_desc,
             meta_keyword,
             canonical_url,
-            upadatedDate,
+            updatedDate,
             id,
           ];
           result = await conn.query(sql, params);
         } else {
-          //check! is this image ?
+          // Check and update each image if provided
+          const updateImages = async (
+            imageField,
+            imageFile,
+            index,
+            fieldName
+          ) => {
+            if (imageFile) {
+              const oldImage = product[0][fieldName];
+              if (oldImage) {
+                // Delete old image
+                const oldImagePath = path.join(
+                  __dirname,
+                  "../../../../../public/assets/upload/products",
+                  oldImage
+                );
+                await unlink(oldImagePath);
+              }
+  
+              const oldPath = imageFile[0].filepath;
+              const nFileName = `${Date.now()}_${index}.${imageFile[0].originalFilename}`;
+              const newFileName = nFileName.replace(/\s/g, "");
+              const projectDirectory = path.resolve(
+                __dirname,
+                "../../../../../public/assets/upload/products"
+              );
+              const newPath = path.join(projectDirectory, newFileName);
+  
+              fs.copyFile(oldPath, newPath, (moveErr) => {
+                if (moveErr) {
+                  console.log(moveErr);
+                  return res
+                    .status(500)
+                    .json({ message: `File ${index} Upload failed.` });
+                }
+              });
+  
+              return newFileName;
+            }
+            return imageField;
+          };
+  
+          // Update images if provided
+          let updatedImage = product_image;
+          let updatedBrochure = product_brochure;
+  
+          // Validate image file extension
           const allowedImageExtensions = [".jpg", ".jpeg", ".png", ".webp"];
-          const fileExtension = path
-            .extname(files.product_image[0].originalFilename)
-            .toLowerCase();
-
-          if (!allowedImageExtensions.includes(fileExtension)) {
-            return res
-              .status(400)
-              .json({ message: "Only image files are allowed." });
+          if (files.product_image) {
+            const imageFileExtension = path
+              .extname(files.product_image[0].originalFilename)
+              .toLowerCase();
+  
+            if (!allowedImageExtensions.includes(imageFileExtension)) {
+              return res
+                .status(400)
+                .json({ message: "Only image files are allowed." });
+            }
+  
+            updatedImage = await updateImages(
+              product_image,
+              files.product_image,
+              1,
+              "product_image"
+            );
+          }
+  
+          // Validate PDF file extension
+          const allowedPdfExtensions = [".pdf"];
+          if (files.product_brochure) {
+            const pdfFileExtension = path
+              .extname(files.product_brochure[0].originalFilename)
+              .toLowerCase();
+  
+            if (!allowedPdfExtensions.includes(pdfFileExtension)) {
+              return res
+                .status(400)
+                .json({ message: "Only PDF files are allowed for product brochure." });
+            }
+  
+            updatedBrochure = await updateImages(
+              product_brochure,
+              files.product_brochure,
+              2,
+              "product_brochure"
+            );
           }
 
-          // Configuration for the new image
-          const oldPath = files.product_image[0].filepath; // Old path of the uploaded image
-          const nFileName = `${Date.now()}.${
-            files.product_image[0].originalFilename
-          }`;
-          const newFileName = nFileName.replace(/\s/g, "");
-          const projectDirectory = path.resolve(
-            __dirname,
-            "../../../../../public/assets/upload/products"
-          );
-          const newPath = path.join(projectDirectory, newFileName);
+          console.log('first', updatedBrochure)
+          console.log('first', updatedImage)
 
-          // Copy the new image from the old path to the new path
-          fs.copyFile(oldPath, newPath, (moveErr) => {
-            if (moveErr) {
-              console.log(moveErr);
-              return res.status(500).json({ message: "File move failed." });
-            }
-          });
-
+  
+          // SQL query for updating the database with new images
           sql =
-            "UPDATE `product_master` SET `cate_id`= ?, `product_title`= ?, `product_short_desc`= ?, `product_long_desc`= ?, `meta_tag`= ?, `meta_desc`= ?, `meta_keyword`= ?, `canonical_url`= ?, `product_image`= ?, `updated_date`= ?  WHERE product_id = ?";
-
+            "UPDATE `product_master` SET `cate_id`= ?, `product_title`= ?, `product_short_desc`= ?, `product_long_desc`= ?, `meta_tag`= ?, `meta_desc`= ?, `meta_keyword`= ?, `canonical_url`= ?, `product_image`= ?, `product_brochure`= ?, `updated_date`= ?  WHERE product_id = ?";
+  
           params = [
             cate_id,
             product_title,
@@ -280,23 +349,42 @@ export default async function handler(req, res) {
             meta_desc,
             meta_keyword,
             canonical_url,
-            newFileName,
-            upadatedDate,
+            updatedImage,
+            updatedBrochure,
+            updatedDate,
             id,
           ];
           result = await conn.query(sql, params);
-          // Delete the old image
-          if (product.length !== 0) {
-            const oldImage = product[0].product_image;
-            const oldImagePath = path.join(projectDirectory, oldImage);
-            await unlink(oldImagePath);
+        }
+  
+        // Delete the old image and PDF
+        if (product.length !== 0) {
+          const oldImage = product[0].product_image;
+          const oldBrochure = product[0].product_brochure;
+  
+          if (oldImage) {
+            const oldImagePath = path.join(
+              __dirname,
+              "../../../../../public/assets/upload/products",
+              oldImage
+            );
+             unlink(oldImagePath);
+          }
+  
+          if (oldBrochure) {
+            const oldBrochurePath = path.join(
+              __dirname,
+              "../../../../../public/assets/upload/products",
+              oldBrochure
+            );
+             unlink(oldBrochurePath);
           }
         }
-
+  
         res.status(200).json(result);
       });
     } catch (err) {
-      res.status(500).json({ message: "Category Updation Failed" });
+      res.status(500).json({ message: "Product Updation Failed" });
     } finally {
       conn.releaseConnection();
     }

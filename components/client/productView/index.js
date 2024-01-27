@@ -20,6 +20,7 @@ const index = ({ pid }) => {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/client/product-view/getproduct/${productId}`
       );
+      console.log(response.data[0])
       setProducts(response.data[0]);
       setLoading(false);
     } catch (error) {

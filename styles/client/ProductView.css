@@ -84,7 +84,24 @@
   border-radius: 20px;
 }
 
+.product_view_hero_section_btn_red {
+  padding: 5px 25px;
+  margin-top: 40px;
+  height: 35px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: #AF0E2F;
+  color: white;
+  border-radius: 20px;
+}
+
+
 .product_view_hero_section_btn:hover {
+  background-color: #07070a;
+}
+
+.product_view_hero_section_btn_red:hover {
   background-color: #07070a;
 }
 

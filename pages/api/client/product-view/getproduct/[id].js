@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     try {
       // const q = "SELECT * FROM `product_master` WHERE product_id = ? and status = 1";
 
-      const q = "SELECT pm.`product_id`, pm.`cate_id`, cm.`category_name`, pm.`product_title`, pm.`product_short_desc`, pm.`product_long_desc`, pm.`meta_tag`, pm.`meta_desc`, pm.`meta_keyword`, pm.`canonical_url`, pm.`product_image` FROM `product_master` pm JOIN `product_category` cm ON pm.`cate_id` = cm.`category_id` WHERE pm.`product_id` = ? AND pm.`status` = 1"
+      const q = "SELECT pm.`product_id`, pm.`cate_id`, cm.`category_name`, pm.`product_title`, pm.`product_short_desc`, pm.`product_long_desc`, pm.`meta_tag`, pm.`meta_desc`, pm.`meta_keyword`, pm.`canonical_url`, pm.`product_image`, pm.`product_brochure` FROM `product_master` pm JOIN `product_category` cm ON pm.`cate_id` = cm.`category_id` WHERE pm.`product_id` = ? AND pm.`status` = 1"
       const data = [id];
       const [rows] = await conn.query(q, data);
 

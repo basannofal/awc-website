@@ -18,6 +18,7 @@ const AddProduct = () => {
     meta_desc: "",
     canonical_url: "",
     product_image: null,
+    product_brochure: null,
   });
   const [addMetaTag, setAddMetaTag] = useState([]);
   const [addMetaKeyword, setAddMetaKeyword] = useState([]);
@@ -143,8 +144,20 @@ const AddProduct = () => {
       ErrorToast("Please Enter the Product Title");
       return false;
     }
-    setLoading(true);
-
+    if (addProductData.product_image === null) {
+      ErrorToast("Please Select Product Image");
+      return false;
+    }
+    if (addProductData.product_brochure === null) {
+      ErrorToast("Please Select Product Brochure");
+      return false;
+    }
+    if (addProductData.cate_id == "" || addProductData.cate_id == 0) {
+      ErrorToast("Please Select Product Category");
+      return false;
+    }
+    setLoading(true); 
+    console.log(addProductData);
     try {
       const formdata = new FormData();
       formdata.append("cate_id", addProductData.cate_id);
@@ -154,6 +167,7 @@ const AddProduct = () => {
       formdata.append("meta_desc", addProductData.meta_desc);
       formdata.append("canonical_url", addProductData.canonical_url);
       formdata.append("product_image", addProductData.product_image);
+      formdata.append("product_brochure", addProductData.product_brochure);
       formdata.append("meta_tag", addMetaTag);
       formdata.append("meta_keyword", addMetaKeyword);
 
@@ -888,6 +902,32 @@ const AddProduct = () => {
                     </div>
                   )}
                 </div>
+                <div style={{ width: "48%" }}>
+                  <div className="mb-3">
+                    <label htmlFor="product_brochure" className="modal_label">
+                      Product Brochure:-
+                      <small style={{ color: "red" }}> *</small>
+                    </label>
+                    <input
+                      type="file"
+                      id="product_brochure"
+                      name="product_brochure"
+                      className="modal_input"
+                      onChange={handleAddFileChange}
+                    />
+                  </div>
+                  {addProductData.product_brochure && (
+                    <div className="mb-3">
+                      <img
+                        src={`/assets/images/pdf-icon.webp`}
+                        alt="Selected Brochure"
+                        className="table_data_image"
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="two_input_flex">
                 <div className="mb-3" style={{ width: "48%" }}>
                   <label htmlFor="cate_id" className="modal_label">
                     Choose Category:

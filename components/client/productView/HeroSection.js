@@ -40,6 +40,11 @@ const HeroSection = ({ product }) => {
                 INQUIRY NOW
               </button>
             </Link>
+            <Link href={`/assets/upload/products/${product?.product_brochure}`} target="_blank" className="ml-2">
+              <button className="product_view_hero_section_btn_red">
+                Brochure
+              </button>
+            </Link>
           </div>
         </div>
       </div>
