@@ -156,9 +156,10 @@ export default async function handler(req, res) {
 
       const [rows] = await conn.query(q, [id]);
 
-
       let productImage = "";
       let productBrochure = "";
+      // 12. Commit the transaction
+      await conn.query("COMMIT");
 
       if (product.length != 0) {
         productImage = product[0].product_image;
@@ -173,8 +174,6 @@ export default async function handler(req, res) {
         await unlink(newPath);
         await unlink(newBrPath);
       }
-      // 12. Commit the transaction
-      await conn.query("COMMIT");
 
       // Process the data and send the response
       res.status(200).json(rows);
@@ -207,29 +206,29 @@ export default async function handler(req, res) {
           meta_keyword,
           canonical_url,
           product_image,
-          product_brochure
+          product_brochure,
         } = fields;
-  
+
         let sql = "";
         let params = "";
         let result = "";
-  
+
         const updatedDate = new Date()
           .toISOString()
           .slice(0, 19)
           .replace("T", " ");
-  
+
         // get product data
         const [product] = await conn.query(
           "SELECT product_image, product_brochure FROM product_master WHERE product_id = ?",
           [id]
         );
-  
+
         if (!files.product_image && !files.product_brochure) {
           // No new images provided, updating other fields
           sql =
             "UPDATE `product_master` SET `cate_id`= ?, `product_title`= ?, `product_short_desc`= ?, `product_long_desc`= ?, `meta_tag`= ?, `meta_desc`= ?, `meta_keyword`= ?, `canonical_url`= ?, `updated_date`= ?  WHERE product_id = ?";
-  
+
           params = [
             cate_id,
             product_title,
@@ -262,16 +261,18 @@ export default async function handler(req, res) {
                 );
                 await unlink(oldImagePath);
               }
-  
+
               const oldPath = imageFile[0].filepath;
-              const nFileName = `${Date.now()}_${index}.${imageFile[0].originalFilename}`;
+              const nFileName = `${Date.now()}_${index}.${
+                imageFile[0].originalFilename
+              }`;
               const newFileName = nFileName.replace(/\s/g, "");
               const projectDirectory = path.resolve(
                 __dirname,
                 "../../../../../public/assets/upload/products"
               );
               const newPath = path.join(projectDirectory, newFileName);
-  
+
               fs.copyFile(oldPath, newPath, (moveErr) => {
                 if (moveErr) {
                   console.log(moveErr);
@@ -280,29 +281,29 @@ export default async function handler(req, res) {
                     .json({ message: `File ${index} Upload failed.` });
                 }
               });
-  
+
               return newFileName;
             }
             return imageField;
           };
-  
+
           // Update images if provided
           let updatedImage = product_image;
           let updatedBrochure = product_brochure;
-  
+
           // Validate image file extension
           const allowedImageExtensions = [".jpg", ".jpeg", ".png", ".webp"];
           if (files.product_image) {
             const imageFileExtension = path
               .extname(files.product_image[0].originalFilename)
               .toLowerCase();
-  
+
             if (!allowedImageExtensions.includes(imageFileExtension)) {
               return res
                 .status(400)
                 .json({ message: "Only image files are allowed." });
             }
-  
+
             updatedImage = await updateImages(
               product_image,
               files.product_image,
@@ -310,20 +311,22 @@ export default async function handler(req, res) {
               "product_image"
             );
           }
-  
+
           // Validate PDF file extension
           const allowedPdfExtensions = [".pdf"];
           if (files.product_brochure) {
             const pdfFileExtension = path
               .extname(files.product_brochure[0].originalFilename)
               .toLowerCase();
-  
+
             if (!allowedPdfExtensions.includes(pdfFileExtension)) {
               return res
                 .status(400)
-                .json({ message: "Only PDF files are allowed for product brochure." });
+                .json({
+                  message: "Only PDF files are allowed for product brochure.",
+                });
             }
-  
+
             updatedBrochure = await updateImages(
               product_brochure,
               files.product_brochure,
@@ -332,14 +335,13 @@ export default async function handler(req, res) {
             );
           }
 
-          console.log('first', updatedBrochure)
-          console.log('first', updatedImage)
+          console.log("first", updatedBrochure);
+          console.log("first", updatedImage);
 
-  
           // SQL query for updating the database with new images
           sql =
             "UPDATE `product_master` SET `cate_id`= ?, `product_title`= ?, `product_short_desc`= ?, `product_long_desc`= ?, `meta_tag`= ?, `meta_desc`= ?, `meta_keyword`= ?, `canonical_url`= ?, `product_image`= ?, `product_brochure`= ?, `updated_date`= ?  WHERE product_id = ?";
-  
+
           params = [
             cate_id,
             product_title,
@@ -356,31 +358,7 @@ export default async function handler(req, res) {
           ];
           result = await conn.query(sql, params);
         }
-  
-        // Delete the old image and PDF
-        if (product.length !== 0) {
-          const oldImage = product[0].product_image;
-          const oldBrochure = product[0].product_brochure;
-  
-          if (oldImage) {
-            const oldImagePath = path.join(
-              __dirname,
-              "../../../../../public/assets/upload/products",
-              oldImage
-            );
-             unlink(oldImagePath);
-          }
-  
-          if (oldBrochure) {
-            const oldBrochurePath = path.join(
-              __dirname,
-              "../../../../../public/assets/upload/products",
-              oldBrochure
-            );
-             unlink(oldBrochurePath);
-          }
-        }
-  
+
         res.status(200).json(result);
       });
     } catch (err) {
