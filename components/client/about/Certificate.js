@@ -1,9 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import Link from "next/link";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
 const Certificate = () => {
   const [loading, setLoading] = useState(true);
@@ -19,7 +18,7 @@ const Certificate = () => {
       setVideos(response.data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching video data:", error);
       setLoading(false);
     }
   };
@@ -33,7 +32,7 @@ const Certificate = () => {
       setCertificate(response.data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching certificate data:", error);
       setLoading(false);
     }
   };
@@ -47,62 +46,21 @@ const Certificate = () => {
     fetchData();
   }, []);
 
-
-  const videos_settings = {
-    infinite: true,
-    speed: 500,
-    slidesToShow: Math.min(3, videos.length),
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: Math.min(2, videos.length),
-          slidesToScroll: 1,
-          infinite: true,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: Math.min(1, videos.length),
-          slidesToScroll: 1,
-        },
-      },
-    ],
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 576 },
+      items: 2,
+    },
+    mobile: {
+      breakpoint: { max: 576, min: 0 },
+      items: 1,
+    },
   };
 
-
-  const certificate_settings = {
-    dots: false, // Remove dots/icons
-    infinite: true,
-    speed: 500,
-    slidesToShow: Math.min(3, certificate.length),
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: Math.min(2, certificate.length),
-          slidesToScroll: 1,
-          infinite: true,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: Math.min(1, certificate.length),
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
   return (
     <>
       <section className="certificate-sec">
@@ -111,70 +69,68 @@ const Certificate = () => {
           <div className="certificate-inner">
             <h3>CERTIFICATES</h3>
             <p>Our Commitment to Quality, Environment, and Safety</p>
-            {/* <div className="lg-4 md-6 sm-12"> */}
-            <Slider {...certificate_settings} className="space-y-7">
-
-              {certificate.map((certificate) => (
-                <div key={certificate.id} className="certificate-content" id='cscscs'>
-                  <div className="certificate-image">
-                    <img
-                      src={`/assets/upload/about/certificates/${certificate.thumbnail}`}
-                      alt={`Certificate ${certificate.id}`}
-                    />
-                  </div>
-                  <div className="flex items-center pt-3 pr-5">
-                    <h6>{certificate.title}</h6>
-                    <div className="certificate-download">
-                      <a
-                        href={`/assets/upload/about/certificates/${certificate.pdf}`}
-                        download
-                      >
-                        <img
-                          src={"./assets/images/client/download.png"}
-                          alt="Download"
-                        />
-                      </a>
+            <Carousel
+              responsive={responsive}
+              showDots={true}
+              autoPlay={true}
+              autoPlaySpeed={4000}
+            >
+              {certificate?.map((cert, index) => (
+                <div key={cert.id}>
+                  <div className="certificate-content">
+                    <div className="certificate-image">
+                      <img
+                        src={`/assets/upload/about/certificates/${cert.thumbnail}`}
+                        alt={`Certificate ${cert.id}`}
+                      />
+                    </div>
+                    <div className="flex items-center pt-3 pr-5">
+                      <h6>{cert.title}</h6>
+                      <div className="certificate-download">
+                        <a
+                          href={`/assets/upload/about/certificates/${cert.pdf}`}
+                          download
+                        >
+                          <img
+                            src={"./assets/images/client/download.png"}
+                            alt="Download"
+                          />
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
               ))}
-            </Slider>
-            {/* </div> */}
+            </Carousel>
           </div>
         </div>
 
         {/* YouTube Video Links */}
         <div className="container-youtube mt-5">
           <div className="youtube-inner">
-            {/* <div className="grid mt-14"> */}
-            <Slider {...videos_settings} className="space-y-7" >
-              {videos.map((item, idx) => {
-                return (
-                  <div className="xl-4 lg-4 md-6 sm-6" key={item.id}>
-                    <div className="youtube-content">
-                      <div className="youtube-thumbnail">
-                        <img
-                          src={`/assets/upload/about/videos/${item.thumbnail}`}
-                        />
-                        <div className="iconOfYo9utube">
-                          <Link href={`${item.link}`} target="_blank">
-                            <img src={"./assets/images/client/youtube.png"} />
-                          </Link>
-                        </div>
-                      </div>
-                      <h6>{item.title}</h6>
-                      <div className="calendar-info flex items-center">
-                        <div className="calendar">
-                          <img src={"./assets/images/client/calendar.png"} />
-                        </div>
-                        <p className="pl-3">{item.short_desc}</p>
+            <Carousel
+              responsive={responsive}
+              showDots={true}
+              autoPlay={true}
+              autoPlaySpeed={4000}
+            >
+              {videos?.map((vid) => (
+                <div key={vid.id}>
+                  <div className="youtube-content">
+                    <div className="youtube-thumbnail">
+                      <img
+                        src={`/assets/upload/about/videos/${vid.thumbnail}`}
+                      />
+                      <div className="iconOfYo9utube">
+                        <Link href={`${vid.link}`} target="_blank">
+                          <img src={"./assets/images/client/youtube.png"} />
+                        </Link>
                       </div>
                     </div>
                   </div>
-                );
-              })}
-            </Slider>
-            {/* </div> */}
+                </div>
+              ))}
+            </Carousel>
           </div>
         </div>
 
