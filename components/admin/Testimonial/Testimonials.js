@@ -212,11 +212,19 @@ const Testimonials = () => {
 
                     {/* Image */}
                     <td>
-                      <img
-                        src={`/assets/upload/testimonial/${testimonial.testimonial_image}`}
-                        alt="testimonial"
-                        className="table_data_image"
-                      />
+                      {testimonial?.testimonial_image ? (
+                        <img
+                          src={`/assets/upload/testimonial/${testimonial.testimonial_image}`}
+                          alt="testimonial"
+                          className="table_data_image"
+                        />
+                      ) : (
+                        <img
+                          src={`/assets/upload/testimonial/noimage.png`}
+                          alt="testimonial"
+                          className="table_data_image"
+                        />
+                      )}
                     </td>
 
                     {/* Product Title */}

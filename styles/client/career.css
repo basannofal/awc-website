@@ -101,9 +101,9 @@ div.form_main form div input::placeholder {
   .career_container {
     margin-top: 85px;
   }
-  .career_form_file_input {
+  /* .career_form_file_input {
     width: 86%;
-  }
+  } */
   .carrer_submit_btn {
     width: 86%;
   }
@@ -148,7 +148,7 @@ div.form_main form div input::placeholder {
     width: 100%;
     justify-content: start;
   }
-  .career-title{
+  .career-title {
     font-size: 25px;
     line-height: 35px;
   }
