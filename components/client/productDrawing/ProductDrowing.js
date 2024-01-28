@@ -44,7 +44,7 @@ const ProductDrowing = () => {
             className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 p-0 justify-evenly mb-5 "
             style={{ marginRight: 0 }}
           >
-            {loading ? (
+            {loading && allDrawings.length == 0 ? (
               <>
                 <div className="sm:w-1/2 md:w-1/3 lg:w-3/12 blog_image_section">
                   <div

@@ -1,7 +1,37 @@
+import axios from "axios";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 
-const HeroSection = ({ product }) => {
+const HeroSection = () => {
+  
+  const router = useRouter()
+  const { productType, productId } = router.query;
+  const [product, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const getProductData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/product-view/getproduct/${productId}`
+      );
+      console.log(response.data[0])
+      setProducts(response.data[0]);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
+
+  const fetchData = async () => {
+    await getProductData();
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [productId]);
   return (
     <>
       <div className="product_view_main">
