@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 
-const Tabs = ({ pid, lognDesc }) => {
+const Tabs = () => {
   const [activeTab, setActiveTab] = useState("description");
   const [productImage, setProductImage] = useState([]);
   const [productVideo, setProductVideo] = useState([]);
@@ -12,6 +12,28 @@ const Tabs = ({ pid, lognDesc }) => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const { productType, productId } = router.query;
+
+
+
+  const [lognDesc, setProducts] = useState([]);
+
+  const getProductData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/product-view/getproduct/${productId}`
+      );
+      console.log(response.data[0])
+      setProducts(response.data[0].product_long_desc);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
+
+
+
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
@@ -97,6 +119,7 @@ const Tabs = ({ pid, lognDesc }) => {
   }
 
   const fetchData = async () => {
+    await getProductData();
     await getProductImages();
     await getProductVideo();
     await getProductDocs();
@@ -203,11 +226,8 @@ const Tabs = ({ pid, lognDesc }) => {
                 <div className="product_view_doc_thumbnail_title">
                   Roof 540 Detailed Drowing{" "}
                 </div>
-                <Link
-                  href={`/product/ROOF-540/drawing/${productId}`}
-                  className="product_view_doc_dowonload"
-                  target="blank"
-                >
+
+                <Link href={`/product/${productType}/drawing/${productId}`} className="product_view_doc_dowonload" target="blank">
                   <i className="fa-solid fa-download text-white"></i>
                 </Link>
                 {/* <iframe
