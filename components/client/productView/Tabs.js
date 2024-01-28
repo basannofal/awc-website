@@ -196,7 +196,7 @@ const Tabs = ({ pid, lognDesc }) => {
                 <div className="product_view_doc_thumbnail_title">
                   Roof 540 Detailed Drowing{" "}
                 </div>
-                <Link href={`/product/ROOF-540/drawing/${productId}`} className="product_view_doc_dowonload" target="blank">
+                <Link href={`/product/${productType}/drawing/${productId}`} className="product_view_doc_dowonload" target="blank">
                   <i className="fa-solid fa-download text-white"></i>
                 </Link>
                 {/* <iframe

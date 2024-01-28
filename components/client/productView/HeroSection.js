@@ -42,7 +42,7 @@ const HeroSection = ({ product }) => {
             </Link>
             <Link href={`/assets/upload/products/${product?.product_brochure}`} target="_blank" className="ml-2">
               <button className="product_view_hero_section_btn_red">
-                Brochure
+                Download Brochure
               </button>
             </Link>
           </div>
