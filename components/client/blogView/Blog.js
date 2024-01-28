@@ -6,6 +6,7 @@ const Blog = ({ bid }) => {
   const [loading, setLoading] = useState(true);
   const [blog, setBlog] = useState("");
   const [reletedblog, setReletedblog] = useState([]);
+  const [currentURL, setCurrentURL] = useState("");
 
   const getBlogData = async () => {
     setLoading(true);
@@ -42,6 +43,7 @@ const Blog = ({ bid }) => {
 
   useEffect(() => {
     fetchData();
+    setCurrentURL(getCurrentURL());
   }, [bid]);
 
   function extractFirstParagraph(content) {
@@ -59,6 +61,11 @@ const Blog = ({ bid }) => {
 
     return "";
   }
+
+  // Function to get the current URL
+  const getCurrentURL = () => window.location.href;
+
+  // const url = "https://sunasarahusen.netlify.app/";
 
   return (
     <>
@@ -196,7 +203,18 @@ const Blog = ({ bid }) => {
                   <div className="share_main_section">
                     <div className="icon_title">
                       <i className="fa-brands fa-facebook-f"></i>
-                      <p>Share On Facebook</p>
+                      <p>
+                        <a
+                          href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                            currentURL
+                          )}`}
+                          target="_blank"
+                          style={{ color: "black" }}
+                          rel="noopener noreferrer"
+                        >
+                          Share On Facebook
+                        </a>
+                      </p>
                     </div>
                     <div className="arrow">
                       <i className="fa-solid fa-arrow-right"></i>
@@ -205,7 +223,18 @@ const Blog = ({ bid }) => {
                   <div className="share_main_section">
                     <div className="icon_title">
                       <i className="fa-brands fa-x-twitter"></i>
-                      <p>Share On Twitter</p>
+                      <p>
+                        <a
+                          href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                            currentURL
+                          )}`}
+                          target="_blank"
+                          style={{ color: "black" }}
+                          rel="noopener noreferrer"
+                        >
+                          Share On Twitter
+                        </a>
+                      </p>
                     </div>
                     <div className="arrow">
                       <i className="fa-solid fa-arrow-right"></i>
@@ -214,7 +243,18 @@ const Blog = ({ bid }) => {
                   <div className="share_main_section">
                     <div className="icon_title">
                       <i className="fa-brands fa-whatsapp"></i>
-                      <p>Share On Whatsapp</p>
+                      <p>
+                        <a
+                          href={`whatsapp://send?text=${encodeURIComponent(
+                            currentURL
+                          )}`}
+                          target="_blank"
+                          style={{ color: "black" }}
+                          rel="noopener noreferrer"
+                        >
+                          Share On Whatsapp
+                        </a>
+                      </p>
                     </div>
                     <div className="arrow">
                       <i className="fa-solid fa-arrow-right"></i>
@@ -223,7 +263,18 @@ const Blog = ({ bid }) => {
                   <div className="share_main_section">
                     <div className="icon_title">
                       <i className="fa-brands fa-linkedin-in"></i>
-                      <p>Share On Linkedin</p>
+                      <p>
+                        <a
+                          href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
+                            currentURL
+                          )}`}
+                          target="_blank"
+                          style={{ color: "black" }}
+                          rel="noopener noreferrer"
+                        >
+                          Share On Linkedin
+                        </a>
+                      </p>
                     </div>
                     <div className="arrow">
                       <i className="fa-solid fa-arrow-right"></i>

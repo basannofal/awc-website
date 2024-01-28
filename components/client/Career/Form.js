@@ -213,14 +213,18 @@ const Form = ({ jobId, setJobId, formref }) => {
                 Upload CV / Resume
               </label>
             </div>
+
             <div className="flex items-center justify-center career_form_file_input">
               <label
                 htmlFor="file"
                 onDrop={handleFileDrop}
                 onDragOver={(e) => e.preventDefault()}
-                className="flex flex-col items-center justify-center w-full border border-gray-300 rounded-lg cursor-pointer"
+                className="flex flex-col items-center justify-center w-full cursor-pointer"
               >
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                <div
+                  className="flex flex-col items-center justify-center pt-5 pb-6 border border-gray-300 rounded-lg
+"
+                >
                   <svg
                     className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
                     aria-hidden="true"
@@ -244,7 +248,7 @@ const Form = ({ jobId, setJobId, formref }) => {
                   id="file"
                   name="file"
                   type="file"
-                  className="block w-full h-full opacity-0"
+                  className="block w-full h-full opacity-0 "
                   onChange={handleFileChange}
                 />
               </label>

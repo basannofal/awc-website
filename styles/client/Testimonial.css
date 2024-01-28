@@ -217,6 +217,7 @@
 @media only screen and (max-width: 800px) {
   .main_testi_contact_inner {
     display: block;
+    width: 100%;
   }
 
   .testimonials-contents {

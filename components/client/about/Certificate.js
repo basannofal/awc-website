@@ -71,7 +71,7 @@ const Certificate = () => {
             <p>Our Commitment to Quality, Environment, and Safety</p>
             <Carousel
               responsive={responsive}
-              showDots={true}
+              showDots={false}
               autoPlay={true}
               autoPlaySpeed={4000}
             >
@@ -110,7 +110,7 @@ const Certificate = () => {
           <div className="youtube-inner">
             <Carousel
               responsive={responsive}
-              showDots={true}
+              showDots={false}
               autoPlay={true}
               autoPlaySpeed={4000}
             >
