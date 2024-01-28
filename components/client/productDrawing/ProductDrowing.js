@@ -57,14 +57,14 @@ const ProductDrowing = () => {
               </div>
               <div>
                 <p className="blog_desc_section mt-3">
-                  <div className="w-full">
-                    <div className="h-4 bg-gray-200 rounded-full w-52 mb-0"></div>
-                  </div>
+                  <span className="w-full">
+                    <span className="h-4 bg-gray-200 rounded-full w-52 mb-0"></span>
+                  </span>
                 </p>
                 <p className="blog_sec_desc_section">
-                  <div className="w-full">
-                    <div className="h-28 bg-gray-200 rounded w-52 mb-0"></div>
-                  </div>
+                  <span className="w-full">
+                    <span className="h-28 bg-gray-200 rounded w-52 mb-0"></span>
+                  </span>
                 </p>
               </div>
             </div>
@@ -87,14 +87,14 @@ const ProductDrowing = () => {
               </div>
               <div>
                 <p className="blog_desc_section mt-3">
-                  <div className="w-full">
-                    <div className="h-4 bg-gray-200 rounded-full w-52 mb-0"></div>
-                  </div>
+                  <span className="w-full">
+                    <span className="h-4 bg-gray-200 rounded-full w-52 mb-0"></span>
+                  </span>
                 </p>
                 <p className="blog_sec_desc_section">
-                  <div className="w-full">
-                    <div className="h-28 bg-gray-200 rounded w-52 mb-0"></div>
-                  </div>
+                  <span className="w-full">
+                    <span className="h-28 bg-gray-200 rounded w-52 mb-0"></span>
+                  </span>
                 </p>
               </div>
             </div>
@@ -117,14 +117,14 @@ const ProductDrowing = () => {
               </div>
               <div>
                 <p className="blog_desc_section mt-3">
-                  <div className="w-full">
-                    <div className="h-4 bg-gray-200 rounded-full w-52 mb-0"></div>
-                  </div>
+                  <span className="w-full">
+                    <span className="h-4 bg-gray-200 rounded-full w-52 mb-0"></span>
+                  </span>
                 </p>
                 <p className="blog_sec_desc_section">
-                  <div className="w-full">
-                    <div className="h-28 bg-gray-200 rounded w-52 mb-0"></div>
-                  </div>
+                  <span className="w-full">
+                    <span className="h-28 bg-gray-200 rounded w-52 mb-0"></span>
+                  </span>
                 </p>
               </div>
             </div>
