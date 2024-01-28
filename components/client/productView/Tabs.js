@@ -110,15 +110,21 @@ const Tabs = ({ pid, lognDesc }) => {
   return (
     <>
       {loading ? (
-        <div className="fixed top-12 right-0 h-screen w-screen z-50 flex justify-center items-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-900"></div>
+        <div className="main_tab_section">
+          <div
+            role="status"
+            class="flex items-center justify-center h-56 bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
         </div>
       ) : (
         <div className="main_tab_section">
           <div>
             <button
-              className={`tab-btn ${activeTab === "description" ? "active" : ""
-                }`}
+              className={`tab-btn ${
+                activeTab === "description" ? "active" : ""
+              }`}
               onClick={() => handleTabClick("description")}
             >
               DESCRIPTION
@@ -136,15 +142,17 @@ const Tabs = ({ pid, lognDesc }) => {
               PHOTOS
             </button>
             <button
-              className={`tab-btn ${activeTab === "testing-videos" ? "active" : ""
-                }`}
+              className={`tab-btn ${
+                activeTab === "testing-videos" ? "active" : ""
+              }`}
               onClick={() => handleTabClick("testing-videos")}
             >
               TESTING VIDEOS
             </button>
             <button
-              className={`tab-btn ${activeTab === "certificate" ? "active" : ""
-                }`}
+              className={`tab-btn ${
+                activeTab === "certificate" ? "active" : ""
+              }`}
               onClick={() => handleTabClick("certificate")}
             >
               CERTIFICATES
@@ -186,7 +194,6 @@ const Tabs = ({ pid, lognDesc }) => {
                       height="300px"
                     /> */}
                   </div>
-
                 );
               })}
               <div className="product_view_docs_main">
@@ -196,7 +203,11 @@ const Tabs = ({ pid, lognDesc }) => {
                 <div className="product_view_doc_thumbnail_title">
                   Roof 540 Detailed Drowing{" "}
                 </div>
-                <Link href={`/product/ROOF-540/drawing/${productId}`} className="product_view_doc_dowonload" target="blank">
+                <Link
+                  href={`/product/ROOF-540/drawing/${productId}`}
+                  className="product_view_doc_dowonload"
+                  target="blank"
+                >
                   <i className="fa-solid fa-download text-white"></i>
                 </Link>
                 {/* <iframe
@@ -206,7 +217,6 @@ const Tabs = ({ pid, lognDesc }) => {
                       height="300px"
                     /> */}
               </div>
-
             </div>
           )}
           {activeTab === "photos" && (
@@ -223,7 +233,6 @@ const Tabs = ({ pid, lognDesc }) => {
                     </div>
                   );
                 })}
-
               </div>
             </div>
           )}
