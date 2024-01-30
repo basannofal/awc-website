@@ -8,6 +8,7 @@ const Tabs = () => {
   const [productImage, setProductImage] = useState([]);
   const [productVideo, setProductVideo] = useState([]);
   const [productDocs, setProductDocs] = useState([]);
+  const [productDrowing, setProductDrowing] = useState([]);
   const [productCertificate, setProductCertificate] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -23,7 +24,6 @@ const Tabs = () => {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/client/product-view/getproduct/${productId}`
       );
-      console.log(response.data[0])
       setProducts(response.data[0].product_long_desc);
       setLoading(false);
     } catch (error) {
@@ -101,6 +101,19 @@ const Tabs = () => {
       setLoading(false);
     }
   };
+  const getProductDrowing = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/product-view/getproductdrawing/${productId}`
+      );
+      setProductDrowing(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
 
   function extractFirstParagraph(content) {
     const parser = new DOMParser();
@@ -123,6 +136,7 @@ const Tabs = () => {
     await getProductImages();
     await getProductVideo();
     await getProductDocs();
+    await getProductDrowing();
     await getProductCertificate();
   };
 
@@ -145,9 +159,8 @@ const Tabs = () => {
         <div className="main_tab_section">
           <div>
             <button
-              className={`tab-btn ${
-                activeTab === "description" ? "active" : ""
-              }`}
+              className={`tab-btn ${activeTab === "description" ? "active" : ""
+                }`}
               onClick={() => handleTabClick("description")}
             >
               DESCRIPTION
@@ -165,17 +178,15 @@ const Tabs = () => {
               PHOTOS
             </button>
             <button
-              className={`tab-btn ${
-                activeTab === "testing-videos" ? "active" : ""
-              }`}
+              className={`tab-btn ${activeTab === "testing-videos" ? "active" : ""
+                }`}
               onClick={() => handleTabClick("testing-videos")}
             >
               TESTING VIDEOS
             </button>
             <button
-              className={`tab-btn ${
-                activeTab === "certificate" ? "active" : ""
-              }`}
+              className={`tab-btn ${activeTab === "certificate" ? "active" : ""
+                }`}
               onClick={() => handleTabClick("certificate")}
             >
               CERTIFICATES
@@ -219,23 +230,38 @@ const Tabs = () => {
                   </div>
                 );
               })}
-              <div className="product_view_docs_main">
+              {/* <div className="product_view_docs_main">
                 <div className="product_view_doc_thumbnail">
                   <img src={"/assets/images/client/pdf 2.png"} alt="" />
                 </div>
                 <div className="product_view_doc_thumbnail_title">
                   Roof 540 Detailed Drowing{" "}
                 </div>
-                <Link href={`/product/ROOF-540/drawing/${productId}`} className="product_view_doc_dowonload" target="blank">
+                <Link href={`/product/${productType}/drawing/${productId}`} className="product_view_doc_dowonload" target="blank">
                   <i className="fa-solid fa-download text-white"></i>
                 </Link>
-                {/* <iframe
-                      title="PDF Viewer"
-                      src={`/assets/upload/products/productDocs/${item?.pdf_link}`}
-                      width="35%"
-                      height="300px"
-                    /> */}
-              </div>
+              </div> */}
+              {
+                productDrowing.length > 0 ? (
+                  <>
+                    <div className="product_view_docs_main">
+                      <div className="product_view_doc_thumbnail">
+                        <img src={"/assets/images/client/pdf 2.png"} alt="" />
+                      </div>
+                      <div className="product_view_doc_thumbnail_title">
+                        Roof 540 Detailed Drowing{" "}
+                      </div>
+                      <Link href={`/product/${productType}/drawing/${productId}`} className="product_view_doc_dowonload" target="blank">
+                        <i className="fa-solid fa-download text-white"></i>
+                      </Link>
+                    </div>
+                  </>
+                ) : (
+                  ''
+                )
+              }
+
+
             </div>
           )}
           {activeTab === "photos" && (

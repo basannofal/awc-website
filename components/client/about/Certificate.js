@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import YouTube from "react-youtube";
 
 const Certificate = () => {
   const [loading, setLoading] = useState(true);
@@ -126,14 +127,27 @@ const Certificate = () => {
                           <img src={"./assets/images/client/youtube.png"} />
                         </Link>
                       </div>
+                      {/* <YouTube videoId={vid?.link} /> */}
                     </div>
+                    
+
                   </div>
+                  {/* <YouTube videoId={vid.link} className="w-1/3 m-5" /> */}
                 </div>
               ))}
             </Carousel>
           </div>
         </div>
+        {/* <div className="container-youtube mt-5">
+          <div className="youtube-inner flex">
+            {videos?.map((vid) => (
+              <div key={vid.id}>
 
+                <YouTube videoId={vid?.link} />
+              </div>
+            ))}
+          </div>
+        </div> */}
         {/* Member */}
         <div className="container-member">
           <div className="member-inner">
