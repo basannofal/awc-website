@@ -101,7 +101,7 @@ const TestiContact = () => {
                   </div>
                 </div>
                 <div className="video_testimonial">
-                  <YouTube videoId={item?.testimonial_video} />
+                  <YouTube videoId={item?.testimonial_video}  />
                   <p className="testi_video_title">
                     our client {item?.testimonial_title} review
                   </p>
