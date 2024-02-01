@@ -1279,9 +1279,8 @@ const EditProduct = () => {
 
           <div
             id="general"
-            className={`tab-content add_data_form ${
-              activeTab === "general" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={saveEditProductData}>
               <div className="mb-3">
@@ -1424,15 +1423,15 @@ const EditProduct = () => {
                       onChange={handleEditPdfFileChange}
                     />
                   </div>
-                  {editProductData.product_brochure != ""? (
+                  {editProductData.product_brochure != "" ? (
                     <Link href={`/assets/upload/products/${editProductData?.product_brochure}`} target="_blank">
-                    <img
-                      src={`/assets/images/pdf-icon.webp`}
-                      width="100px"
-                      height="100px"
-                      className="modal_data_image"
-                      alt="product_image"
-                    />
+                      <img
+                        src={`/assets/images/pdf-icon.webp`}
+                        width="100px"
+                        height="100px"
+                        className="modal_data_image"
+                        alt="product_image"
+                      />
                     </Link>
                   ) : ""}
                 </div>
@@ -1464,13 +1463,21 @@ const EditProduct = () => {
                 </select>
               </div>
               <div className="mb-3">
-                <button
+                {/* <button
                   type="button"
                   onClick={saveEditProductData}
                   className="success_btn"
                 >
                   SAVE
-                </button>
+                </button> */}
+                <input
+                  type="button"
+                  onClick={saveEditProductData}
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Editing..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/products">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
@@ -1481,9 +1488,8 @@ const EditProduct = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${
-              activeTab === "seo" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
+              }`}
           >
             <form>
               <div className="mb-3">
@@ -1577,13 +1583,21 @@ const EditProduct = () => {
                 />
               </div>
               <div className="mb-3">
-                <button
+                {/* <button
                   type="button"
                   onClick={saveEditProductData}
                   className="success_btn"
                 >
                   SAVE
-                </button>
+                </button> */}
+                <input
+                  type="button"
+                  onClick={saveEditProductData}
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Editing..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/products">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
@@ -1596,9 +1610,8 @@ const EditProduct = () => {
           {/* Image Tabs */}
           <div
             id="image"
-            className={`tab-content add_data_form ${
-              activeTab === "image" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "image" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={saveMultipleImages}>
               <div className="mb-3">
@@ -1620,7 +1633,7 @@ const EditProduct = () => {
                 style={{ display: "flex", flexWrap: "wrap" }}
               >
                 {addMultiImages.product_images &&
-                addMultiImages.product_images.length > 0 ? (
+                  addMultiImages.product_images.length > 0 ? (
                   <table className="multi-images-table">
                     <thead>
                       <tr>
@@ -1735,9 +1748,16 @@ const EditProduct = () => {
                 )}
               </div>
               <div className="mb-3">
-                <button type="submit" className="success_btn">
+                {/* <button type="submit" className="success_btn">
                   SAVE
-                </button>
+                </button> */}
+                <input
+                  type="submit"
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Editing..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/products">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
@@ -1811,9 +1831,8 @@ const EditProduct = () => {
                                 }
                               >
                                 <i
-                                  className={`fa-solid fa-image ${
-                                    selectedImages[index] ? "visible" : ""
-                                  }`}
+                                  className={`fa-solid fa-image ${selectedImages[index] ? "visible" : ""
+                                    }`}
                                 ></i>
                               </div>
                               <img
@@ -1992,9 +2011,8 @@ const EditProduct = () => {
           {/* Vedio Tabs */}
           <div
             id="video"
-            className={`tab-content add_data_form ${
-              activeTab === "video" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "video" ? "active" : ""
+              }`}
           >
             <div
               style={{
@@ -2234,9 +2252,16 @@ const EditProduct = () => {
                     style={{ display: "flex", flexWrap: "wrap" }}
                   ></div>
                   <div className="mb-3">
-                    <button type="submit" className="success_btn">
+                    {/* <button type="submit" className="success_btn">
                       {editingVedioId ? "UPDATE" : "SAVE"}
-                    </button>
+                    </button> */}
+                    <input
+                      type="submit"
+                      style={loading ? { cursor: "not-allowed" } : {}}
+                      className="success_btn"
+                      value={loading ? "Editing..." : (editingVedioId ? "UPDATE" : "SAVE")}
+                      disabled={loading}
+                    />
                     <button onClick={handleCancelEditClick}>
                       <button type="button" className="success_btn cancel_btn">
                         CANCEL
@@ -2251,9 +2276,8 @@ const EditProduct = () => {
           {/* Docs Tabs */}
           <div
             id="docs"
-            className={`tab-content add_data_form ${
-              activeTab === "docs" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "docs" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={saveMultipleDocs}>
               <div className="mb-3">
@@ -2275,7 +2299,7 @@ const EditProduct = () => {
                 style={{ display: "flex", flexWrap: "wrap" }}
               >
                 {addMultiDocs.product_docs &&
-                addMultiDocs.product_docs.length > 0 ? (
+                  addMultiDocs.product_docs.length > 0 ? (
                   <table className="multi-images-table">
                     <thead>
                       <tr>
@@ -2326,9 +2350,16 @@ const EditProduct = () => {
                 )}
               </div>
               <div className="mb-3">
-                <button type="submit" className="success_btn">
+                {/* <button type="submit" className="success_btn">
                   SAVE
-                </button>
+                </button> */}
+                <input
+                  type="submit"
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Editing..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/products">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
@@ -2502,9 +2533,8 @@ const EditProduct = () => {
           {/* Certificate Tabs */}
           <div
             id="docs"
-            className={`tab-content add_data_form ${
-              activeTab === "certificate" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "certificate" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={saveMultipleCertificate}>
               <div className="mb-3">
@@ -2526,7 +2556,7 @@ const EditProduct = () => {
                 style={{ display: "flex", flexWrap: "wrap" }}
               >
                 {addMultiCertificate.product_certificate &&
-                addMultiCertificate.product_certificate.length > 0 ? (
+                  addMultiCertificate.product_certificate.length > 0 ? (
                   <table className="multi-images-table">
                     <thead>
                       <tr>
@@ -2579,9 +2609,16 @@ const EditProduct = () => {
                 )}
               </div>
               <div className="mb-3">
-                <button type="submit" className="success_btn">
+                {/* <button type="submit" className="success_btn">
                   SAVE
-                </button>
+                </button> */}
+                <input
+                  type="submit"
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Editing..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/products">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
@@ -2753,9 +2790,8 @@ const EditProduct = () => {
 
           <div
             id="drawing"
-            className={`tab-content add_data_form ${
-              activeTab === "drawing" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "drawing" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={saveMultipleDrawing}>
               <div className="mb-3">
@@ -2777,7 +2813,7 @@ const EditProduct = () => {
                 style={{ display: "flex", flexWrap: "wrap" }}
               >
                 {addMultiDrawing.product_drawing &&
-                addMultiDrawing.product_drawing.length > 0 ? (
+                  addMultiDrawing.product_drawing.length > 0 ? (
                   <table className="multi-images-table">
                     <thead>
                       <tr>
@@ -2828,9 +2864,16 @@ const EditProduct = () => {
                 )}
               </div>
               <div className="mb-3">
-                <button type="submit" className="success_btn">
+                {/* <button type="submit" className="success_btn">
                   SAVE
-                </button>
+                </button> */}
+                <input
+                  type="submit"
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Editing..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/products">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL

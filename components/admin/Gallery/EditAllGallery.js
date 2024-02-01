@@ -178,7 +178,7 @@ const EditAllGallery = () => {
   return (
     <>
       <section className="home-section">
-        <Header onFilterChange={() => {}} />
+        <Header onFilterChange={() => { }} />
         <div className="admin_page_top">
           <p className="admin_page_header">Edit Items</p>
           <p>
@@ -219,9 +219,8 @@ const EditAllGallery = () => {
                           }
                         >
                           <i
-                            className={`fa-solid fa-image ${
-                              selectedImages[index] ? "visible" : ""
-                            }`}
+                            className={`fa-solid fa-image ${selectedImages[index] ? "visible" : ""
+                              }`}
                           ></i>
                         </div>
                         <img
@@ -229,8 +228,8 @@ const EditAllGallery = () => {
                             selectedImages[index]
                               ? URL.createObjectURL(selectedImages[index])
                               : item.gallery_image
-                              ? `/assets/upload/gallery/${item.gallery_image}`
-                              : URL.createObjectURL(selectedImages[index]) // Provide a placeholder image path if needed
+                                ? `/assets/upload/gallery/${item.gallery_image}`
+                                : URL.createObjectURL(selectedImages[index]) // Provide a placeholder image path if needed
                           }
                           width="100px"
                           height="100px"
@@ -309,9 +308,16 @@ const EditAllGallery = () => {
             </table>
 
             <div className="mt-5">
-              <button type="submit" className="success_btn">
+              {/* <button type="submit" className="success_btn">
                 SAVE
-              </button>
+              </button> */}
+              <input
+                type="submit"
+                style={loading ? { cursor: "not-allowed" } : {}}
+                className="success_btn"
+                value={loading ? "Editing..." : "SAVE"}
+                disabled={loading}
+              />
               <Link href="/admin/gallery">
                 <button type="button" className="success_btn cancel_btn">
                   CANCEL

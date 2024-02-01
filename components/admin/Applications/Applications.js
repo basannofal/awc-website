@@ -107,8 +107,7 @@ const Applications = () => {
       // Move closeDeleteModal and SuccessToast here to ensure they are called after the deletion is successful
       closeDeleteModal();
       SuccessToast(
-        `${
-          dataType.charAt(0).toUpperCase() + dataType.slice(1)
+        `${dataType.charAt(0).toUpperCase() + dataType.slice(1)
         } Deleted Successfully`
       );
       if (dataType === "application") {
@@ -358,25 +357,22 @@ const Applications = () => {
           {/* Application Tab */}
           <div
             id="application"
-            className={`tab-content add_data_form ${
-              activeTab === "application" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "application" ? "active" : ""
+              }`}
           >
             <div className="sub-tabs-container">
               <div className="tabs">
                 <div style={{ display: "flex" }}>
                   <div
-                    className={`tab ${
-                      activeSubTab === "contact" ? "active" : ""
-                    }`}
+                    className={`tab ${activeSubTab === "contact" ? "active" : ""
+                      }`}
                     onClick={() => showSubTab("contact")}
                   >
                     Contact
                   </div>
                   <div
-                    className={`tab ${
-                      activeSubTab === "job-application" ? "active" : ""
-                    }`}
+                    className={`tab ${activeSubTab === "job-application" ? "active" : ""
+                      }`}
                     onClick={() => showSubTab("job-application")}
                   >
                     Job Application
@@ -387,9 +383,8 @@ const Applications = () => {
               {/* Contact Table */}
               <div
                 id="contact"
-                className={`tab-content add_data_form ${
-                  activeSubTab === "contact" ? "active" : ""
-                }`}
+                className={`tab-content add_data_form ${activeSubTab === "contact" ? "active" : ""
+                  }`}
               >
                 {/* <div className="mb-3"> */}
                 <div className="admin_category_table">
@@ -470,9 +465,8 @@ const Applications = () => {
               {/* Inquiry Table */}
               <div
                 id="job-application"
-                className={`tab-content add_data_form ${
-                  activeSubTab === "job-application" ? "active" : ""
-                }`}
+                className={`tab-content add_data_form ${activeSubTab === "job-application" ? "active" : ""
+                  }`}
               >
                 <div className="admin_category_table">
                   <table>
@@ -594,17 +588,15 @@ const Applications = () => {
           {/* Career Tab */}
           <div
             id="career"
-            className={`tab-content add_data_form ${
-              activeTab === "career" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "career" ? "active" : ""
+              }`}
           >
             <div className="sub-tabs-container">
               <div className="tabs">
                 <div style={{ display: "flex" }}>
                   <div
-                    className={`tab ${
-                      activeSubTab === "careerdata" ? "active" : ""
-                    }`}
+                    className={`tab ${activeSubTab === "careerdata" ? "active" : ""
+                      }`}
                     onClick={() => {
                       showSubTab("careerdata");
                       setEditMode(false);
@@ -633,9 +625,8 @@ const Applications = () => {
             {/* All Careers */}
             <div
               id="careerdata"
-              className={`tab-content add_data_form ${
-                activeSubTab === "careerdata" ? "active" : ""
-              }`}
+              className={`tab-content add_data_form ${activeSubTab === "careerdata" ? "active" : ""
+                }`}
             >
               <div className="admin_category_table">
                 <table>
@@ -709,9 +700,8 @@ const Applications = () => {
             {/* Add Career */}
             <div
               id="job"
-              className={`tab-content add_data_form ${
-                activeSubTab === "job" ? "active" : ""
-              }`}
+              className={`tab-content add_data_form ${activeSubTab === "job" ? "active" : ""
+                }`}
             >
               <form method="post" onSubmit={addCareerData}>
                 <div
@@ -812,9 +802,16 @@ const Applications = () => {
                 </div>
 
                 <div className="mb-3">
-                  <button className="success_btn">
+                  {/* <button className="success_btn">
                     {editMode ? "UPDATE" : "SAVE"}
-                  </button>
+                  </button> */}
+                  <input
+                    type="submit"
+                    style={loading ? { cursor: "not-allowed" } : {}}
+                    className="success_btn"
+                    value={loading ? "Editing..." : (editMode ? "UPDATE" : "SAVE")}
+                    disabled={loading}
+                  />
                   <button
                     type="button"
                     className="success_btn cancel_btn"

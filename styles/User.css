@@ -341,6 +341,7 @@ form .modal_input:focus {
   font-size: 13px;
   height: 35px;
   letter-spacing: 1px;
+  border: none;
 }
 
 .success_btn:hover {
@@ -653,11 +654,11 @@ form .modal_input:focus {
   width: 100px;
 }
 
-.dd-input + .dd-menu {
+.dd-input+.dd-menu {
   display: none;
 }
 
-.dd-input:checked + .dd-menu {
+.dd-input:checked+.dd-menu {
   display: block;
 }
 

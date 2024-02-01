@@ -196,9 +196,8 @@ const AddBlog = () => {
           </div>
           <div
             id="general"
-            className={`tab-content add_data_form ${
-              activeTab === "general" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={addBlogTableData}>
               <div className="mb-3">
@@ -311,9 +310,16 @@ const AddBlog = () => {
                 </div>
               </div>
               <div className="mb-3">
-                <button type="submit" className="success_btn">
+                {/* <button type="submit" className="success_btn">
                   SAVE
-                </button>
+                </button> */}
+                <input
+                  type="submit"
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Adding..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/blog">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
@@ -324,9 +330,8 @@ const AddBlog = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${
-              activeTab === "seo" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={addBlogTableData}>
               <div className="mb-3">
@@ -418,9 +423,16 @@ const AddBlog = () => {
                 />
               </div>
               <div className="mb-3">
-                <button type="submit" className="success_btn">
+                {/* <button type="submit" className="success_btn">
                   SAVE
-                </button>
+                </button> */}
+                <input
+                  type="submit"
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Adding..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/blog">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
