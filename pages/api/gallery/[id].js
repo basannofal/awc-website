@@ -52,7 +52,11 @@ export default async function handler(req, res) {
         const galleryImage = gallery[0].gallery_image;
         if (galleryImage) {
           const imagePath = path.join(projectDirectory, galleryImage);
-          await unlink(imagePath);
+          if (fs.existsSync(imagePath)) {
+            await unlink(imagePath);
+          } else {
+            console.log(`File does not exist: ${imagePath}`);
+          }
         }
       }
 
@@ -83,7 +87,11 @@ export default async function handler(req, res) {
         const imagePath = path.join(projectDirectory, gallery_image);
 
         // Delete gallery image file
-        await unlink(imagePath);
+        if (fs.existsSync(imagePath)) {
+          await unlink(imagePath);
+        } else {
+          console.log(`File does not exist: ${imagePath}`);
+        }
 
         // Delete the gallery item from the database
         await conn.query("DELETE FROM gallery WHERE id = ?", [id]);
@@ -163,7 +171,11 @@ export default async function handler(req, res) {
             const oldImagePath = path.join(projectDirectory, oldImage);
 
             // Use await to ensure that unlink is completed before moving on
-            await unlink(oldImagePath);
+            if (fs.existsSync(oldImagePath)) {
+              await unlink(oldImagePath);
+            } else {
+              console.log(`File does not exist: ${oldImagePath}`);
+            }
           }
         }
 

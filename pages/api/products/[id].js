@@ -58,8 +58,11 @@ export default async function handler(req, res) {
           "../../../../../public/assets/upload/products/productImages",
           image.product_image
         );
-
-        await unlink(imagePath);
+        if (fs.existsSync(imagePath)) {
+          await unlink(imagePath);
+        } else {
+          console.log(`File does not exist: ${imagePath}`);
+        }
 
         await conn.query("DELETE FROM product_images WHERE prod_image_id = ?", [
           image.prod_image_id,
@@ -80,7 +83,11 @@ export default async function handler(req, res) {
           video.video_thumbnail
         );
 
-        await unlink(videoPath);
+        if (fs.existsSync(videoPath)) {
+          await unlink(videoPath);
+        } else {
+          console.log(`File does not exist: ${videoPath}`);
+        }
 
         await conn.query("DELETE FROM product_video WHERE prod_video_id = ?", [
           video.prod_video_id,
@@ -100,9 +107,11 @@ export default async function handler(req, res) {
           "../../../../../public/assets/upload/products/productDocs",
           doc.pdf_link
         );
-
-        await unlink(docPath);
-
+        if (fs.existsSync(docPath)) {
+          await unlink(docPath);
+        } else {
+          console.log(`File does not exist: ${docPath}`);
+        }
         await conn.query("DELETE FROM product_docs WHERE prod_docs_id = ?", [
           doc.prod_docs_id,
         ]);
@@ -121,8 +130,11 @@ export default async function handler(req, res) {
           "../../../../../public/assets/upload/products/productCertificate",
           certificate.certificate_link
         );
-
-        await unlink(certificatePath);
+        if (fs.existsSync(certificatePath)) {
+          await unlink(certificatePath);
+        } else {
+          console.log(`File does not exist: ${certificatePath}`);
+        }
 
         await conn.query(
           "DELETE FROM product_certificate WHERE prod_certi_id = ?",
@@ -143,8 +155,11 @@ export default async function handler(req, res) {
           "../../../../../public/assets/upload/products/productDrawing",
           drawing.pdf_link
         );
-
-        await unlink(drawingPath);
+        if (fs.existsSync(drawingPath)) {
+          await unlink(drawingPath);
+        } else {
+          console.log(`File does not exist: ${drawingPath}`);
+        }
 
         await conn.query("DELETE FROM product_drawing WHERE id = ?", [
           drawing.id,
@@ -171,8 +186,16 @@ export default async function handler(req, res) {
         const newPath = path.join(projectDirectory, productImage);
         const newBrPath = path.join(projectDirectory, productBrochure);
         console.log(newPath);
-        await unlink(newPath);
-        await unlink(newBrPath);
+        if (fs.existsSync(newPath)) {
+          await unlink(newPath);
+        } else {
+          console.log(`File does not exist: ${newPath}`);
+        }
+        if (fs.existsSync(newBrPath)) {
+          await unlink(newBrPath);
+        } else {
+          console.log(`File does not exist: ${newBrPath}`);
+        }
       }
 
       // Process the data and send the response
@@ -259,7 +282,11 @@ export default async function handler(req, res) {
                   "../../../../../public/assets/upload/products",
                   oldImage
                 );
-                await unlink(oldImagePath);
+                if (fs.existsSync(oldImagePath)) {
+                  await unlink(oldImagePath);
+                } else {
+                  console.log(`File does not exist: ${oldImagePath}`);
+                }
               }
 
               const oldPath = imageFile[0].filepath;

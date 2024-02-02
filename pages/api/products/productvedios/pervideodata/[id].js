@@ -107,7 +107,11 @@ export default async function handler(req, res) {
           if (productVid.length !== 0) {
             const oldImage = productVid[0].video_thumbnail;
             const oldImagePath = path.join(projectDirectory, oldImage);
-            await unlink(oldImagePath);
+            if (fs.existsSync(oldImagePath)) {
+              await unlink(oldImagePath);
+            } else {
+              console.log(`File does not exist: ${oldImagePath}`);
+            }
           }
         }
 

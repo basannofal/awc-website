@@ -94,7 +94,11 @@ export default async function handler(req, res) {
           if (productCertificate.length !== 0) {
             const oldImage = productCertificate[0].certificate_link;
             const oldImagePath = path.join(projectDirectory, oldImage);
-            await unlink(oldImagePath);
+            if (fs.existsSync(oldImagePath)) {
+              await unlink(oldImagePath);
+            } else {
+              console.log(`File does not exist: ${oldImagePath}`);
+            }
           }
         }
 

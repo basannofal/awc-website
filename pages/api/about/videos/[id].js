@@ -41,7 +41,15 @@ export default async function handler(req, res) {
         const thumbnailPath = path.join(projectDirectory, videoThumbnail);
 
         // Delete the video thumbnail file
-        await unlink(thumbnailPath);
+        try {
+          await fs.access(thumbnailPath);
+          console.log(`Deleting file: ${thumbnailPath}`);
+          await fs.unlink(thumbnailPath);
+        } catch (error) {
+          console.error(
+            `File not found or could not be deleted: ${thumbnailPath}`
+          );
+        }
       }
 
       // Send a success response
@@ -118,7 +126,15 @@ export default async function handler(req, res) {
           if (video.length !== 0) {
             const oldImage = video[0].thumbnail;
             const oldImagePath = path.join(projectDirectory, oldImage);
-            await unlink(oldImagePath);
+            try {
+              await fs.access(oldImagePath);
+              console.log(`Deleting file: ${oldImagePath}`);
+              await fs.unlink(oldImagePath);
+            } catch (error) {
+              console.error(
+                `File not found or could not be deleted: ${oldImagePath}`
+              );
+            }
           }
         }
 

@@ -37,12 +37,13 @@ export default async function handler(req, res) {
         if (pdfFile) {
           const pdfPath = path.join(projectDirectory, pdfFile);
 
-          // Check if the file exists before unlinking
           try {
-            await unlink(pdfPath);
-          } catch (unlinkError) {
-            console.error(`Error deleting PDF file: ${unlinkError.message}`);
+            await fs.access(pdfPath);
+            await fs.unlink(pdfPath);
+          } catch (error) {
+            console.error(`File not found or could not be deleted: ${pdfPath}`);
           }
+          // Check if the file exists before unlinking
         }
 
         // Delete Thumbnail file
@@ -50,12 +51,13 @@ export default async function handler(req, res) {
         if (thumbnailFile) {
           const thumbnailPath = path.join(projectDirectory, thumbnailFile);
 
-          // Check if the file exists before unlinking
           try {
-            await unlink(thumbnailPath);
-          } catch (unlinkError) {
+            await fs.access(thumbnailPath);
+            console.log(`Deleting file: ${thumbnailPath}`);
+            await fs.unlink(thumbnailPath);
+          } catch (error) {
             console.error(
-              `Error deleting Thumbnail file: ${unlinkError.message}`
+              `File not found or could not be deleted: ${thumbnailPath}`
             );
           }
         }
@@ -105,11 +107,15 @@ export default async function handler(req, res) {
                   "../../../../../../public/assets/upload/about/certificates",
                   oldFile
                 );
-                fs.unlink(oldFilePath, (deleteErr) => {
-                  if (deleteErr) {
-                    console.error(deleteErr);
-                  }
-                });
+                try {
+                  await fs.access(oldFilePath);
+                  console.log(`Deleting file: ${oldFilePath}`);
+                  await fs.unlink(oldFilePath);
+                } catch (error) {
+                  console.error(
+                    `File not found or could not be deleted: ${oldFilePath}`
+                  );
+                }
               }
 
               const oldPath = file[0].filepath;

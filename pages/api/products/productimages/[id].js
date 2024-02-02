@@ -59,7 +59,11 @@ export default async function handler(req, res) {
         );
         const newPath = path.join(projectDirectory, productImage);
         console.log(newPath);
-        await unlink(newPath);
+        if (fs.existsSync(newPath)) {
+          await unlink(newPath);
+        } else {
+          console.log(`File does not exist: ${newPath}`);
+        }
       }
 
       // Process the data and send the response
@@ -165,7 +169,11 @@ export default async function handler(req, res) {
           if (product.length !== 0) {
             const oldImage = product[0].product_image;
             const oldImagePath = path.join(projectDirectory, oldImage);
-            await unlink(oldImagePath);
+            if (fs.existsSync(oldImagePath)) {
+              await unlink(oldImagePath);
+            } else {
+              console.log(`File does not exist: ${oldImagePath}`);
+            }
           }
         }
 

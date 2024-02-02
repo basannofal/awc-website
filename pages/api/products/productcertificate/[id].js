@@ -60,7 +60,11 @@ export default async function handler(req, res) {
         );
         const newPath = path.join(projectDirectory, productCertificate);
         console.log(newPath);
-        await unlink(newPath);
+        if (fs.existsSync(newPath)) {
+          await unlink(newPath);
+        } else {
+          console.log(`File does not exist: ${newPath}`);
+        }
       }
 
       // Process the data and send the response

@@ -14,8 +14,8 @@ export const config = {
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
-    user: "fackidi69@gmail.com",
-    pass: "efwqgxzraskgpcga",
+    user: process.env.NEXT_PUBLIC_EMAIL,
+    pass: process.env.NEXT_PUBLIC_EMAIL_PASS,
   },
 });
 
@@ -23,7 +23,7 @@ const transporter = nodemailer.createTransport({
 const sendEmail = async (email, subject, text) => {
   try {
     await transporter.sendMail({
-      from: "fackidi69@gmail.com",
+      from: process.env.NEXT_PUBLIC_EMAIL,
       to: email,
       subject,
       text,
@@ -83,7 +83,15 @@ export default async function handler(req, res) {
         const resumePath = path.join(uploadDir, resumeFile);
 
         // Delete the resume file
-        await unlink(resumePath);
+        try {
+          await fs.access(resumePath);
+          console.log(`Deleting file: ${resumePath}`);
+          await fs.unlink(resumePath);
+        } catch (error) {
+          console.error(
+            `File not found or could not be deleted: ${resumePath}`
+          );
+        }
       }
 
       // Send the response

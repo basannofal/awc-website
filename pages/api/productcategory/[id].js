@@ -56,7 +56,12 @@ export default async function handler(req, res) {
           "../../../../../public/assets/upload/product-category"
         );
         const newPath = path.join(projectDirectory, categoryImage);
-        await unlink(newPath);
+        if (fs.existsSync(newPath)) {
+          await unlink(newPath);
+        } else {
+          console.log(`File does not exist: ${newPath}`);
+        }
+
       }
 
       // Process the data and send the response
@@ -167,7 +172,11 @@ export default async function handler(req, res) {
           if (category.length !== 0) {
             const oldImage = category[0].category_image;
             const oldImagePath = path.join(projectDirectory, oldImage);
-            await unlink(oldImagePath);
+            if (fs.existsSync(oldImagePath)) {
+              await unlink(oldImagePath);
+            } else {
+              console.log(`File does not exist: ${oldImagePath}`);
+            }
           }
         }
 

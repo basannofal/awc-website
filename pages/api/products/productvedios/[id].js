@@ -58,7 +58,11 @@ export default async function handler(req, res) {
         const thumbnail = productThumbnail[0].video_thumbnail;
         if (thumbnail) {
           const imagePath = path.join(projectDirectory, thumbnail);
-          await unlink(imagePath);
+          if (fs.existsSync(imagePath)) {
+            await unlink(imagePath);
+          } else {
+            console.log(`File does not exist: ${imagePath}`);
+          }
         }
       }
 
@@ -132,7 +136,11 @@ export default async function handler(req, res) {
                   "../../../../../public/assets/upload/blog",
                   oldImage
                 );
-                unlink(oldImagePath);
+                if (fs.existsSync(oldImagePath)) {
+                  await unlink(oldImagePath);
+                } else {
+                  console.log(`File does not exist: ${oldImagePath}`);
+                }
               }
 
               const oldPath = imageFile[0].filepath;

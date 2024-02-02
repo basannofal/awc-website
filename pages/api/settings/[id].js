@@ -78,7 +78,11 @@ export default async function handler(req, res) {
                   "../../../../../public/assets/upload/setting",
                   oldImage
                 );
-                unlink(oldImagePath);
+                if (fs.existsSync(oldImagePath)) {
+                  await unlink(oldImagePath);
+                } else {
+                  console.log(`File does not exist: ${oldImagePath}`);
+                }
               }
 
               const oldPath = imageFile[0].filepath;
