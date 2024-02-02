@@ -108,6 +108,21 @@ const Sidebar = () => {
               <span className="links_name">Testimonial</span>
             </Link>
           </li>
+
+          <li
+            className={
+              router.pathname === "/admin/videotestimonial"
+                ? "admin_sidebar_active_li"
+                : ""
+            }
+          >
+            <Link href="/admin/videotestimonial">
+              <i className="fa fa-quote-left"></i>
+              <span className="links_name">Video Testimonial</span>
+            </Link>
+          </li>
+
+
           <li
             className={
               router.pathname === "/admin/gallery"

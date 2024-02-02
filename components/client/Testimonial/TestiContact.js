@@ -5,6 +5,7 @@ import YouTube from "react-youtube";
 const TestiContact = () => {
   const [loading, setLoading] = useState(true);
   const [testimonial, setTestimonial] = useState([]);
+  const [Videotestimonial, setVideoTestimonial] = useState([]);
 
   const getTestimonial = async () => {
     setLoading(true);
@@ -21,8 +22,24 @@ const TestiContact = () => {
     }
   };
 
+  const getVideoTestimonial = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/videotestimonials/alltestimonials/router`
+      );
+      console.log(response.data);
+      setVideoTestimonial(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
+
   const fetchData = async () => {
     await getTestimonial();
+    await getVideoTestimonial();
   };
 
   useEffect(() => {
@@ -74,10 +91,11 @@ const TestiContact = () => {
         </div>
       ) : (
         <div className="main_testi_contact">
-          {testimonial.map((item, idx) => {
-            return (
-              <div className="main_testi_contact_inner" key={item.id}>
-                <div className="testimonials-contents">
+          <div className="main_testi_contact_inner" >
+          <div className="testimonials-contents">
+            {testimonial.map((item, idx) => {
+              return (
+                <div className="testi_shadow" key={item.id}>
                   <img
                     className=""
                     src={"./assets/images/client/quotes-img.png"}
@@ -100,15 +118,22 @@ const TestiContact = () => {
                     </div>
                   </div>
                 </div>
-                <div className="video_testimonial">
-                  <YouTube videoId={item?.testimonial_video}  />
-                  <p className="testi_video_title">
-                    our client {item?.testimonial_title} review
+              );
+            })}
+          </div>
+          <div className="video_testimonial">
+            {Videotestimonial.map((item, idx) => {
+              return (
+                <div >
+                  <YouTube videoId={item?.linl} />
+                  <p className="testi_video_title mb-3">
+                    {item?.title}
                   </p>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+          </div>
         </div>
       )}
     </>

@@ -352,7 +352,7 @@ const EditTestimonial = () => {
                 />
               </div>
               {/* Video */}
-              <div className="mb-3">
+              {/* <div className="mb-3">
                 <label htmlFor="testimonial_video" className="modal_label">
                   Testimonial Video:-
                 </label>
@@ -365,7 +365,7 @@ const EditTestimonial = () => {
                   value={editTestimonialData?.testimonial_video}
                   onChange={handleChangeTestimonial}
                 />
-              </div>
+              </div> */}
 
               {/* Rating Slider */}
               <div className="mb-3">

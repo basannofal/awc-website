@@ -310,7 +310,7 @@ const AddTestimonial = () => {
               </div>
 
               {/* Video */}
-              <div className="mb-3">
+              {/* <div className="mb-3">
                 <label htmlFor="testimonial_video" className="modal_label">
                   Testimonial Video:-
                 </label>
@@ -322,7 +322,7 @@ const AddTestimonial = () => {
                   placeholder="Enter Testimonial Video Link"
                   onChange={handleChangeTestimonial}
                 />
-              </div>
+              </div> */}
 
               {/* Rating */}
               <div className="mb-3">
