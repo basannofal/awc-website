@@ -70,12 +70,7 @@ const Certificate = () => {
           <div className="certificate-inner">
             <h3>CERTIFICATES</h3>
             <p>Our Commitment to Quality, Environment, and Safety</p>
-            <Carousel
-              responsive={responsive}
-              showDots={false}
-              autoPlay={true}
-              autoPlaySpeed={4000}
-            >
+            <div className="certificate-main-inner">
               {certificate?.map((cert, index) => (
                 <div key={cert.id}>
                   <div className="certificate-content">
@@ -102,82 +97,89 @@ const Certificate = () => {
                   </div>
                 </div>
               ))}
-            </Carousel>
+              {certificate?.map((cert, index) => (
+                <div key={cert.id}>
+                  <div className="certificate-content">
+                    <div className="certificate-image">
+                      <img
+                        src={`/assets/upload/about/certificates/${cert.thumbnail}`}
+                        alt={`Certificate ${cert.id}`}
+                      />
+                    </div>
+                    <div className="flex items-center pt-3 pr-5">
+                      <h6>{cert.title}</h6>
+                      <div className="certificate-download">
+                        <a
+                          href={`/assets/upload/about/certificates/${cert.pdf}`}
+                          download
+                        >
+                          <img
+                            src={"./assets/images/client/download.png"}
+                            alt="Download"
+                          />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
           </div>
         </div>
 
         {/* YouTube Video Links */}
         <div className="container-youtube mt-5">
           <div className="youtube-inner">
-            <Carousel
-              responsive={responsive}
-              showDots={false}
-              autoPlay={true}
-              autoPlaySpeed={4000}
-            >
+            <div className="video-main-inner">
               {videos?.map((vid) => (
-                <div key={vid.id}>
-                  <div className="youtube-content">
-                    <div className="youtube-thumbnail">
-                      <img
-                        src={`/assets/upload/about/videos/${vid.thumbnail}`}
-                      />
-                      <div className="iconOfYo9utube">
-                        <Link href={`${vid.link}`} target="_blank">
-                          <img src={"./assets/images/client/youtube.png"} />
-                        </Link>
-                      </div>
-                      {/* <YouTube videoId={vid?.link} /> */}
-                    </div>
-                    
-
-                  </div>
-                  {/* <YouTube videoId={vid.link} className="w-1/3 m-5" /> */}
+                <div className="youtube-content" key={vid.id}>
+                  <iframe
+                    width="380px"
+                    height="315"
+                    src={`https://www.youtube.com/embed/${vid.link}`}
+                    allowFullScreen
+                  ></iframe>
+                  <p>{vid.title}</p>
                 </div>
               ))}
-            </Carousel>
-          </div>
-        </div>
-        {/* <div className="container-youtube mt-5">
-          <div className="youtube-inner flex">
-            {videos?.map((vid) => (
-              <div key={vid.id}>
 
-                <YouTube videoId={vid?.link} />
-              </div>
-            ))}
-          </div>
-        </div> */}
-        {/* Member */}
-        <div className="container-member">
-          <div className="member-inner">
-            <div className="grid">
-              <div className="xl-6 lg-6 md-12 sm-12">
-                <h6>IGBC MEMBER</h6>
-                <p>
-                  The Indian Green Building Council (IGBC) is a part of the
-                  Confederation of Indian Industry (CII) since the year 2001.
-                  Its vision is "To enable a sustainable built environment for
-                  all and facilitate India to be one of the global leaders in
-                  the sustainable built environment by 2025".The prestigious
-                  IGBC membership provides AWC with access to resources2C
-                  international best practices and the latest in the field of
-                  Green building initiatives thus giving us the crucial
-                  competitive advantage. AWC is proud to be in the company of
-                  experts, professionals and multi-industry organizations that
-                  are at the forefront of creating the green building revolution
-                  in India.
-                </p>
-              </div>
-              <div className="xl-6 lg-6 md-12 sm-12">
-                <div className="member-image">
-                  <img src={"./assets/images/client/IGBC 2024_page-0001.jpg"} />
+            </div>
+
+
+            {/* Member */}
+            < div className="container-member" >
+              <div className="member-inner">
+                <div className="grid">
+                  <div className="xl-6 lg-6 md-12 sm-12">
+                    <h6>IGBC MEMBER</h6>
+                    <p>
+                      The Indian Green Building Council (IGBC) is a part of the
+                      Confederation of Indian Industry (CII) since the year 2001.
+                      Its vision is "To enable a sustainable built environment for
+                      all and facilitate India to be one of the global leaders in
+                      the sustainable built environment by 2025".The prestigious
+                      IGBC membership provides AWC with access to resources2C
+                      international best practices and the latest in the field of
+                      Green building initiatives thus giving us the crucial
+                      competitive advantage. AWC is proud to be in the company of
+                      experts, professionals and multi-industry organizations that
+                      are at the forefront of creating the green building revolution
+                      in India.
+                    </p>
+                  </div>
+                  <div className="xl-6 lg-6 md-12 sm-12">
+                    <div className="member-image">
+                      <img src={"./assets/images/client/IGBC 2024_page-0001.jpg"} />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </section >
+
     </>
   );
 };
