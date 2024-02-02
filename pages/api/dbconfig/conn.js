@@ -4,7 +4,7 @@ const pool = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "",
-  database: "valudas_awc",
+  database: "awc_db",
   connectionLimit: 10,
 });
 
