@@ -245,9 +245,8 @@ const EditProdCategory = () => {
           </div>
           <div
             id="general"
-            className={`tab-content add_data_form ${
-              activeTab === "general" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
+              }`}
           >
             <form>
               <div className="mb-3">
@@ -382,7 +381,7 @@ const EditProdCategory = () => {
                 </select>
               </div>
               <div className="mb-3">
-                <button
+                {/* <button
                   type="button"
                   onClick={() =>
                     saveEditCategoryData(editProductCategoryData.category_id)
@@ -390,7 +389,17 @@ const EditProdCategory = () => {
                   className="success_btn"
                 >
                   SAVE
-                </button>
+                </button> */}
+                <input
+                  onClick={() =>
+                    saveEditCategoryData(editProductCategoryData.category_id)
+                  }
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  type="submit"
+                  value={loading ? "Editing..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/product-category">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
@@ -401,9 +410,8 @@ const EditProdCategory = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${
-              activeTab === "seo" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
+              }`}
           >
             <form>
               <div className="mb-3">

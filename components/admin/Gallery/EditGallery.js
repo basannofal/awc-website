@@ -208,7 +208,14 @@ const EditGallery = ({ editedItem, onClose, onEditComplete }) => {
           />
 
           <div className="popup-buttons">
-            <button type="submit">Save</button>
+            {/* <button type="submit">Save</button> */}
+            <input
+              type="submit"
+              style={loading ? { cursor: "not-allowed" } : {}}
+              className="success_btn"
+              value={loading ? "Editing..." : "SAVE"}
+              disabled={loading}
+            />
             <button type="button" onClick={onClose}>
               Cancel
             </button>

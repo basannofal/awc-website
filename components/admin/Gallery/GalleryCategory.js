@@ -301,9 +301,16 @@ const GalleryCategory = () => {
               </div>
 
               <div className="mb-3">
-                <button type="submit" className="success_btn">
+                {/* <button type="submit" className="success_btn">
                   {editMode ? "UPDATE" : "SAVE"}
-                </button>
+                </button> */}
+                <input
+                  type="submit"
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Adding..." : (editMode ? "UPDATE" : "SAVE")}
+                  disabled={loading}
+                />
                 <Link href="/admin/gallery">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
