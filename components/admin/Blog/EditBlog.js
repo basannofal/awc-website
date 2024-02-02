@@ -217,9 +217,8 @@ const EditBlog = () => {
 
           <div
             id="general"
-            className={`tab-content add_data_form ${
-              activeTab === "general" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={saveEditBlogData}>
               <div className="mb-3">
@@ -341,13 +340,21 @@ const EditBlog = () => {
                 </div>
               </div>
               <div className="mb-3">
-                <button
+                {/* <button
                   type="button"
                   onClick={saveEditBlogData}
                   className="success_btn"
                 >
                   SAVE
-                </button>
+                </button> */}
+                <input
+                  type="button"
+                  onClick={saveEditBlogData}
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Editing..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/blog">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
@@ -359,9 +366,8 @@ const EditBlog = () => {
 
           <div
             id="seo"
-            className={`tab-content add_data_form ${
-              activeTab === "seo" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
+              }`}
           >
             <form>
               <div className="mb-3">
@@ -455,13 +461,21 @@ const EditBlog = () => {
                 />
               </div>
               <div className="mb-3">
-                <button
+                {/* <button
                   type="button"
                   onClick={saveEditBlogData}
                   className="success_btn"
                 >
                   SAVE
-                </button>
+                </button> */}
+                <input
+                  type="button"
+                  onClick={saveEditBlogData}
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Editing..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/blog">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL

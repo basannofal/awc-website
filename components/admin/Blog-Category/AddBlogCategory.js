@@ -41,7 +41,7 @@ const AddBlogCategory = () => {
     if (event.key === "Enter" || event.key === ",") {
       // Add the entered keyword to the keywords array
       event.preventDefault();
-      if( event.target.value.trim() === ''){
+      if (event.target.value.trim() === '') {
         ErrorToast("Please Write Tag")
         return
       }
@@ -60,7 +60,7 @@ const AddBlogCategory = () => {
     if (event.key === "Enter" || event.key === ",") {
       // Add the entered keyword to the keywords array
       event.preventDefault();
-      if( event.target.value.trim() === ''){
+      if (event.target.value.trim() === '') {
         ErrorToast("Please Write Keyword")
         return
       }
@@ -344,9 +344,16 @@ const AddBlogCategory = () => {
                 </div>
               )}
               <div className="mb-3">
-                <button type="submit" className="success_btn">
+                {/* <button type="submit" className="success_btn">
                   SAVE
-                </button>
+                </button> */}
+                <input
+                  type="submit"
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Adding..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/blog-category">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
@@ -450,9 +457,16 @@ const AddBlogCategory = () => {
                 />
               </div>
               <div className="mb-3">
-                <button type="submit" className="success_btn">
+                {/* <button type="submit" className="success_btn">
                   SAVE
-                </button>
+                </button> */}
+                <input
+                  type="submit"
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Adding..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/blog-category">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL

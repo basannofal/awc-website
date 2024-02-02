@@ -86,7 +86,7 @@ const EditBlogCategory = () => {
   const validateForm = () => {
     const requiredFields = [
       "category_title",
-      "category_image",  
+      "category_image",
       "category_icon",
     ];
     for (const field of requiredFields) {
@@ -141,7 +141,7 @@ const EditBlogCategory = () => {
   const handleKeyword = (event) => {
     if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
-      if( event.target.value.trim() === ''){
+      if (event.target.value.trim() === '') {
         ErrorToast("Please Write Keyword")
         return
       }
@@ -159,7 +159,7 @@ const EditBlogCategory = () => {
   const handleTags = (event) => {
     if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
-      if( event.target.value.trim() === ''){
+      if (event.target.value.trim() === '') {
         ErrorToast("Please Write Tag")
         return
       }
@@ -212,9 +212,8 @@ const EditBlogCategory = () => {
           </div>
           <div
             id="general"
-            className={`tab-content add_data_form ${
-              activeTab === "general" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
+              }`}
           >
             <form method="post" onSubmit={saveEditCategory}>
               <div className="mb-3">
@@ -336,13 +335,21 @@ const EditBlogCategory = () => {
                 /> */}
               </div>
               <div className="mb-3">
-                <button
+                {/* <button
                   type="button"
                   onClick={saveEditCategory}
                   className="success_btn"
                 >
                   SAVE
-                </button>
+                </button> */}
+                <input
+                  type="button"
+                  onClick={saveEditCategory}
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Editing..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/blog-category">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
@@ -353,9 +360,8 @@ const EditBlogCategory = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${
-              activeTab === "seo" ? "active" : ""
-            }`}
+            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
+              }`}
           >
             <form>
               <div className="mb-3">
@@ -451,13 +457,21 @@ const EditBlogCategory = () => {
                 />
               </div>
               <div className="mb-3">
-                <button
+                {/* <button
                   type="button"
                   onClick={saveEditCategory}
                   className="success_btn"
                 >
                   SAVE
-                </button>
+                </button> */}
+                <input
+                  type="button"
+                  onClick={saveEditCategory}
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Editing..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/blog-category">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL

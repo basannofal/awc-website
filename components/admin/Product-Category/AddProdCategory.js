@@ -111,7 +111,7 @@ const AddProdCategory = () => {
     if (!validateForm()) {
       return;
     }
-    window.scrollTo({ behavior: "smooth", top: 0 });
+    // window.scrollTo({ behavior: "smooth", top: 0 });
     setLoading(true);
 
 
@@ -159,7 +159,7 @@ const AddProdCategory = () => {
   const handleKeyword = (event) => {
     if ((event.key === "Enter" || event.key == ",")) {
       event.preventDefault();
-      if( event.target.value.trim() === ''){
+      if (event.target.value.trim() === '') {
         ErrorToast("Please Write Keyword")
         return
       }
@@ -177,7 +177,7 @@ const AddProdCategory = () => {
   const handleTags = (event) => {
     if (event.key === "Enter" || event.key == ",") {
       event.preventDefault();
-      if( event.target.value.trim() === ''){
+      if (event.target.value.trim() === '') {
         ErrorToast("Please Write Tag")
         return
       }
@@ -343,9 +343,13 @@ const AddProdCategory = () => {
                 </select>
               </div>
               <div className="mb-3">
-                <button type="submit" className="success_btn">
-                  SAVE
-                </button>
+                <input
+                  type="submit"
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Adding..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/product-category">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
@@ -450,9 +454,16 @@ const AddProdCategory = () => {
                 />
               </div>
               <div className="mb-3">
-                <button type="submit" className="success_btn">
+                {/* <button type="submit" className="success_btn" value={loading ? "Adding..." : "SAVE"} disabled={loading}>
                   SAVE
-                </button>
+                </button> */}
+                <input
+                  type="submit"
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Adding..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/product-category">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL

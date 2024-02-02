@@ -284,7 +284,7 @@ const AddGallery = () => {
   return (
     <>
       <section className="home-section">
-        <Header onFilterChange={() => {}} />
+        <Header onFilterChange={() => { }} />
         <div className="admin_page_top">
           <p className="admin_page_header">Add Images</p>
           <p>
@@ -427,9 +427,16 @@ const AddGallery = () => {
               </table>
 
               <div className="mt-5">
-                <button type="submit" className="success_btn">
+                {/* <button type="submit" className="success_btn">
                   SAVE
-                </button>
+                </button> */}
+                <input
+                  type="submit"
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="success_btn"
+                  value={loading ? "Adding..." : "SAVE"}
+                  disabled={loading}
+                />
                 <Link href="/admin/gallery">
                   <button type="button" className="success_btn cancel_btn">
                     CANCEL
