@@ -89,6 +89,7 @@ const EditAllGallery = () => {
 
   const handleEditAllItems = async (e) => {
     e.preventDefault();
+    setLoading(true);
     // Create an array to store error messages
     const errors = [];
     // Validate each item
@@ -149,7 +150,9 @@ const EditAllGallery = () => {
       // Handle successful update
       SuccessToast("Gallery Items Updated Successfully.");
       router.push("/admin/gallery");
+      setLoading(false); 
     } catch (error) {
+      setLoading(false);
       console.error("Error updating items:", error);
     }
   };

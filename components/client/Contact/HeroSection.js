@@ -81,7 +81,106 @@ const HeroSection = () => {
 
   return (
     <>
-      <section className="container flex flex-wrap mb-5" id="main_contact">
+      <section className="container flex flex-wrap gap-5 mb-5" id="main_contact">
+        <div className="lg-5 sm-12" id="right_section">
+          <div className="form-sec" id="contact_form">
+            <h4>Contact Us</h4>
+            <p className="text-xs">
+              If you require additional information, please complete the form
+              below and submit it. Our team will be in touch with you promptly.
+            </p>
+
+            <form className="contact-form" method="post" onSubmit={saveData}>
+              <div className="form-field">
+                <label
+                  for="name"
+                  className="form-label"
+                  id="form-lable-contact"
+                >
+                  Your Name: <small>*</small>
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  onChange={handleChangeData}
+                  value={addFormData.name}
+                  placeholder="Enter Your Name"
+                  className="form-input-contact"
+                />
+              </div>
+              <div className="form-field">
+                <label
+                  for="email"
+                  className="form-label"
+                  id="form-lable-contact"
+                >
+                  Your Email: <small>*</small>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  onChange={handleChangeData}
+                  value={addFormData.email}
+                  placeholder="Enter Your Email"
+                  className="form-input-contact"
+                />
+              </div>
+              <div className="form-field">
+                <label
+                  for="number"
+                  className="form-label"
+                  id="form-lable-contact"
+                >
+                  Mobile No.:
+                </label>
+                <input
+                  type="text"
+                  name="number"
+                  id="number"
+                  onChange={handleChangeData}
+                  value={addFormData.number}
+                  placeholder="Enter Your Mobile"
+                  className="form-input-contact"
+                />
+              </div>
+              <div className="form-field">
+                <label
+                  for="message"
+                  className="form-label"
+                  id="form-lable-contact"
+                >
+                  Message <small>*</small>
+                </label>
+                <textarea
+                  rows="3"
+                  name="message"
+                  id="message"
+                  onChange={handleChangeData}
+                  value={addFormData.message}
+                  placeholder="Type Your Message Here..."
+                  className="form-input-contact"
+                ></textarea>
+              </div>
+
+              {validationError && validationError != "" ? (
+                <small style={{ color: "red" }}>* {validationError}</small>
+              ) : (
+                ""
+              )}
+              <div className="form-action mt-4">
+                <input
+                  style={loading ? { cursor: "not-allowed" } : {}}
+                  className="btn-primary"
+                  type="submit"
+                  value={loading ? "Sending..." : "Submit Information"}
+                  disabled={loading}
+                />
+              </div>
+            </form>
+          </div>
+        </div>
         <div className="lg-5 sm-12">
           <div>
             <button
@@ -196,105 +295,6 @@ const HeroSection = () => {
               </div>
             </div>
           )}
-        </div>
-        <div className="lg-5 sm-12" id="right_section">
-          <div className="form-sec" id="contact_form">
-            <h4>Contact Us</h4>
-            <p className="text-xs">
-              If you require additional information, please complete the form
-              below and submit it. Our team will be in touch with you promptly.
-            </p>
-
-            <form className="contact-form" method="post" onSubmit={saveData}>
-              <div className="form-field">
-                <label
-                  for="name"
-                  className="form-label"
-                  id="form-lable-contact"
-                >
-                  Your Name: <small>*</small>
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  onChange={handleChangeData}
-                  value={addFormData.name}
-                  placeholder="Enter Your Name"
-                  className="form-input-contact"
-                />
-              </div>
-              <div className="form-field">
-                <label
-                  for="email"
-                  className="form-label"
-                  id="form-lable-contact"
-                >
-                  Your Email: <small>*</small>
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  onChange={handleChangeData}
-                  value={addFormData.email}
-                  placeholder="Enter Your Email"
-                  className="form-input-contact"
-                />
-              </div>
-              <div className="form-field">
-                <label
-                  for="number"
-                  className="form-label"
-                  id="form-lable-contact"
-                >
-                  Mobile No.:
-                </label>
-                <input
-                  type="text"
-                  name="number"
-                  id="number"
-                  onChange={handleChangeData}
-                  value={addFormData.number}
-                  placeholder="Enter Your Mobile"
-                  className="form-input-contact"
-                />
-              </div>
-              <div className="form-field">
-                <label
-                  for="message"
-                  className="form-label"
-                  id="form-lable-contact"
-                >
-                  Message <small>*</small>
-                </label>
-                <textarea
-                  rows="3"
-                  name="message"
-                  id="message"
-                  onChange={handleChangeData}
-                  value={addFormData.message}
-                  placeholder="Type Your Message Here..."
-                  className="form-input-contact"
-                ></textarea>
-              </div>
-
-              {validationError && validationError != "" ? (
-                <small style={{ color: "red" }}>* {validationError}</small>
-              ) : (
-                ""
-              )}
-              <div className="form-action mt-4">
-                <input
-                  style={loading ? { cursor: "not-allowed" } : {}}
-                  className="btn-primary"
-                  type="submit"
-                  value={loading ? "Sending..." : "Submit Information"}
-                  disabled={loading}
-                />
-              </div>
-            </form>
-          </div>
         </div>
       </section>
 

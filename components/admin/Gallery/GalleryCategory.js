@@ -49,6 +49,7 @@ const GalleryCategory = () => {
           ...prevData,
           category_title: "",
         }));
+        setLoading(false);
         SuccessToast("Gallery Category Updated Successfully");
       } else {
         // If not in edit mode, send a POST request
@@ -69,8 +70,10 @@ const GalleryCategory = () => {
       }
 
       // fetch gallery category data
+      setLoading(false);
       getAllGalleryCategoryData();
     } catch (error) {
+      setLoading(false);
       ErrorToast(error?.response?.data?.message);
     } finally {
       setLoading(false);
@@ -134,6 +137,7 @@ const GalleryCategory = () => {
       // Set galleryCategoryId and edit mode to true
       setGalleryCategoryId(galleryCategoryId);
       setEditMode(true);
+      setLoading(false);
 
       // Update state with the retrieved category details
       setAddEditGalleryCategoryData({

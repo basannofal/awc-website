@@ -76,6 +76,7 @@
   letter-spacing: 0em;
   color: #424652;
 }
+
 .contact_phone a,
 .contact_email a {
   color: #424652;
@@ -125,6 +126,7 @@
 
 #contact_form {
   padding: 20px;
+  margin: 0px;
 }
 
 .social_icons {
@@ -135,6 +137,7 @@
   background-color: #eeeff0;
   cursor: pointer;
 }
+
 .contact_map {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   padding: 10px;
@@ -143,6 +146,7 @@
   margin: 50px auto 50px auto;
   border-radius: 5px;
 }
+
 .contact_map iframe {
   width: 100%;
   height: 400px;
@@ -156,9 +160,11 @@
 #first_social_icon {
   background-color: #1386d3;
 }
+
 #first_social_icon a {
   color: white;
 }
+
 @media screen and (max-width: 500px) {
   #main_contact {
     max-width: 100%;
@@ -181,9 +187,11 @@
   #main_contact {
     padding-top: 50px;
   }
+
   .contact_map {
     width: 95%;
   }
+
   .contact_map iframe {
     width: 100%;
     height: 300px;

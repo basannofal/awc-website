@@ -231,6 +231,7 @@ const About = () => {
     // Check if it's in edit mode
     if (editCerMode && editCerItemId) {
       try {
+        setLoading(true);
         const formdata = new FormData();
         formdata.append("title", CertificateData.title);
         formdata.append("pdf", CertificateData.pdf);
@@ -247,6 +248,7 @@ const About = () => {
           thumbnail: null,
           title: "",
         });
+        setLoading(false)
         setActiveSubTab("careerdata");
         setEditCerMode(false);
         setEditCerItemId(null);
@@ -255,11 +257,13 @@ const About = () => {
         // Fetch updated product data if needed
         // getProductsData();
       } catch (error) {
+        setLoading(false)
         WarningToast(error?.response?.data?.message);
       }
     } else {
       try {
         console.log(CertificateData);
+        setLoading(true)
         const formdata = new FormData();
         formdata.append("title", CertificateData.title);
         formdata.append("pdf", CertificateData.pdf);
@@ -277,9 +281,11 @@ const About = () => {
         });
         getCertificateData();
         SuccessToast("Certificate Added Successfully");
+        setLoading(false);
       } catch (error) {
         console.log(error);
         WarningToast(error?.response?.data?.message);
+        setLoading(false)
       }
     }
   };
@@ -373,7 +379,6 @@ const About = () => {
 
   const SaveVideoData = async (e) => {
     e.preventDefault();
-
     // Validation
     const errors = [];
 
@@ -405,6 +410,7 @@ const About = () => {
     // Check if it's in edit mode
     if (editVideoMode && editVideoItemId) {
       try {
+        setLoading(true);
         const formdata = new FormData();
         formdata.append("title", addVideoData.title);
         formdata.append("short_desc", addVideoData.short_desc);
@@ -426,13 +432,15 @@ const About = () => {
         setActiveSubTab("contact"); // assuming this is the default tab for videos
         setEditVideoMode(false);
         setEditVideoItemId(null);
-
+        setLoading(false);
         getVideosData();
       } catch (error) {
+        setLoading(false);
         WarningToast(error?.response?.data?.message);
       }
     } else {
       try {
+        setLoading(true);
         const formdata = new FormData();
         formdata.append("title", addVideoData.title);
         formdata.append("short_desc", addVideoData.short_desc);
@@ -451,8 +459,10 @@ const About = () => {
           thumbnail: null,
         });
         getVideosData();
+        setLoading(false);
         SuccessToast("Video Added Successfully");
       } catch (error) {
+        setLoading(false);
         WarningToast(error?.response?.data?.message);
       }
     }
