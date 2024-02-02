@@ -101,6 +101,7 @@ const EditGallery = ({ editedItem, onClose, onEditComplete }) => {
       onEditComplete(res.data);
       SuccessToast("Gallery Image Updated Successfully..");
     } catch (error) {
+      setLoading(false);
       console.error("Error updating item:", error);
     }
   };
