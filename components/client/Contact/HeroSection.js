@@ -1,6 +1,7 @@
 import axios from "axios";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import Toast, { SuccessToast } from "@/layouts/toast/Toast";
 
 const HeroSection = () => {
   const [activeTab, setActiveTab] = useState("office");
@@ -66,6 +67,7 @@ const HeroSection = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/client/contact/contactform/router`,
         formdata
       );
+      SuccessToast("Your d");
       setAddFormData({
         name: "",
         email: "",
@@ -81,7 +83,10 @@ const HeroSection = () => {
 
   return (
     <>
-      <section className="container flex flex-wrap gap-5 mb-5" id="main_contact">
+      <section
+        className="container flex flex-wrap gap-5 mb-5"
+        id="main_contact"
+      >
         <div className="lg-5 sm-12" id="right_section">
           <div className="form-sec" id="contact_form">
             <h4>Contact Us</h4>
