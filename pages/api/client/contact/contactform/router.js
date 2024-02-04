@@ -29,7 +29,7 @@ export default async function handler(req, res) {
         res.status(200).json(row);
       } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "Failed to Add Product Category" });
+        res.status(500).json({ message: "Failed to Contact!! Please Try Again" });
       } finally {
         conn.releaseConnection();
       }
@@ -49,7 +49,7 @@ async function sendContactEmail({ name, email, number, message }) {
   // Email content
   const mailOptions = {
     from: process.env.NEXT_PUBLIC_EMAIL,
-    to: email,
+    to: process.env.NEXT_PUBLIC_EMAIL,
     subject: "Thank you for contacting us!",
     html: `
       <html>
