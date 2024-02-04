@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Contact = () => {
   const [addFormData, setAddFormData] = useState({
@@ -10,6 +10,7 @@ const Contact = () => {
   });
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState("");
+  const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
   // add blog data section start
   const handleChangeData = (event) => {
@@ -65,12 +66,26 @@ const Contact = () => {
         number: "",
         message: "",
       });
-      setLoading(false);
+      setSubmissionSuccess(true);
     } catch (error) {
       setValidationError(error?.response?.data?.message);
+    } finally {
       setLoading(false);
     }
   };
+
+  // This useEffect will automatically hide the success message after 2 seconds
+  useEffect(() => {
+    let timeout;
+
+    if (submissionSuccess) {
+      timeout = setTimeout(() => {
+        setSubmissionSuccess(false);
+      }, 2000);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [submissionSuccess]);
 
   return (
     <>
@@ -186,6 +201,11 @@ const Contact = () => {
                       <span style={{ color: "red" }}>* {validationError}</span>
                     ) : (
                       ""
+                    )}
+                    {submissionSuccess && (
+                      <p style={{ color: "green", marginTop: "10px" }}>
+                        Contact inquiry submitted successfully!
+                      </p>
                     )}
                     <div className="form-actions">
                       <input
