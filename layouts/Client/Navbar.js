@@ -107,7 +107,7 @@ const Navbar = () => {
                       />
                     ) : (
                       <img
-                        src={"/assets/images/client/awc_logo_header.webp"}
+                        src={"/assets/images/client/white-logo.png"}
                         alt="AWC Header Logo"
                         width="100%"
                         height="auto"
