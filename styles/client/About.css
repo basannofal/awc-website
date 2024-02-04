@@ -274,9 +274,15 @@
   text-transform: capitalize;
 }
 
+.certificate-sec .certificate-inner .certificate-content {
+  width: min-content;
+}
 
-
-.certificate-sec .certificate-inner .certificate-content .certificate-image img {
+.certificate-sec
+  .certificate-inner
+  .certificate-content
+  .certificate-image
+  img {
   width: 300.729px;
   height: 400.021px;
   flex-shrink: 0;
@@ -299,7 +305,11 @@
   padding-right: 10px;
 }
 
-.certificate-sec .certificate-inner .certificate-content .certificate-download img {
+.certificate-sec
+  .certificate-inner
+  .certificate-content
+  .certificate-download
+  img {
   height: 27px;
   width: auto;
   background: #1386d3;
@@ -628,8 +638,18 @@
   } */
 }
 
+@media (min-width: 1500px) {
+  .youtube-content iframe {
+    width: 100%;
+  }
+}
+
 @media (max-width: 1199.98px) {
-  .certificate-sec .certificate-inner .certificate-content .certificate-download img {
+  .certificate-sec
+    .certificate-inner
+    .certificate-content
+    .certificate-download
+    img {
     height: 27px;
     width: auto;
     background: #1386d3;
@@ -698,7 +718,12 @@
     padding-top: 20px;
   }
 
-  .certificate-sec .youtube-inner .youtube-content .calendar-info .calendar img {
+  .certificate-sec
+    .youtube-inner
+    .youtube-content
+    .calendar-info
+    .calendar
+    img {
     width: 16.603px;
     height: 18px;
     flex-shrink: 0;
@@ -725,7 +750,11 @@
 }
 
 @media (max-width: 1024px) {
-  .certificate-sec .certificate-inner .certificate-content .certificate-download img {
+  .certificate-sec
+    .certificate-inner
+    .certificate-content
+    .certificate-download
+    img {
     height: 27px;
     width: auto;
     background: #1386d3;
@@ -736,7 +765,11 @@
 }
 
 @media (max-width: 991px) {
-  .certificate-sec .certificate-inner .certificate-content .certificate-download img {
+  .certificate-sec
+    .certificate-inner
+    .certificate-content
+    .certificate-download
+    img {
     height: 27px;
     width: auto;
     background: #1386d3;
@@ -816,7 +849,11 @@
 }
 
 @media (max-width: 880px) {
-  .certificate-sec .certificate-inner .certificate-content .certificate-download img {
+  .certificate-sec
+    .certificate-inner
+    .certificate-content
+    .certificate-download
+    img {
     height: 27px;
     width: auto;
     background: #1386d3;
@@ -827,7 +864,11 @@
 }
 
 @media (max-width: 767.98px) {
-  .certificate-sec .certificate-inner .certificate-content .certificate-download img {
+  .certificate-sec
+    .certificate-inner
+    .certificate-content
+    .certificate-download
+    img {
     height: 27px;
     width: auto;
     background: #1386d3;
@@ -844,7 +885,11 @@
     padding: 20px 10px 0 10px;
   }
 
-  .certificate-sec .certificate-inner .certificate-content .certificate-image img {
+  .certificate-sec
+    .certificate-inner
+    .certificate-content
+    .certificate-image
+    img {
     width: 300.729px;
     height: 400.021px;
     flex-shrink: 0;
@@ -855,7 +900,11 @@
     padding-top: 30px;
   }
 
-  .certificate-sec .certificate-inner .certificate-content .certificate-download img {
+  .certificate-sec
+    .certificate-inner
+    .certificate-content
+    .certificate-download
+    img {
     margin-top: 30px;
   }
 
@@ -894,7 +943,11 @@
     padding: 20px 10px 0 10px;
   }
 
-  .certificate-sec .certificate-inner .certificate-content .certificate-image img {
+  .certificate-sec
+    .certificate-inner
+    .certificate-content
+    .certificate-image
+    img {
     width: 100%;
     height: 400.021px;
     flex-shrink: 0;
@@ -982,7 +1035,11 @@
     font-size: 25px;
   }
 
-  .certificate-sec .certificate-inner .certificate-content .certificate-image img {
+  .certificate-sec
+    .certificate-inner
+    .certificate-content
+    .certificate-image
+    img {
     width: 100%;
     height: 400.021px;
     flex-shrink: 0;
@@ -1058,13 +1115,13 @@
 .certificate-main-inner::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px transparent;
   border-radius: 20px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 
 .certificate-main-inner::-webkit-scrollbar,
 .video-main-inner::-webkit-scrollbar {
   height: 7px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 
 .certificate-main-inner::-webkit-scrollbar-thumb,
@@ -1079,7 +1136,6 @@
   overflow-x: auto;
   gap: 50px;
   padding-bottom: 20px;
-
 }
 
 .video-main-inner {

@@ -39,10 +39,14 @@ const HeroSection = ({ setJobId, scrollToForm }) => {
             <div className="container mb-8">
               <p className="career-title">Career Opportunities with AWC</p>
               <p className="career-desc">
-                Voices of Satisfaction AWC Waterproofing's Success Stories Dive
-                into satisfaction with AWC Waterproofing - where expertise meets
-                excellence, keeping your spaces dry and customers smiling. Get
-                Free Quote Now
+                AWC is one of the fastest growing Waterproofing solutions
+                companies in Mumbai and the country. For our rapidly expanding
+                network and client list, we are always on a look out for smart
+                working individuals. Besides offering an excellent work culture,
+                AWC promises to build careers of our employees. Do email your
+                latest resumes to career@awc.com or fill up the form below. If
+                we find your resume and experience relevant, you will hear from
+                us!
               </p>
               <div className="btn-sec mt-5">
                 <button

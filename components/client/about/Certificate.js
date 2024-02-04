@@ -97,34 +97,7 @@ const Certificate = () => {
                   </div>
                 </div>
               ))}
-              {certificate?.map((cert, index) => (
-                <div key={cert.id}>
-                  <div className="certificate-content">
-                    <div className="certificate-image">
-                      <img
-                        src={`/assets/upload/about/certificates/${cert.thumbnail}`}
-                        alt={`Certificate ${cert.id}`}
-                      />
-                    </div>
-                    <div className="flex items-center pt-3 pr-5">
-                      <h6>{cert.title}</h6>
-                      <div className="certificate-download">
-                        <a
-                          href={`/assets/upload/about/certificates/${cert.pdf}`}
-                          download
-                        >
-                          <img
-                            src={"./assets/images/client/download.png"}
-                            alt="Download"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
             </div>
-
           </div>
         </div>
 
@@ -143,34 +116,34 @@ const Certificate = () => {
                   <p>{vid.title}</p>
                 </div>
               ))}
-
             </div>
 
-
             {/* Member */}
-            < div className="container-member" >
+            <div className="container-member">
               <div className="member-inner">
                 <div className="grid">
                   <div className="xl-6 lg-6 md-12 sm-12">
                     <h6>IGBC MEMBER</h6>
                     <p>
                       The Indian Green Building Council (IGBC) is a part of the
-                      Confederation of Indian Industry (CII) since the year 2001.
-                      Its vision is "To enable a sustainable built environment for
-                      all and facilitate India to be one of the global leaders in
-                      the sustainable built environment by 2025".The prestigious
-                      IGBC membership provides AWC with access to resources2C
-                      international best practices and the latest in the field of
-                      Green building initiatives thus giving us the crucial
-                      competitive advantage. AWC is proud to be in the company of
-                      experts, professionals and multi-industry organizations that
-                      are at the forefront of creating the green building revolution
-                      in India.
+                      Confederation of Indian Industry (CII) since the year
+                      2001. Its vision is "To enable a sustainable built
+                      environment for all and facilitate India to be one of the
+                      global leaders in the sustainable built environment by
+                      2025".The prestigious IGBC membership provides AWC with
+                      access to resources2C international best practices and the
+                      latest in the field of Green building initiatives thus
+                      giving us the crucial competitive advantage. AWC is proud
+                      to be in the company of experts, professionals and
+                      multi-industry organizations that are at the forefront of
+                      creating the green building revolution in India.
                     </p>
                   </div>
                   <div className="xl-6 lg-6 md-12 sm-12">
                     <div className="member-image">
-                      <img src={"./assets/images/client/IGBC 2024_page-0001.jpg"} />
+                      <img
+                        src={"./assets/images/client/IGBC 2024_page-0001.jpg"}
+                      />
                     </div>
                   </div>
                 </div>
@@ -178,8 +151,7 @@ const Certificate = () => {
             </div>
           </div>
         </div>
-      </section >
-
+      </section>
     </>
   );
 };
