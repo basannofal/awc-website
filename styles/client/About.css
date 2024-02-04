@@ -640,11 +640,6 @@
 .youtube-content p {
   text-align: center;
 }
-@media (min-width: 1200px) {
-  .youtube-content iframe {
-    width: 100%;
-  }
-}
 
 @media (max-width: 1199.98px) {
   .youtube-content iframe {
@@ -1134,7 +1129,12 @@
 .certificate-main-inner::-webkit-scrollbar-thumb,
 .video-main-inner::-webkit-scrollbar-thumb {
   background-color: #1386d3;
+<<<<<<< HEAD
   border: 2px solid #fff;
+=======
+  border-radius: 20px;
+  border: 2px solid none;
+>>>>>>> a43653a48754385d0409c7cbe498b86c81adf651
 }
 
 /* certificate css */

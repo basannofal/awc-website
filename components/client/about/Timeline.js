@@ -77,9 +77,9 @@ const Timeline = () => {
                   <h6>TRAINING</h6>
                   <img src={"/assets/images/client/Line.svg"} />
                   <p>
-                    We specialize in safeguarding your home with expert roofing
-                    solutions. From installations to repairs, trust us for a
-                    secure and enduring roof.
+                    Our expertise lies in safeguarding homes with top-tier
+                    roofing solutions. From installations to repairs, entrust us
+                    with ensuring the security and longevity of your roof.
                   </p>
                 </div>
               </div>
@@ -165,7 +165,7 @@ const Timeline = () => {
                 In the Memorable Year of 2023, We Established a Grand Lean
                 Manufacturing Setup Spanning 40,000 sqft with a Build-Up of
                 90,000 sqft, Offering 9 Specialized Products to Cater to Niche
-                Waterproofing Segments
+                Waterproofing Segments
               </p>
             </div>
           </div>

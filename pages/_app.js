@@ -20,22 +20,35 @@ import axios from "axios";
 
 export default function App({ Component, pageProps }) {
   const [GlobalSeo, setGlobalSeo] = useState({});
+  const [data, setdata] = useState([])
+  // const getGlobalData = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `${process.env.NEXT_PUBLIC_API_URL}/client/global-seo/router`
+  //     );
+  //     setGlobalSeo(response.data[0]);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
 
-  const getGlobalData = async () => {
+  const getData = async () => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/client/global-seo/router`
+        `${process.env.NEXT_PUBLIC_API_URL}/client/setting/router`
       );
-      setGlobalSeo(response.data[0]);
+      setdata(response.data[0]);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
+  
+  const fetchData = async () => {
+    await getData();
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      await getGlobalData();
-    };
     fetchData();
   }, []);
 
@@ -50,6 +63,7 @@ export default function App({ Component, pageProps }) {
           crossorigin="anonymous"
           referrerpolicy="no-referrer"
         />
+        <link rel="icon" href={`/assets/upload/setting/${data.favicon}`} />
       </Head>
       <Component {...pageProps} />
     </>
