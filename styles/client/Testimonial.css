@@ -110,19 +110,21 @@
 .testimonials-contents::-webkit-scrollbar-track,
 .video_testimonial::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px transparent;
+  border-radius: 15px;
   background-color: transparent;
 }
 
 .testimonials-contents::-webkit-scrollbar,
 .video_testimonial::-webkit-scrollbar {
-  width: 5px;
+  width: 10px;
   background-color: white;
 }
 
 .testimonials-contents::-webkit-scrollbar-thumb,
 .video_testimonial::-webkit-scrollbar-thumb {
   background-color: #1386d3;
-  border: 2px solid #555555;
+  border-radius: 15px;
+  border: none;
 }
 
 /* USERE TESTIMONIAL CONTACT */

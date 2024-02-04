@@ -132,7 +132,7 @@ const TestiContact = () => {
                       }}
                     ></p>
                     <div className="testi_contact_review mt-4">
-                      <div className="testi_contact_title ms-2">
+                      <div className="testi_contact_title">
                         <h4>{item?.testimonial_title}</h4>
                         <div className="testi_rating">
                           {renderStars(item?.rating)}
