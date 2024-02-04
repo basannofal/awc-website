@@ -9,7 +9,6 @@ export const config = {
 };
 
 export default async function handler(req, res) {
-  console.log("*****************************");
   if (req.method == "POST") {
     const form = new IncomingForm();
     form.parse(req, async (err, fields, files) => {
@@ -41,32 +40,55 @@ export default async function handler(req, res) {
 async function sendContactEmail({ name, email, number, message }) {
   // Create a Nodemailer transporter using your email service provider details
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    service: process.env.NEXT_PUBLIC_EMAIL_SERVICE,
     auth: {
-      user: "india.awc@gmail.com",
-      pass: "mezj izbg ofpn dcgc",
+      user: process.env.NEXT_PUBLIC_EMAIL,
+      pass: process.env.NEXT_PUBLIC_EMAIL_PASS,
     },
   });
-  console.log(transporter);
   // Email content
   const mailOptions = {
-    from: "india.awc@gmail.com", // Sender address
-    to: email, // Recipient address (user's email)
+    from: process.env.NEXT_PUBLIC_EMAIL,
+    to: email,
     subject: "Thank you for contacting us!",
-    text: `
-      Dear ${name},
-
-      Thank you for contacting us. We received your message.
-
-      Details:
-      Email: ${email}
-      Phone Number: ${number}
-      Message: ${message}
-
-      We will get back to you as soon as possible.
-
-      Best regards,
-      Your Company Name
+    html: `
+      <html>
+      <body style="font-family: 'Arial', sans-serif; line-height: 1.5; background-color: #e9eaec; padding: 50px 20px;">
+      <div style="width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px;">
+  
+            <h1 style="color:black;">Contact Inquiry</h1>
+  
+            <div>
+              <label style="font-weight:bold; color:black;">Name</label>
+              <div style="padding-top: 5px; color:black;">
+                ${name}
+                <hr />
+              </div>
+            </div>
+            <div>
+              <label style="font-weight:bold; color:black;">Email</label>
+              <div style="padding-top: 5px;">
+                ${email}
+                <hr />
+              </div>
+            </div>
+            <div>
+              <label style="font-weight:bold; color:black;">Phone</label>
+              <div style="padding-top: 5px; color:black;">
+                +91${number}
+                <hr />
+              </div>
+            </div>
+            <div>
+              <label style="font-weight:bold; color:black;">Message</label>
+              <div style="padding-top: 5px; color:black;">
+                ${message}
+                <hr />
+              </div>
+            </div>
+          </div>
+        </body>
+      </html>
     `,
   };
 

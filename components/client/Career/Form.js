@@ -1,6 +1,6 @@
 import { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Form = ({ jobId, setJobId, formref }) => {
   const [loading, setLoading] = useState(false);
@@ -15,6 +15,7 @@ const Form = ({ jobId, setJobId, formref }) => {
     message: "",
     resume: null,
   });
+  const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -102,8 +103,6 @@ const Form = ({ jobId, setJobId, formref }) => {
         `${process.env.NEXT_PUBLIC_API_URL}/client/career/router`,
         formdata
       );
-      // Handle success
-      SuccessToast("Inquiry Sent Successfully");
       // Reset form fields
       setAddFormData({
         name: "",
@@ -115,6 +114,7 @@ const Form = ({ jobId, setJobId, formref }) => {
       });
       setJobId(null);
       setSelectedFile(null);
+      setSubmissionSuccess(true);
     } catch (error) {
       // Handle error
       ErrorToast("Failed to send inquiry");
@@ -122,6 +122,19 @@ const Form = ({ jobId, setJobId, formref }) => {
       setLoading(false);
     }
   };
+
+  // This useEffect will automatically hide the success message after 2 seconds
+  useEffect(() => {
+    let timeout;
+
+    if (submissionSuccess) {
+      timeout = setTimeout(() => {
+        setSubmissionSuccess(false);
+      }, 2000);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [submissionSuccess]);
 
   return (
     <div className="blog-view-sec" ref={formref}>
@@ -283,6 +296,11 @@ const Form = ({ jobId, setJobId, formref }) => {
                   <span style={{ color: "red" }}>* {validationError}</span>
                 ) : (
                   ""
+                )}
+                {submissionSuccess && (
+                  <p style={{ color: "green", marginTop: "10px" }}>
+                    Career inquiry submitted successfully!
+                  </p>
                 )}
               </div>
               <button

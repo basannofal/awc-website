@@ -12,7 +12,7 @@ export const config = {
 
 // Create a nodemailer transporter
 const transporter = nodemailer.createTransport({
-  service: "Gmail",
+  service: process.env.NEXT_PUBLIC_EMAIL_SERVICE,
   auth: {
     user: process.env.NEXT_PUBLIC_EMAIL,
     pass: process.env.NEXT_PUBLIC_EMAIL_PASS,

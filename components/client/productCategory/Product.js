@@ -27,6 +27,15 @@ const Product = ({ cid }) => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const extractFirstBlog = (str, maxLength) => {
+    if (str && str.length > maxLength) {
+      return str.substring(0, maxLength) + "...";
+    } else {
+      return str;
+    }
+  };
+
   return (
     <>
       <section className="roof-category-sec">
@@ -66,7 +75,10 @@ const Product = ({ cid }) => {
                 CategoryProduct.map((item, key) => {
                   const slug = item?.product_title.replace(/\s+/g, "-");
                   return (
-                    <div key={item?.product_id} className="lg-4 md-6 sm-12 mb-5">
+                    <div
+                      key={item?.product_id}
+                      className="lg-4 md-6 sm-12 mb-5"
+                    >
                       <div className="roof-box">
                         <div className="roof-image">
                           <img
@@ -77,7 +89,7 @@ const Product = ({ cid }) => {
                           />
                         </div>
                         <div className="roof-content">
-                          <h4>{item?.product_title}</h4>
+                          <h4>{extractFirstBlog(item?.product_title, 18)}</h4>
                           <p
                             dangerouslySetInnerHTML={{
                               __html: item?.product_short_desc,
