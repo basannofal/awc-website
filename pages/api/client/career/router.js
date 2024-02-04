@@ -1,6 +1,8 @@
 import conn from "../../dbconfig/conn";
 import path from "path";
 import { IncomingForm } from "formidable";
+import nodemailer from "nodemailer";
+
 import fs from "fs";
 
 export const config = {
@@ -26,6 +28,10 @@ export default async function handler(req, res) {
 
             // Execute the query
             const [result] = await conn.query(insertQuery, values);
+
+            // Send email
+            await sendContactEmail({ name, email, number, message });
+
             res.status(200).json(result, {
               message: "Inquiry Add Successfully",
             });
@@ -79,6 +85,15 @@ export default async function handler(req, res) {
 
             // Execute the query
             const [result] = await conn.query(insertQuery, values);
+
+            await sendContactEmail({
+              name,
+              email,
+              number,
+              message,
+              newFileNameResume,
+            });
+
             res.status(200).json(result, {
               message: "Inquiry Add Successfully",
             });
@@ -108,4 +123,98 @@ export default async function handler(req, res) {
       conn.releaseConnection();
     }
   }
+}
+
+async function sendContactEmail({
+  name,
+  email,
+  number,
+  message,
+  newFileNameResume,
+}) {
+  // const resumeDownloadLink = `${process.env.NEXT_PUBLIC_APP_URL}/assets/upload/career/${newFileNameResume}`;
+
+  const resumeDownloadLink = newFileNameResume
+    ? `${process.env.NEXT_PUBLIC_APP_URL}/assets/upload/career/${newFileNameResume}`
+    : "Resume Not Uploaded";
+
+  // Create a Nodemailer transporter using your email service provider details
+  const transporter = nodemailer.createTransport({
+    service: process.env.NEXT_PUBLIC_EMAIL_SERVICE,
+    auth: {
+      user: process.env.NEXT_PUBLIC_EMAIL,
+      pass: process.env.NEXT_PUBLIC_EMAIL_PASS,
+    },
+  });
+
+  // Email content
+  const mailOptions = {
+    from: process.env.NEXT_PUBLIC_EMAIL,
+    to: email,
+    subject: "Thank you for Career Inquiry!",
+    html: `
+    <html>
+    <head>
+     
+    <head>
+    <style>
+      @media only screen and (max-width: 600px) {
+        body {
+          padding: 50px 10px; 
+        }
+
+        .container {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  
+    <body style="font-family: 'Arial', sans-serif; line-height: 1.5; background-color: #e9eaec; padding: 50px 20px;">
+      <div style="width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px;">
+        <h1 style="color: black;">Career Inquiry</h1>
+  
+        <div>
+          <label style="font-weight: bold; color: black;">Name</label>
+          <div style="padding-top: 5px; color: black;">
+            ${name}
+            <hr />
+          </div>
+        </div>
+        <div>
+          <label style="font-weight: bold; color: black;">Email</label>
+          <div style="padding-top: 5px;">
+            ${email}
+            <hr />
+          </div>
+        </div>
+        <div>
+          <label style="font-weight: bold; color: black;">Phone</label>
+          <div style="padding-top: 5px; color: black;">
+            +91${number}
+            <hr />
+          </div>
+        </div>
+        <div>
+          <label style="font-weight: bold; color: black;">Upload Resume</label>
+          <div style="padding-top: 5px; color: black;">
+            <a href="${resumeDownloadLink}" target="_blank" rel="noopener noreferrer">${newFileNameResume}</a>
+            <hr />
+          </div>
+        </div>
+        <div>
+          <label style="font-weight: bold; color: black;">Message</label>
+          <div style="padding-top: 5px; color: black;">
+            ${message}
+            <hr />
+          </div>
+        </div>
+      </div>
+    </body>
+  </html>  
+    `,
+  };
+
+  // Send the email
+  await transporter.sendMail(mailOptions);
 }

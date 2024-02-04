@@ -68,6 +68,7 @@ const Contact = ({ cid }) => {
   });
 
   const [validationError, setValidationError] = useState("");
+  const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
   // add blog data section start
   const handleChangeData = (event) => {
@@ -123,12 +124,26 @@ const Contact = ({ cid }) => {
         number: "",
         message: "",
       });
-      setLoading(false);
+      setSubmissionSuccess(true);
     } catch (error) {
       setValidationError(error?.response?.data?.message);
+    } finally {
       setLoading(false);
     }
   };
+
+  // This useEffect will automatically hide the success message after 2 seconds
+  useEffect(() => {
+    let timeout;
+
+    if (submissionSuccess) {
+      timeout = setTimeout(() => {
+        setSubmissionSuccess(false);
+      }, 2000);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [submissionSuccess]);
 
   return (
     <>
@@ -271,6 +286,11 @@ const Contact = ({ cid }) => {
                         </span>
                       ) : (
                         ""
+                      )}
+                      {submissionSuccess && (
+                        <p style={{ color: "green", marginTop: "10px" }}>
+                          Contact inquiry submitted successfully!
+                        </p>
                       )}
                       <div className="form-actions">
                         <input

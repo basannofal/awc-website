@@ -45,6 +45,14 @@ const Blog = () => {
     fetchData();
   }, []);
 
+  const extractFirstBlogtitle = (str, maxLength) => {
+    if (str && str.length > maxLength) {
+      return str.substring(0, maxLength) + "...";
+    } else {
+      return str;
+    }
+  };
+
   return (
     <>
       <section>
@@ -171,7 +179,9 @@ const Blog = () => {
                         </div>
                       </div>
                       <Link href={`/blogs/${slug}/${item?.blog_id}`}>
-                        <p className="blog_desc_section">{item?.blog_title}</p>
+                        <p className="blog_desc_section">
+                          {extractFirstBlogtitle(item?.blog_title, 70)}
+                        </p>
                       </Link>
                       <p className="blog_sec_desc_section">
                         {extractFirstParagraph(item?.blog_description)}

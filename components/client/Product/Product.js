@@ -44,6 +44,14 @@ const Product = () => {
     return "";
   }
 
+  const extractFirstCatetitle = (str, maxLength) => {
+    if (str && str.length > maxLength) {
+      return str.substring(0, maxLength) + "...";
+    } else {
+      return str;
+    }
+  };
+
   return (
     <>
       <section className="product-sec">
@@ -82,7 +90,9 @@ const Product = () => {
                       <div key={item?.category_id} className="product-card">
                         <div className="product-content">
                           <h4>AWC INDIA</h4>
-                          <h2>{item?.category_name}</h2>
+                          <h2>
+                            {extractFirstCatetitle(item?.category_name, 15)}
+                          </h2>
                           <p>
                             {extractFirstParagraph(item?.category_description)}
                             ...
