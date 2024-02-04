@@ -1056,7 +1056,7 @@
 }
 
 .certificate-main-inner::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px transparent;
   border-radius: 20px;
   background-color: #F5F5F5;
 }
@@ -1069,8 +1069,8 @@
 
 .certificate-main-inner::-webkit-scrollbar-thumb,
 .video-main-inner::-webkit-scrollbar-thumb {
-  background-color: #000000;
-  border: 2px solid #555555;
+  background-color: #1386d3;
+  border: 2px solid #fff;
 }
 
 /* certificate css */
@@ -1087,7 +1087,7 @@
   font-size: 16px;
   font-weight: 600;
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto;
   gap: 50px;
   margin-bottom: 40px;
 }

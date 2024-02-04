@@ -36,12 +36,12 @@ const ProductDrowing = () => {
   return (
     <>
       <section className="testi_hero_main">
-        <div className="containeres" style={{paddingTop:200}}>
-          <p className="test_hero_big_title" style={{ fontWeight:"bold"}}>
+        <div className="containeres" style={{ paddingTop: 200 }}>
+          <p className="test_hero_big_title" style={{ fontWeight: "bold" }}>
             Detailed Drawing
           </p>
           <div
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 p-0 justify-evenly mb-5 "
+            className="flex flex-wrap p-0 justify-evenly mb-5"
             style={{ marginRight: 0 }}
           >
             {loading && allDrawings.length == 0 ? (
@@ -139,63 +139,26 @@ const ProductDrowing = () => {
               </>
             ) : (
               allDrawings.map((item, idx) => (
-                <div key={idx}>
-                  <div className="card-container one-ifrme">
-                    <iframe
-                      title="pdf"
-                      src={`/assets/upload/products/productDrawing/${item.pdf_link}`}
-                      width="100%"
-                      height="300px"
-                    />
-                    <p>{item.pdf_title}</p>
-                    <Link
-                      href={`/assets/upload/products/productDrawing/${item.pdf_link}`}
-                      target="_blank"
-                    >
-                      <button>Download</button>
-                    </Link>
-                  </div>
+                <div key={idx} className="ff one-ifrme">
+                  <iframe
+                    title="pdf"
+                    src={`/assets/upload/products/productDrawing/${item.pdf_link}`}
+                    width="100%"
+                    height="300px"
+                  />
+                  <p>{item.pdf_title}</p>
+                  <Link
+                    href={`/assets/upload/products/productDrawing/${item.pdf_link}`}
+                    target="_blank"
+                  >
+                    <button>Download</button>
+                  </Link>
                 </div>
               ))
             )}
           </div>
         </div>
       </section>
-      {/* <div className="three-first-pdf">
-        <div className="one-ifrme">
-          <iframe
-            title="pdf"
-            src={`/assets/upload/products/productDrawing/${item.pdf_link}`}
-            width="100%"
-            height="300px"
-          />
-          <p>This is Our First pdf</p>
-          <button>Download</button>
-        </div>
-        <div className="one-ifrme">
-          <iframe
-            title="pdf"
-            src="/assets/images/pdf/1705738215131_Technical-Data-for-Roof-540.pdf"
-            width="100%"
-            height="300px"
-          />
-          <p>
-            This is Our First pdf This is Our First pdf This is Our First pdf
-            This is Our First pdf
-          </p>
-          <button>Download</button>
-        </div>
-        <div className="one-ifrme">
-          <iframe
-            title="pdf"
-            src="/assets/images/pdf/1705738215131_Technical-Data-for-Roof-540.pdf"
-            width="100%"
-            height="300px"
-          />
-          <p>This is Our First pdf</p>
-          <button>Download</button>
-        </div>
-      </div> */}
     </>
   );
 };

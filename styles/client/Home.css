@@ -1367,6 +1367,7 @@ body::-webkit-scrollbar-thumb:hover {
 
 .roof-category-sec .roof-box .roof-image img {
   width: 100%;
+  height: 250px;
 }
 
 .roof-category-sec .roof-content {
@@ -2244,6 +2245,7 @@ body::-webkit-scrollbar-thumb:hover {
 
   .roof-category-sec .roof-box .roof-image img {
     border-radius: 20px 20px 0 0;
+    height: 200px;
   }
 
   .roof-category-sec .roof-content a {

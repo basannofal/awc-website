@@ -200,86 +200,78 @@ const Blog = ({ bid }) => {
                 </div>
                 <div className="side_sec_card">
                   <p className="card_heading mb-3">Share With Your Friend</p>
-                  <div className="share_main_section">
-                    <div className="icon_title">
-                      <i className="fa-brands fa-facebook-f"></i>
-                      <p>
-                        <a
-                          href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                            currentURL
-                          )}`}
-                          target="_blank"
-                          style={{ color: "black" }}
-                          rel="noopener noreferrer"
-                        >
-                          Share On Facebook
-                        </a>
-                      </p>
+                  <Link
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                      currentURL
+                    )}`}
+                    target="_blank"
+                    style={{ color: "black" }}
+                    rel="noopener noreferrer"
+                  >
+                    <div className="share_main_section">
+                      <div className="icon_title">
+                        <i className="fa-brands fa-facebook-f"></i>
+                        <p>Share On Facebook</p>
+                      </div>
+                      <div className="arrow">
+                        <i className="fa-solid fa-arrow-right"></i>
+                      </div>
                     </div>
-                    <div className="arrow">
-                      <i className="fa-solid fa-arrow-right"></i>
+                  </Link>
+                  <Link
+                    href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                      currentURL
+                    )}`}
+                    target="_blank"
+                    style={{ color: "black" }}
+                    rel="noopener noreferrer"
+                  >
+                    <div className="share_main_section">
+                      <div className="icon_title">
+                        <i className="fa-brands fa-x-twitter"></i>
+                        <p>Share On Twitter</p>
+                      </div>
+                      <div className="arrow">
+                        <i className="fa-solid fa-arrow-right"></i>
+                      </div>
                     </div>
-                  </div>
-                  <div className="share_main_section">
-                    <div className="icon_title">
-                      <i className="fa-brands fa-x-twitter"></i>
-                      <p>
-                        <a
-                          href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-                            currentURL
-                          )}`}
-                          target="_blank"
-                          style={{ color: "black" }}
-                          rel="noopener noreferrer"
-                        >
-                          Share On Twitter
-                        </a>
-                      </p>
+                  </Link>
+                  <Link
+                    href={`whatsapp://send?text=${encodeURIComponent(
+                      currentURL
+                    )}`}
+                    target="_blank"
+                    style={{ color: "black" }}
+                    rel="noopener noreferrer"
+                  >
+                    <div className="share_main_section">
+                      <div className="icon_title">
+                        <i className="fa-brands fa-whatsapp"></i>
+                        <p>Share On Whatsapp</p>
+                      </div>
+                      <div className="arrow">
+                        <i className="fa-solid fa-arrow-right"></i>
+                      </div>
                     </div>
-                    <div className="arrow">
-                      <i className="fa-solid fa-arrow-right"></i>
+                  </Link>
+                  <Link
+                    href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
+                      currentURL
+                    )}`}
+                    target="_blank"
+                    style={{ color: "black" }}
+                    rel="noopener noreferrer"
+                  >
+                    <div className="share_main_section">
+                      <div className="icon_title">
+                        <i className="fa-brands fa-linkedin-in"></i>
+                        <p>Share On Linkedin</p>
+                      </div>
+                      <div className="arrow">
+                        <i className="fa-solid fa-arrow-right"></i>
+                      </div>
                     </div>
-                  </div>
-                  <div className="share_main_section">
-                    <div className="icon_title">
-                      <i className="fa-brands fa-whatsapp"></i>
-                      <p>
-                        <a
-                          href={`whatsapp://send?text=${encodeURIComponent(
-                            currentURL
-                          )}`}
-                          target="_blank"
-                          style={{ color: "black" }}
-                          rel="noopener noreferrer"
-                        >
-                          Share On Whatsapp
-                        </a>
-                      </p>
-                    </div>
-                    <div className="arrow">
-                      <i className="fa-solid fa-arrow-right"></i>
-                    </div>
-                  </div>
-                  <div className="share_main_section">
-                    <div className="icon_title">
-                      <i className="fa-brands fa-linkedin-in"></i>
-                      <p>
-                        <a
-                          href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
-                            currentURL
-                          )}`}
-                          target="_blank"
-                          style={{ color: "black" }}
-                          rel="noopener noreferrer"
-                        >
-                          Share On Linkedin
-                        </a>
-                      </p>
-                    </div>
-                    <div className="arrow">
-                      <i className="fa-solid fa-arrow-right"></i>
-                    </div>
-                  </div>
+                  </Link>
                 </div>
               </div>
             </div>
