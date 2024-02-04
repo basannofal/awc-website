@@ -78,7 +78,7 @@ const Blog = ({ bid }) => {
         >
           <div className="blog-view-sec">
             <p className="blog-view-main-title">
-              <Link href={"/blogs"}>blogs</Link>
+              <Link href={"/blogs"}>blogs</Link>{" "}
               <i className="fa-solid fa-angles-right"></i>
               <i className="fa-solid fa-angles-right"></i>{" "}
               {loading ? (
@@ -94,7 +94,7 @@ const Blog = ({ bid }) => {
                 blog?.category_title
               )}{" "}
               <i className="fa-solid fa-angles-right"></i>
-              <i className="fa-solid fa-angles-right"></i>
+              <i className="fa-solid fa-angles-right"></i>{" "}
               {loading ? (
                 <div
                   role="status"
