@@ -62,7 +62,6 @@ const TestiContact = () => {
         />
       );
     }
-
     if (hasHalfStar) {
       stars.push(
         <img
@@ -76,6 +75,29 @@ const TestiContact = () => {
     }
 
     return stars;
+  };
+  const extractVideoId = (url) => {
+    try {
+      const urlObject = new URL(url);
+      let videoId = "";
+
+      if (
+        urlObject.hostname === "www.youtube.com" ||
+        urlObject.hostname === "youtube.com"
+      ) {
+        // Full YouTube URL with "v" parameter
+        const urlParams = new URLSearchParams(urlObject.search);
+        videoId = urlParams.get("v");
+      } else if (urlObject.hostname === "youtu.be") {
+        // Short YouTube URL
+        videoId = urlObject.pathname.substring(1); // Exclude the leading slash
+      }
+
+      return videoId || "";
+    } catch (error) {
+      console.error("Error extracting video ID:", error);
+      return "";
+    }
   };
 
   return (
@@ -91,48 +113,47 @@ const TestiContact = () => {
         </div>
       ) : (
         <div className="main_testi_contact">
-          <div className="main_testi_contact_inner" >
-          <div className="testimonials-contents">
-            {testimonial.map((item, idx) => {
-              return (
-                <div className="testi_shadow" key={item.id}>
-                  <img
-                    className=""
-                    src={"./assets/images/client/quotes-img.png"}
-                    alt="Double Quotes Image"
-                    width="22"
-                    height="auto"
-                  />
-                  <p
-                    className="contact_desc mt-4"
-                    dangerouslySetInnerHTML={{
-                      __html: item?.testimonial_desc,
-                    }}
-                  ></p>
-                  <div className="testi_contact_review mt-4">
-                    <div className="testi_contact_title ms-2">
-                      <h4>{item?.testimonial_title}</h4>
-                      <div className="testi_rating">
-                        {renderStars(item?.rating)}
+          <div className="main_testi_contact_inner">
+            <div className="testimonials-contents">
+              {testimonial.map((item, idx) => {
+                return (
+                  <div className="testi_shadow" key={item.id}>
+                    <img
+                      className=""
+                      src={"./assets/images/client/quotes-img.png"}
+                      alt="Double Quotes Image"
+                      width="22"
+                      height="auto"
+                    />
+                    <p
+                      className="contact_desc mt-4"
+                      dangerouslySetInnerHTML={{
+                        __html: item?.testimonial_desc,
+                      }}
+                    ></p>
+                    <div className="testi_contact_review mt-4">
+                      <div className="testi_contact_title ms-2">
+                        <h4>{item?.testimonial_title}</h4>
+                        <div className="testi_rating">
+                          {renderStars(item?.rating)}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-          <div className="video_testimonial">
-            {Videotestimonial.map((item, idx) => {
-              return (
-                <div >
-                  <YouTube videoId={item?.linl} />
-                  <p className="testi_video_title mb-3">
-                    {item?.title}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+            <div className="video_testimonial">
+              {Videotestimonial.map((item, idx) => {
+                console.log(item);
+                return (
+                  <div>
+                    <YouTube videoId={extractVideoId(item?.link)} />
+                    <p className="testi_video_title mb-3">{item?.title}</p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       )}

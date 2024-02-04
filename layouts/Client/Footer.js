@@ -120,23 +120,13 @@ const Footer = () => {
           <section className="grid footer-info">
             <div className="xl-4 lg-4 sm-6 footer-logo-sec">
               <Link href="/" className="footer-logo-link">
-                {seoData && seoData.logo ? (
-                  <img
-                    src={`/assets/upload/setting/${seoData.logo}`}
-                    alt="AWC Footer Logo"
-                    width="100%"
-                    height="auto"
-                    className="footer-logo"
-                  />
-                ) : (
-                  <img
-                    src={"/assets/images/client/awc_logo_header.webp"}
-                    alt="AWC Footer Logo"
-                    width="100%"
-                    height="auto"
-                    className="footer-logo"
-                  />
-                )}
+                <img
+                  src={"/assets/images/client/awc_logo_header.webp"}
+                  alt="AWC Footer Logo"
+                  width="100%"
+                  height="auto"
+                  className="footer-logo"
+                />
               </Link>
               <p className="text-justify">
                 Discover innovative solutions that protect surfaces against
@@ -388,7 +378,7 @@ const Footer = () => {
             </div>
             <div className="xl-4 lg-12 sm-6 contact-footer">
               <h4 className="footer-info-heading">Contact Us</h4>
-              <div className="contact-info">
+              <div className="contact-info" style={{ paddingBottom: "0px" }}>
                 <h5>AWC Lean Manufacturing Unit</h5>
                 <p>
                   Survey/Plot No. 662 Village: Tembhi <br />
@@ -396,11 +386,28 @@ const Footer = () => {
                   <br /> Gujarat 396150
                 </p>
               </div>
-              <div className="contact-info">
+              <div className="contact-info map-info">
+                <p>
+                  <Link
+                    target="_blank"
+                    href="https://maps.app.goo.gl/KH8rc9WHt63ijRtJ9"
+                  >
+                    Click here to view the map
+                  </Link>
+                </p>
+              </div>
+              <div className="contact-info" style={{ paddingBottom: "0px" }}>
                 <h5>Head Office</h5>
                 <p>
                   A- 10/11, 4th Floor, Yojana CHS. Ltd, S.V Road, Malad (W),
                   Mumbai- 400 064.
+                </p>
+              </div>
+              <div className="contact-info map-info">
+                <p>
+                  <Link target="_blank" href="https://g.page/awcindia-in?share">
+                    Click here to view the map
+                  </Link>
                 </p>
               </div>
               <div className="contact-info">
@@ -440,13 +447,6 @@ const Footer = () => {
                 <p>
                   <b>Website: </b>
                   <Link href="https://awcindia.in/">www.awcindia.in</Link>
-                </p>
-              </div>
-              <div className="contact-info map-info">
-                <p>
-                  <Link href="https://g.page/awcindia-in?share">
-                    Click here to view the map
-                  </Link>
                 </p>
               </div>
             </div>
