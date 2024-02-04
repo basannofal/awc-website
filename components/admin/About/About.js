@@ -328,7 +328,6 @@ const About = () => {
     await axios
       .get(`${process.env.NEXT_PUBLIC_API_URL}/about/videos/router`)
       .then((res) => {
-        console.log(res.data);
         setFilteredVideos(res.data);
         setGetVideos(res.data);
         setLoading(false);

@@ -154,6 +154,9 @@
 .gallery-image-main-inner img:hover {
   filter: brightness(0.6);
 }
+.gallery-image-sec .gallery-inner-images img {
+  border-radius: 10px;
+}
 /* Responsive Desing */
 @media (max-width: 1450px) {
   .gallery-image-sec .gallery-inner-images {

@@ -1,9 +1,10 @@
 import axios from "axios";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Toast, { SuccessToast } from "@/layouts/toast/Toast";
 
 const HeroSection = () => {
+  const [socialLinks, setSocialLinks] = useState([]);
   const [activeTab, setActiveTab] = useState("office");
 
   const handleTabClick = (tab) => {
@@ -18,7 +19,19 @@ const HeroSection = () => {
   });
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState("");
-
+  const getSocialLinksData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/social-links/router`
+      );
+      setLoading(false);
+      setSocialLinks(response.data[0]);
+      console.log(response.data[0]);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
   // add blog data section start
   const handleChangeData = (event) => {
     const { name, value } = event.target;
@@ -67,7 +80,7 @@ const HeroSection = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/client/contact/contactform/router`,
         formdata
       );
-      SuccessToast("Your d");
+      SuccessToast("Your message successfully send");
       setAddFormData({
         name: "",
         email: "",
@@ -80,6 +93,9 @@ const HeroSection = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    getSocialLinksData();
+  }, []);
 
   return (
     <>
@@ -233,18 +249,68 @@ const HeroSection = () => {
                 </Link>
               </p>
               <div className="flex">
-                <div className="social_icons" id="first_social_icon">
-                  <i class="fa-brands fa-facebook-f"></i>
-                </div>
-                <div className="social_icons">
-                  <i class="fa-brands fa-instagram"></i>
-                </div>
-                <div className="social_icons">
-                  <i class="fa-brands fa-linkedin-in"></i>
-                </div>
-                <div className="social_icons">
-                  <i class="fa-brands fa-pinterest-p"></i>
-                </div>
+                {socialLinks && socialLinks.facebook_link ? (
+                  <Link href={socialLinks.facebook_link} target="_blank">
+                    <div className="social_icons" id="first_social_icon">
+                      <i class="fa-brands fa-facebook-f"></i>
+                    </div>
+                  </Link>
+                ) : (
+                  <Link
+                    href="https://www.facebook.com/awcindia.in/"
+                    target="_blank"
+                  >
+                    <div className="social_icons" id="first_social_icon">
+                      <i class="fa-brands fa-facebook-f"></i>
+                    </div>
+                  </Link>
+                )}
+                {socialLinks && socialLinks.twiter_link ? (
+                  <Link href={socialLinks.twiter_link} target="_blank">
+                    <div className="social_icons">
+                      <i class="fa-brands fa-x-twitter"></i>
+                    </div>
+                  </Link>
+                ) : (
+                  <Link href="https://twitter.com/awc_india" target="_blank">
+                    <div className="social_icons">
+                      <i class="fa-brands fa-x-twitter"></i>
+                    </div>
+                  </Link>
+                )}
+
+                {socialLinks && socialLinks.linkedin_link ? (
+                  <Link href={socialLinks.linkedin_link} target="_blank">
+                    <div className="social_icons">
+                      <i class="fa-brands fa-linkedin-in"></i>
+                    </div>
+                  </Link>
+                ) : (
+                  <Link
+                    href="https://www.linkedin.com/in/awc-india-36ab76a8/"
+                    target="_blank"
+                  >
+                    <div className="social_icons">
+                      <i class="fa-brands fa-linkedin-in"></i>
+                    </div>
+                  </Link>
+                )}
+                {socialLinks && socialLinks.youtube_link ? (
+                  <Link href={socialLinks.youtube_link} target="_blank">
+                    <div className="social_icons">
+                      <i className="fa-brands fa-youtube"></i>
+                    </div>
+                  </Link>
+                ) : (
+                  <Link
+                    href="https://www.youtube.com/channel/UCoNJRSh7tkbDHmF8GoOi4fw"
+                    target="_blank"
+                  >
+                    <div className="social_icons">
+                      <i className="fa-brands fa-youtube"></i>
+                    </div>
+                  </Link>
+                )}
               </div>
             </div>
           )}
@@ -280,23 +346,68 @@ const HeroSection = () => {
                 </Link>
               </p>
               <div className="flex">
-                <div className="social_icons" id="first_social_icon">
+                {socialLinks && socialLinks.facebook_link ? (
+                  <Link href={socialLinks.facebook_link} target="_blank">
+                    <div className="social_icons" id="first_social_icon">
+                      <i class="fa-brands fa-facebook-f"></i>
+                    </div>
+                  </Link>
+                ) : (
                   <Link
                     href="https://www.facebook.com/awcindia.in/"
                     target="_blank"
                   >
-                    <i class="fa-brands fa-facebook-f"></i>
+                    <div className="social_icons" id="first_social_icon">
+                      <i class="fa-brands fa-facebook-f"></i>
+                    </div>
                   </Link>
-                </div>
-                <div className="social_icons">
-                  <i class="fa-brands fa-instagram"></i>
-                </div>
-                <div className="social_icons">
-                  <i class="fa-brands fa-linkedin-in"></i>
-                </div>
-                <div className="social_icons">
-                  <i class="fa-brands fa-pinterest-p"></i>
-                </div>
+                )}
+                {socialLinks && socialLinks.twiter_link ? (
+                  <Link href={socialLinks.twiter_link} target="_blank">
+                    <div className="social_icons">
+                      <i class="fa-brands fa-x-twitter"></i>
+                    </div>
+                  </Link>
+                ) : (
+                  <Link href="https://twitter.com/awc_india" target="_blank">
+                    <div className="social_icons">
+                      <i class="fa-brands fa-x-twitter"></i>
+                    </div>
+                  </Link>
+                )}
+
+                {socialLinks && socialLinks.linkedin_link ? (
+                  <Link href={socialLinks.linkedin_link} target="_blank">
+                    <div className="social_icons">
+                      <i class="fa-brands fa-linkedin-in"></i>
+                    </div>
+                  </Link>
+                ) : (
+                  <Link
+                    href="https://www.linkedin.com/in/awc-india-36ab76a8/"
+                    target="_blank"
+                  >
+                    <div className="social_icons">
+                      <i class="fa-brands fa-linkedin-in"></i>
+                    </div>
+                  </Link>
+                )}
+                {socialLinks && socialLinks.youtube_link ? (
+                  <Link href={socialLinks.youtube_link} target="_blank">
+                    <div className="social_icons">
+                      <i className="fa-brands fa-youtube"></i>
+                    </div>
+                  </Link>
+                ) : (
+                  <Link
+                    href="https://www.youtube.com/channel/UCoNJRSh7tkbDHmF8GoOi4fw"
+                    target="_blank"
+                  >
+                    <div className="social_icons">
+                      <i className="fa-brands fa-youtube"></i>
+                    </div>
+                  </Link>
+                )}
               </div>
             </div>
           )}
@@ -325,6 +436,7 @@ const HeroSection = () => {
           ></iframe>
         )}
       </div>
+      <Toast />
     </>
   );
 };
