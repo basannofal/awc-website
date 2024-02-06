@@ -114,7 +114,7 @@ const TestiContact = () => {
       ) : (
         <div className="main_testi_contact">
           <div className="main_testi_contact_inner">
-            <div className="testimonials-contents">
+            <div className={testimonial.length ? "testimonials-contents" : ""}>
               {testimonial.map((item, idx) => {
                 return (
                   <div className="testi_shadow" key={item.id}>
@@ -143,7 +143,7 @@ const TestiContact = () => {
                 );
               })}
             </div>
-            <div className="video_testimonial">
+            <div className={testimonial.length ? "video_testimonial" : ""}>
               {Videotestimonial.map((item, idx) => {
                 console.log(item);
                 return (
