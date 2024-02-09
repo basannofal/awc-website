@@ -32,6 +32,7 @@ const HeroSection = () => {
       setLoading(false);
     }
   };
+  
   // add blog data section start
   const handleChangeData = (event) => {
     const { name, value } = event.target;
