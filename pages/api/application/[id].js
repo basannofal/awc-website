@@ -11,8 +11,11 @@ export const config = {
 };
 
 // Create a nodemailer transporter
+
 const transporter = nodemailer.createTransport({
-  service: process.env.NEXT_PUBLIC_EMAIL_SERVICE,
+  host: process.env.NEXT_PUBLIC_EMAIL_HOST,
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.NEXT_PUBLIC_EMAIL,
     pass: process.env.NEXT_PUBLIC_EMAIL_PASS,

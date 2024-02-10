@@ -103,7 +103,7 @@ export default async function handler(req, res) {
     } catch (err) {
       res
         .status(500)
-        .json({ message: "Inquiry Failed to Add... Check connection" });
+        .json({ message: "Inquiry Failed !! Please Try Again" });
     }
   }
   if (req.method == "GET") {
@@ -140,7 +140,9 @@ async function sendContactEmail({
 
   // Create a Nodemailer transporter using your email service provider details
   const transporter = nodemailer.createTransport({
-    service: process.env.NEXT_PUBLIC_EMAIL_SERVICE,
+    host: process.env.NEXT_PUBLIC_EMAIL_HOST,
+    port: 465,
+    secure: true,
     auth: {
       user: process.env.NEXT_PUBLIC_EMAIL,
       pass: process.env.NEXT_PUBLIC_EMAIL_PASS,
@@ -150,7 +152,7 @@ async function sendContactEmail({
   // Email content
   const mailOptions = {
     from: process.env.NEXT_PUBLIC_EMAIL,
-    to: email,
+    to: process.env.NEXT_PUBLIC_EMAIL,
     subject: "Thank you for Career Inquiry!",
     html: `
     <html>
