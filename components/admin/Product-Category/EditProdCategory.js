@@ -5,6 +5,7 @@ import Header from "@/layouts/Header";
 import Link from "next/link";
 import Toast, { ErrorToast, WarningToast } from "@/layouts/toast/Toast";
 import { Editor } from "@tinymce/tinymce-react";
+const EditorApi = process.env.NEXT_PUBLIC_EDITOR_API;
 import Loading from "@/layouts/Loading";
 
 const EditProdCategory = () => {
@@ -245,8 +246,9 @@ const EditProdCategory = () => {
           </div>
           <div
             id="general"
-            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "general" ? "active" : ""
+            }`}
           >
             <form>
               <div className="mb-3">
@@ -282,7 +284,7 @@ const EditProdCategory = () => {
               <div className="mb-3">
                 <p className="modal_label">Category Description:-</p>
                 <Editor
-                  apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
+                  apiKey={EditorApi}
                   onInit={(evt, editor) => (editorRef.current = editor)}
                   initialValue={editProductCategoryData?.category_description}
                   init={{
@@ -410,8 +412,9 @@ const EditProdCategory = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "seo" ? "active" : ""
+            }`}
           >
             <form>
               <div className="mb-3">

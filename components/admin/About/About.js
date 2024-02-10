@@ -149,7 +149,8 @@ const About = () => {
       // Move closeDeleteModal and SuccessToast here to ensure they are called after the deletion is successful
       closeDeleteModal();
       SuccessToast(
-        `${dataType.charAt(0).toUpperCase() + dataType.slice(1)
+        `${
+          dataType.charAt(0).toUpperCase() + dataType.slice(1)
         } Deleted Successfully`
       );
       if (dataType === "videos") {
@@ -248,7 +249,7 @@ const About = () => {
           thumbnail: null,
           title: "",
         });
-        setLoading(false)
+        setLoading(false);
         setActiveSubTab("careerdata");
         setEditCerMode(false);
         setEditCerItemId(null);
@@ -257,13 +258,13 @@ const About = () => {
         // Fetch updated product data if needed
         // getProductsData();
       } catch (error) {
-        setLoading(false)
+        setLoading(false);
         WarningToast(error?.response?.data?.message);
       }
     } else {
       try {
         console.log(CertificateData);
-        setLoading(true)
+        setLoading(true);
         const formdata = new FormData();
         formdata.append("title", CertificateData.title);
         formdata.append("pdf", CertificateData.pdf);
@@ -285,7 +286,7 @@ const About = () => {
       } catch (error) {
         console.log(error);
         WarningToast(error?.response?.data?.message);
-        setLoading(false)
+        setLoading(false);
       }
     }
   };
@@ -532,15 +533,17 @@ const About = () => {
           {/* Application Tab */}
           <div
             id="application"
-            className={`tab-content add_data_form ${activeTab === "application" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "application" ? "active" : ""
+            }`}
           >
             <div className="sub-tabs-container">
               <div className="tabs">
                 <div style={{ display: "flex" }}>
                   <div
-                    className={`tab ${activeSubTab === "contact" ? "active" : ""
-                      }`}
+                    className={`tab ${
+                      activeSubTab === "contact" ? "active" : ""
+                    }`}
                     onClick={() => {
                       showSubTab("contact");
                       setActiveSubTab("contact");
@@ -557,8 +560,9 @@ const About = () => {
                     All Videos
                   </div>
                   <div
-                    className={`tab ${activeSubTab === "job-application" ? "active" : ""
-                      }`}
+                    className={`tab ${
+                      activeSubTab === "job-application" ? "active" : ""
+                    }`}
                     onClick={() => showSubTab("job-application")}
                   >
                     {editVideoMode ? "Edit Video" : "Add New"}
@@ -569,8 +573,9 @@ const About = () => {
               {/* All Careers */}
               <div
                 id="contact"
-                className={`tab-content add_data_form ${activeSubTab === "contact" ? "active" : ""
-                  }`}
+                className={`tab-content add_data_form ${
+                  activeSubTab === "contact" ? "active" : ""
+                }`}
               >
                 <div className="admin_category_table">
                   <table>
@@ -679,8 +684,9 @@ const About = () => {
               {/* Add Career */}
               <div
                 id="job-application"
-                className={`tab-content add_data_form ${activeSubTab === "job-application" ? "active" : ""
-                  }`}
+                className={`tab-content add_data_form ${
+                  activeSubTab === "job-application" ? "active" : ""
+                }`}
               >
                 <form method="post" onSubmit={SaveVideoData}>
                   <div
@@ -785,7 +791,13 @@ const About = () => {
                       type="submit"
                       style={loading ? { cursor: "not-allowed" } : {}}
                       className="success_btn"
-                      value={loading ? "Adding..." : (editVideoMode ? "UPDATE" : "SAVE")}
+                      value={
+                        loading
+                          ? "Adding..."
+                          : editVideoMode
+                          ? "UPDATE"
+                          : "SAVE"
+                      }
                       disabled={loading}
                     />
                     <button
@@ -814,15 +826,17 @@ const About = () => {
           {/* Career Tab */}
           <div
             id="career"
-            className={`tab-content add_data_form ${activeTab === "career" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "career" ? "active" : ""
+            }`}
           >
             <div className="sub-tabs-container">
               <div className="tabs">
                 <div style={{ display: "flex" }}>
                   <div
-                    className={`tab ${activeSubTab === "careerdata" ? "active" : ""
-                      }`}
+                    className={`tab ${
+                      activeSubTab === "careerdata" ? "active" : ""
+                    }`}
                     onClick={() => {
                       showSubTab("careerdata");
                       setActiveSubTab("careerdata");
@@ -850,8 +864,9 @@ const About = () => {
             {/* All Careers */}
             <div
               id="careerdata"
-              className={`tab-content add_data_form ${activeSubTab === "careerdata" ? "active" : ""
-                }`}
+              className={`tab-content add_data_form ${
+                activeSubTab === "careerdata" ? "active" : ""
+              }`}
             >
               <div className="admin_category_table">
                 <table>
@@ -964,8 +979,9 @@ const About = () => {
             {/* Add Career */}
             <div
               id="job"
-              className={`tab-content add_data_form ${activeSubTab === "job" ? "active" : ""
-                }`}
+              className={`tab-content add_data_form ${
+                activeSubTab === "job" ? "active" : ""
+              }`}
             >
               <form method="post" onSubmit={addCertificateData}>
                 <div
@@ -1088,7 +1104,9 @@ const About = () => {
                     type="submit"
                     style={loading ? { cursor: "not-allowed" } : {}}
                     className="success_btn"
-                    value={loading ? "Adding..." : (editCerMode ? "UPDATE" : "SAVE")}
+                    value={
+                      loading ? "Adding..." : editCerMode ? "UPDATE" : "SAVE"
+                    }
                     disabled={loading}
                   />
                   <button

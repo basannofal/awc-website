@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Toast, { ErrorToast, WarningToast } from "@/layouts/toast/Toast";
 import { Editor } from "@tinymce/tinymce-react";
+const EditorApi = process.env.NEXT_PUBLIC_EDITOR_API;
 import Loading from "@/layouts/Loading";
 
 const AddBlogCategory = () => {
@@ -41,9 +42,9 @@ const AddBlogCategory = () => {
     if (event.key === "Enter" || event.key === ",") {
       // Add the entered keyword to the keywords array
       event.preventDefault();
-      if (event.target.value.trim() === '') {
-        ErrorToast("Please Write Tag")
-        return
+      if (event.target.value.trim() === "") {
+        ErrorToast("Please Write Tag");
+        return;
       }
       setAddMetaTag([...addMetaTag, event.target.value]);
       // Clear the input field
@@ -60,9 +61,9 @@ const AddBlogCategory = () => {
     if (event.key === "Enter" || event.key === ",") {
       // Add the entered keyword to the keywords array
       event.preventDefault();
-      if (event.target.value.trim() === '') {
-        ErrorToast("Please Write Keyword")
-        return
+      if (event.target.value.trim() === "") {
+        ErrorToast("Please Write Keyword");
+        return;
       }
       setAddMetaKeyword([...addMetaKeyword, event.target.value]);
       // Clear the input field
@@ -180,7 +181,7 @@ const AddBlogCategory = () => {
       setLoading(false);
       getAllBlogCategoryData();
       router.push("/admin/blog-category");
-      console.log("object")
+      console.log("object");
     } catch (error) {
       ErrorToast(error?.response?.data?.message);
       setLoading(false);
@@ -205,7 +206,7 @@ const AddBlogCategory = () => {
 
   useEffect(() => {
     getAllBlogCategoryData();
-  }, [])
+  }, []);
 
   return (
     <>
@@ -241,8 +242,9 @@ const AddBlogCategory = () => {
           </div>
           <div
             id="general"
-            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "general" ? "active" : ""
+            }`}
           >
             <form method="post" onSubmit={saveBlogCategory}>
               <div className="mb-3">
@@ -263,7 +265,7 @@ const AddBlogCategory = () => {
               <div className="mb-3">
                 <p className="modal_label">Category Description:-</p>
                 <Editor
-                  apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
+                  apiKey={EditorApi}
                   onInit={(evt, editor) => (editorRef.current = editor)}
                   init={{
                     height: 500,
@@ -364,8 +366,9 @@ const AddBlogCategory = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "seo" ? "active" : ""
+            }`}
           >
             <form method="post" onSubmit={saveBlogCategory}>
               <div className="mb-3">

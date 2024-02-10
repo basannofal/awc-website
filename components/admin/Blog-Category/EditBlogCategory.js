@@ -5,6 +5,7 @@ import Header from "@/layouts/Header";
 import Link from "next/link";
 import Toast, { ErrorToast } from "@/layouts/toast/Toast";
 import { Editor } from "@tinymce/tinymce-react";
+const EditorApi = process.env.NEXT_PUBLIC_EDITOR_API;
 import Loading from "@/layouts/Loading";
 
 const EditBlogCategory = () => {
@@ -141,9 +142,9 @@ const EditBlogCategory = () => {
   const handleKeyword = (event) => {
     if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
-      if (event.target.value.trim() === '') {
-        ErrorToast("Please Write Keyword")
-        return
+      if (event.target.value.trim() === "") {
+        ErrorToast("Please Write Keyword");
+        return;
       }
       setEditMetaKeyword([...editMetaKeyword, event.target.value]);
       event.target.value = "";
@@ -159,9 +160,9 @@ const EditBlogCategory = () => {
   const handleTags = (event) => {
     if (event.key === "Enter" || event.key === ",") {
       event.preventDefault();
-      if (event.target.value.trim() === '') {
-        ErrorToast("Please Write Tag")
-        return
+      if (event.target.value.trim() === "") {
+        ErrorToast("Please Write Tag");
+        return;
       }
       setEditMetaTag([...editMetaTag, event.target.value.trim()]);
       event.target.value = "";
@@ -212,8 +213,9 @@ const EditBlogCategory = () => {
           </div>
           <div
             id="general"
-            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "general" ? "active" : ""
+            }`}
           >
             <form method="post" onSubmit={saveEditCategory}>
               <div className="mb-3">
@@ -234,7 +236,7 @@ const EditBlogCategory = () => {
               <div className="mb-3">
                 <p className="modal_label">Category Description:-</p>
                 <Editor
-                  apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
+                  apiKey={EditorApi}
                   onInit={(evt, editor) => (editorRef.current = editor)}
                   initialValue={editBlogCategoryData?.category_description}
                   init={{
@@ -360,8 +362,9 @@ const EditBlogCategory = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "seo" ? "active" : ""
+            }`}
           >
             <form>
               <div className="mb-3">
