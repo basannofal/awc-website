@@ -64,7 +64,8 @@
   width: auto;
   padding: 0px 10px;
   height: 40px;
-  background-color: #b5bbfe;
+  color: white;
+  background-color: #255c81;
   font-size: 16px;
   cursor: pointer;
   border-radius: 4px;
@@ -95,7 +96,8 @@
   padding: 10px;
   font-size: 14px;
   text-align: left;
-  background-color: #b5bbfe;
+  background-color: #255c81;
+  color: white;
 }
 
 .admin_category_table th,
@@ -506,7 +508,8 @@ form .modal_input:focus {
 }
 
 .editbutton {
-  background-color: #b5bbfe;
+  background-color: #255c81;
+  color: white;
   padding: 6px 10px;
   border-radius: 4px;
   cursor: pointer;
@@ -516,7 +519,7 @@ form .modal_input:focus {
 }
 
 .editbutton:hover {
-  background-color: #8992f1;
+  background-color: #276c9a;
 }
 
 .data_delete_btn {
@@ -560,7 +563,7 @@ form .modal_input:focus {
 .delete_modal_content #delete-button {
   position: relative;
   left: 85%;
-  background: linear-gradient(to right, #3b82f6, #2563eb, #2563eb, #3b82f6);
+  background: #c70b2a;
   color: white;
   border: none;
   border-radius: 4px;
@@ -572,7 +575,7 @@ form .modal_input:focus {
 }
 
 .delete_modal_content #delete-button:hover {
-  background: linear-gradient(to bottom right, #3b82f6, #2563eb);
+  background: #f03353;
 }
 
 .loading::before {
@@ -654,11 +657,11 @@ form .modal_input:focus {
   width: 100px;
 }
 
-.dd-input+.dd-menu {
+.dd-input + .dd-menu {
   display: none;
 }
 
-.dd-input:checked+.dd-menu {
+.dd-input:checked + .dd-menu {
   display: block;
 }
 
@@ -883,8 +886,8 @@ select::after {
   padding: 0.3rem 0.7rem;
   font-size: 0.7109375rem;
   border-radius: 0.1538rem;
-  color: #fff;
-  background-color: #1e91cf;
+  background-color: #255c81;
+  color: white;
   border-color: #166895;
   cursor: pointer;
   margin: 5px;
@@ -990,7 +993,7 @@ select::after {
 
 .button-container .edit-button:disabled {
   cursor: not-allowed;
-  background-color: #9fd9ee;
+  background-color: #3075a4;
   /* Blue color for the edit button */
 }
 

@@ -19,7 +19,7 @@ const Products = () => {
       getAllProduct.filter((e) => {
         let data = e.product_title.toLowerCase();
         return data.includes(filterValue.toLowerCase());
-      }) 
+      })
     );
   }, [filterValue]);
   // filter End
@@ -155,9 +155,9 @@ const Products = () => {
             <thead>
               <tr>
                 <th style={{ width: "15%" }}>ID</th>
-                <th style={{ width: "25%" }}>IMAGE</th>
-                <th style={{ width: "25%" }}>PDF</th>
-                <th style={{ width: "30%" }}>TITLE</th>
+                <th style={{ width: "17%" }}>IMAGE</th>
+                <th style={{ width: "17%" }}>PDF</th>
+                <th style={{ width: "20%" }}>TITLE</th>
                 <th style={{ width: "20%" }}>CATEGORY</th>
                 <th style={{ width: "15%" }}>ACTION</th>
                 <th style={{ width: "10%" }}>STATUS</th>
@@ -177,15 +177,17 @@ const Products = () => {
                       />
                     </td>
                     <td>
-                    <Link href={`/assets/upload/products/${product.product_brochure}`} target="_blank">
-
-                      <img
-                        src={`/assets/images/pdf-icon.webp`}
-                        width="100%"
-                        alt="product"
-                        className="table_data_image"
-                      />
-                    </Link>
+                      <Link
+                        href={`/assets/upload/products/${product.product_brochure}`}
+                        target="_blank"
+                      >
+                        <img
+                          src={`/assets/images/pdf-icon.webp`}
+                          width="100%"
+                          alt="product"
+                          className="table_data_image"
+                        />
+                      </Link>
                     </td>
                     <td>{product.product_title}</td>
                     <td>
