@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Toast, { ErrorToast, WarningToast } from "@/layouts/toast/Toast";
 import { Editor } from "@tinymce/tinymce-react";
+const EditorApi = process.env.NEXT_PUBLIC_EDITOR_API;
 import Loading from "@/layouts/Loading";
 
 const AddProdCategory = () => {
@@ -25,7 +26,6 @@ const AddProdCategory = () => {
 
   // tabs
   const [activeTab, setActiveTab] = useState("general");
-
 
   const showTab = (tabId) => {
     setActiveTab(tabId);
@@ -85,12 +85,9 @@ const AddProdCategory = () => {
     }));
   };
 
-  //for validation 
+  //for validation
   const validateForm = () => {
-    const requiredFields = [
-      "category_name",
-      "category_image",
-    ];
+    const requiredFields = ["category_name", "category_image"];
     for (const field of requiredFields) {
       if (!addProductCategoryData[field]) {
         if (field == "category_name") {
@@ -113,7 +110,6 @@ const AddProdCategory = () => {
     }
     // window.scrollTo({ behavior: "smooth", top: 0 });
     setLoading(true);
-
 
     if (addProductCategoryData.category_name === "") {
       WarningToast("Please Enter the Category Name");
@@ -157,11 +153,11 @@ const AddProdCategory = () => {
 
   // add meta keyword
   const handleKeyword = (event) => {
-    if ((event.key === "Enter" || event.key == ",")) {
+    if (event.key === "Enter" || event.key == ",") {
       event.preventDefault();
-      if (event.target.value.trim() === '') {
-        ErrorToast("Please Write Keyword")
-        return
+      if (event.target.value.trim() === "") {
+        ErrorToast("Please Write Keyword");
+        return;
       }
       setAddMetaKeyword([...addMetaKeyword, event.target.value.trim()]);
       event.target.value = "";
@@ -177,9 +173,9 @@ const AddProdCategory = () => {
   const handleTags = (event) => {
     if (event.key === "Enter" || event.key == ",") {
       event.preventDefault();
-      if (event.target.value.trim() === '') {
-        ErrorToast("Please Write Tag")
-        return
+      if (event.target.value.trim() === "") {
+        ErrorToast("Please Write Tag");
+        return;
       }
       setAddMetaTag([...addMetaTag, event.target.value.trim()]);
       event.target.value = "";
@@ -228,14 +224,14 @@ const AddProdCategory = () => {
           </div>
           <div
             id="general"
-            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "general" ? "active" : ""
+            }`}
           >
             <form method="post" onSubmit={addCategoryData}>
               <div className="mb-3">
                 <label htmlFor="category_name" className="modal_label">
-                  Category Name:-{" "}
-                  <small style={{ color: "red" }}> *</small>
+                  Category Name:- <small style={{ color: "red" }}> *</small>
                 </label>
                 <input
                   type="text"
@@ -262,7 +258,7 @@ const AddProdCategory = () => {
               <div className="mb-3">
                 <p className="modal_label">Category Description:-</p>
                 <Editor
-                  apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
+                  apiKey={EditorApi}
                   onInit={(evt, editor) => (editorRef.current = editor)}
                   init={{
                     height: 500,
@@ -360,8 +356,9 @@ const AddProdCategory = () => {
           </div>
           <div
             id="seo"
-            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "seo" ? "active" : ""
+            }`}
           >
             <form method="post" onSubmit={addCategoryData}>
               <div className="mb-3">

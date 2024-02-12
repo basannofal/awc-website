@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Loading from "@/layouts/Loading";
 import Header from "@/layouts/Header";
 import Link from "next/link";
+const EditorApi = process.env.NEXT_PUBLIC_EDITOR_API;
 import Toast, { ErrorToast } from "@/layouts/toast/Toast";
 
 const EditBlog = () => {
@@ -217,8 +218,9 @@ const EditBlog = () => {
 
           <div
             id="general"
-            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "general" ? "active" : ""
+            }`}
           >
             <form method="post" onSubmit={saveEditBlogData}>
               <div className="mb-3">
@@ -241,7 +243,7 @@ const EditBlog = () => {
                   Blog Description:-
                 </label>
                 <Editor
-                  apiKey="1ufup43ij0id27vrhewjb9ez5hf6ico9fpkd8qwsxje7r5bo"
+                  apiKey={EditorApi}
                   onInit={(evt, editor) => (editorDescRef.current = editor)}
                   // initialValue={editBlogData?.blog_description}
                   value={editBlogData?.blog_description}
@@ -366,8 +368,9 @@ const EditBlog = () => {
 
           <div
             id="seo"
-            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "seo" ? "active" : ""
+            }`}
           >
             <form>
               <div className="mb-3">

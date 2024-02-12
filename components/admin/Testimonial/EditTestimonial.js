@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Editor } from "@tinymce/tinymce-react";
 import Toast, { ErrorToast, WarningToast } from "@/layouts/toast/Toast";
 import axios from "axios";
+const EditorApi = process.env.NEXT_PUBLIC_EDITOR_API;
 import { useRouter } from "next/router";
 
 const EditTestimonial = () => {
@@ -283,7 +284,7 @@ const EditTestimonial = () => {
               <div className="mb-3">
                 <p className="modal_label">Testimonial Description:-</p>
                 <Editor
-                  apiKey="d6ora8dyhvnc8zu7h9yflnh9ph9ojwx2p7titaqjpd66jf37"
+                  apiKey={EditorApi}
                   onInit={(evt, editor) => (editorRef.current = editor)}
                   initialValue={editTestimonialData?.testimonial_desc}
                   init={{
