@@ -77,7 +77,7 @@ const Certificate = () => {
                         alt={`Certificate ${cert.id}`}
                       />
                     </div>
-                    <div className="flex items-center pt-3">
+                    <div className="flex items-center justify-center pt-3">
                       <h6>{cert.title}</h6>
                       <div className="certificate-download">
                         <a
