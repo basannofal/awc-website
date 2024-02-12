@@ -14,9 +14,8 @@ const Tabs = () => {
   const router = useRouter();
   const { productType, productId } = router.query;
 
-
-
   const [lognDesc, setProducts] = useState([]);
+  const [cid, setcid] = useState(0);
 
   const getProductData = async () => {
     setLoading(true);
@@ -25,14 +24,14 @@ const Tabs = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/client/product-view/getproduct/${productId}`
       );
       setProducts(response.data[0].product_long_desc);
+      setcid(response.data[0].cate_id);
+      getCategoryProducts(response.data[0].cate_id);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
       setLoading(false);
     }
   };
-
-
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -130,6 +129,31 @@ const Tabs = () => {
 
     return "";
   }
+  // related products
+  const [CategoryProduct, setCategoryProduct] = useState([]);
+
+  const getCategoryProducts = async (data) => {
+    console.log(data);
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/client/product-category/category-products/${data}`
+      );
+      setCategoryProduct(response.data);
+      console.log(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
+  const extractFirstBlog = (str, maxLength) => {
+    if (str && str.length > maxLength) {
+      return str.substring(0, maxLength) + "...";
+    } else {
+      return str;
+    }
+  };
 
   const fetchData = async () => {
     await getProductData();
@@ -159,8 +183,9 @@ const Tabs = () => {
         <div className="main_tab_section">
           <div>
             <button
-              className={`tab-btn ${activeTab === "description" ? "active" : ""
-                }`}
+              className={`tab-btn ${
+                activeTab === "description" ? "active" : ""
+              }`}
               onClick={() => handleTabClick("description")}
             >
               DESCRIPTION
@@ -178,15 +203,17 @@ const Tabs = () => {
               PHOTOS
             </button>
             <button
-              className={`tab-btn ${activeTab === "testing-videos" ? "active" : ""
-                }`}
+              className={`tab-btn ${
+                activeTab === "testing-videos" ? "active" : ""
+              }`}
               onClick={() => handleTabClick("testing-videos")}
             >
               TESTING VIDEOS
             </button>
             <button
-              className={`tab-btn ${activeTab === "certificate" ? "active" : ""
-                }`}
+              className={`tab-btn ${
+                activeTab === "certificate" ? "active" : ""
+              }`}
               onClick={() => handleTabClick("certificate")}
             >
               CERTIFICATES
@@ -223,7 +250,7 @@ const Tabs = () => {
                     </Link>
                     {/* <iframe
                       title="PDF Viewer"
-                      src={`/assets/upload/products/productDocs/${item?.pdf_link}`}
+                      src={/assets/upload/products/productDocs/${item?.pdf_link}}
                       width="35%"
                       height="300px"
                     /> */}
@@ -237,31 +264,31 @@ const Tabs = () => {
                 <div className="product_view_doc_thumbnail_title">
                   Roof 540 Detailed Drowing{" "}
                 </div>
-                <Link href={`/product/${productType}/drawing/${productId}`} className="product_view_doc_dowonload" target="blank">
+                <Link href={/product/${productType}/drawing/${productId}} className="product_view_doc_dowonload" target="blank">
                   <i className="fa-solid fa-download text-white"></i>
                 </Link>
               </div> */}
-              {
-                productDrowing.length > 0 ? (
-                  <>
-                    <div className="product_view_docs_main">
-                      <div className="product_view_doc_thumbnail">
-                        <img src={"/assets/images/client/pdf 2.png"} alt="" />
-                      </div>
-                      <div className="product_view_doc_thumbnail_title">
-                        Roof 540 Detailed Drowing{" "}
-                      </div>
-                      <Link href={`/product/${productType}/drawing/${productId}`} className="product_view_doc_dowonload" target="blank">
-                        <i className="fa-solid fa-download text-white"></i>
-                      </Link>
+              {productDrowing.length > 0 ? (
+                <>
+                  <div className="product_view_docs_main">
+                    <div className="product_view_doc_thumbnail">
+                      <img src={"/assets/images/client/pdf 2.png"} alt="" />
                     </div>
-                  </>
-                ) : (
-                  ''
-                )
-              }
-
-
+                    <div className="product_view_doc_thumbnail_title">
+                      Roof 540 Detailed Drowing{" "}
+                    </div>
+                    <Link
+                      href={`/product/${productType}/drawing/${productId}`}
+                      className="product_view_doc_dowonload"
+                      target="blank"
+                    >
+                      <i className="fa-solid fa-download text-white"></i>
+                    </Link>
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
             </div>
           )}
           {activeTab === "photos" && (
@@ -336,6 +363,72 @@ const Tabs = () => {
           )}
         </div>
       )}
+
+      {/* related products */}
+
+      <section className="roof-category-sec">
+        <div className="container">
+          <div className="roof-category-inner">
+            <div className="container mt-3 mb-10">
+              <p className="related_heading">
+                <span>Re</span>lated Articles
+              </p>
+            </div>
+            <div className="grid">
+              {CategoryProduct.map((item, key) => {
+                const slug = item?.product_title.replace(/\s+/g, "-");
+                if (item.product_id != productId) {
+                  return (
+                    <div
+                      key={item?.product_id}
+                      className="lg-4 md-6 sm-12 mb-5"
+                    >
+                      <div className="roof-box">
+                        <div className="roof-image">
+                          <img
+                            src={`/assets/upload/products/${item?.product_image}`}
+                            alt="Roof 540 Category Image"
+                            width="406"
+                            height="250px"
+                          />
+                        </div>
+                        <div className="roof-content">
+                          <h4>{extractFirstBlog(item?.product_title, 18)}</h4>
+                          <p
+                            dangerouslySetInnerHTML={{
+                              __html: item?.product_short_desc,
+                            }}
+                          ></p>
+                          <Link
+                            href={`/product/${slug}/${item?.product_id}`}
+                            className="view-detail-Link"
+                          >
+                            View Detail
+                            <span>
+                              <svg
+                                width="15"
+                                height="12"
+                                viewBox="0 0 15 12"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M7.66885 0.673812L8.2134 0.162406C8.44398 -0.0541354 8.81682 -0.0541354 9.04494 0.162406L14.8271 5.60838C15.0576 5.82492 15.0576 6.17507 14.8271 6.38931L9.04494 11.8376C8.81437 12.0541 8.44152 12.0541 8.2134 11.8376L7.66885 11.3262C7.43583 11.1073 7.44073 10.7503 7.67867 10.536L11.6481 6.92145L0.5887 6.92145C0.262462 6.92145 0 6.67496 0 6.36858L0 5.63142C0 5.32503 0.262462 5.07855 0.5887 5.07855L11.6481 5.07855L7.67867 1.46396C7.43828 1.24972 7.43337 0.892657 7.66885 0.673812Z"
+                                  fill="#1386D3"
+                                />
+                              </svg>
+                            </span>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 };
