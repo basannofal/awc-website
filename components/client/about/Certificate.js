@@ -1,9 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import YouTube from "react-youtube";
 
 const Certificate = () => {
   const [loading, setLoading] = useState(true);
@@ -110,7 +107,7 @@ const Certificate = () => {
                   <iframe
                     width="380px"
                     height="315"
-                    src={`https://www.youtube.com/embed/${vid.link}`}
+                    src={vid.link}
                     allowFullScreen
                   ></iframe>
                   <p>{vid.title}</p>

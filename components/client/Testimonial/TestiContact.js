@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import YouTube from "react-youtube";
 
 const TestiContact = () => {
   const [loading, setLoading] = useState(true);
@@ -148,7 +147,12 @@ const TestiContact = () => {
                 console.log(item);
                 return (
                   <div>
-                    <YouTube videoId={extractVideoId(item?.link)} />
+                    <iframe
+                      width="380px"
+                      height="315"
+                      src={item?.link}
+                      allowFullScreen
+                    ></iframe>
                     <p className="testi_video_title mb-3">{item?.title}</p>
                   </div>
                 );
