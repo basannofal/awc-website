@@ -375,7 +375,7 @@ a {
   margin: 0 auto;
 }
 
-.header .header-grid>.grid {
+.header .header-grid > .grid {
   align-items: center;
 }
 
@@ -460,7 +460,7 @@ a {
   color: #1386d3;
 }
 
-.header-contact-sec ul li a>img {
+.header-contact-sec ul li a > img {
   margin-right: 10px;
   vertical-align: middle;
   display: inline-flex;
@@ -503,7 +503,7 @@ a {
   position: relative;
 }
 
-.header nav ul.nav-list>li:first-child a {
+.header nav ul.nav-list > li:first-child a {
   padding-left: 0;
 }
 
@@ -577,7 +577,7 @@ a {
   .header .nav-mobile {
     display: block;
   }
-  .form-sec{
+  .form-sec {
     margin: 0px auto !important;
   }
 
@@ -815,12 +815,12 @@ a {
   margin-bottom: 10px;
 }
 
-.solution-category ul li:first-child>a {
+.solution-category ul li:first-child > a {
   background-color: #1386d3;
   color: #ffffff;
 }
 
-.solution-category ul li>a {
+.solution-category ul li > a {
   background-color: #ffffff;
   padding: 16px 20px;
   font-family: "Inter", sans-serif !important;
@@ -837,16 +837,16 @@ a {
   justify-content: space-between;
 }
 
-.solution-category ul li>a:hover {
+.solution-category ul li > a:hover {
   background-color: #1386d3;
   color: #ffffff;
 }
 
-.solution-category ul li>a svg {
+.solution-category ul li > a svg {
   float: right;
 }
 
-.solution-category ul li>a:hover svg path {
+.solution-category ul li > a:hover svg path {
   fill: #ffffff;
 }
 
@@ -880,7 +880,7 @@ a {
   margin-right: -2px;
 }
 
-.contact-image-sec .grid.no-margin>div {
+.contact-image-sec .grid.no-margin > div {
   padding: 0 2px;
 }
 
@@ -903,7 +903,7 @@ a {
   background-color: #1386d3;
 }
 
-.contact-image-sec h2>span {
+.contact-image-sec h2 > span {
   color: #000000;
   font-size: 30px;
 }
@@ -911,9 +911,16 @@ a {
 .contact-image-sec .image-sec img {
   width: 100%;
   height: auto;
+  border-radius: 10px;
 }
 
-.contact-us-sec .contact-us-inner .contact-image-sec .grid:last-child .image-sec .blog_view_image img {
+.contact-us-sec
+  .contact-us-inner
+  .contact-image-sec
+  .grid:last-child
+  .image-sec
+  .blog_view_image
+  img {
   min-height: 313px;
 }
 
@@ -1234,7 +1241,7 @@ a {
   color: #5a5e62;
 }
 
-.contact-footer .contact-info p>b {
+.contact-footer .contact-info p > b {
   font-family: "Inter", sans-serif !important;
   font-size: 14px;
   line-height: 26px;
@@ -1253,7 +1260,7 @@ a {
   color: #1386d3;
 }
 
-.contact-footer .map-info p>a {
+.contact-footer .map-info p > a {
   font-family: "Inter", sans-serif !important;
   font-size: 14px;
   line-height: 26px;
@@ -1299,7 +1306,8 @@ body::-webkit-scrollbar-thumb:hover {
   float: left;
   width: 100%;
   padding: 120px 0 70px 0;
-  background: url("/assets/images/client/roof-water-proofing-banner.jpg") no-repeat !important;
+  background: url("/assets/images/client/roof-water-proofing-banner.jpg")
+    no-repeat !important;
   background-position: center;
   background-size: cover;
   color: #fff;
@@ -1419,7 +1427,7 @@ body::-webkit-scrollbar-thumb:hover {
   text-decoration: underline;
 }
 
-.roof-category-sec .roof-content a>span {
+.roof-category-sec .roof-content a > span {
   margin-left: 10px;
 }
 
@@ -1475,11 +1483,11 @@ body::-webkit-scrollbar-thumb:hover {
   margin: 0 auto;
 }
 
-.client-sec .client-inner-sec>.grid {
+.client-sec .client-inner-sec > .grid {
   align-items: center;
 }
 
-.client-sec .client-content>h2 {
+.client-sec .client-content > h2 {
   font-size: 44px;
   line-height: 54px;
   font-weight: 900;
@@ -1487,7 +1495,7 @@ body::-webkit-scrollbar-thumb:hover {
   margin: 0 0 32px 0;
 }
 
-.client-sec .client-content>p {
+.client-sec .client-content > p {
   font-family: "Inter", sans-serif !important;
   font-size: 32px;
   line-height: 40px;
@@ -1526,7 +1534,7 @@ body::-webkit-scrollbar-thumb:hover {
   align-items: center;
 }
 
-.client-sec .testimonials-sec .c-img-sec>img {
+.client-sec .testimonials-sec .c-img-sec > img {
   margin-right: 15px;
 }
 
@@ -1539,7 +1547,7 @@ body::-webkit-scrollbar-thumb:hover {
   text-transform: capitalize;
 }
 
-.client-sec .testimonials-sec .rating-sec>img {
+.client-sec .testimonials-sec .rating-sec > img {
   margin-right: 3px;
   display: inline-block;
 }
@@ -1553,7 +1561,7 @@ body::-webkit-scrollbar-thumb:hover {
   text-transform: uppercase;
 }
 
-.client-sec .testimonials-sec .see-all-link>span {
+.client-sec .testimonials-sec .see-all-link > span {
   margin-left: 16px;
 }
 
@@ -1613,7 +1621,7 @@ body::-webkit-scrollbar-thumb:hover {
   margin-left: -5px;
 }
 
-.terrace-img-sec .grid>div {
+.terrace-img-sec .grid > div {
   padding-right: 5px;
   padding-left: 5px;
 }
@@ -1741,7 +1749,7 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 @media (max-width: 769px) {
-  .contact-image-sec h2>span {
+  .contact-image-sec h2 > span {
     color: #000000;
     font-size: 16px;
   }
@@ -1756,7 +1764,6 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 @media only screen and (max-width: 1280px) {
-
   .header nav ul li a,
   .header nav ul li a:visited {
     padding: 0 10px;
@@ -1764,7 +1771,6 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 @media (max-width: 1199.98px) {
-
   .header nav ul li a,
   .header nav ul li a:visited {
     font-size: 13px;
@@ -1805,12 +1811,12 @@ body::-webkit-scrollbar-thumb:hover {
     margin-bottom: 16px;
   }
 
-  .solution-category ul li>a {
+  .solution-category ul li > a {
     font-size: 14px;
     line-height: 24px;
   }
 
-  .solution-category ul li>a svg {
+  .solution-category ul li > a svg {
     max-width: 16px;
   }
 
@@ -1899,13 +1905,13 @@ body::-webkit-scrollbar-thumb:hover {
     padding: 60px 0;
   }
 
-  .client-sec .client-content>h2 {
+  .client-sec .client-content > h2 {
     font-size: 36px;
     line-height: 46px;
     margin: 0 0 16px 0;
   }
 
-  .client-sec .client-content>p {
+  .client-sec .client-content > p {
     font-size: 26px;
     line-height: 34px;
   }
@@ -2007,7 +2013,7 @@ body::-webkit-scrollbar-thumb:hover {
     padding: 40px 0 0 0;
   }
 
-  .footer .footer-info>div {
+  .footer .footer-info > div {
     margin-bottom: 20px;
   }
 
@@ -2094,12 +2100,12 @@ body::-webkit-scrollbar-thumb:hover {
     text-align: center;
   }
 
-  .client-sec .client-content>h2 {
+  .client-sec .client-content > h2 {
     font-size: 28px;
     line-height: 36px;
   }
 
-  .client-sec .client-content>p {
+  .client-sec .client-content > p {
     font-size: 18px;
     line-height: 26px;
     letter-spacing: 0;
@@ -2113,7 +2119,7 @@ body::-webkit-scrollbar-thumb:hover {
     max-width: 100%;
   }
 
-  .client-sec .testimonials-sec .see-all-link>span {
+  .client-sec .testimonials-sec .see-all-link > span {
     margin-left: 6px;
   }
 
@@ -2169,7 +2175,7 @@ body::-webkit-scrollbar-thumb:hover {
     margin: 0 4px;
   }
 
-  .header-contact-sec ul li a>img {
+  .header-contact-sec ul li a > img {
     margin-right: 8px;
     vertical-align: middle;
     width: 12px;
@@ -2182,11 +2188,11 @@ body::-webkit-scrollbar-thumb:hover {
     min-height: 125px;
   }
 
-  .solution-category ul li>a {
+  .solution-category ul li > a {
     padding: 10px 16px;
   }
 
-  .solution-category ul li>a svg {
+  .solution-category ul li > a svg {
     max-width: 14px;
   }
 
@@ -2253,7 +2259,7 @@ body::-webkit-scrollbar-thumb:hover {
     line-height: 20px;
   }
 
-  .roof-category-sec .roof-content a>span {
+  .roof-category-sec .roof-content a > span {
     margin-left: 6px;
   }
 
@@ -2353,7 +2359,7 @@ body::-webkit-scrollbar-thumb:hover {
     line-height: 24px;
   }
 
-  .solution-category ul li>a {
+  .solution-category ul li > a {
     font-size: 13px;
     line-height: 21px;
   }
@@ -2372,7 +2378,7 @@ body::-webkit-scrollbar-thumb:hover {
     margin-right: 0;
   }
 
-  .contact-image-sec .grid.no-margin>div {
+  .contact-image-sec .grid.no-margin > div {
     padding: 0;
   }
 
@@ -2474,9 +2480,9 @@ body::-webkit-scrollbar-thumb:hover {
 
   .contact-footer .contact-info h5,
   .contact-footer .contact-info p,
-  .contact-footer .contact-info p>b,
+  .contact-footer .contact-info p > b,
   .contact-footer .contact-info p a,
-  .contact-footer .map-info p>a {
+  .contact-footer .map-info p > a {
     font-size: 12px;
     line-height: 20px;
   }
@@ -2521,12 +2527,12 @@ body::-webkit-scrollbar-thumb:hover {
     line-height: 20px;
   }
 
-  .client-sec .client-content>h2 {
+  .client-sec .client-content > h2 {
     font-size: 18px;
     line-height: 26px;
   }
 
-  .client-sec .client-content>p {
+  .client-sec .client-content > p {
     font-size: 16px;
     line-height: 22px;
   }
@@ -2653,7 +2659,7 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .watsapp-icon i {
-  background-color: #49E670;
+  background-color: #49e670;
   color: white;
   font-size: 35px;
   padding: 8px 10px;
@@ -2661,7 +2667,7 @@ body::-webkit-scrollbar-thumb:hover {
   cursor: pointer;
 }
 
-@media screen and (max-width:500px) {
+@media screen and (max-width: 500px) {
   .watsapp-icon {
     position: fixed;
     bottom: 30px;
