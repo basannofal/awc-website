@@ -9,7 +9,7 @@ const HeroSection = () => {
           <div className="main-inner">
             <p className="sub-title">Your Trusted Partner in Waterproofing</p>
             <h1 className="main-title" id="home-title-animation">
-              Simplifying Waterproofing Company
+              Simplifying Waterproofing Solutions
             </h1>
             <p className="desc">
               Discover innovative solutions that protect surfaces against leaks
