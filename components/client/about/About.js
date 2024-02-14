@@ -27,7 +27,7 @@ const About = () => {
               <div className="xl-6 lg-6 md-12 sm-12 relative">
                 <Splide
                   ref={splideRef}
-                  options={{ type: "fade", pagination: false, arrows: false }}
+                  options={{ type: "fade", pagination: false, arrows: false, rewind: true }}
                 >
                   <SplideSlide>
                     <div className="image-sec">
