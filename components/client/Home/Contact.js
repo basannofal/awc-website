@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const Contact = () => {
   const [addFormData, setAddFormData] = useState({
@@ -8,6 +9,8 @@ const Contact = () => {
     number: "",
     message: "",
   });
+
+  const [recaptchaValue, setRecaptchaValue] = useState(null);
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState("");
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
@@ -86,6 +89,15 @@ const Contact = () => {
 
     return () => clearTimeout(timeout);
   }, [submissionSuccess]);
+
+  const RECAPTCHA_SITE_KEY =
+    process.env.NODE_ENV === "development"
+      ? process.env.NEXT_PUBLIC_LOCALHOST_RECAPTCHA_SITE_KEY
+      : process.env.NEXT_PUBLIC_PRODUCTION_RECAPTCHA_SITE_KEY;
+
+  const handleRecaptchaChange = (value) => {
+    setRecaptchaValue(value);
+  };
 
   return (
     <>
@@ -208,12 +220,23 @@ const Contact = () => {
                       </p>
                     )}
                     <div className="form-actions">
+                      <div className="recaptcha">
+                        <ReCAPTCHA
+                          sitekey={RECAPTCHA_SITE_KEY}
+                          onChange={handleRecaptchaChange}
+                        />
+                      </div>
+
                       <input
-                        style={loading ? { cursor: "not-allowed" } : {}}
-                        className="btn-primary"
+                        style={
+                          loading || !recaptchaValue
+                            ? { cursor: "not-allowed" }
+                            : {}
+                        }
+                        className="btn-primary mt-3"
                         type="submit"
                         value={loading ? "Sending..." : "Submit Information"}
-                        disabled={loading}
+                        disabled={loading || !recaptchaValue}
                       />
                     </div>
                   </form>

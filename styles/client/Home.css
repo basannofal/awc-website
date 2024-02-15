@@ -2598,6 +2598,11 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 @media (max-width: 480px) {
+  .recaptcha {
+    width: 100%;
+    margin-right: 440px;
+  }
+
   .header .nav-mobile {
     top: -108px;
   }
