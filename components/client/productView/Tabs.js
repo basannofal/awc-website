@@ -371,7 +371,7 @@ const Tabs = () => {
           <div className="roof-category-inner">
             <div className="container mt-3 mb-10">
               <p className="related_heading">
-                <span>Re</span>lated Articles
+                <span>Re</span>lated Products
               </p>
             </div>
             <div className="grid">

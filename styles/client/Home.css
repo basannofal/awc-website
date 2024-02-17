@@ -2305,7 +2305,7 @@ body::-webkit-scrollbar-thumb:hover {
   }
 
   .header .header-logo-sec a img {
-    max-width: 150px;
+    max-width: 120px;
   }
 
   .header .header-top-sec {
@@ -2625,11 +2625,11 @@ body::-webkit-scrollbar-thumb:hover {
   }
 
   .header .nav-mobile {
-    top: -120px;
+    top: -108px;
   }
 
   .header nav ul {
-    top: -70px;
+    top: -55px;
   }
 
   .header-contact-sec ul {
