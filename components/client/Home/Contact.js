@@ -92,7 +92,7 @@ const Contact = () => {
             (entry) => entry.email === e
           ).length;
 
-          if (emailCount >= 3) {
+          if (emailCount >= 1) {
             setShowRecaptcha(true);
           } else {
             setShowRecaptcha(false);

@@ -2,6 +2,7 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Toast, { SuccessToast } from "@/layouts/toast/Toast";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const HeroSection = () => {
   const [socialLinks, setSocialLinks] = useState([]);
@@ -17,6 +18,11 @@ const HeroSection = () => {
     number: "",
     message: "",
   });
+
+  const e = addFormData.email;
+
+  const [recaptchaValue, setRecaptchaValue] = useState(null);
+  const [showRecaptcha, setShowRecaptcha] = useState(false);
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState("");
   const getSocialLinksData = async () => {
@@ -32,7 +38,7 @@ const HeroSection = () => {
       setLoading(false);
     }
   };
-  
+
   // add blog data section start
   const handleChangeData = (event) => {
     const { name, value } = event.target;
@@ -94,9 +100,48 @@ const HeroSection = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const checkEmail = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/client/contact/contactform/router`
+        );
+
+        if (res.data.some((entry) => entry.email == e)) {
+          const emailCount = res.data.filter(
+            (entry) => entry.email === e
+          ).length;
+
+          if (emailCount >= 1) {
+            setShowRecaptcha(true);
+          } else {
+            setShowRecaptcha(false);
+          }
+        } else {
+          setShowRecaptcha(false);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    if (e.trim() != "") {
+      checkEmail();
+    }
+  }, [e]);
+
   useEffect(() => {
     getSocialLinksData();
   }, []);
+
+  const RECAPTCHA_SITE_KEY =
+    process.env.NODE_ENV === "development"
+      ? process.env.NEXT_PUBLIC_LOCALHOST_RECAPTCHA_SITE_KEY
+      : process.env.NEXT_PUBLIC_PRODUCTION_RECAPTCHA_SITE_KEY;
+
+  const handleRecaptchaChange = (value) => {
+    setRecaptchaValue(value);
+  };
 
   return (
     <>
@@ -192,12 +237,25 @@ const HeroSection = () => {
                 ""
               )}
               <div className="form-action mt-4">
+                {showRecaptcha && (
+                  <div className="recaptcha">
+                    <ReCAPTCHA
+                      sitekey={RECAPTCHA_SITE_KEY}
+                      onChange={handleRecaptchaChange}
+                    />
+                  </div>
+                )}
+
                 <input
-                  style={loading ? { cursor: "not-allowed" } : {}}
-                  className="btn-primary"
+                  style={
+                    loading || (!recaptchaValue && showRecaptcha) // Disable if loading, recaptchaValue is false, and showRecaptcha is true
+                      ? { cursor: "not-allowed" }
+                      : {}
+                  }
+                  className="btn-primary mt-3"
                   type="submit"
                   value={loading ? "Sending..." : "Submit Information"}
-                  disabled={loading}
+                  disabled={loading || (!recaptchaValue && showRecaptcha)}
                 />
               </div>
             </form>

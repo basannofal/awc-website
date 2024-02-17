@@ -67,7 +67,7 @@ async function sendContactEmail({ name, email, number, message }) {
   // Email content
   const mailOptions = {
     from: process.env.NEXT_PUBLIC_EMAIL,
-    to: email,
+    to: process.env.NEXT_PUBLIC_EMAIL,
     subject: "Thank you for contacting us!",
     html: `
       <html>
