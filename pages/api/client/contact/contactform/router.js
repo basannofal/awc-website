@@ -9,6 +9,21 @@ export const config = {
 };
 
 export default async function handler(req, res) {
+  if (req.method === "GET") {
+    try {
+      // Query the database to fetch all contact details
+      const fetchQuery = "SELECT email FROM `contact_form`";
+      // Execute the query
+      const [rows] = await conn.query(fetchQuery);
+      console.log(rows);
+
+      // Process the data and send the response
+      res.status(200).json(rows);
+    } catch (err) {
+      res.status(401).json({ message: "Error fetching contact form data" });
+    }
+  }
+
   if (req.method == "POST") {
     const form = new IncomingForm();
     form.parse(req, async (err, fields, files) => {
@@ -22,10 +37,9 @@ export default async function handler(req, res) {
           mobile: number,
           message: message,
         });
-
+        console.log("row :", row);
         // Send email
         await sendContactEmail({ name, email, number, message });
-
         res.status(200).json(row);
       } catch (err) {
         console.log(err);

@@ -702,7 +702,7 @@ a {
   background-color: #1386d3;
 }
 
-.main-sec .main-title {
+.main-sec .main-title span {
   font-size: 56px;
   line-height: 72px;
   font-weight: 800;
@@ -710,18 +710,39 @@ a {
   margin: 0 0 50px 0;
 }
 
-@keyframes slideIn {
-  from {
+#home-title-animation {
+  overflow: hidden;
+}
+
+@keyframes slideInLeft {
+  0% {
     transform: translateX(-100%);
   }
-
-  to {
+  100% {
     transform: translateX(0);
   }
 }
 
-#home-title-animation {
-  animation: slideIn 3s ease-out;
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+#home-title-animation span {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+#home-title-animation span:nth-child(1) {
+  animation: slideInLeft 1.5s ease-out forwards;
+}
+
+#home-title-animation span:nth-child(2) {
+  animation: slideInRight 1.5s ease-out forwards;
 }
 
 .main-sec .desc {
@@ -1336,7 +1357,7 @@ body::-webkit-scrollbar-thumb:hover {
   background-color: #dff3e4;
 }
 
-.roof-banner-sec .roof-banner-inner .main-title {
+.roof-banner-sec .roof-banner-inner .main-title span {
   font-size: 58px;
   line-height: 62px;
   font-weight: 900;
@@ -1786,7 +1807,7 @@ body::-webkit-scrollbar-thumb:hover {
     padding: 60px 0;
   }
 
-  .main-sec .main-title {
+  .main-sec .main-title span {
     font-size: 42px;
     line-height: 56px;
     margin: 0 0 30px 0;
@@ -1872,7 +1893,7 @@ body::-webkit-scrollbar-thumb:hover {
     line-height: 28px;
   }
 
-  .roof-banner-sec .roof-banner-inner .main-title {
+  .roof-banner-sec .roof-banner-inner .main-title span {
     font-size: 42px;
     line-height: 50px;
     margin: 0 0 30px 0;
@@ -1960,9 +1981,9 @@ body::-webkit-scrollbar-thumb:hover {
     line-height: 28px;
   }
 
-  .main-sec .main-title {
+  .main-sec .main-title span {
     font-size: 32px;
-    line-height: 40px;
+    line-height: 25px;
   }
 
   .main-sec .desc {
@@ -2070,7 +2091,7 @@ body::-webkit-scrollbar-thumb:hover {
     line-height: 26px;
   }
 
-  .roof-banner-sec .roof-banner-inner .main-title {
+  .roof-banner-sec .roof-banner-inner .main-title span {
     font-size: 36px;
     line-height: 42px;
   }
@@ -2230,7 +2251,7 @@ body::-webkit-scrollbar-thumb:hover {
     line-height: 20px;
   }
 
-  .roof-banner-sec .roof-banner-inner .main-title {
+  .roof-banner-sec .roof-banner-inner .main-title span {
     font-size: 24px;
     line-height: 30px;
   }
@@ -2342,9 +2363,9 @@ body::-webkit-scrollbar-thumb:hover {
     margin: 16px auto 20px;
   }
 
-  .main-sec .main-title {
+  .main-sec .main-title span {
     font-size: 20px;
-    line-height: 28px;
+    line-height: 0px;
     margin: 0 0 20px 0;
   }
 
@@ -2492,7 +2513,7 @@ body::-webkit-scrollbar-thumb:hover {
     line-height: 18px;
   }
 
-  .roof-banner-sec .roof-banner-inner .main-title {
+  .roof-banner-sec .roof-banner-inner .main-title span {
     font-size: 20px;
     line-height: 28px;
     margin: 0 0 20px 0;
