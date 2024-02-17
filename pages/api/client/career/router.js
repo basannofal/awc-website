@@ -101,9 +101,7 @@ export default async function handler(req, res) {
         });
       });
     } catch (err) {
-      res
-        .status(500)
-        .json({ message: "Inquiry Failed !! Please Try Again" });
+      res.status(500).json({ message: "Inquiry Failed !! Please Try Again" });
     }
   }
   if (req.method == "GET") {

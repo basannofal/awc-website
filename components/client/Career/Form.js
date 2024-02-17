@@ -1,6 +1,7 @@
 import { ErrorToast, SuccessToast } from "@/layouts/toast/Toast";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const Form = ({ jobId, setJobId, formref }) => {
   const [loading, setLoading] = useState(false);
@@ -15,6 +16,11 @@ const Form = ({ jobId, setJobId, formref }) => {
     message: "",
     resume: null,
   });
+
+  const e = addFormData.email;
+
+  const [recaptchaValue, setRecaptchaValue] = useState(null);
+  const [showRecaptcha, setShowRecaptcha] = useState(false);
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
   const handleChange = (e) => {
@@ -123,6 +129,35 @@ const Form = ({ jobId, setJobId, formref }) => {
     }
   };
 
+  useEffect(() => {
+    const checkEmail = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/client/contact/contactform/router`
+        );
+
+        if (res.data.some((entry) => entry.email == e)) {
+          const emailCount = res.data.filter(
+            (entry) => entry.email === e
+          ).length;
+
+          if (emailCount >= 1) {
+            setShowRecaptcha(true);
+          } else {
+            setShowRecaptcha(false);
+          }
+        } else {
+          setShowRecaptcha(false);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    if (e.trim() != "") {
+      checkEmail();
+    }
+  }, [e]);
+
   // This useEffect will automatically hide the success message after 2 seconds
   useEffect(() => {
     let timeout;
@@ -135,6 +170,15 @@ const Form = ({ jobId, setJobId, formref }) => {
 
     return () => clearTimeout(timeout);
   }, [submissionSuccess]);
+
+  const RECAPTCHA_SITE_KEY =
+    process.env.NODE_ENV === "development"
+      ? process.env.NEXT_PUBLIC_LOCALHOST_RECAPTCHA_SITE_KEY
+      : process.env.NEXT_PUBLIC_PRODUCTION_RECAPTCHA_SITE_KEY;
+
+  const handleRecaptchaChange = (value) => {
+    setRecaptchaValue(value);
+  };
 
   return (
     <div className="blog-view-sec" ref={formref}>
@@ -303,17 +347,28 @@ const Form = ({ jobId, setJobId, formref }) => {
                   </p>
                 )}
               </div>
-              <button
-                className="mt-3 btn-primary learn-btn"
-                style={{
-                  cursor: loading ? "not-allowed" : "",
-                  padding: "0px 30px",
-                }}
-                value={"Submit Information"}
-                disabled={loading}
-              >
-                {loading ? "Sending..." : "Submit Information"}
-              </button>
+              <div>
+                {showRecaptcha && (
+                  <div className="recaptcha">
+                    <ReCAPTCHA
+                      sitekey={RECAPTCHA_SITE_KEY}
+                      onChange={handleRecaptchaChange}
+                    />
+                  </div>
+                )}
+                <button
+                  className="mt-3 btn-primary learn-btn"
+                  style={
+                    loading || (!recaptchaValue && showRecaptcha)
+                      ? { cursor: "not-allowed", padding: "0px 30px" }
+                      : { padding: "0px 30px" }
+                  }
+                  value={"Submit Information"}
+                  disabled={loading || (!recaptchaValue && showRecaptcha)}
+                >
+                  {loading ? "Sending..." : "Submit Information"}
+                </button>
+              </div>
             </div>
           </form>
         </div>
