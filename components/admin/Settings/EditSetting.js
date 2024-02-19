@@ -472,8 +472,9 @@ const EditSetting = () => {
                 General
               </div>
               <div
-                className={`tab ${activeTab === "social-media" ? "active" : ""
-                  }`}
+                className={`tab ${
+                  activeTab === "social-media" ? "active" : ""
+                }`}
                 onClick={() => showTab("social-media")}
               >
                 Social Media
@@ -495,8 +496,9 @@ const EditSetting = () => {
           {/* GENREL TABS */}
           <div
             id="general"
-            className={`tab-content add_data_form ${activeTab === "general" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "general" ? "active" : ""
+            }`}
           >
             <form method="post" onSubmit={AddGeneralData}>
               <div className="mb-3">
@@ -565,8 +567,9 @@ const EditSetting = () => {
                         />
                       ) : (
                         <img
-                          src={`/assets/upload/setting/${generalData && generalData.favicon
-                            }`}
+                          src={`/assets/upload/setting/${
+                            generalData && generalData.favicon
+                          }`}
                           width="100px"
                           height="100px"
                           alt="Add Favicon"
@@ -614,8 +617,9 @@ const EditSetting = () => {
                         />
                       ) : (
                         <img
-                          src={`/assets/upload/setting/${generalData && generalData.logo
-                            }`}
+                          src={`/assets/upload/setting/${
+                            generalData && generalData.logo
+                          }`}
                           width="100px"
                           height="100px"
                           alt="Add Logo"
@@ -679,8 +683,9 @@ const EditSetting = () => {
           {/* social-media TAB */}
           <div
             id="social-media"
-            className={`tab-content add_data_form ${activeTab === "social-media" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "social-media" ? "active" : ""
+            }`}
           >
             <form method="post" onSubmit={addSocialData}>
               <div className="mb-3">
@@ -761,7 +766,6 @@ const EditSetting = () => {
               <div className="mb-3">
                 <label htmlFor="linkedin" className="modal_label">
                   LinkedIn:-
-
                 </label>
                 <input
                   type="text"
@@ -797,8 +801,9 @@ const EditSetting = () => {
           {/* GLOBAL TAB */}
           <div
             id="global"
-            className={`tab-content add_data_form ${activeTab === "global" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "global" ? "active" : ""
+            }`}
           >
             <form method="post" onSubmit={addGlobalData}>
               <div className="mb-3">
@@ -858,8 +863,9 @@ const EditSetting = () => {
           {/* SEO TAB */}
           <div
             id="seo"
-            className={`tab-content add_data_form ${activeTab === "seo" ? "active" : ""
-              }`}
+            className={`tab-content add_data_form ${
+              activeTab === "seo" ? "active" : ""
+            }`}
           >
             <div className="sub-tabs-container">
               <div className="tabs">
@@ -871,33 +877,37 @@ const EditSetting = () => {
                     Home
                   </div>
                   <div
-                    className={`tab ${activeSubTab === "about" ? "active" : ""
-                      }`}
+                    className={`tab ${
+                      activeSubTab === "about" ? "active" : ""
+                    }`}
                     onClick={() => showSubTab("about")}
                   >
                     About
                   </div>
                   <div
-                    className={`tab ${activeSubTab === "product" ? "active" : ""
-                      }`}
+                    className={`tab ${
+                      activeSubTab === "product" ? "active" : ""
+                    }`}
                     onClick={() => showSubTab("product")}
                   >
                     Product
                   </div>
                   <div
-                    className={`tab ${activeSubTab === "gallery" ? "active" : ""
-                      }`}
+                    className={`tab ${
+                      activeSubTab === "gallery" ? "active" : ""
+                    }`}
                     onClick={() => showSubTab("gallery")}
                   >
                     Gallery
                   </div>
 
                   <div
-                    className={`tab ${activeSubTab === "carrer" ? "active" : ""
-                      }`}
+                    className={`tab ${
+                      activeSubTab === "carrer" ? "active" : ""
+                    }`}
                     onClick={() => showSubTab("carrer")}
                   >
-                    Carrer
+                    Career
                   </div>
 
                   <div
@@ -908,27 +918,30 @@ const EditSetting = () => {
                   </div>
 
                   <div
-                    className={`tab ${activeSubTab === "testimonial" ? "active" : ""
-                      }`}
+                    className={`tab ${
+                      activeSubTab === "testimonial" ? "active" : ""
+                    }`}
                     onClick={() => showSubTab("testimonial")}
                   >
                     Testimonial
                   </div>
 
-                  <div
-                    className={`tab ${activeSubTab === "privacyPolicy" ? "active" : ""
-                      }`}
+                  {/* <div
+                    className={`tab ${
+                      activeSubTab === "privacyPolicy" ? "active" : ""
+                    }`}
                     onClick={() => showSubTab("privacyPolicy")}
                   >
                     Privacy Policy
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <form method="post" onSubmit={addSEOData}>
                 <div
                   id="home"
-                  className={`tab-content add_data_form ${activeSubTab === "home" ? "active" : ""
-                    }`}
+                  className={`tab-content add_data_form ${
+                    activeSubTab === "home" ? "active" : ""
+                  }`}
                 >
                   <div className="mb-3">
                     <label htmlFor="home_title" className="modal_label">
@@ -1012,8 +1025,9 @@ const EditSetting = () => {
 
                 <div
                   id="about"
-                  className={`tab-content add_data_form ${activeSubTab === "about" ? "active" : ""
-                    }`}
+                  className={`tab-content add_data_form ${
+                    activeSubTab === "about" ? "active" : ""
+                  }`}
                 >
                   <div className="mb-3">
                     <label htmlFor="about_title" className="modal_label">
@@ -1097,8 +1111,9 @@ const EditSetting = () => {
 
                 <div
                   id="product"
-                  className={`tab-content add_data_form ${activeSubTab === "product" ? "active" : ""
-                    }`}
+                  className={`tab-content add_data_form ${
+                    activeSubTab === "product" ? "active" : ""
+                  }`}
                 >
                   <div className="mb-3">
                     <label htmlFor="product_title" className="modal_label">
@@ -1182,8 +1197,9 @@ const EditSetting = () => {
 
                 <div
                   id="gallery"
-                  className={`tab-content add_data_form ${activeSubTab === "gallery" ? "active" : ""
-                    }`}
+                  className={`tab-content add_data_form ${
+                    activeSubTab === "gallery" ? "active" : ""
+                  }`}
                 >
                   <div className="mb-3">
                     <label htmlFor="gallery_title" className="modal_label">
@@ -1267,8 +1283,9 @@ const EditSetting = () => {
 
                 <div
                   id="carrer"
-                  className={`tab-content add_data_form ${activeSubTab === "carrer" ? "active" : ""
-                    }`}
+                  className={`tab-content add_data_form ${
+                    activeSubTab === "carrer" ? "active" : ""
+                  }`}
                 >
                   <div className="mb-3">
                     <label htmlFor="carrer_title" className="modal_label">
@@ -1352,8 +1369,9 @@ const EditSetting = () => {
 
                 <div
                   id="blog"
-                  className={`tab-content add_data_form ${activeSubTab === "blog" ? "active" : ""
-                    }`}
+                  className={`tab-content add_data_form ${
+                    activeSubTab === "blog" ? "active" : ""
+                  }`}
                 >
                   <div className="mb-3">
                     <label htmlFor="blog_title" className="modal_label">
@@ -1437,8 +1455,9 @@ const EditSetting = () => {
 
                 <div
                   id="testimonial"
-                  className={`tab-content add_data_form ${activeSubTab === "testimonial" ? "active" : ""
-                    }`}
+                  className={`tab-content add_data_form ${
+                    activeSubTab === "testimonial" ? "active" : ""
+                  }`}
                 >
                   <div className="mb-3">
                     <label htmlFor="testimonial_title" className="modal_label">
@@ -1526,10 +1545,11 @@ const EditSetting = () => {
                   </div>
                 </div>
 
-                <div
+                {/* <div
                   id="privacyPolicy"
-                  className={`tab-content add_data_form ${activeSubTab === "privacyPolicy" ? "active" : ""
-                    }`}
+                  className={`tab-content add_data_form ${
+                    activeSubTab === "privacyPolicy" ? "active" : ""
+                  }`}
                 >
                   <div className="mb-3">
                     <label htmlFor="privacy_title" className="modal_label">
@@ -1609,7 +1629,7 @@ const EditSetting = () => {
                       value={seoData && seoData.privacy_canonical}
                     />
                   </div>
-                </div>
+                </div> */}
                 <div className="mb-3">
                   {/* <button type="submit" className="success_btn">
                     SAVE
