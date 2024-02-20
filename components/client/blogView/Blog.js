@@ -1,4 +1,5 @@
 import axios from "axios";
+import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
@@ -69,6 +70,20 @@ const Blog = ({ bid }) => {
 
   return (
     <>
+      <Head>
+        <title>{blog?.blog_title || "AWC India"}</title>
+        <meta
+          name="keywords"
+          content={blog?.meta_keyword || "Blogs, AWC Blogs, AWC India"}
+        />
+        <meta
+          name="description"
+          content={blog?.meta_desc || "Blogs, AWC Blogs, AWC India"}
+        />
+        {blog?.canonical_url && (
+          <link rel="canonical" href={blog?.canonical_url} />
+        )}
+      </Head>
       <section className="testi_hero_main">
         <div
           className="containeres"

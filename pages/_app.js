@@ -63,7 +63,7 @@ export default function App({ Component, pageProps }) {
           crossorigin="anonymous"
           referrerpolicy="no-referrer"
         />
-        <link rel="icon" href={`/assets/upload/setting/${data.favicon}`} />
+        <link rel="icon" href={`/assets/upload/setting/${data?.favicon}`} />
       </Head>
       <Component {...pageProps} />
     </>
