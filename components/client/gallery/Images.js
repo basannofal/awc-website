@@ -16,7 +16,6 @@ const Images = ({ selectedCategory }) => {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/client/gallery/categoryimage/${selectedCategory}`
       );
-      console.log(response.data);
       setGalleryPhoto(response.data);
       setLoading(false);
     } catch (error) {
@@ -39,6 +38,30 @@ const Images = ({ selectedCategory }) => {
   };
   useEffect(() => {
     fetchData();
+
+    // Add scroll event listener
+    const handleScroll = () => {
+      const images = document.querySelectorAll(".gallery-inner-images");
+
+      images.forEach((image) => {
+        const imageOffset = image.offsetTop;
+        const scrollY = window.scrollY;
+
+        // Adjust the class based on scroll position
+        if (scrollY > imageOffset - window.innerHeight / 2) {
+          image.classList.add("on-scroll-effect");
+        } else {
+          image.classList.remove("on-scroll-effect");
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      // Remove the event listener when the component is unmounted
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [selectedCategory]);
 
   return (
