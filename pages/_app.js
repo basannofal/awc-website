@@ -20,7 +20,7 @@ import axios from "axios";
 
 export default function App({ Component, pageProps }) {
   const [GlobalSeo, setGlobalSeo] = useState({});
-  const [data, setdata] = useState([])
+  const [data, setdata] = useState([]);
   // const getGlobalData = async () => {
   //   try {
   //     const response = await axios.get(
@@ -43,7 +43,6 @@ export default function App({ Component, pageProps }) {
     }
   };
 
-  
   const fetchData = async () => {
     await getData();
   };
@@ -52,6 +51,47 @@ export default function App({ Component, pageProps }) {
     fetchData();
   }, []);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "RoofingContractor",
+    name: "AWC India Waterproofing Solutions",
+    image: "https://awcindia.in/assets/images/client/unit_image_1.JPG",
+    "@id": "",
+    url: "https://awcindia.in/",
+    telephone: "8686862475",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "A-11, 4th Floor, Malad Yojana CHSL, S.V.Road",
+      addressLocality: "Malad, Mumbai",
+      postalCode: "400064",
+      addressCountry: "IN",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 19.18410479707908,
+      longitude: 72.84700399743139,
+    },
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "Monday",
+        "Wednesday",
+        "Tuesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ],
+      opens: "09:00",
+      closes: "19:00",
+    },
+    sameAs: [
+      "https://www.facebook.com/awcindia.in/",
+      "https://twitter.com/awc_india",
+      "https://www.youtube.com/channel/UCoNJRSh7tkbDHmF8GoOi4fw",
+      "https://www.linkedin.com/in/awc-india-36ab76a8/",
+    ],
+  };
   return (
     <>
       <Head>
@@ -64,6 +104,10 @@ export default function App({ Component, pageProps }) {
           referrerpolicy="no-referrer"
         />
         <link rel="icon" href={`/assets/upload/setting/${data?.favicon}`} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </Head>
       <Component {...pageProps} />
     </>
