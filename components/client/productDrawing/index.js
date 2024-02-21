@@ -18,7 +18,20 @@ const index = ({ pid }) => {
         </div>
       ) : (
         <>
-
+        <Head>
+            <title>
+                AWC India - Roof Waterproofing Solutions
+            </title>
+            <meta
+              name="keywords"
+              content={"product, AWC product, AWC India"}
+            />
+            <meta
+              name="description"
+              content={"AWC is the best roof waterproofing, terrace waterproofing, and external wall waterproofing contractor in Mumbai"}
+            />
+              <link rel="canonical" href="https://awcindia.in/" />
+          </Head>
           <Navbar />
           <Watshapp />
           <ProductDrowing />

@@ -78,24 +78,30 @@ const index = () => {
   return (
     <>
       {loading ? (
-
         <div className="fixed top-12 right-0 h-screen w-screen z-50 flex justify-center items-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-900"></div>
         </div>
       ) : (
         <>
           <Head>
-            <title>{seoData.home_title || "AWC India"}</title>
+            <title>
+              {seoData.home_title || "AWC India - Roof Waterproofing Solutions"}
+            </title>
             <meta
               name="keywords"
-              content={seoData.home_keyword || "Default Keywords"}
+              content={seoData.home_keyword || "AWC India"}
             />
             <meta
               name="description"
-              content={seoData.home_desc || "Default Description"}
+              content={
+                seoData.home_desc ||
+                "AWC is the best roof waterproofing, terrace waterproofing, and external wall waterproofing contractor in Mumbai"
+              }
             />
-            {seoData.home_canonical && (
+            {seoData.home_canonical ? (
               <link rel="canonical" href={seoData.home_canonical} />
+            ) : (
+              <link rel="canonical" href="https://awcindia.in/" />
             )}
           </Head>
 

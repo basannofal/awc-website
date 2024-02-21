@@ -35,14 +35,16 @@ const index = () => {
   return (
     <>
       {loading ? (
-
         <div className="fixed top-12 right-0 h-screen w-screen z-50 flex justify-center items-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-900"></div>
         </div>
       ) : (
         <>
           <Head>
-            <title>{seoData.contact_title || "Contact Us"}</title>
+            <title>
+              {seoData.contact_title ||
+                "AWC India - Roof Waterproofing Solutions"}
+            </title>
             <meta
               name="keywords"
               content={
@@ -52,14 +54,15 @@ const index = () => {
             />
             <meta
               name="description"
-
               content={
                 seoData.contact_desc ||
-                "Contact, AWC Contact, AWC Contact Us, AWC India"
+                "AWC is the best roof waterproofing, terrace waterproofing, and external wall waterproofing contractor in Mumbai"
               }
             />
-            {seoData.contact_canonical && (
+            {seoData.contact_canonical ? (
               <link rel="canonical" href={seoData.contact_canonical} />
+            ) : (
+              <link rel="canonical" href="https://awcindia.in/" />
             )}
           </Head>
           <Navbar />
