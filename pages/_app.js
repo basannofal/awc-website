@@ -108,6 +108,42 @@ export default function App({ Component, pageProps }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+
+        {/* Google Analytics */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-RSEKWFPY1Z"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-RSEKWFPY1Z');
+          `,
+          }}
+        />
+        {/* End Google Analytics */}
+
+        {/* Google Tag Manager */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-PBDVWS3');`,
+          }}
+        />
+        {/* End Google Tag Manager */}
+
+
+        {/* Google Search Console */}
+        <meta name="google-site-verification" content="_-W5-IOllqGtmNsJQGAmJ1Ej91tc6S2i8-OOdthiR7I" />
+        {/* End Google Search Console */}
+
+
       </Head>
       <Component {...pageProps} />
     </>
