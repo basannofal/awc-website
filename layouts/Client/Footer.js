@@ -137,7 +137,11 @@ const Footer = () => {
                 <ul>
                   <li>
                     {socialLinks && socialLinks.facebook_link ? (
-                      <Link href={socialLinks.facebook_link} target="_blank">
+                      <Link
+                        href={socialLinks.facebook_link}
+                        target="_blank"
+                        aria-label="facebook"
+                      >
                         <svg
                           width="10"
                           height="18"
@@ -155,6 +159,7 @@ const Footer = () => {
                       <Link
                         href="https://www.facebook.com/awcindia.in/"
                         target="_blank"
+                        aria-label="facebook"
                       >
                         <svg
                           width="10"
@@ -173,7 +178,11 @@ const Footer = () => {
                   </li>
                   <li>
                     {socialLinks && socialLinks.twiter_link ? (
-                      <Link href={socialLinks.twiter_link} target="_blank">
+                      <Link
+                        href={socialLinks.twiter_link}
+                        target="_blank"
+                        aria-label="twitter"
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="20"
@@ -199,6 +208,7 @@ const Footer = () => {
                       <Link
                         href="https://twitter.com/awc_india"
                         target="_blank"
+                        aria-label="twitter"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -225,7 +235,11 @@ const Footer = () => {
                   </li>
                   <li>
                     {socialLinks && socialLinks.youtube_link ? (
-                      <Link href={socialLinks.youtube_link} target="_blank">
+                      <Link
+                        href={socialLinks.youtube_link}
+                        target="_blank"
+                        aria-label="youtube"
+                      >
                         <svg
                           width="18"
                           height="13"
@@ -243,6 +257,7 @@ const Footer = () => {
                       <Link
                         href="https://www.youtube.com/channel/UCoNJRSh7tkbDHmF8GoOi4fw"
                         target="_blank"
+                        aria-label="youtube"
                       >
                         <svg
                           width="18"
@@ -261,7 +276,11 @@ const Footer = () => {
                   </li>
                   <li>
                     {socialLinks && socialLinks.linkedin_link ? (
-                      <Link href={socialLinks.linkedin_link} target="_blank">
+                      <Link
+                        href={socialLinks.linkedin_link}
+                        target="_blank"
+                        aria-label="linkedin"
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="18"
@@ -275,6 +294,7 @@ const Footer = () => {
                       <Link
                         href="https://www.linkedin.com/in/awc-india-36ab76a8/"
                         target="_blank"
+                        aria-label="linkedin"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
