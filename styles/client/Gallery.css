@@ -156,6 +156,7 @@
 }
 .gallery-image-sec .gallery-inner-images img {
   border-radius: 10px;
+
   transition: transform 0.8s ease-in-out;
   transform: scale(0.9);
 }

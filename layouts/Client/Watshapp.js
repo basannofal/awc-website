@@ -23,11 +23,19 @@ const Watshapp = () => {
     <>
       <div className="watsapp-icon">
         {socialLinks && socialLinks.whatsapp_link ? (
-          <Link href={socialLinks.whatsapp_link} target="blank">
+          <Link
+            href={socialLinks.whatsapp_link}
+            target="blank"
+            aria-label="whatsapp"
+          >
             <i class="fa-brands fa-whatsapp"></i>
           </Link>
         ) : (
-          <Link href="https://wa.me/918686862475?text" target="blank">
+          <Link
+            href="https://wa.me/918686862475?text"
+            target="blank"
+            aria-label="whatsapp"
+          >
             <i class="fa-brands fa-whatsapp"></i>
           </Link>
         )}

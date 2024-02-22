@@ -64,6 +64,34 @@ const Images = ({ selectedCategory }) => {
     };
   }, [selectedCategory]);
 
+  useEffect(() => {
+    document.addEventListener("DOMContentLoaded", function () {
+      const galleryImages = document.querySelectorAll(
+        ".gallery-inner-images img"
+      );
+
+      function checkScroll() {
+        const windowHeight =
+          window.innerHeight || document.documentElement.clientHeight;
+        const scrollPosition =
+          window.scrollY || document.documentElement.scrollTop;
+
+        galleryImages.forEach((image) => {
+          const rect = image.getBoundingClientRect();
+
+          if (rect.top <= windowHeight * 0.8) {
+            image.style.transform = "scale(1.1)";
+          } else {
+            image.style.transform = "scale(1)";
+          }
+        });
+      }
+
+      window.addEventListener("scroll", checkScroll);
+      checkScroll(); // Check on initial load
+    });
+  }, []);
+
   return (
     <>
       <section className="gallery-image-sec">
