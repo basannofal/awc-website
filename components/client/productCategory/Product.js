@@ -85,7 +85,6 @@ const Product = ({ cid }) => {
                             src={`/assets/upload/products/${item?.product_image}`}
                             alt="Roof 540 Category Image"
                             width="406"
-                            height="250px"
                           />
                         </div>
                         <div className="roof-content">
